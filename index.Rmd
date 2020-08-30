@@ -1,0 +1,33 @@
+--- 
+title: "Bayesian Psychometric Modeling (2020) by Roy Levy and Robert J. Mislevy"
+author: "R. Noah Padgett"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Robert Mislevy and Roy Levy. We hope that having a detailed computatin guide using Stan is of interest to someone."
+---
+
+# Getting Started
+
+This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Robert Mislevy and Roy Levy.
+I hope that having a detailed computation guide using Stan is of interest to someone.
+
+Throughout this book, I have incorporated elaborations on the code to help set up the examples and provide more details when possible.
+The authors provided an accompanying [website](http://bayespsychometrics.com/book-examples/), where the examples are shown using ` WinBUGS` and ` Netica`. 
+The later is used in Chapter 14 for estimation of Bayesian networks.
+I wanted to deeply dive into this text so rerunning all the examples in a different language provides an excellent excuse to do so.
+
+Also, since I can go into more detail in this format than they could, I have not restricted myself by cutting short of the analysis.
+Meaning that I have done my best to fully (or sufficient for the example) analyze the posteriors to see what issues may pop up and how I resolved them.
+
+## Software 
+
+We have used ` R` to call Stan. So we have relied on ` rstan` heavily. 
+
+
+
