@@ -1,0 +1,23 @@
+\documentclass{standalone}
+
+\usepackage{lscape}
+%Math typesetting packages
+\usepackage{amsfonts, amssymb, amsmath, latexsym, amsthm,xparse}
+\newcommand\simiid{\stackrel{iid}{\sim}}
+\newcommand\simind{\stackrel{ind}{\sim}}
+\NewDocumentCommand{\qfrac}{smm}{%
+  \dfrac{\IfBooleanT{#1}{\vphantom{\big|}}#2}{\mathstrut #3}%
+}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,positioning,shapes,shapes.gates.logic.US,trees, intersections}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \node at (0,0) {$y_j \sim \mathrm{Bernoulli}(\theta)$} ;
+  	\draw[->] (1.1,-0.25) to (1.1,-0.75);
+  	\node at (2.1, -1) {$\theta\sim \mathrm{Beta}(\alpha, \beta)$};
+\end{tikzpicture}
+
+\end{document}

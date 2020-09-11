@@ -1,0 +1,21 @@
+
+
+model{
+
+#################################
+# Prior distribution
+#################################
+theta ~ dbeta(alpha,beta)
+
+#################################
+# Conditional distribution of the data
+#################################
+for(j in 1:J){
+  x[j] ~ dbern(theta)
+}
+
+
+}
+
+
+

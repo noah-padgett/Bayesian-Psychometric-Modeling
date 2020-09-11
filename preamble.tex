@@ -1,5 +1,12 @@
 \usepackage{booktabs}
-\usepackage{amsthm}
+\usepackage{amsfonts, amssymb, amsmath, latexsym, amsthm, xparse, mathabx, bm}
+\renewcommand{\leq}{\varleq}
+\renewcommand{\geq}{\vargeq}
+\newcommand\simiid{\stackrel{iid}{\sim}}
+\newcommand\simind{\stackrel{ind}{\sim}}
+\NewDocumentCommand{\qfrac}{smm}{%
+  \dfrac{\IfBooleanT{#1}{\vphantom{\big|}}#2}{\mathstrut #3}%
+}
 \makeatletter
 \def\thm@space@setup{%
   \thm@preskip=8pt plus 2pt minus 4pt

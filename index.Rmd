@@ -1,5 +1,5 @@
 --- 
-title: "Bayesian Psychometric Modeling (2020) by Roy Levy and Robert J. Mislevy"
+title: "Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy"
 author: "R. Noah Padgett"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -8,14 +8,17 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-github-repo: rstudio/bookdown-demo
-description: "This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Robert Mislevy and Roy Levy. We hope that having a detailed computatin guide using Stan is of interest to someone."
+github-repo: noah-padgett/Bayesian-Psychometric-Modeling
+description: "This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone."
 ---
 
-# Getting Started
+# (PART) Foundations {-}
 
-This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Robert Mislevy and Roy Levy.
+# Getting Started/Overview Chapter
+
+This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy.
 I hope that having a detailed computation guide using Stan is of interest to someone.
+To reference the book, I will frequently use `BPM` as a shorthand for the title of the text.
 
 Throughout this book, I have incorporated elaborations on the code to help set up the examples and provide more details when possible.
 The authors provided an accompanying [website](http://bayespsychometrics.com/book-examples/), where the examples are shown using ` WinBUGS` and ` Netica`. 
@@ -30,4 +33,70 @@ Meaning that I have done my best to fully (or sufficient for the example) analyz
 We have used ` R` to call Stan. So we have relied on ` rstan` heavily. 
 
 
+## Overview of Assessment and Psychometric Modeling
 
+Chapter 1 of BPM provided an excellent overview of topics related to psychometric modeling.
+I wanted to highlight some particularly important pieces to keep in mind while modeling.
+
+1. "[We] view assessment as an instance of _evidentiary reasoning_." (p. 3)
+
+    This idea forms the basis for this text. Providing evidence in support of inferences, claims, decisions, etc. is a major stance of  the probabilistic modeling used by Levy and MisLevy.
+
+2. Observed data provide some evidence, but not all data is evidence.
+
+    This gets to their point that data are grounds to help provide evidence, but they also recognize that evidence does not depend solely on data.
+    What these data represents is a major factor in helping to decide whether evidence has been gathered.
+
+3. Inferences depends on the _data_ and the _claim_ being made.
+
+    They used excellent examples of the relationships between data, claims, and potential alternative explanations.
+    These examples on pages 5-9 should be read.
+    In summary, the idea is to use our _claim_ to make predictions about what _data_ we should observe.
+    However, we have to use data to make inferences about our claims.
+    The reversal is in line with the relationship between _deductive reasoning_ and _inductive reasoning_.
+
+4. "A models is a simplified version of a real world scenario, wherein [relevant] features of the problem at hand are represented, while [less relevant features] are suppressed."
+
+    They took that stance that they acknowledge that any model they come up with is wrong, but they aim to develop a useful model to help solve a problem at hand.
+    The models they are developing help describe the world according to the analyst.
+    The according to analyst is important since this implies that the analyst is in control of how the model represents the world.
+    The inclusion of the analyst as an active participant in the model building process instead of a passive observer is a realistic representation of the problem of assessment and modeling building.
+    They highlighed 3 goals of modeling (p. 11)
+    
+    (a) "represent the relationships among the relevant entities";
+    (b) "provide the machinery for making inferences about what is unknown based on what is known"; and
+    (c) "offers machanisms for effectively communicating results to take actions in the real world."
+    
+5. Probability is interpreted as an approach to describing _uncertainty about beliefs_. 
+
+    This is called the _epistemic_ interpretation of probability.
+    Traditionally, probability in assessment has been interpreted in the frequency of an event. 
+    For example, if you flip a coin 100 times we could use a probability of 0.5 to represents the proportion of times the coin would land on heads.
+    This would lead us to expect the number heads to occur to be approximately 50. 
+    In the epistemic interpretation, we could describe that we believe that the coin is fair meaning would would place equal weight to heads and tails when flipped.
+    However, if we had a belief that the coin favors heads we could reflect this in the probability we assign to each event.
+    This epistemic interpretation aligns with (1) above where we aim to provide evidence through assessment.
+    
+6. Context of assessment should be incorporated into modeling whenever possible.
+
+    Context (when, where, how long, how much, with whom, etc.) should be considered (at least) as part of the assessment and included in modeling/decision making.
+    Without such details, the analyst may overlook an important consideration in making a decision.
+
+7. Evidence-Centered Design
+
+    A framework for describing assessments and the context around the assessment.
+    Three properties of ECD are
+    
+    (a) helps us understand the argumentation behind the use of particular psychometric models;
+    (b) helps us through the assessment development process that might lead to such models; and
+    (c) does not _require_ the use of such models.
+
+## Looking Forward
+
+
+The remainder of this online accompanying text to BPM is organized as follows.
+Chapters 2-6 round of the Foundational information which includes a introduction of Bayesian inference (Chp 2), a discussion of the conceptual issues in Bayesian inferences (chp 3), a dive into normal distribution models (chp 4), a near 50,000 ft view of estimation with markov chain Monte Carlo (MCMC, chp 5), and introducing notation for regression modeling (chp 6). 
+Next, we turn our attention to the meat of the book with section 2 which is the remainder of the text, chapters 7-14.
+These chapters move from basic psychometric modeling (chp 7) to classical test theory (chp 8), factor analysis (chp 9), item response theory (chp 11), latent class analysis (chp 13), and networks (chp 14).
+Other modeling issues and topics are discussed such as model comparison (chp 10) and missing data (chp 12).
+Throughout all these chapters I will go through all the example analyses using Stan instead of WinBUGS so that potential differences can be compared and discussed.

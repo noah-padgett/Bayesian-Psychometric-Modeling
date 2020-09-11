@@ -1,0 +1,23 @@
+\documentclass{standalone}
+
+\usepackage{lscape}
+%Math typesetting packages
+\usepackage{amsfonts, amssymb, amsmath, latexsym, amsthm,xparse}
+\newcommand\simiid{\stackrel{iid}{\sim}}
+\newcommand\simind{\stackrel{ind}{\sim}}
+\NewDocumentCommand{\qfrac}{smm}{%
+  \dfrac{\IfBooleanT{#1}{\vphantom{\big|}}#2}{\mathstrut #3}%
+}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,positioning,shapes,shapes.gates.logic.US,trees, intersections}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \node at (0,0) {$y \sim \mathrm{Binomial}(\theta, J)$} ;
+  	\draw[->] (0.8,-0.25) to (0.8,-0.75);
+  	\node at (1.8, -1) {$\theta\sim \mathrm{Beta}(\alpha, \beta)$};
+\end{tikzpicture}
+
+\end{document}

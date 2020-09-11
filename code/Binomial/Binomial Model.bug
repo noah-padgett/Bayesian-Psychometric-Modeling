@@ -1,0 +1,18 @@
+
+
+model{
+
+#################################
+# Prior distribution
+#################################
+theta ~ dbeta(alpha,beta)
+
+#################################
+# Conditional distribution of the data
+#################################
+y ~ dbin(theta, J)
+
+}
+
+
+

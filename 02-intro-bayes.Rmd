@@ -1,0 +1,715 @@
+# Introduction to Bayesian Inference {#chp2}
+
+Chapter \@ref(chp2) is focused on introducing the fundamentals of Bayesian modeling.
+I will briefly reiterate some of these concepts, but Levy and Mislevy did an excellent job introducing the basic concepts so I defer to them. 
+A few points I would like to highlight are
+
+1. The concept of likelihood is fundamental to Bayesian methods and frequentist methods as well. 
+
+    The likelihood function (denoted $p(\mathbf{x} \mid \theta)$ or equivalently $L(\theta \mid \mathbf{x})$) is fundamental as this conditional probability describes our beliefs about the _data generating process_. 
+    Another way of thinking about the likelihood function is as the data model.
+    The data model decribes how parameters of interest relates to the observed data.
+    This key concept is used in frequentist methods (e.g., maximum likelihood estimation) to obtain point estimates of model parameters.
+    A fundamental difference between maximum likelihood and Bayesian estimation is how we use the likelihood function to construct interval estimates of parameters (see next point).
+    
+2. Interval estimates in Bayesian methods do not rely on the idea of _repeated sampling_.
+
+    In frequentist analyses, the construction of interval estimates around maximum likelihood estimators is dependent on utilizing repeated sampling paradigm.
+    The interval estimate around the MLE is referred to the sampling distribution of the parameter estimator.
+    BPM discusses these features of maximum likelihood well on p. 26.
+    In Bayesian methods, an interval estimate is constructed based on the distribution of the _parameter_ and not the _parameter estimator_.
+    This distinction makes Bayesian intervals based on the likely values of the parameter based on our prior beliefs and observed data.
+    
+3. Bayes Theorem
+
+    Bayes theorem is the underlying engine of all Bayesian methods.
+    We use Bayes theorm to decompose conditional probabilities so that they can work for us.
+    As an analyst, we interested in the plausible values of the parameters based on the observed data.
+    This can be expressed as a conditional probability ($p(\theta \mid \mathbf{x})$).
+    Bayes theorm states that
+\begin{equation} 
+  \begin{split}
+  p(\theta \mid \mathbf{x}) &= \frac{p(\mathbf{x}, \theta)}{p(\mathbf{x})}\\
+    &= \frac{p(\mathbf{x}\mid \theta)p(\theta)}{p(\mathbf{x})}.\\
+  \end{split}
+  (\#eq:bayes)
+\end{equation} 
+    
+4. The distinction between frequentist and Bayesian approaches is more than treating model parameters as _random_. A different way to stating the difference between frequentist and Bayesian approaches is based on what is being conditioned on to make inferences.
+
+    In a classic frequentist hypothesis testing scenario, the model parameters are conditioned on to calculate the probability of the observed data (i.e., $\mathrm{Pr}(data \mid \theta)$).
+    This implies that the data are treated as random variables, but this does not exclude the fact the $\theta$ can be a collection of parameters that have random components (e.g., random intercepts in HLM).
+    However, in a Bayesian model, the model parameters are the object of interest and the data are conditioned on (i.e., $\mathrm{Pr}(\theta \mid data)$).
+    This implies that the data are treated as a fixed entity that is used to construct inferences.
+    This is how BPM related Bayesian inference to inductive reasoning.
+    The inductive reasoning comes from taking observations and trying to making claims about the general.
+
+
+## Beta-binomial Example
+
+Here I go through the the first example from BPM.
+The example is a relatively simple beta-binomial model.
+Which is a way of modeling the number of occurrences of a bernoulli process.
+For example, suppose we were interested in the number of times a coin landed on heads.
+Here, we have a set number of coin flips (say $J$) and we are interested in the number of times the coin landed on heads (call this outcome $y$).
+We can model this structure letting $y$ be a binomial random variable which we can express this as
+\[y\sim\mathrm{Binomial}(\theta, J)\]
+where $\theta$ is the probability of heads on any given coin toss.
+As part of the Bayesian modeling I need to specify my prior belief as to the likely values of $\theta$.
+The probability $\theta$ lies in the interval $[0, 1]$.
+A nice probability distribution on this range is the beta distribution.
+That is, I can model my belief as to the likely values of the probability of heads by saying that $\theta$ is beta distributed which can be expressed as
+\[\theta \sim \mathrm{Beta}(\alpha,\beta)\].
+The two parameters for the beta distribution are representative of the shape the distribution will take.
+When $\alpha = \beta$ the distribution is symmetrical, and when $\alpha = \beta=1$ the beta distribution is flat or uniform over $[0,1]$.
+When a distribution is uniform I mean that all values are equally likely over the range of possible values which can be described as having the belief that all values are equally plausible.
+
+This model can be represented in a couple different ways. One way is as a _directed acyclic graph_ (DAG).
+A DAG representation is very similar to path models in general structural equation modeling.
+The directed nature of the diagram highlights how observed variables (e.g., $y$) are modeled by unknown parameters $\theta$.
+All observed or explicitly defined variables/values are in rectangles while any latent variable or model parameter are in circles.
+DAG representation of model for the beta-binomal model is
+
+```{r chp2-dag-1, echo=FALSE,fig.align='center',fig.cap='Directed Acyclic Graph (DAG) for the beta-binomial model'}
+knitr::include_graphics(paste0(w.d,'/dag/chp2-beta-binomial.png'),
+                        auto_pdf = TRUE)
+```
+
+I have given an alternative DAG representation that includes all relevant details.
+In terms of a DAG, I prefer this representation as all the assumed model components are made explicit.
+However, in more complex models this approach will likely lead to very dense and possible unuseful representations.
+
+```{r chp2-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG with explicit representation for all beta-binomial model components'}
+knitr::include_graphics(paste0(w.d,'/dag/chp2-beta-binomial-full.png'),
+                        auto_pdf = TRUE)
+```
+
+Yet another alternative representation is what I call a model specification chart.
+This takes on a similar feel as a DAG in that the flow of model parameters can be shown, but with the major difference that I use the distributional notation explicitly.
+
+```{r chp2-spec-1, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for beta-binomial model'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp2-beta-binomial.png'),
+                        auto_pdf = TRUE)
+```
+
+I will stick with these last two representations as much as possible.
+
+### Computation using Stan
+
+Now, I'm finally getting to the analysis part.
+I have done my best to be descriptive of what the ` Stan` code represents and how it works (in a general how to use this sense).
+I highly recommend a look at the example analysis by the development team to help see their approach as well (see here [Stan analysis](https://mc-stan.org/rstan/articles/rstan.html)).
+
+
+```{r chp2-beta-bin-fit, warnings=F, message=F,error=F, cache=TRUE}
+
+model_beta_binomial <- '
+// data block needs to describe the variable
+//  type (e.g., real, int, etc.) and the name
+//  in the data object passed
+data {
+  int J;
+  int y;
+  real alpha;
+  real beta;
+}
+// parameters block needs to specify the 
+//  unknown parameters
+parameters {
+  real<lower=0, upper=1>theta;
+}
+// model block needs to describe the data-model
+//  and the prior specification
+model {
+  y ~ binomial(J, theta);
+  theta ~ beta(alpha, beta);
+}
+// there must be a blank line after all blocks
+
+'
+# data must be in a list
+mydata <- list(
+  J = 10,
+  y = 7,
+  alpha = 6,
+  beta = 6
+)
+
+# start values can be done automatically by stan or
+#   done explicitly be the analyst (me). I prefer 
+#   to try to be explicit so that I can *try* to 
+#   guarantee that the initial chains start.
+#   The values can be specified as a function 
+#   which lists the values to the respective 
+#   parameters
+start_values <- function(){
+  list(theta = 0.5)
+}
+
+# Next, need to fit the model
+#   I have explicited outlined some common parameters
+fit <- stan(
+  model_code = model_beta_binomial, # model code to be compiled
+  data = mydata,          # my data
+  init = start_values,    # starting values
+  chains = 4,             # number of Markov chains
+  warmup = 1000,          # number of warmup iterations per chain
+  iter = 2000,            # total number of iterations per chain
+  cores = 2,              # number of cores (could use one per chain)
+  refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit, pars="theta")
+
+# plot the posterior in a
+#  95% probability interval
+#  and 80% to contrast the dispersion
+plot(fit, pars="theta")
+
+
+# traceplots
+rstan::traceplot(fit, pars = c("theta"), inc_warmup = TRUE)
+
+
+# plot the posterior density
+posterior <- as.matrix(fit)
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  posterior,
+  pars = c("theta"),
+  prob = 0.8) + 
+  plot_title
+
+# I prefer a posterior plot that includes prior and MLE
+MLE <- 0.7
+prior <- function(x){dbeta(x, 6, 6)}
+x <- seq(0, 1, 0.01)
+prior.dat <- data.frame(X=x, dens = prior(x))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+ggplot()+
+  geom_density(data=as.data.frame(posterior),
+               aes(x=theta, color="Posterior"))+
+  geom_line(data=prior.dat,
+            aes(x=x, y=dens, color="Prior"))+
+  geom_vline(aes(xintercept=MLE, color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+```
+
+### Computation using WinBUGS (OpenBUGS)
+
+Here, I am simply contrasting the computation from Stan to how BPM describes the computations using WinBUGS.
+I have downloaded the .bug file from the text website and I will load it into R for viewing.
+
+First, let's take a look at the model described by BPM on p. 39.
+
+
+```
+# A model block
+model{
+  #################################
+  # Prior distribution
+  #################################
+  theta ~ dbeta(alpha,beta)
+  #################################
+  # Conditional distribution of the data
+  #################################
+  y ~ dbin(theta, J)
+}
+# data statement
+list(J = 10, y = 7, alpha = 6, beta = 6)
+```
+
+Next, we want to use the above model.
+Using OpensBUGS through R can be a little clunky as I had to create objects with the filepaths of the data and model code then get R to read those in through the function ` openbugs`.
+Otherwise, the code is similar to style to the code used for calling Stan.
+
+```{r chp2-beta-bin-fit-bugs, warnings=F, message=F,error=F, cache=TRUE}
+
+# model code
+model.file <- paste0(w.d,"/code/Binomial/Binomial Model.bug")
+
+# get data file
+data.file <- paste0(w.d,"/code/Binomial/Binomial data.txt")
+
+# starting values
+start_values <- function(){
+  list(theta=0.5)
+}
+
+# vector of all parameters to save
+param_save <- c("theta")
+
+# fit model
+fit <- openbugs(
+  data= data.file, 
+  model.file = model.file, # R grabs the file and runs it in openBUGS
+  parameters.to.save = param_save,
+  inits=start_values,
+  n.chains = 4,
+  n.iter = 2000,
+  n.burnin = 1000,
+  n.thin = 1
+)
+
+print(fit)
+
+posterior <- fit$sims.matrix
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  posterior,
+  pars = c("theta"),
+  prob = 0.8) + 
+  plot_title
+
+
+MLE <- 0.7
+prior <- function(x){dbeta(x, 6, 6)}
+x <- seq(0, 1, 0.01)
+prior.dat <- data.frame(X=x, dens = prior(x))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+ggplot()+
+  geom_density(data=as.data.frame(posterior),
+               aes(x=theta, color="Posterior"))+
+  geom_line(data=prior.dat,
+            aes(x=x, y=dens, color="Prior"))+
+  geom_vline(aes(xintercept=MLE, color="MLE"))+
+  labs(title="Posterior density comparedto prior and MLE")+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+
+```
+
+
+
+### Computation using JAGS (R2jags)
+
+Here, I utilize JAGS, which is nearly identical to WinBUGS in how the underlying mechanics work to compute the posterior but is easily to use through R.
+
+
+```{r chp2-beta-bin-fit-jags, warnings=F, message=F,error=F, cache=TRUE}
+
+# model code
+jags.model <- function(){
+  #################################
+  # Conditional distribution of the data
+  #################################
+  y ~ dbin(theta, J)
+  #################################
+  # Prior distribution
+  #################################
+  theta ~ dbeta(alpha, beta)
+}
+# data
+mydata <- list(
+  J = 10,
+  y = 7,
+  alpha = 6,
+  beta = 6
+)
+# starting values
+start_values <- function(){
+  list("theta"=0.5)
+}
+
+# vector of all parameters to save
+param_save <- c("theta")
+
+# fit model
+fit <- jags(
+  model.file=jags.model,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=1000,
+  n.burnin = 500,
+  n.chains = 4,
+  n.thin=1)
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+R2jags::traceplot(jags.mcmc)
+
+# convert to singel data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c("theta"),
+  prob = 0.8) + 
+  plot_title
+
+
+MLE <- 0.7
+prior <- function(x){dbeta(x, 6, 6)}
+x <- seq(0, 1, 0.01)
+prior.dat <- data.frame(X=x, dens = prior(x))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+ggplot()+
+  geom_density(data=plot.data,
+               aes(x=theta, color="Posterior"))+
+  geom_line(data=prior.dat,
+            aes(x=x, y=dens, color="Prior"))+
+  geom_vline(aes(xintercept=MLE, color="MLE"))+
+  labs(title="Posterior density comparedto prior and MLE")+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+```
+
+
+
+
+## Beta-Bernoulli Example
+
+For this next example, I use the same data as the previous model.
+But now, instead of treating the individual events as part of a whole and sum over the successes, I will treat the model in a more hierarchical manner.
+A hierarchical model here simply implies that I'll be using the same probability function for all individual observations.
+We express this by saying that the observations depend on the index ($j=1, 2, ..., J$) but that the parameter of interest does not vary across $j$.
+Two DAG representations similar to the previous examples are shown below.
+The major difference in these representations from the previous example is the inclusion of a _plate_ that represents the observations depend on the index $j$.
+
+```{r chp2-dag-3, echo=FALSE,fig.align='center',fig.cap='DAG for the beta-bernoulli model'}
+knitr::include_graphics(paste0(w.d,'/dag/chp2-beta-bernoulli-plate.png'),
+                        auto_pdf = TRUE)
+```
+
+
+```{r chp2-dag-4, echo=FALSE,fig.align='center',fig.cap='DAG with explicit representation for all beta-bernoulli model components'}
+knitr::include_graphics(paste0(w.d,'/dag/chp2-beta-bernoulli-plate-full.png'),
+                        auto_pdf = TRUE)
+```
+
+In my favor representation, this model can be expressed as
+
+```{r chp2-spec-2, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for beta-bernoulli model'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp2-beta-bernoulli.png'),
+                        auto_pdf = TRUE)
+```
+
+We will use the same $\mathrm{Beta}(\alpha, \beta)$ prior for $\theta$ as in the previous example.
+The model code changes to the following,
+
+### Computation using Stan
+
+```{r chp2-beta-bern-fit, warnings=F, message=F, error=F, cahce=TRUE}
+
+model_beta_bernoulli <- '
+// data block needs to describe the variable
+//  type (e.g., real, int, etc.) and the name
+//  in the data object passed
+data {
+  int J;
+  int y[J];  //declare observations as an integer vector of length J
+  real alpha;
+  real beta;
+}
+// parameters block needs to specify the 
+//  unknown parameters
+parameters {
+  real<lower=0, upper=1>theta;
+}
+// model block needs to describe the data-model
+//  and the prior specification
+model {
+  for(j in 1:J){
+    y[j] ~ bernoulli(theta);
+  }
+  theta ~ beta(alpha, beta);
+}
+// there must be a blank line after all blocks
+
+'
+# data must be in a list
+mydata <- list(
+  J = 10,
+  y = c(1,0,1,1,0,0,1,1,1,1),
+  alpha = 6,
+  beta = 6
+)
+
+# start values can be done automatically by stan or
+#   done explicitly be the analyst (me). I prefer 
+#   to try to be explicit so that I can *try* to 
+#   guarantee that the initial chains start.
+#   The values can be specified as a function 
+#   which lists the values to the respective 
+#   parameters
+start_values <- function(){
+  list(theta = 0.5)
+}
+
+# Next, need to fit the model
+#   I have explicited outlined some common parameters
+fit <- stan(
+  model_code = model_beta_bernoulli, # model code to be compiled
+  data = mydata,          # my data
+  init = start_values,    # starting values
+  chains = 4,             # number of Markov chains
+  warmup = 1000,          # number of warmup iterations per chain
+  iter = 2000,            # total number of iterations per chain
+  cores = 2,              # number of cores (could use one per chain)
+  refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit, pars="theta")
+
+# plot the posterior in a
+#  95% probability interval
+#  and 80% to contrast the dispersion
+plot(fit, pars="theta")
+
+
+# traceplots
+rstan::traceplot(fit, pars = c("theta"), inc_warmup = TRUE)
+
+
+# plot the posterior density
+posterior <- as.matrix(fit)
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  posterior,
+  pars = c("theta"),
+  prob = 0.8) + 
+  plot_title
+
+# I prefer a posterior plot that includes prior and MLE
+MLE <- 0.7
+prior <- function(x){dbeta(x, 6, 6)}
+x <- seq(0, 1, 0.01)
+prior.dat <- data.frame(X=x, dens = prior(x))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+ggplot()+
+  geom_density(data=as.data.frame(posterior),
+               aes(x=theta, color="Posterior"))+
+  geom_line(data=prior.dat,
+            aes(x=x, y=dens, color="Prior"))+
+  geom_vline(aes(xintercept=MLE, color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+```
+
+
+### Computation using WinBUGS (OpenBUGS)
+
+Here, I am simply contrasting the computation from Stan to how BPM describes the computations using WinBUGS.
+First, let's take a look at the model described by BPM on p. 41.
+
+
+```
+# A model block
+model{
+  #################################
+  # Prior distribution
+  #################################
+  theta ~ dbeta(alpha,beta)
+  
+  #################################
+  # Conditional distribution of the data
+  #################################
+  for(j in 1:J){
+    y[j] ~ dbern(theta)
+  }
+}
+# data statement
+list(J=10, y=c(1,0,1,0,1,1,1,1,0,1), alpha=6, beta=6)
+```
+
+The code is similar to style to the code used for calling Stan.
+However you'll notice a difference in how a probability distribution is referenced.
+
+```{r chp2-beta-bern-fit-bugs, warnings=F, message=F,error=F, cache=TRUE}
+
+# model code
+model.file <- paste0(w.d,"/code/Bernoulli/Bernoulli Model.bug")
+
+# get data file
+data.file <- paste0(w.d,"/code/Bernoulli/Bernoulli data.txt")
+
+# starting values
+start_values <- function(){
+  list(theta=0.5)
+}
+
+# vector of all parameters to save
+param_save <- c("theta")
+
+# fit model
+fit <- openbugs(
+  data= data.file, 
+  model.file = model.file, # R grabs the file and runs it in openBUGS
+  parameters.to.save = param_save,
+  inits=start_values,
+  n.chains = 4,
+  n.iter = 2000,
+  n.burnin = 1000,
+  n.thin = 1
+)
+
+print(fit)
+
+posterior <- fit$sims.matrix
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  posterior,
+  pars = c("theta"),
+  prob = 0.8) + 
+  plot_title
+
+
+MLE <- 0.7
+prior <- function(x){dbeta(x, 6, 6)}
+x <- seq(0, 1, 0.01)
+prior.dat <- data.frame(X=x, dens = prior(x))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+ggplot()+
+  geom_density(data=as.data.frame(posterior),
+               aes(x=theta, color="Posterior"))+
+  geom_line(data=prior.dat,
+            aes(x=x, y=dens, color="Prior"))+
+  geom_vline(aes(xintercept=MLE, color="MLE"))+
+  labs(title="Posterior density comparedto prior and MLE")+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+
+```
+
+
+### Computation using JAGS (R2jags)
+
+Here, I utilize JAGS, which is nearly identical to WinBUGS in how the underlying mechanics work to compute the posterior but is easily to use through R.
+
+
+```{r chp2-beta-bern-fit-jags, warnings=F, message=F,error=F, cache=TRUE}
+
+# model code
+jags.model <- function(){
+  #################################
+  # Conditional distribution of the data
+  #################################
+  for(j in 1:J){
+    y[j] ~ dbern(theta)
+  }
+
+  #################################
+  # Prior distribution
+  #################################
+  theta ~ dbeta(alpha,beta)
+  
+}
+# data
+mydata <- list(
+  J = 10,
+  y = c(1,0,1,1,0,0,1,NA,1,1),
+  alpha = 6,
+  beta = 6
+)
+
+# starting values
+start_values <- function(){
+  list("theta"=0.5)
+}
+
+# vector of all parameters to save
+param_save <- c("theta")
+
+# fit model
+fit <- jags(
+  model.file=jags.model,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=1000,
+  n.burnin = 500,
+  n.chains = 4,
+  n.thin=1)
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+R2jags::traceplot(jags.mcmc)
+
+# convert to singel data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c("theta"),
+  prob = 0.8) + 
+  plot_title
+
+
+MLE <- 0.7
+prior <- function(x){dbeta(x, 6, 6)}
+x <- seq(0, 1, 0.01)
+prior.dat <- data.frame(X=x, dens = prior(x))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+ggplot()+
+  geom_density(data=plot.data,
+               aes(x=theta, color="Posterior"))+
+  geom_line(data=prior.dat,
+            aes(x=x, y=dens, color="Prior"))+
+  geom_vline(aes(xintercept=MLE, color="MLE"))+
+  labs(title="Posterior density comparedto prior and MLE")+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+```
+
+
+<!-- You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods). -->
+
+<!-- Figures and tables with captions will be placed in `figure` and `table` environments, respectively. -->
+
+<!-- ```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'} -->
+<!-- par(mar = c(4, 4, .1, .1)) -->
+<!-- plot(pressure, type = 'b', pch = 19) -->
+<!-- ``` -->
+
+<!-- Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab). -->
+
+<!-- ```{r nice-tab, tidy=FALSE} -->
+<!-- knitr::kable( -->
+<!--   head(iris, 20), caption = 'Here is a nice table!', -->
+<!--   booktabs = TRUE -->
+<!-- ) -->
+<!-- ``` -->
+
+<!-- You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015]. -->
+
+

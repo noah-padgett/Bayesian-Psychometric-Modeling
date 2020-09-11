@@ -1,12 +1,14 @@
 bookdown::gitbook:
   css: style.css
+  split_by: section
   config:
     toc:
+      collapse: section
       before: |
         <li><a href="./">Bayesian Psychometric Modeling</a></li>
       after: |
         <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
-    edit: https://github.com/rstudio/bookdown-demo/edit/master/%s
+    edit: https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/%s
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:
