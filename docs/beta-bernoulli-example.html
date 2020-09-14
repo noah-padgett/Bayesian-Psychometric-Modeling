@@ -281,7 +281,7 @@ The model code changes to the following,</p>
 ##       mean se_mean  sd 2.5%  25%  50%  75% 97.5% n_eff Rhat
 ## theta 0.59       0 0.1 0.38 0.52 0.59 0.67  0.79  1219    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Mon Sep 14 15:54:06 2020.
+## Samples were drawn using NUTS(diag_e) at Mon Sep 14 16:02:38 2020.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -453,7 +453,8 @@ However you’ll notice a difference in how a probability distribution is refere
 <span id="cb38-38"><a href="beta-bernoulli-example.html#cb38-38"></a>  <span class="dt">n.iter=</span><span class="dv">1000</span>,</span>
 <span id="cb38-39"><a href="beta-bernoulli-example.html#cb38-39"></a>  <span class="dt">n.burnin =</span> <span class="dv">500</span>,</span>
 <span id="cb38-40"><a href="beta-bernoulli-example.html#cb38-40"></a>  <span class="dt">n.chains =</span> <span class="dv">4</span>,</span>
-<span id="cb38-41"><a href="beta-bernoulli-example.html#cb38-41"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>)</span></code></pre></div>
+<span id="cb38-41"><a href="beta-bernoulli-example.html#cb38-41"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
+<span id="cb38-42"><a href="beta-bernoulli-example.html#cb38-42"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -462,63 +463,9 @@ However you’ll notice a difference in how a probability distribution is refere
 ##    Unobserved stochastic nodes: 2
 ##    Total graph size: 14
 ## 
-## Initializing model
-## 
-## 
-  |                                                        
-  |                                                  |   0%
-  |                                                        
-  |**                                                |   4%
-  |                                                        
-  |****                                              |   8%
-  |                                                        
-  |******                                            |  12%
-  |                                                        
-  |********                                          |  16%
-  |                                                        
-  |**********                                        |  20%
-  |                                                        
-  |************                                      |  24%
-  |                                                        
-  |**************                                    |  28%
-  |                                                        
-  |****************                                  |  32%
-  |                                                        
-  |******************                                |  36%
-  |                                                        
-  |********************                              |  40%
-  |                                                        
-  |**********************                            |  44%
-  |                                                        
-  |************************                          |  48%
-  |                                                        
-  |**************************                        |  52%
-  |                                                        
-  |****************************                      |  56%
-  |                                                        
-  |******************************                    |  60%
-  |                                                        
-  |********************************                  |  64%
-  |                                                        
-  |**********************************                |  68%
-  |                                                        
-  |************************************              |  72%
-  |                                                        
-  |**************************************            |  76%
-  |                                                        
-  |****************************************          |  80%
-  |                                                        
-  |******************************************        |  84%
-  |                                                        
-  |********************************************      |  88%
-  |                                                        
-  |**********************************************    |  92%
-  |                                                        
-  |************************************************  |  96%
-  |                                                        
-  |**************************************************| 100%</code></pre>
+## Initializing model</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="beta-bernoulli-example.html#cb40-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpqMhkMy/model61b04a3645a4.txt&quot;, fit using jags,
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpkVCUHW/model7fc47272ed0.txt&quot;, fit using jags,
 ##  4 chains, each with 1000 iterations (first 500 discarded)
 ##  n.sims = 2000 iterations saved
 ##          mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff

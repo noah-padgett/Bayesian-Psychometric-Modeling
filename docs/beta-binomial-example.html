@@ -466,7 +466,8 @@ Otherwise, the code is similar to style to the code used for calling Stan.</p>
 <span id="cb16-33"><a href="beta-binomial-example.html#cb16-33"></a>  <span class="dt">n.iter=</span><span class="dv">1000</span>,</span>
 <span id="cb16-34"><a href="beta-binomial-example.html#cb16-34"></a>  <span class="dt">n.burnin =</span> <span class="dv">500</span>,</span>
 <span id="cb16-35"><a href="beta-binomial-example.html#cb16-35"></a>  <span class="dt">n.chains =</span> <span class="dv">4</span>,</span>
-<span id="cb16-36"><a href="beta-binomial-example.html#cb16-36"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>)</span></code></pre></div>
+<span id="cb16-36"><a href="beta-binomial-example.html#cb16-36"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
+<span id="cb16-37"><a href="beta-binomial-example.html#cb16-37"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -475,116 +476,9 @@ Otherwise, the code is similar to style to the code used for calling Stan.</p>
 ##    Unobserved stochastic nodes: 1
 ##    Total graph size: 5
 ## 
-## Initializing model
-## 
-## 
-  |                                                        
-  |                                                  |   0%
-  |                                                        
-  |++                                                |   4%
-  |                                                        
-  |++++                                              |   8%
-  |                                                        
-  |++++++                                            |  12%
-  |                                                        
-  |++++++++                                          |  16%
-  |                                                        
-  |++++++++++                                        |  20%
-  |                                                        
-  |++++++++++++                                      |  24%
-  |                                                        
-  |++++++++++++++                                    |  28%
-  |                                                        
-  |++++++++++++++++                                  |  32%
-  |                                                        
-  |++++++++++++++++++                                |  36%
-  |                                                        
-  |++++++++++++++++++++                              |  40%
-  |                                                        
-  |++++++++++++++++++++++                            |  44%
-  |                                                        
-  |++++++++++++++++++++++++                          |  48%
-  |                                                        
-  |++++++++++++++++++++++++++                        |  52%
-  |                                                        
-  |++++++++++++++++++++++++++++                      |  56%
-  |                                                        
-  |++++++++++++++++++++++++++++++                    |  60%
-  |                                                        
-  |++++++++++++++++++++++++++++++++                  |  64%
-  |                                                        
-  |++++++++++++++++++++++++++++++++++                |  68%
-  |                                                        
-  |++++++++++++++++++++++++++++++++++++              |  72%
-  |                                                        
-  |++++++++++++++++++++++++++++++++++++++            |  76%
-  |                                                        
-  |++++++++++++++++++++++++++++++++++++++++          |  80%
-  |                                                        
-  |++++++++++++++++++++++++++++++++++++++++++        |  84%
-  |                                                        
-  |++++++++++++++++++++++++++++++++++++++++++++      |  88%
-  |                                                        
-  |++++++++++++++++++++++++++++++++++++++++++++++    |  92%
-  |                                                        
-  |++++++++++++++++++++++++++++++++++++++++++++++++  |  96%
-  |                                                        
-  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
-## 
-  |                                                        
-  |                                                  |   0%
-  |                                                        
-  |**                                                |   4%
-  |                                                        
-  |****                                              |   8%
-  |                                                        
-  |******                                            |  12%
-  |                                                        
-  |********                                          |  16%
-  |                                                        
-  |**********                                        |  20%
-  |                                                        
-  |************                                      |  24%
-  |                                                        
-  |**************                                    |  28%
-  |                                                        
-  |****************                                  |  32%
-  |                                                        
-  |******************                                |  36%
-  |                                                        
-  |********************                              |  40%
-  |                                                        
-  |**********************                            |  44%
-  |                                                        
-  |************************                          |  48%
-  |                                                        
-  |**************************                        |  52%
-  |                                                        
-  |****************************                      |  56%
-  |                                                        
-  |******************************                    |  60%
-  |                                                        
-  |********************************                  |  64%
-  |                                                        
-  |**********************************                |  68%
-  |                                                        
-  |************************************              |  72%
-  |                                                        
-  |**************************************            |  76%
-  |                                                        
-  |****************************************          |  80%
-  |                                                        
-  |******************************************        |  84%
-  |                                                        
-  |********************************************      |  88%
-  |                                                        
-  |**********************************************    |  92%
-  |                                                        
-  |************************************************  |  96%
-  |                                                        
-  |**************************************************| 100%</code></pre>
+## Initializing model</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="beta-binomial-example.html#cb18-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpKoRyya/model81b470ef4c35.txt&quot;, fit using jags,
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpkVCUHW/model7fc662b72.txt&quot;, fit using jags,
 ##  4 chains, each with 1000 iterations (first 500 discarded)
 ##  n.sims = 2000 iterations saved
 ##          mu.vect sd.vect  2.5%   25%   50%   75% 97.5%  Rhat n.eff

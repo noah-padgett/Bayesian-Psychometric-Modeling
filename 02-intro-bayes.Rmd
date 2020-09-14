@@ -333,7 +333,8 @@ fit <- jags(
   n.iter=1000,
   n.burnin = 500,
   n.chains = 4,
-  n.thin=1)
+  n.thin=1,
+  progress.bar = "none")
 
 print(fit)
 
@@ -649,7 +650,8 @@ fit <- jags(
   n.iter=1000,
   n.burnin = 500,
   n.chains = 4,
-  n.thin=1)
+  n.thin=1,
+  progress.bar = "none")
 
 print(fit)
 
