@@ -4,6 +4,7 @@ author: "R. Noah Padgett"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
+self_contained: true
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
