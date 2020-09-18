@@ -85,12 +85,12 @@ plot(fit)
 rstan::traceplot(fit, pars = c("mu", "sigma"), inc_warmup = TRUE)
 
 # Gelman-Rubin-Brooks Convergence Criterion
-# ggs_grb(ggs(fit)) + 
-#   theme_bw() + theme(panel.grid = element_blank())
+ggs_grb(ggs(fit)) + 
+   theme_bw() + theme(panel.grid = element_blank())
 
 # autocorrelation
-# ggs_autocorrelation(ggs(fit)) + 
-#   theme_bw() + theme(panel.grid = element_blank())
+ggs_autocorrelation(ggs(fit)) + 
+   theme_bw() + theme(panel.grid = element_blank())
 
 # plot the posterior density
 posterior <- as.matrix(fit)
