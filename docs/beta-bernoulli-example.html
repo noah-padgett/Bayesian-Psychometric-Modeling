@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2020-09-14" />
+<meta name="date" content="2020-09-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -153,7 +153,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="conceptual-issues-in-bayesian-inference.html"><a href="conceptual-issues-in-bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Conceptual Issues in Bayesian Inference</a></li>
-<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a></li>
+<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="stan-model-for-mean-and-variance-unknown.html"><a href="stan-model-for-mean-and-variance-unknown.html"><i class="fa fa-check"></i><b>4.1</b> Stan Model for mean and variance unknown</a></li>
+<li class="chapter" data-level="4.2" data-path="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><a href="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><i class="fa fa-check"></i><b>4.2</b> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="markov-chain-monte-carlo-estimation.html"><a href="markov-chain-monte-carlo-estimation.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo Estimation</a><ul>
 <li class="chapter" data-level="5.1" data-path="gibbs-sampling.html"><a href="gibbs-sampling.html"><i class="fa fa-check"></i><b>5.1</b> Gibbs Sampling</a></li>
 <li class="chapter" data-level="5.2" data-path="metropolis-sampling.html"><a href="metropolis-sampling.html"><i class="fa fa-check"></i><b>5.2</b> Metropolis Sampling</a></li>
@@ -281,7 +284,7 @@ The model code changes to the following,</p>
 ##       mean se_mean  sd 2.5%  25%  50%  75% 97.5% n_eff Rhat
 ## theta 0.59       0 0.1 0.38 0.52 0.59 0.67  0.79  1219    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Mon Sep 14 16:02:38 2020.
+## Samples were drawn using NUTS(diag_e) at Fri Sep 18 10:04:10 2020.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -289,10 +292,10 @@ The model code changes to the following,</p>
 <span id="cb27-2"><a href="beta-bernoulli-example.html#cb27-2"></a><span class="co">#  95% probability interval</span></span>
 <span id="cb27-3"><a href="beta-bernoulli-example.html#cb27-3"></a><span class="co">#  and 80% to contrast the dispersion</span></span>
 <span id="cb27-4"><a href="beta-bernoulli-example.html#cb27-4"></a><span class="kw">plot</span>(fit, <span class="dt">pars=</span><span class="st">&quot;theta&quot;</span>)</span></code></pre></div>
-<p><img src="bookdown-BPM_files/figure-html/chp2-beta-bern-fit-1.png" width="672" /></p>
+<p><img src="bookdown-BPM_files/figure-html/chp2-beta-bern-fit-stan-1.png" width="672" /></p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="beta-bernoulli-example.html#cb28-1"></a><span class="co"># traceplots</span></span>
 <span id="cb28-2"><a href="beta-bernoulli-example.html#cb28-2"></a>rstan<span class="op">::</span><span class="kw">traceplot</span>(fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;theta&quot;</span>), <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="bookdown-BPM_files/figure-html/chp2-beta-bern-fit-2.png" width="672" /></p>
+<p><img src="bookdown-BPM_files/figure-html/chp2-beta-bern-fit-stan-2.png" width="672" /></p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="beta-bernoulli-example.html#cb29-1"></a><span class="co"># plot the posterior density</span></span>
 <span id="cb29-2"><a href="beta-bernoulli-example.html#cb29-2"></a>posterior &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(fit)</span>
 <span id="cb29-3"><a href="beta-bernoulli-example.html#cb29-3"></a></span>
@@ -303,7 +306,7 @@ The model code changes to the following,</p>
 <span id="cb29-8"><a href="beta-bernoulli-example.html#cb29-8"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;theta&quot;</span>),</span>
 <span id="cb29-9"><a href="beta-bernoulli-example.html#cb29-9"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
 <span id="cb29-10"><a href="beta-bernoulli-example.html#cb29-10"></a><span class="st">  </span>plot_title</span></code></pre></div>
-<p><img src="bookdown-BPM_files/figure-html/chp2-beta-bern-fit-3.png" width="672" /></p>
+<p><img src="bookdown-BPM_files/figure-html/chp2-beta-bern-fit-stan-3.png" width="672" /></p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="beta-bernoulli-example.html#cb30-1"></a><span class="co"># I prefer a posterior plot that includes prior and MLE</span></span>
 <span id="cb30-2"><a href="beta-bernoulli-example.html#cb30-2"></a>MLE &lt;-<span class="st"> </span><span class="fl">0.7</span></span>
 <span id="cb30-3"><a href="beta-bernoulli-example.html#cb30-3"></a>prior &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dbeta</span>(x, <span class="dv">6</span>, <span class="dv">6</span>)}</span>
@@ -319,7 +322,7 @@ The model code changes to the following,</p>
 <span id="cb30-13"><a href="beta-bernoulli-example.html#cb30-13"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
 <span id="cb30-14"><a href="beta-bernoulli-example.html#cb30-14"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
 <span id="cb30-15"><a href="beta-bernoulli-example.html#cb30-15"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
-<p><img src="bookdown-BPM_files/figure-html/chp2-beta-bern-fit-4.png" width="672" /></p>
+<p><img src="bookdown-BPM_files/figure-html/chp2-beta-bern-fit-stan-4.png" width="672" /></p>
 </div>
 <div id="computation-using-winbugs-openbugs-1" class="section level3">
 <h3><span class="header-section-number">2.2.2</span> Computation using WinBUGS (OpenBUGS)</h3>

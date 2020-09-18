@@ -1,0 +1,1 @@
+list(tau.e=0.01, beta.0=0, beta.1=0, beta.2=0)

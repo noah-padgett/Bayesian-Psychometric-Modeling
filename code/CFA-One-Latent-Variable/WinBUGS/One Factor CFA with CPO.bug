@@ -1,0 +1,59 @@
+
+
+model{
+
+######################################################################
+# Specify the factor analysis measurement model for the observables
+######################################################################
+for (i in 1:n){
+  for(j in 1:J){
+    mu[i,j] <- tau[j] + ksi[i]*lambda[j]      # model implied expectation for each observable
+    x[i,j] ~ dnorm(mu[i,j], inv.psi[j])    # distribution for each observable
+  }
+}
+
+
+######################################################################
+# Specify the (prior) distribution for the latent variables
+######################################################################
+for (i in 1:n){
+  ksi[i] ~ dnorm(kappa, inv.phi)  # distribution for the latent variables
+}
+
+
+######################################################################
+# Specify the prior distribution for the parameters that govern the latent variables
+######################################################################
+kappa <- 0              # Mean of factor 1
+inv.phi ~ dgamma(5, 10) # Precision of factor 1
+phi <- 1/inv.phi        # Variance of factor 1
+
+
+######################################################################
+# Specify the prior distribution for the measurement model parameters
+######################################################################
+for(j in 1:J){
+  tau[j] ~ dnorm(3, .1)        # Intercepts for observables
+	inv.psi[j] ~ dgamma(5, 10) # Precisions for observables
+	psi[j] <- 1/inv.psi[j]   # Variances for observables
+}
+
+lambda[1] <- 1.0              # loading fixed to 1.0 
+for (j in 2:J){
+	lambda[j] ~ dnorm(1, .1)    # prior distribution for the remaining loadings
+}
+
+######################################################################
+# Compute ingredients for CPO
+######################################################################
+for(i in 1:n){
+  for(j in 1:J){
+    p.x[i,j] <- (1/sqrt(2*3.141593))*sqrt(inv.psi[j])*exp(-.5*inv.psi[j]*(x[i,j]-mu[i,j])*(x[i,j]-mu[i,j]))
+  }
+  inv.p.x[i] <- 1/(p.x[i,1]*p.x[i,2]*p.x[i,3]*p.x[i,4]*p.x[i,5])
+}
+
+} # closes the model
+
+
+

@@ -1,0 +1,34 @@
+
+
+model{
+     
+     ############################################
+     # CLASSICAL TEST THEORY MODEL
+     # WITH KNOWN HYPERPARAMETERS
+     #    TRUE SCORE MEAN, TRUE SCORE VARIANCE
+     #    ERROR VARIANCE
+     ############################################
+
+     ############################################
+     # KNOWN HYPERPARAMETERS
+     ############################################
+     mu.T <- 80               # Mean of the true scores
+     sigma.squared.T <- 36    # Variance of the true scores
+     sigma.squared.E <- 16    # Variance of the errors
+
+     tau.T <- 1/sigma.squared.T   # Precision of the true scores
+     tau.E <- 1/sigma.squared.E   # Precision of the errors
+
+ 
+     ############################################
+     # MODEL FOR TRUE SCORES AND OBSERVABLES
+     ############################################
+ 
+     for (i in 1:n) {
+          T[i] ~ dnorm(mu.T, tau.T)     # Distribution of true scores
+          x[i] ~ dnorm(T[i], tau.E)     # Distribution of observables
+     }
+     
+}
+
+

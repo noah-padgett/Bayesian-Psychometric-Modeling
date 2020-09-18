@@ -1,0 +1,38 @@
+
+
+model{
+
+#############################################
+# Conditional distribution for the data
+#############################################
+
+for(i in 1:n){
+  x[i] ~ dnorm(mu, tau)  	# conditional distribution of the data
+} # closes loop over subjects
+
+
+#############################################
+# Define the prior distributions for the unknown parameters
+#	The mean of the data (mu)
+# 	The variance (sigma.squared) and precision (tau) of the data
+#############################################
+
+mu ~ dnorm(mu.mu, tau.mu)	# prior distribution for mu
+
+mu.mu <- 75			# mean of the prior for mu 
+sigma.squared.mu <- 50		# variance of the prior for mu
+tau.mu <- 1/sigma.squared.mu 	# precision of the prior for mu
+
+
+tau ~ dgamma(alpha,beta)		# precision of the data
+sigma.squared <- 1/tau		# variance of the data
+
+nu.0 <- 10			# hyperparameter for prior for tau
+sigma.squared.0 <- 30		# hyperparameter for prior for tau
+
+alpha <- nu.0/2		# hyperparameter for prior for tau
+beta <- nu.0*sigma.squared.0/2 	# hyperparameter for prior for tau
+
+} # closes the model statement
+
+

@@ -1,0 +1,1 @@
+list(tau=c(3, 3, 3, 3, 3), lambda=c(NA, 3, 3, 3, 3), inv.phi=2, inv.psi=c(2, 2, 2, 2, 2))

@@ -1,0 +1,168 @@
+######################################################################
+# Fixed parameters of the effective theta method
+######################################################################
+a<- 1
+smb[1]<- -3.0; smb[2]<- -1; smb[3]<- 1; smb[4]<- 3;
+emb[j, 1] <- -2
+emb[j, 2] <- 2
+
+
+######################################################################
+# Specifying the model for Design
+######################################################################
+
+######################################################################
+# general form: etDesign<- cDesign*NP+dDesign
+######################################################################
+
+etDesign[1]<- cDesign*1+dDesign
+etDesign[2]<- cDesign*2+dDesign
+etDesign[3]<- cDesign*3+dDesign
+etDesign[4]<- cDesign*4+dDesign
+etDesign[5]<- cDesign*5+dDesign
+
+for (aa in 1:5){				# index for which effective theta
+  for (bb in 1:4){			# index for which category boundary
+    des.p.greater[aa,bb] <- 1/(1+exp((-a)*((etDesign[aa])-(smb[bb]))))
+  }
+}
+
+for (aa in 1:5){
+  des.p[aa,1] <- 1- des.p.greater [aa,1]
+  des.p [aa,2] <- des.p.greater [aa,1]- des.p.greater [aa,2]
+  des.p [aa,3] <- des.p.greater [aa,2]- des.p.greater [aa,3]
+  des.p [aa,4] <- des.p.greater [aa,3]- des.p.greater [aa,4]
+  des.p [aa,5] <- des.p.greater [aa,4]
+}
+
+for (i in 1:n){
+  Design[i] ~ dcat(des.p[NP[i], ])
+}
+
+
+
+######################################################################
+# Specifying the model for Network Modeling
+######################################################################
+
+###############################################################
+# general form: etNM[NDK]<- cNM*NDK+dNM
+###############################################################
+etNM[1]<- cNM*1+dNM
+etNM[2]<- cNM*2+dNM
+etNM[3]<- cNM*3+dNM
+etNM[4]<- cNM*4+dNM
+etNM[5]<- cNM*5+dNM
+
+for (aa in 1:5){				# index for which effective theta
+  for (bb in 1:4){			# index for which category boundary
+    nm.p.greater[aa,bb] <- 1/(1+exp((-a)*((etNM[aa])-(smb[bb]))));
+  }
+}
+
+for (aa in 1:5){				# index for which effective theta 
+  nm.p[aa,1] <- 1-nmp[aa,1];
+  nm.p [aa,2] <- nm.p.greater [aa,1]- nm.p.greater [aa,2]
+  nm.p [aa,3] <- nm.p.greater [aa,2]- nm.p.greater [aa,3]
+  nm.p [aa,4] <- nm.p.greater [aa,3]- nm.p.greater [aa,4]
+  nm.p [aa,5] <- nm.p.greater [aa,4]
+}
+
+nm.p.ren[1,1] <- 1 
+nm.p.ren[1,2] <- 0 
+nm.p.ren[1,3] <- 0
+nm.p.ren[1,4] <- 0
+nm.p.ren[1,5] <- 0
+
+nm.p.ren[2,1] <- (nm.p[2,1])/(nm.p[2,1]+nm.p[2,2])				
+nm.p.ren[2,2] <- (nm.p[2,2])/(nm.p[2,1]+nm.p[2,2])				
+nm.p.ren[2,3] <- 0 
+nm.p.ren[2,4] <- 0 
+nm.p.ren[2,5] <- 0
+
+nm.p.ren[3,1] <- (nm.p[3,1])/(nm.p[3,1]+nm.p[3,2]+nm.p[3,3]);		
+nm.p.ren[3,2] <- (nm.p[3,2])/(nm.p[3,1]+nm.p[3,2]+nm.p[3,3]);		
+nm.p.ren[3,3] <- (nm.p[3,3])/(nm.p[3,1]+nm.p[3,2]+nm.p[3,3]);
+nm.p.ren[3,4] <- 0 
+nm.p.ren[3,5] <- 0
+
+nm.p.ren[4,1] <- (nm.p[4,1])/(nm.p[4,1]+nm.p[4,2]+nm.p[4,3]+nm.p[4,4])	
+nm.p.ren[4,2] <- (nm.p[4,2])/(nm.p[4,1]+nm.p[4,2]+nm.p[4,3]+nm.p[4,4])
+nm.p.ren[4,3] <- (nm.p[4,3])/(nm.p[4,1]+nm.p[4,2]+nm.p[4,3]+nm.p[4,4])
+nm.p.ren[4,4] <- (nm.p[4,4])/(nm.p[4,1]+nm.p[4,2]+nm.p[4,3]+nm.p[4,4])
+nm.p.ren[4,5] <- 0
+
+nm.p.ren[5,1] <- nm.p[5,1]
+nm.p.ren[5,2] <- nm.p[5,2]							
+nm.p.ren[5,3] <- nm.p[5,3]
+nm.p.ren[5,4] <- nm.p[5,4]
+nm.p.ren[5,5] <- nm.p[5,5]
+
+for (i in 1:n){
+  NM[i] ~ dcat(nm.p.ren[NDK[i], ])
+}
+
+
+
+
+######################################################################
+# Specifying the model for Network Proficiency
+######################################################################
+for (aa in 1:5){
+  etNP.1[aa]<- c1NP*(aa)+dNP
+  for (bb in 1:5){
+    etNP.2[aa, bb]<- etNP.1[aa]+c2NP*(bb-(aa-1))
+  }
+}
+
+
+
+######################################################################
+# Specifying the model for Network Disciplinary Knowledge and Design 1
+######################################################################
+
+for (aa in 1:5){
+  for (bb in 1:5){
+    etNDKDesign1[aa, bb] <- c1NDKDesign1*(min(aa, bb))                
+                              + dNDKDesign1
+                              + c2NDKDesign1*(aa-min(aa, bb))                     
+                              + c3NDKDesign1*(bb-min(aa, bb))
+  }
+}
+
+
+######################################################################
+# Specifying the model for Design Context 1
+######################################################################
+for (i in 1:n){
+  DesignC1[i] ~ dbern(.5)
+  DesignContext1[i] <- 2*DesignC1[i]-1
+}
+
+
+######################################################################
+# Specifying the model for observables from Design 1
+# Presumes a value of j inciating the observable (not specified here)
+######################################################################
+for (i in 1:n){
+  etDesign1[i, j] <- c1Design1[j]*NDKDesign1[i]   
+                     + c2Design1[j]*DesignContext1[i]
+                     + dDesign1[j] 
+}
+
+for (i in 1:n){
+  for (k in 1:K){
+    logit(p.greater[i, j, k])<- a*(etDesign1[i, j] - emb[j, k])
+  }
+}
+
+
+for (i in 1:n){	
+  p[i, j, 1] <- 1-p.greater[i, j, 1]						 
+  p[i, j, 2] <- p.greater[i, j, 1] - p.greater[i, j, 2]
+  p[i, j, 3] <- p.greater[i, j, 2]	 
+}	
+
+for (i in 1:n){
+  x[i, j] ~ dcat(p[i, j, ])
+}

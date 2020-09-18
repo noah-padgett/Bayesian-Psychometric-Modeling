@@ -1,0 +1,75 @@
+
+
+model{
+
+######################################################################
+# Specify the factor analysis measurement model for the observables
+######################################################################
+for (i in 1:n){
+  
+  # expected value for each examinee for each observable
+  mu[i,1] <- tau[1] + lambda[1,1]*ksi[i,1]  	
+  mu[i,2] <- tau[2] + lambda[2,1]*ksi[i,1]     	
+  mu[i,3] <- tau[3] + lambda[3,1]*ksi[i,1]          
+  mu[i,4] <- tau[4] + lambda[4,2]*ksi[i,2]          
+  mu[i,5] <- tau[5] + lambda[5,2]*ksi[i,2]          
+  
+  for(j in 1:J){
+    x[i,j] ~ dnorm(mu[i,j], inv.psi[j])    # distribution for each observable
+  }
+}
+
+
+######################################################################
+# Specify the (prior) distribution for the latent variables
+######################################################################
+for (i in 1:n){
+  ksi[i, 1:M] ~ dmnorm(kappa[], inv.phi[,])  # distribution for the latent variables
+}
+
+
+######################################################################
+# Specify the prior distribution for the parameters that govern the latent variables
+######################################################################
+for(m in 1:M){
+  kappa[m] <- 0              # Means of latent variables
+}
+
+inv.phi[1:M,1:M] ~ dwish(dxphi.0[ , ], d);  	# prior for precision matrix for the latent variables
+phi[1:M,1:M] <- inverse(inv.phi[ , ]);  		# the covariance matrix for the latent vars
+
+phi.0[1,1] <- 1;       			
+phi.0[1,2] <- .3;					
+phi.0[2,1] <- .3;
+phi.0[2,2] <- 1;
+d <- 2;							
+                            
+for (m in 1:M){						
+     for (mm in 1:M){
+          dxphi.0[m,mm] <- d*phi.0[m,mm];
+     }
+}
+
+
+
+######################################################################
+# Specify the prior distribution for the measurement model parameters
+######################################################################
+for(j in 1:J){
+  tau[j] ~ dnorm(3, .1)        # Intercepts for observables
+	inv.psi[j] ~ dgamma(5, 10) # Precisions for observables
+	psi[j] <- 1/inv.psi[j]   # Variances for observables
+}
+
+lambda[1,1] <- 1.0              # loading fixed to 1.0 
+lambda[4,2] <- 1.0              # loading fixed to 1.0 
+
+for (j in 2:3){
+	lambda[j,1] ~ dnorm(1, .1)    # prior distribution for the remaining loadings
+}
+lambda[5,2] ~ dnorm(1, .1)      # prior distribution for the remaining loadings
+
+} # closes the model
+
+
+

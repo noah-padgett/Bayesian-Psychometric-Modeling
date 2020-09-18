@@ -20,9 +20,9 @@
 # rm(list=ls())
 # list of packages
 packages <- c("patchwork", "tidyr", "dplyr", "ggplot2",
-              "R2jags","R2WinBUGS", 
-              "rstan", "brms", "bayesplot",
-              "kableExtra",
+              "R2jags","R2WinBUGS",
+              "rstan", "brms", "bayesplot", "ggmcmc",
+              "kableExtra", "extraDistr",
               "dagitty", "ggdag", "ggraph", "cowplot")
 new.packages <- packages[!(packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)

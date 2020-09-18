@@ -1,0 +1,50 @@
+
+
+model{
+
+###############################################################
+# Conditional probability of the observables
+# via a latent class model
+###############################################################
+
+for (i in 1:n){
+  for(j in 1:J){
+		x[i,j] ~ dbern(pi[theta[i],j])
+	}
+}
+
+
+###############################################################
+# Prior distribution for the latent variables
+###############################################################
+for(i in 1:n){
+  theta[i] ~ dcat(gamma[])
+}
+
+###############################################################
+# Prior distribution for the parameters
+# that govern the distribution of the latent variables
+###############################################################
+gamma[1:C] ~ ddirch(alpha_gamma[])
+for(c in 1:C){
+  alpha_gamma[c] <- 1
+}
+
+
+###############################################################
+# Prior distribution for the measurement model parameters
+###############################################################
+for(c in 1:C){
+  for(j in 1:(J-1)){
+    pi[c,j] ~ dbeta(1,1)
+  }
+}
+
+pi[1,J] ~ dbeta(1,1) 
+pi[2,J] ~ dbeta(1,1) 
+
+
+} # closes the model
+
+
+

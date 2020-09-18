@@ -1,0 +1,40 @@
+
+
+model{
+
+############################################
+# Prior distributions
+############################################
+beta.0 ~ dnorm(0, .001)   # prior for the intercept
+beta.1 ~ dnorm(0, .001)	# prior for coefficient 1
+beta.2 ~ dnorm(0, .001) 	# prior for coefficient 2
+tau.e ~ dgamma(1, 1) 	# prior for the error precision
+sigma.e <- 1/sqrt(tau.e) 	# standard deviation of the errors
+
+
+############################################
+# Conditional distribution of the data
+# Via a regression model
+############################################
+for(i in 1:n){
+	y.prime[i] <- beta.0 + beta.1*x1[i] + beta.2*x2[i] 		
+  y[i] ~ dnorm(y.prime[i], tau.e) 		
+}
+	
+
+############################################
+# Calculate R-squared
+############################################
+for(i in 1:n){
+	error[i] <- y[i] - y.prime[i] 
+}
+
+var.error <- sd(error[])*sd(error[])
+var.y <- sd(y[])*sd(y[])
+
+R.squared <- 1 - (var.error/var.y)
+
+} # closes the model statement
+
+
+

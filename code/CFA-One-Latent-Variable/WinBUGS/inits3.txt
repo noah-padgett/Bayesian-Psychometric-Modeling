@@ -1,0 +1,1 @@
+list(tau=c(5, 5, 5, 5, 5), lambda=c(NA, 6, 6, 6, 6), inv.phi=.5, inv.psi=c(.5, .5, .5, .5, .5))

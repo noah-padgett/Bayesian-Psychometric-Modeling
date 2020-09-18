@@ -1,2 +1,3 @@
 # Conceptual Issues in Bayesian Inference
 
+This chapter was conceptual so there was no code.

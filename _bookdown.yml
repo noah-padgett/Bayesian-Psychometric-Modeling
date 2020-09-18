@@ -2,6 +2,8 @@ book_filename: "bookdown-BPM"
 language:
   ui:
     chapter_name: "Chapter "
-before_chapter_script: ["code/load_packages.R"]
+before_chapter_script: ["code/load_packages.R",
+                        "code/pdf2png.R",
+                        "code/utility_functions.R"]
 delete_merged_file: true
 output_dir: "docs"

@@ -1,0 +1,1 @@
+list(tau=c(3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00), lambda= structure(.Data= c( NA,  NA, 5.00E-01,  NA, 5.00E-01,  NA,  NA,  NA,  NA, 5.00E-01), .Dim=c(5, 2)), inv.phi= structure(.Data= c(1.33E+00, -6.67E-01, -6.67E-01, 1.33E+00), .Dim=c(2, 2)), inv.psi=c(2.00E+00, 2.00E+00, 2.00E+00, 2.00E+00, 2.00E+00))

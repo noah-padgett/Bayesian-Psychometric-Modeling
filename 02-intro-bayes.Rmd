@@ -411,7 +411,7 @@ The model code changes to the following,
 
 ### Computation using Stan
 
-```{r chp2-beta-bern-fit, warnings=F, message=F, error=F, cahce=TRUE}
+```{r chp2-beta-bern-fit-stan, warnings=F, message=F, error=F, cache=TRUE}
 
 model_beta_bernoulli <- '
 // data block needs to describe the variable
