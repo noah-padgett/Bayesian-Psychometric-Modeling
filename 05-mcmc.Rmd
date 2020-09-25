@@ -1,7 +1,24 @@
 # Markov Chain Monte Carlo Estimation
 
-Some _significant_ applications are demonstrated in this chapter.
+This chapter on MCMC methods gives an introduction to some of the common and basic sampling approaches for Bayesian methods.
+These methods in
 
-## Gibbs Sampling
+1. Gibbs Sampling
 
-## Metropolis Sampling
+2. Metropolis Sampling
+
+3. Metropolis-Hastings
+
+and some notes on how these approaches are related.
+The most important take away for me was their section on practical issues in MCMC methods.
+These practical aspects of estimation that should be noted are:
+
+1. Assessing convergence - making sure enough iterations have been used including the potential scale reduction factor ($\hat{R}$),
+
+2. Serial dependence - where the samples drawn from the posterior are autocorrelated. This means that within a chain the draws are dependent but with enough draws and thinning all samples are sufficiently independent,
+
+3. Mixing - that different chains search/sample from the same parameter space but different chains can sometimes get "stuck" sampling one part of the parameter space that is not the same as the other chains.
+
+Lastly, a major take away from this chapter is that MCMC methods help to approximate the posterior distribution.
+The *distribution* is the solution of a full Bayesian analysis and not a point estimate.
+
