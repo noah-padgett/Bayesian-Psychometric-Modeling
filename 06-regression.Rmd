@@ -1,1 +1,383 @@
 # Regression
+
+For the regression models, we have built up what the DAG could look like.
+These representations are shown below.
+
+
+```{r chp4-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG a simple regression model with 1 predictor'}
+knitr::include_graphics(paste0(w.d,'/dag/chp6-regression1.png'),
+                        auto_pdf = TRUE)
+```
+
+```{r chp4-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG for a regression with $J$ predictors'}
+knitr::include_graphics(paste0(w.d,'/dag/chp6-regression2.png'),
+                        auto_pdf = TRUE)
+```
+
+```{r chp4-dag-3, echo=FALSE,fig.align='center',fig.cap='Expanded DAG representation for regression with hyperparameters included'}
+knitr::include_graphics(paste0(w.d,'/dag/chp6-regression3.png'),
+                        auto_pdf = TRUE)
+```
+
+
+Next, we gave a general representation of how the model specification diagram could be constructed.
+
+
+```{r chp6-spec-1, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for a linear regression model'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp6-regression1.png'),
+                        auto_pdf = TRUE)
+```
+
+
+
+## Stan Model for Regression Model
+
+```{r chp6-reg-fit-stan, warnings=T, message=T,error=T, cache=TRUE}
+
+model_reg <- '
+data {
+  int  N;
+  real x1[N];
+  real x2[N];
+  real y[N];
+}
+
+parameters {
+  real beta[3];
+  real<lower=0> tau;
+}
+
+transformed parameters {
+  real<lower=0> sigma;
+  sigma = 1/sqrt(tau);
+}
+
+model {
+  for(i in 1:N){
+    y[i] ~ normal(beta[1] + beta[2]*x1[i] + beta[3]*x2[i], sigma);
+  }
+  beta  ~ normal(0, 100);
+  tau ~ gamma(1, 1);
+}
+
+generated quantities {
+  real varerror;
+  real vary;
+  real Rsquared;
+  real error[N];
+  
+  for(i in 1:N){
+    error[i] = y[i] - (beta[1] + beta[2]*x1[i] + beta[3]*x2[i]);
+  }
+  
+  varerror = variance(error);
+  vary = variance(y);
+  Rsquared = 1 - (varerror/vary);
+}
+
+'
+# data must be in a list
+dat <- read.table("data/Chp4_Reg_Chapter_Tests.dat", header=T)
+mydata <- list(
+  N=nrow(dat), 
+  x1=dat$Ch1Test,
+  x2=dat$Ch2Test,
+  y =dat$Ch3Test
+)
+
+
+# start values 
+start_values <- function(){
+  list(sigma=1, beta=c(0,0,0))
+}
+
+# Next, need to fit the model
+#   I have explicited outlined some common parameters
+fit <- stan(
+  model_code = model_reg, # model code to be compiled
+  data = mydata,          # my data
+  init = start_values,    # starting values
+  chains = 4,             # number of Markov chains
+  warmup = 1000,          # number of warm up iterations per chain
+  iter = 5000,            # total number of iterations per chain
+  cores = 4,              # number of cores (could use one per chain)
+  refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit)
+
+# plot the posterior in a
+#  95% probability interval
+#  and 80% to contrast the dispersion
+plot(fit)
+
+# traceplots
+rstan::traceplot(fit, pars = c("beta", "sigma"), inc_warmup = TRUE)
+
+# Gelman-Rubin-Brooks Convergence Criterion
+p1 <- ggs_grb(ggs(fit, family = "beta")) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p2 <- ggs_grb(ggs(fit, family = "sigma")) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p1 + p2
+# autocorrelation
+p1 <- ggs_autocorrelation(ggs(fit, family="beta")) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p2 <- ggs_autocorrelation(ggs(fit, family="sigma")) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p1 + p2
+# plot the posterior density
+plot.data <- as.matrix(fit)
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c("beta[1]", "beta[2]", "beta[3]", "sigma"),
+  prob = 0.8) + 
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c("Rsquared"),
+  prob = 0.8) + 
+  plot_title
+
+
+# I prefer a posterior plot that includes prior and MLE
+# Expanded Posterior Plot
+fit.lm <- summary(lm(Ch3Test ~ 1 + Ch1Test + Ch2Test, data=dat))
+MLE <- c(fit.lm$coefficients[,1], fit.lm$sigma**2, fit.lm$r.squared)
+prior_beta <- function(x){dnorm(x, 0, 1000)}
+x.beta <- seq(-10, 4.99, 0.01)
+prior.beta <- data.frame(beta=x.beta, dens.beta = prior_beta(x.beta))
+prior_sig <- function(x){dgamma(x, 1, 1)}
+x.sig <- seq(0.01, 2.5, 0.01)
+prior.sig <- data.frame(sig=x.sig, dens.sig = prior_sig(x.sig))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+plot.data <- as.data.frame(plot.data)
+p1 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`beta[1]`, color="Posterior"))+
+  geom_line(data=prior.beta,
+            aes(x=beta, y=dens.beta, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[1], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p2 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`beta[2]`, color="Posterior"))+
+  geom_line(data=prior.beta,
+            aes(x=beta, y=dens.beta, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[2], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  lims(x=c(0, 1))+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p3 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`beta[3]`, color="Posterior"))+
+  geom_line(data=prior.beta,
+            aes(x=beta, y=dens.beta, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[3], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  lims(x=c(0, 1))+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p4 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=sigma, color="Posterior"))+
+  geom_line(data=prior.sig,
+            aes(x=sig, y=dens.sig, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[4], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p5 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=Rsquared, color="Posterior"))+
+  geom_vline(aes(xintercept=MLE[5], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  lims(x=c(0, 1))+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p1 + p2 + p3 + p4 + p5 + plot_layout(guides="collect")
+
+
+```
+
+
+## JAGS Model for Regression Model
+
+```{r chp6-reg-fit-jags, warnings=T, message=T, error=T, cache=TRUE}
+
+# model code
+jags.model <- function(){
+  ############################################
+  # Prior distributions
+  ############################################
+  beta.0 ~ dnorm(0, .001)   # prior for the intercept
+  beta.1 ~ dnorm(0, .001)	# prior for coefficient 1
+  beta.2 ~ dnorm(0, .001) 	# prior for coefficient 2
+  tau.e  ~ dgamma(1, 1) 	# prior for the error precision
+  sigma.e <- 1/sqrt(tau.e) 	# standard deviation of the errors
+  
+  
+  ############################################
+  # Conditional distribution of the data
+  # Via a regression model
+  ############################################
+  for(i in 1:n){
+  	y.prime[i] <- beta.0 + beta.1*x1[i] + beta.2*x2[i] 		
+    y[i] ~ dnorm(y.prime[i], tau.e) 		
+  }
+  	
+  
+  ############################################
+  # Calculate R-squared
+  ############################################
+  for(i in 1:n){
+  	error[i] <- y[i] - y.prime[i] 
+  }
+  
+  var.error <- sd(error[])*sd(error[])
+  var.y <- sd(y[])*sd(y[])
+  
+  R.squared <- 1 - (var.error/var.y)
+    
+}
+# data
+dat <- read.table("data/Chp4_Reg_Chapter_Tests.dat", header=T)
+mydata <- list(
+  n=nrow(dat), 
+  x1=dat$Ch1Test,
+  x2=dat$Ch2Test,
+  y =dat$Ch3Test
+)
+
+
+# starting values
+start_values <- function(){
+  list("tau.e"=0.01, 'beta.0'=0, "beta.1"=0, "beta.2"=0)
+}
+
+# vector of all parameters to save
+param_save <- c("tau.e", "beta.0", "beta.1", "beta.2", "R.squared")
+
+# fit model
+fit <- jags(
+  model.file=jags.model,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=4000,
+  n.burnin = 1000,
+  n.chains = 4,
+  n.thin=1,
+  progress.bar = "none")
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+R2jags::traceplot(jags.mcmc)
+
+# gelman-rubin-brook
+gelman.plot(jags.mcmc)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c("beta.0", "beta.1", "beta.2", "tau.e"),
+  prob = 0.8) + 
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c("R.squared"),
+  prob = 0.8) + 
+  plot_title
+
+
+# Expanded Posterior Plot
+fit.lm <- summary(lm(Ch3Test ~ 1 + Ch1Test + Ch2Test, data=dat))
+MLE <- c(fit.lm$coefficients[,1], 1/fit.lm$sigma**2, fit.lm$r.squared)
+prior_beta <- function(x){dnorm(x, 0, 1000)}
+x.beta <- seq(-5, 4.99, 0.01)
+prior.beta <- data.frame(beta=x.beta, dens.beta = prior_beta(x.beta))
+prior_tau <- function(x){dgamma(x, 1, 1)}
+x.tau <- seq(0.01, 0.50, 0.01)
+prior.tau <- data.frame(tau=x.tau, dens.tau = prior_tau(x.tau))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+
+p1 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=beta.0, color="Posterior"))+
+  geom_line(data=prior.beta,
+            aes(x=beta, y=dens.beta, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[1], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p2 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=beta.1, color="Posterior"))+
+  geom_line(data=prior.beta,
+            aes(x=beta, y=dens.beta, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[2], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  lims(x=c(0, 1))+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p3 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=beta.2, color="Posterior"))+
+  geom_line(data=prior.beta,
+            aes(x=beta, y=dens.beta, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[3], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  lims(x=c(0, 1))+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p4 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=tau.e, color="Posterior"))+
+  geom_line(data=prior.tau,
+            aes(x=tau, y=dens.tau, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[4], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p5 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=R.squared, color="Posterior"))+
+  geom_vline(aes(xintercept=MLE[5], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  lims(x=c(0.5, 0.65))+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p1 + p2 + p3 + p4 + p5 + plot_layout(guides="collect")
+
+```
+
+

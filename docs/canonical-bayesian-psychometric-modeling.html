@@ -24,14 +24,14 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2020-09-24" />
+<meta name="date" content="2020-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="regression.html"/>
+<link rel="prev" href="jags-model-for-regression-model.html"/>
 <link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -158,7 +158,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2" data-path="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><a href="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><i class="fa fa-check"></i><b>4.2</b> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="markov-chain-monte-carlo-estimation.html"><a href="markov-chain-monte-carlo-estimation.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo Estimation</a></li>
-<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a></li>
+<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="stan-model-for-regression-model.html"><a href="stan-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.1</b> Stan Model for Regression Model</a></li>
+<li class="chapter" data-level="6.2" data-path="jags-model-for-regression-model.html"><a href="jags-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.2</b> JAGS Model for Regression Model</a></li>
+</ul></li>
 <li class="part"><span><b>II Psychometrics</b></span></li>
 <li class="chapter" data-level="7" data-path="canonical-bayesian-psychometric-modeling.html"><a href="canonical-bayesian-psychometric-modeling.html"><i class="fa fa-check"></i><b>7</b> Canonical Bayesian Psychometric Modeling</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -184,6 +187,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="canonical-bayesian-psychometric-modeling" class="section level1">
 <h1><span class="header-section-number">Chapter 7</span> Canonical Bayesian Psychometric Modeling</h1>
+<p>This chapter provides an overview of the purposes that psychometric modeling serve and how a Bayesian approach can fit into this purpose.
+Other information was introduced such as directed acyclic graph (DAG) representations of basic models and notation for future chapters.</p>
+<p>A canonical (conventional) psychometric analysis focuses on <em>scoring</em> and <em>calibration</em>.</p>
+<ul>
+<li>Scoring refers to arriving at a representation for an examinee based on their performance on an assessment, and</li>
+<li>Calibration refers to arriving at a representation for the measurement model parameters (and possibly hyper-parameters).</li>
+</ul>
+<p>In a research or operational setting, these two core components can be the focus separately or together.
+When the focus is on the simultaneous assessment of measurement model parameters and person parameters, there may need to be concession made with how to conduct both.
+In one sense, we would like to estimate all the parameters simultaneous so that uncertainty in measurement model parameters is reflected in person parameter (ability) estimates.
+However, traditional psychometric analysis tends to proceed by 1) estimating the measurement model parameters only by first integrating the person parameter distribution out of the likelihood function, then 2) using the now estimated measurement model parameters as fixed quantities, we estimate the person parameters (factor scores).
+This process results in the uncertainty in the person parameters being decreased.
+One potential benefit of a Bayesian approach is that both calibration and scoring <em>can</em> be done simultaneously. This may not always be of interest in the current application so the traditional approach may still be done.</p>
+<p>A <em>canonical</em> psychometric model can be expressed as a DAG using a model similar to the path models traditionally used in SEM.
+We expressed two forms of a model shown in the book below.</p>
+<div class="figure" style="text-align: center"><span id="fig:chp7-dag-1"></span>
+<img src="dag/chp7-cpm1.png" alt="DAG for canonical psychometric modeling" width="490" />
+<p class="caption">
+Figure 7.1: DAG for canonical psychometric modeling
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:chp7-dag-2"></span>
+<img src="dag/chp7-cpm2.png" alt="Expanded DAG to include measurement model parameters" width="490" />
+<p class="caption">
+Figure 7.2: Expanded DAG to include measurement model parameters
+</p>
+</div>
 
 </div>
             </section>
@@ -191,7 +221,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="jags-model-for-regression-model.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

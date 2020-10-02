@@ -33,6 +33,7 @@ Meaning that I have done my best to fully (or sufficient for the example) analyz
 
 We have used ` R` to call Stan. So we have relied on ` rstan` heavily. 
 
+NEED TO UPDATE - NEEDS A LOT MORE INFORMATION
 
 ## Overview of Assessment and Psychometric Modeling
 
