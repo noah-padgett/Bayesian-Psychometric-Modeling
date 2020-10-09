@@ -666,7 +666,7 @@ model {
 generated quantities {
   real rho;
   real rhocomp;
-  
+
   rho = square(sigmaT)/(square(sigmaT) + square(sigmaE));
   rhocomp = J*rho/((J-1)*rho + 1);
 }
@@ -674,7 +674,7 @@ generated quantities {
 '
 # data must be in a list
 mydata <- list(
-  N = 10, J = 5, 
+  N = 10, J = 5,
   X = matrix(
     c(80, 77, 80, 73, 73,
       83, 79, 78, 78, 77,
@@ -720,13 +720,13 @@ plot(fit)
 rstan::traceplot(fit, pars = c("T", "muT", "sigmaT", "sigmaE", "rho", "rhocomp"), inc_warmup = TRUE)
 
 # Gelman-Rubin-Brooks Convergence Criterion
-p1 <- ggs_grb(ggs(fit)) + 
+p1 <- ggs_grb(ggs(fit)) +
    theme_bw() + theme(panel.grid = element_blank())
 p1
 # autocorrelation
-p1 <- ggs_autocorrelation(ggs(fit)) + 
+p1 <- ggs_autocorrelation(ggs(fit)) +
    theme_bw() + theme(panel.grid = element_blank())
-p1 
+p1
 # plot the posterior density
 plot.data <- as.matrix(fit)
 
@@ -735,19 +735,19 @@ plot_title <- ggtitle("Posterior distributions",
 mcmc_areas(
   plot.data,
   pars = c(paste0("T[",1:10,"]"), "muT"),
-  prob = 0.8) + 
+  prob = 0.8) +
   plot_title
 
 mcmc_areas(
   plot.data,
   pars = c("sigmaT", "sigmaE"),
-  prob = 0.8) + 
+  prob = 0.8) +
   plot_title
 
 mcmc_areas(
   plot.data,
   pars = c("rho", "rhocomp"),
-  prob = 0.8) + 
+  prob = 0.8) +
   plot_title
 # I prefer a posterior plot that includes prior and MLE
 # Expanded Posterior Plot
@@ -843,22 +843,22 @@ jags.model.ctt3 <- function(){
      ############################################
      # PRIOR DISTRIBUTIONS FOR HYPERPARAMETERS
      ############################################
-     mu.T ~ dnorm(80,.01)     # Mean of the true scores
+     muT ~ dnorm(80,.01)     # Mean of the true scores
 
      tau.T ~ dgamma(1, 36)   # Precision of the true scores
      tau.E ~ dgamma(1, 16)   # Precision of the errors
 
      sigma.squared.T <- 1/tau.T    # Variance of the true scores
-     sigma.squared.E <- 1/tau.E    # Variance of the errors      
+     sigma.squared.E <- 1/tau.E    # Variance of the errors
      # get SD for summarizing
      sigmaT <- pow(sigma.squared.T, 0.5)
      sigmaE <- pow(sigma.squared.E, 0.5)
      ############################################
      # MODEL FOR TRUE SCORES AND OBSERVABLES
      ############################################
- 
+
      for (i in 1:N) {
-          T[i] ~ dnorm(mu.T, tau.T)     # Distribution of true scores
+          T[i] ~ dnorm(muT, tau.T)     # Distribution of true scores
           for(j in 1:J){
                X[i,j] ~ dnorm(T[i], tau.E)     # Distribution of observables
           }
@@ -869,11 +869,11 @@ jags.model.ctt3 <- function(){
      ############################################
      rho <- sigma.squared.T/(sigma.squared.T+sigma.squared.E)
      rhocomp <- J*rho/((J-1)*rho+1)
-    
+
 }
 # data
 mydata <- list(
-  N = 10, J = 5, 
+  N = 10, J = 5,
   X = matrix(
     c(80, 77, 80, 73, 73,
       83, 79, 78, 78, 77,
@@ -889,10 +889,16 @@ mydata <- list(
 )
 
 # initial values
-start_values <- function(){
+start_values <- list(
   list("T"=c(60,85,80,95,74,69,91,82,87,78),
-       "muT"=80, "sigmaT"=10, "sigmaE"=5)
-}
+       "muT"=80, "tau.E"=0.06, "tau.T"=0.023),
+  list("T"=c(63, 79, 74, 104, 80, 71, 95, 72, 80, 82),
+       "muT"=100, "tau.E"=0.09, "tau.T"=0.05),
+  list("T"=c(59, 86, 88, 89, 76, 65, 94, 72, 95, 84),
+       "muT"=70, "tau.E"=0.03, "tau.T"=0.001),
+  list("T"=c(60, 87, 90, 91, 77, 74, 95, 76, 83, 87),
+       "muT"=90, "tau.E"=0.01, "tau.T"=0.1)
+)
 
 # vector of all parameters to save
 param_save <- c("T","muT","sigmaT","sigmaE", "rho", "rhocomp")
@@ -930,19 +936,19 @@ plot_title <- ggtitle("Posterior distributions",
 mcmc_areas(
   plot.data,
   pars = c(paste0("T[",1:10,"]"), "muT"),
-  prob = 0.8) + 
+  prob = 0.8) +
   plot_title
 
 mcmc_areas(
   plot.data,
   pars = c("sigmaT", "sigmaE"),
-  prob = 0.8) + 
+  prob = 0.8) +
   plot_title
 
 mcmc_areas(
   plot.data,
   pars = c("rho", "rhocomp"),
-  prob = 0.8) + 
+  prob = 0.8) +
   plot_title
 
 # I prefer a posterior plot that includes prior and MLE

@@ -210,22 +210,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb160-10"><a href="example-3-jags.html#cb160-10"></a>     <span class="co">############################################</span></span>
 <span id="cb160-11"><a href="example-3-jags.html#cb160-11"></a>     <span class="co"># PRIOR DISTRIBUTIONS FOR HYPERPARAMETERS</span></span>
 <span id="cb160-12"><a href="example-3-jags.html#cb160-12"></a>     <span class="co">############################################</span></span>
-<span id="cb160-13"><a href="example-3-jags.html#cb160-13"></a>     mu.T <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">80</span>,.<span class="dv">01</span>)     <span class="co"># Mean of the true scores</span></span>
+<span id="cb160-13"><a href="example-3-jags.html#cb160-13"></a>     muT <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">80</span>,.<span class="dv">01</span>)     <span class="co"># Mean of the true scores</span></span>
 <span id="cb160-14"><a href="example-3-jags.html#cb160-14"></a></span>
 <span id="cb160-15"><a href="example-3-jags.html#cb160-15"></a>     tau.T <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">1</span>, <span class="dv">36</span>)   <span class="co"># Precision of the true scores</span></span>
 <span id="cb160-16"><a href="example-3-jags.html#cb160-16"></a>     tau.E <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">1</span>, <span class="dv">16</span>)   <span class="co"># Precision of the errors</span></span>
 <span id="cb160-17"><a href="example-3-jags.html#cb160-17"></a></span>
 <span id="cb160-18"><a href="example-3-jags.html#cb160-18"></a>     sigma.squared.T &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>tau.T    <span class="co"># Variance of the true scores</span></span>
-<span id="cb160-19"><a href="example-3-jags.html#cb160-19"></a>     sigma.squared.E &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>tau.E    <span class="co"># Variance of the errors      </span></span>
+<span id="cb160-19"><a href="example-3-jags.html#cb160-19"></a>     sigma.squared.E &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>tau.E    <span class="co"># Variance of the errors</span></span>
 <span id="cb160-20"><a href="example-3-jags.html#cb160-20"></a>     <span class="co"># get SD for summarizing</span></span>
 <span id="cb160-21"><a href="example-3-jags.html#cb160-21"></a>     sigmaT &lt;-<span class="st"> </span><span class="kw">pow</span>(sigma.squared.T, <span class="fl">0.5</span>)</span>
 <span id="cb160-22"><a href="example-3-jags.html#cb160-22"></a>     sigmaE &lt;-<span class="st"> </span><span class="kw">pow</span>(sigma.squared.E, <span class="fl">0.5</span>)</span>
 <span id="cb160-23"><a href="example-3-jags.html#cb160-23"></a>     <span class="co">############################################</span></span>
 <span id="cb160-24"><a href="example-3-jags.html#cb160-24"></a>     <span class="co"># MODEL FOR TRUE SCORES AND OBSERVABLES</span></span>
 <span id="cb160-25"><a href="example-3-jags.html#cb160-25"></a>     <span class="co">############################################</span></span>
-<span id="cb160-26"><a href="example-3-jags.html#cb160-26"></a> </span>
+<span id="cb160-26"><a href="example-3-jags.html#cb160-26"></a></span>
 <span id="cb160-27"><a href="example-3-jags.html#cb160-27"></a>     <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>N) {</span>
-<span id="cb160-28"><a href="example-3-jags.html#cb160-28"></a>          T[i] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(mu.T, tau.T)     <span class="co"># Distribution of true scores</span></span>
+<span id="cb160-28"><a href="example-3-jags.html#cb160-28"></a>          T[i] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(muT, tau.T)     <span class="co"># Distribution of true scores</span></span>
 <span id="cb160-29"><a href="example-3-jags.html#cb160-29"></a>          <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
 <span id="cb160-30"><a href="example-3-jags.html#cb160-30"></a>               X[i,j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(T[i], tau.E)     <span class="co"># Distribution of observables</span></span>
 <span id="cb160-31"><a href="example-3-jags.html#cb160-31"></a>          }</span>
@@ -236,11 +236,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb160-36"><a href="example-3-jags.html#cb160-36"></a>     <span class="co">############################################</span></span>
 <span id="cb160-37"><a href="example-3-jags.html#cb160-37"></a>     rho &lt;-<span class="st"> </span>sigma.squared.T<span class="op">/</span>(sigma.squared.T<span class="op">+</span>sigma.squared.E)</span>
 <span id="cb160-38"><a href="example-3-jags.html#cb160-38"></a>     rhocomp &lt;-<span class="st"> </span>J<span class="op">*</span>rho<span class="op">/</span>((J<span class="dv">-1</span>)<span class="op">*</span>rho<span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb160-39"><a href="example-3-jags.html#cb160-39"></a>    </span>
+<span id="cb160-39"><a href="example-3-jags.html#cb160-39"></a></span>
 <span id="cb160-40"><a href="example-3-jags.html#cb160-40"></a>}</span>
 <span id="cb160-41"><a href="example-3-jags.html#cb160-41"></a><span class="co"># data</span></span>
 <span id="cb160-42"><a href="example-3-jags.html#cb160-42"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb160-43"><a href="example-3-jags.html#cb160-43"></a>  <span class="dt">N =</span> <span class="dv">10</span>, <span class="dt">J =</span> <span class="dv">5</span>, </span>
+<span id="cb160-43"><a href="example-3-jags.html#cb160-43"></a>  <span class="dt">N =</span> <span class="dv">10</span>, <span class="dt">J =</span> <span class="dv">5</span>,</span>
 <span id="cb160-44"><a href="example-3-jags.html#cb160-44"></a>  <span class="dt">X =</span> <span class="kw">matrix</span>(</span>
 <span id="cb160-45"><a href="example-3-jags.html#cb160-45"></a>    <span class="kw">c</span>(<span class="dv">80</span>, <span class="dv">77</span>, <span class="dv">80</span>, <span class="dv">73</span>, <span class="dv">73</span>,</span>
 <span id="cb160-46"><a href="example-3-jags.html#cb160-46"></a>      <span class="dv">83</span>, <span class="dv">79</span>, <span class="dv">78</span>, <span class="dv">78</span>, <span class="dv">77</span>,</span>
@@ -256,25 +256,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb160-56"><a href="example-3-jags.html#cb160-56"></a>)</span>
 <span id="cb160-57"><a href="example-3-jags.html#cb160-57"></a></span>
 <span id="cb160-58"><a href="example-3-jags.html#cb160-58"></a><span class="co"># initial values</span></span>
-<span id="cb160-59"><a href="example-3-jags.html#cb160-59"></a>start_values &lt;-<span class="st"> </span><span class="cf">function</span>(){</span>
+<span id="cb160-59"><a href="example-3-jags.html#cb160-59"></a>start_values &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
 <span id="cb160-60"><a href="example-3-jags.html#cb160-60"></a>  <span class="kw">list</span>(<span class="st">&quot;T&quot;</span>=<span class="kw">c</span>(<span class="dv">60</span>,<span class="dv">85</span>,<span class="dv">80</span>,<span class="dv">95</span>,<span class="dv">74</span>,<span class="dv">69</span>,<span class="dv">91</span>,<span class="dv">82</span>,<span class="dv">87</span>,<span class="dv">78</span>),</span>
-<span id="cb160-61"><a href="example-3-jags.html#cb160-61"></a>       <span class="st">&quot;muT&quot;</span>=<span class="dv">80</span>, <span class="st">&quot;sigmaT&quot;</span>=<span class="dv">10</span>, <span class="st">&quot;sigmaE&quot;</span>=<span class="dv">5</span>)</span>
-<span id="cb160-62"><a href="example-3-jags.html#cb160-62"></a>}</span>
-<span id="cb160-63"><a href="example-3-jags.html#cb160-63"></a></span>
-<span id="cb160-64"><a href="example-3-jags.html#cb160-64"></a><span class="co"># vector of all parameters to save</span></span>
-<span id="cb160-65"><a href="example-3-jags.html#cb160-65"></a>param_save &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;T&quot;</span>,<span class="st">&quot;muT&quot;</span>,<span class="st">&quot;sigmaT&quot;</span>,<span class="st">&quot;sigmaE&quot;</span>, <span class="st">&quot;rho&quot;</span>, <span class="st">&quot;rhocomp&quot;</span>)</span>
-<span id="cb160-66"><a href="example-3-jags.html#cb160-66"></a></span>
-<span id="cb160-67"><a href="example-3-jags.html#cb160-67"></a><span class="co"># fit model</span></span>
-<span id="cb160-68"><a href="example-3-jags.html#cb160-68"></a>fit &lt;-<span class="st"> </span><span class="kw">jags</span>(</span>
-<span id="cb160-69"><a href="example-3-jags.html#cb160-69"></a>  <span class="dt">model.file=</span>jags.model.ctt2,</span>
-<span id="cb160-70"><a href="example-3-jags.html#cb160-70"></a>  <span class="dt">data=</span>mydata,</span>
-<span id="cb160-71"><a href="example-3-jags.html#cb160-71"></a>  <span class="dt">inits=</span>start_values,</span>
-<span id="cb160-72"><a href="example-3-jags.html#cb160-72"></a>  <span class="dt">parameters.to.save =</span> param_save,</span>
-<span id="cb160-73"><a href="example-3-jags.html#cb160-73"></a>  <span class="dt">n.iter=</span><span class="dv">4000</span>,</span>
-<span id="cb160-74"><a href="example-3-jags.html#cb160-74"></a>  <span class="dt">n.burnin =</span> <span class="dv">1000</span>,</span>
-<span id="cb160-75"><a href="example-3-jags.html#cb160-75"></a>  <span class="dt">n.chains =</span> <span class="dv">4</span>,</span>
-<span id="cb160-76"><a href="example-3-jags.html#cb160-76"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
-<span id="cb160-77"><a href="example-3-jags.html#cb160-77"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<span id="cb160-61"><a href="example-3-jags.html#cb160-61"></a>       <span class="st">&quot;muT&quot;</span>=<span class="dv">80</span>, <span class="st">&quot;tau.E&quot;</span>=<span class="fl">0.06</span>, <span class="st">&quot;tau.T&quot;</span>=<span class="fl">0.023</span>),</span>
+<span id="cb160-62"><a href="example-3-jags.html#cb160-62"></a>  <span class="kw">list</span>(<span class="st">&quot;T&quot;</span>=<span class="kw">c</span>(<span class="dv">63</span>, <span class="dv">79</span>, <span class="dv">74</span>, <span class="dv">104</span>, <span class="dv">80</span>, <span class="dv">71</span>, <span class="dv">95</span>, <span class="dv">72</span>, <span class="dv">80</span>, <span class="dv">82</span>),</span>
+<span id="cb160-63"><a href="example-3-jags.html#cb160-63"></a>       <span class="st">&quot;muT&quot;</span>=<span class="dv">100</span>, <span class="st">&quot;tau.E&quot;</span>=<span class="fl">0.09</span>, <span class="st">&quot;tau.T&quot;</span>=<span class="fl">0.05</span>),</span>
+<span id="cb160-64"><a href="example-3-jags.html#cb160-64"></a>  <span class="kw">list</span>(<span class="st">&quot;T&quot;</span>=<span class="kw">c</span>(<span class="dv">59</span>, <span class="dv">86</span>, <span class="dv">88</span>, <span class="dv">89</span>, <span class="dv">76</span>, <span class="dv">65</span>, <span class="dv">94</span>, <span class="dv">72</span>, <span class="dv">95</span>, <span class="dv">84</span>),</span>
+<span id="cb160-65"><a href="example-3-jags.html#cb160-65"></a>       <span class="st">&quot;muT&quot;</span>=<span class="dv">70</span>, <span class="st">&quot;tau.E&quot;</span>=<span class="fl">0.03</span>, <span class="st">&quot;tau.T&quot;</span>=<span class="fl">0.001</span>),</span>
+<span id="cb160-66"><a href="example-3-jags.html#cb160-66"></a>  <span class="kw">list</span>(<span class="st">&quot;T&quot;</span>=<span class="kw">c</span>(<span class="dv">60</span>, <span class="dv">87</span>, <span class="dv">90</span>, <span class="dv">91</span>, <span class="dv">77</span>, <span class="dv">74</span>, <span class="dv">95</span>, <span class="dv">76</span>, <span class="dv">83</span>, <span class="dv">87</span>),</span>
+<span id="cb160-67"><a href="example-3-jags.html#cb160-67"></a>       <span class="st">&quot;muT&quot;</span>=<span class="dv">90</span>, <span class="st">&quot;tau.E&quot;</span>=<span class="fl">0.01</span>, <span class="st">&quot;tau.T&quot;</span>=<span class="fl">0.1</span>)</span>
+<span id="cb160-68"><a href="example-3-jags.html#cb160-68"></a>)</span>
+<span id="cb160-69"><a href="example-3-jags.html#cb160-69"></a></span>
+<span id="cb160-70"><a href="example-3-jags.html#cb160-70"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb160-71"><a href="example-3-jags.html#cb160-71"></a>param_save &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;T&quot;</span>,<span class="st">&quot;muT&quot;</span>,<span class="st">&quot;sigmaT&quot;</span>,<span class="st">&quot;sigmaE&quot;</span>, <span class="st">&quot;rho&quot;</span>, <span class="st">&quot;rhocomp&quot;</span>)</span>
+<span id="cb160-72"><a href="example-3-jags.html#cb160-72"></a></span>
+<span id="cb160-73"><a href="example-3-jags.html#cb160-73"></a><span class="co"># fit model</span></span>
+<span id="cb160-74"><a href="example-3-jags.html#cb160-74"></a>fit &lt;-<span class="st"> </span><span class="kw">jags</span>(</span>
+<span id="cb160-75"><a href="example-3-jags.html#cb160-75"></a>  <span class="dt">model.file=</span>jags.model.ctt2,</span>
+<span id="cb160-76"><a href="example-3-jags.html#cb160-76"></a>  <span class="dt">data=</span>mydata,</span>
+<span id="cb160-77"><a href="example-3-jags.html#cb160-77"></a>  <span class="dt">inits=</span>start_values,</span>
+<span id="cb160-78"><a href="example-3-jags.html#cb160-78"></a>  <span class="dt">parameters.to.save =</span> param_save,</span>
+<span id="cb160-79"><a href="example-3-jags.html#cb160-79"></a>  <span class="dt">n.iter=</span><span class="dv">4000</span>,</span>
+<span id="cb160-80"><a href="example-3-jags.html#cb160-80"></a>  <span class="dt">n.burnin =</span> <span class="dv">1000</span>,</span>
+<span id="cb160-81"><a href="example-3-jags.html#cb160-81"></a>  <span class="dt">n.chains =</span> <span class="dv">4</span>,</span>
+<span id="cb160-82"><a href="example-3-jags.html#cb160-82"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
+<span id="cb160-83"><a href="example-3-jags.html#cb160-83"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## module glm loaded</code></pre>
 <pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
 ## n.chains = n.chains, : Unused variable &quot;X&quot; in data</code></pre>
 <pre><code>## Compiling model graph
@@ -283,47 +290,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Graph information:
 ##    Observed stochastic nodes: 0
 ##    Unobserved stochastic nodes: 60
-##    Total graph size: 68</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;muT&quot; in chain 1</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;sigmaT&quot; in chain 1</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;sigmaE&quot; in chain 1</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;muT&quot; in chain 2</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;sigmaT&quot; in chain 2</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;sigmaE&quot; in chain 2</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;muT&quot; in chain 3</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;sigmaT&quot; in chain 3</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;sigmaE&quot; in chain 3</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;muT&quot; in chain 4</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;sigmaT&quot; in chain 4</code></pre>
-<pre><code>## Warning in jags.model(model.file, data = data, inits = init.values,
-## n.chains = n.chains, : Unused initial value for &quot;sigmaE&quot; in chain 4</code></pre>
-<pre><code>## Initializing model</code></pre>
-<pre><code>## Warning in FUN(X[[i]], ...): Failed to set trace monitor for muT
-## Variable muT not found</code></pre>
-<pre><code>## Warning in FUN(X[[i]], ...): Failed to set trace monitor for sigmaT
-## Variable sigmaT not found</code></pre>
-<pre><code>## Warning in FUN(X[[i]], ...): Failed to set trace monitor for sigmaE
-## Variable sigmaE not found</code></pre>
-<pre><code>## Warning in FUN(X[[i]], ...): Failed to set trace monitor for rho
-## Variable rho not found</code></pre>
-<pre><code>## Warning in FUN(X[[i]], ...): Failed to set trace monitor for rhocomp
-## Variable rhocomp not found</code></pre>
-<pre><code>## Warning in FUN(X[[i]], ...): Failed to set trace monitor for deviance
-## There are no observed stochastic nodes</code></pre>
-<pre><code>## Error in names(last.values[[i]]) &lt;- root.short[1:n.roots.0]: &#39;names&#39; attribute [1] must be the same length as the vector [0]</code></pre>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="example-3-jags.html#cb183-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
-<pre><code>## Inference for Stan model: f523d9b514fd13e99030a749b220f21c.
+##    Total graph size: 68
+## 
+## Deleting model</code></pre>
+<pre><code>## Error in setParameters(init.values[[i]], i): Error in node tau.E
+## Cannot set value of non-variable node</code></pre>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="example-3-jags.html#cb165-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
+<pre><code>## Inference for Stan model: 8af61d5f99903650a9f4417c76fd9a69.
 ## 4 chains, each with iter=5000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=4000, total post-warmup draws=16000.
 ## 
@@ -362,117 +335,117 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## rhocomp    1
 ## lp__       1
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Oct 08 23:04:22 2020.
+## Samples were drawn using NUTS(diag_e) at Thu Oct 08 23:51:12 2020.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="example-3-jags.html#cb185-1"></a><span class="co"># extract posteriors for all chains</span></span>
-<span id="cb185-2"><a href="example-3-jags.html#cb185-2"></a>jags.mcmc &lt;-<span class="st"> </span><span class="kw">as.mcmc</span>(fit)</span>
-<span id="cb185-3"><a href="example-3-jags.html#cb185-3"></a></span>
-<span id="cb185-4"><a href="example-3-jags.html#cb185-4"></a>R2jags<span class="op">::</span><span class="kw">traceplot</span>(jags.mcmc)</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="example-3-jags.html#cb167-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb167-2"><a href="example-3-jags.html#cb167-2"></a>jags.mcmc &lt;-<span class="st"> </span><span class="kw">as.mcmc</span>(fit)</span>
+<span id="cb167-3"><a href="example-3-jags.html#cb167-3"></a></span>
+<span id="cb167-4"><a href="example-3-jags.html#cb167-4"></a>R2jags<span class="op">::</span><span class="kw">traceplot</span>(jags.mcmc)</span></code></pre></div>
 <pre><code>## Error in xy.coords(x, y, xlabel, ylabel, log = log, recycle = TRUE): &#39;list&#39; object cannot be coerced to type &#39;double&#39;</code></pre>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="example-3-jags.html#cb187-1"></a><span class="co"># gelman-rubin-brook</span></span>
-<span id="cb187-2"><a href="example-3-jags.html#cb187-2"></a><span class="kw">gelman.plot</span>(jags.mcmc)</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="example-3-jags.html#cb169-1"></a><span class="co"># gelman-rubin-brook</span></span>
+<span id="cb169-2"><a href="example-3-jags.html#cb169-2"></a><span class="kw">gelman.plot</span>(jags.mcmc)</span></code></pre></div>
 <pre><code>## Error in gelman.preplot(x, bin.width = bin.width, max.bins = max.bins, : Insufficient iterations to produce Gelman-Rubin plot</code></pre>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="example-3-jags.html#cb189-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
-<span id="cb189-2"><a href="example-3-jags.html#cb189-2"></a>a &lt;-<span class="st"> </span><span class="kw">colnames</span>(<span class="kw">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="example-3-jags.html#cb171-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
+<span id="cb171-2"><a href="example-3-jags.html#cb171-2"></a>a &lt;-<span class="st"> </span><span class="kw">colnames</span>(<span class="kw">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span></code></pre></div>
 <pre><code>## Error in jags.mcmc[[1]]: this S4 class is not subsettable</code></pre>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="example-3-jags.html#cb191-1"></a>plot.data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">as.matrix</span>(jags.mcmc, <span class="dt">chains=</span>T, <span class="dt">iters =</span> T))</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="example-3-jags.html#cb173-1"></a>plot.data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">as.matrix</span>(jags.mcmc, <span class="dt">chains=</span>T, <span class="dt">iters =</span> T))</span></code></pre></div>
 <pre><code>## Error in y[, var.cols] &lt;- x: number of items to replace is not a multiple of replacement length</code></pre>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="example-3-jags.html#cb193-1"></a><span class="kw">colnames</span>(plot.data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
-<span id="cb193-2"><a href="example-3-jags.html#cb193-2"></a></span>
-<span id="cb193-3"><a href="example-3-jags.html#cb193-3"></a></span>
-<span id="cb193-4"><a href="example-3-jags.html#cb193-4"></a>plot_title &lt;-<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
-<span id="cb193-5"><a href="example-3-jags.html#cb193-5"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
-<span id="cb193-6"><a href="example-3-jags.html#cb193-6"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb193-7"><a href="example-3-jags.html#cb193-7"></a>  plot.data,</span>
-<span id="cb193-8"><a href="example-3-jags.html#cb193-8"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;T[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="st">&quot;]&quot;</span>), <span class="st">&quot;muT&quot;</span>),</span>
-<span id="cb193-9"><a href="example-3-jags.html#cb193-9"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb193-10"><a href="example-3-jags.html#cb193-10"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="example-3-jags.html#cb175-1"></a><span class="kw">colnames</span>(plot.data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
+<span id="cb175-2"><a href="example-3-jags.html#cb175-2"></a></span>
+<span id="cb175-3"><a href="example-3-jags.html#cb175-3"></a></span>
+<span id="cb175-4"><a href="example-3-jags.html#cb175-4"></a>plot_title &lt;-<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb175-5"><a href="example-3-jags.html#cb175-5"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb175-6"><a href="example-3-jags.html#cb175-6"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb175-7"><a href="example-3-jags.html#cb175-7"></a>  plot.data,</span>
+<span id="cb175-8"><a href="example-3-jags.html#cb175-8"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;T[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="st">&quot;]&quot;</span>), <span class="st">&quot;muT&quot;</span>),</span>
+<span id="cb175-9"><a href="example-3-jags.html#cb175-9"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb175-10"><a href="example-3-jags.html#cb175-10"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <pre><code>## Error in x[, j, ] &lt;- a[chain == j, , drop = FALSE]: replacement has length zero</code></pre>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="example-3-jags.html#cb195-1"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb195-2"><a href="example-3-jags.html#cb195-2"></a>  plot.data,</span>
-<span id="cb195-3"><a href="example-3-jags.html#cb195-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;sigmaT&quot;</span>, <span class="st">&quot;sigmaE&quot;</span>),</span>
-<span id="cb195-4"><a href="example-3-jags.html#cb195-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb195-5"><a href="example-3-jags.html#cb195-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="example-3-jags.html#cb177-1"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb177-2"><a href="example-3-jags.html#cb177-2"></a>  plot.data,</span>
+<span id="cb177-3"><a href="example-3-jags.html#cb177-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;sigmaT&quot;</span>, <span class="st">&quot;sigmaE&quot;</span>),</span>
+<span id="cb177-4"><a href="example-3-jags.html#cb177-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb177-5"><a href="example-3-jags.html#cb177-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <pre><code>## Error in x[, j, ] &lt;- a[chain == j, , drop = FALSE]: replacement has length zero</code></pre>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="example-3-jags.html#cb197-1"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb197-2"><a href="example-3-jags.html#cb197-2"></a>  plot.data,</span>
-<span id="cb197-3"><a href="example-3-jags.html#cb197-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;rho&quot;</span>, <span class="st">&quot;rhocomp&quot;</span>),</span>
-<span id="cb197-4"><a href="example-3-jags.html#cb197-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb197-5"><a href="example-3-jags.html#cb197-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="example-3-jags.html#cb179-1"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb179-2"><a href="example-3-jags.html#cb179-2"></a>  plot.data,</span>
+<span id="cb179-3"><a href="example-3-jags.html#cb179-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;rho&quot;</span>, <span class="st">&quot;rhocomp&quot;</span>),</span>
+<span id="cb179-4"><a href="example-3-jags.html#cb179-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb179-5"><a href="example-3-jags.html#cb179-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <pre><code>## Error in x[, j, ] &lt;- a[chain == j, , drop = FALSE]: replacement has length zero</code></pre>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="example-3-jags.html#cb199-1"></a><span class="co"># I prefer a posterior plot that includes prior and MLE</span></span>
-<span id="cb199-2"><a href="example-3-jags.html#cb199-2"></a>MLE &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rowMeans</span>(mydata<span class="op">$</span>X), <span class="kw">mean</span>(mydata<span class="op">$</span>X))</span>
-<span id="cb199-3"><a href="example-3-jags.html#cb199-3"></a></span>
-<span id="cb199-4"><a href="example-3-jags.html#cb199-4"></a>prior_mu &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dnorm</span>(x, <span class="dv">80</span>, <span class="dv">10</span>)}</span>
-<span id="cb199-5"><a href="example-3-jags.html#cb199-5"></a>x.mu&lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">50.1</span>, <span class="dv">100</span>, <span class="fl">0.1</span>)</span>
-<span id="cb199-6"><a href="example-3-jags.html#cb199-6"></a>prior.mu &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">mu=</span>x.mu, <span class="dt">dens.mu =</span> <span class="kw">prior_mu</span>(x.mu))</span>
-<span id="cb199-7"><a href="example-3-jags.html#cb199-7"></a></span>
-<span id="cb199-8"><a href="example-3-jags.html#cb199-8"></a>prior_sigt &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dinvgamma</span>(x, <span class="dv">1</span>, <span class="dv">6</span>)}</span>
-<span id="cb199-9"><a href="example-3-jags.html#cb199-9"></a>x.sigt&lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">1</span>, <span class="dv">15</span>, <span class="fl">0.1</span>)</span>
-<span id="cb199-10"><a href="example-3-jags.html#cb199-10"></a>prior.sigt &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sigt=</span>x.sigt, <span class="dt">dens.sigt =</span> <span class="kw">prior_sigt</span>(x.sigt))</span>
-<span id="cb199-11"><a href="example-3-jags.html#cb199-11"></a></span>
-<span id="cb199-12"><a href="example-3-jags.html#cb199-12"></a>prior_sige &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dinvgamma</span>(x, <span class="dv">1</span>, <span class="dv">4</span>)}</span>
-<span id="cb199-13"><a href="example-3-jags.html#cb199-13"></a>x.sige&lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">1</span>, <span class="dv">10</span>, <span class="fl">0.1</span>)</span>
-<span id="cb199-14"><a href="example-3-jags.html#cb199-14"></a>prior.sige &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sige=</span>x.sige, <span class="dt">dens.sige =</span> <span class="kw">prior_sige</span>(x.sige))</span>
-<span id="cb199-15"><a href="example-3-jags.html#cb199-15"></a></span>
-<span id="cb199-16"><a href="example-3-jags.html#cb199-16"></a>prior_t &lt;-<span class="st"> </span><span class="cf">function</span>(x){</span>
-<span id="cb199-17"><a href="example-3-jags.html#cb199-17"></a>  mu &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, <span class="dv">80</span>, <span class="dv">10</span>)</span>
-<span id="cb199-18"><a href="example-3-jags.html#cb199-18"></a>  sig &lt;-<span class="st"> </span><span class="kw">rinvgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">4</span>)</span>
-<span id="cb199-19"><a href="example-3-jags.html#cb199-19"></a>  <span class="kw">rnorm</span>(x, mu, sig)</span>
-<span id="cb199-20"><a href="example-3-jags.html#cb199-20"></a>}</span>
-<span id="cb199-21"><a href="example-3-jags.html#cb199-21"></a>x.t&lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">50.1</span>, <span class="dv">100</span>, <span class="fl">0.1</span>)</span>
-<span id="cb199-22"><a href="example-3-jags.html#cb199-22"></a>prior.t &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">tr=</span><span class="kw">prior_t</span>(<span class="dv">10000</span>))</span>
-<span id="cb199-23"><a href="example-3-jags.html#cb199-23"></a>cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Posterior&quot;</span>=<span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;Prior&quot;</span>=<span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;MLE&quot;</span>=<span class="st"> &quot;black&quot;</span>)<span class="co">#&quot;#56B4E9&quot;, &quot;#E69F00&quot; &quot;#CC79A7&quot;</span></span>
-<span id="cb199-24"><a href="example-3-jags.html#cb199-24"></a></span>
-<span id="cb199-25"><a href="example-3-jags.html#cb199-25"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb199-26"><a href="example-3-jags.html#cb199-26"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">T[1]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-27"><a href="example-3-jags.html#cb199-27"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>prior.t,<span class="kw">aes</span>(<span class="dt">x=</span>tr,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-28"><a href="example-3-jags.html#cb199-28"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">1</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-29"><a href="example-3-jags.html#cb199-29"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb199-30"><a href="example-3-jags.html#cb199-30"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb199-31"><a href="example-3-jags.html#cb199-31"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb199-32"><a href="example-3-jags.html#cb199-32"></a></span>
-<span id="cb199-33"><a href="example-3-jags.html#cb199-33"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb199-34"><a href="example-3-jags.html#cb199-34"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">T[5]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-35"><a href="example-3-jags.html#cb199-35"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>prior.t,<span class="kw">aes</span>(<span class="dt">x=</span>tr,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-36"><a href="example-3-jags.html#cb199-36"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">5</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-37"><a href="example-3-jags.html#cb199-37"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb199-38"><a href="example-3-jags.html#cb199-38"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb199-39"><a href="example-3-jags.html#cb199-39"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb199-40"><a href="example-3-jags.html#cb199-40"></a></span>
-<span id="cb199-41"><a href="example-3-jags.html#cb199-41"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb199-42"><a href="example-3-jags.html#cb199-42"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">T[10]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-43"><a href="example-3-jags.html#cb199-43"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>prior.t,<span class="kw">aes</span>(<span class="dt">x=</span>tr,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-44"><a href="example-3-jags.html#cb199-44"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">10</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-45"><a href="example-3-jags.html#cb199-45"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb199-46"><a href="example-3-jags.html#cb199-46"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb199-47"><a href="example-3-jags.html#cb199-47"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb199-48"><a href="example-3-jags.html#cb199-48"></a></span>
-<span id="cb199-49"><a href="example-3-jags.html#cb199-49"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb199-50"><a href="example-3-jags.html#cb199-50"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">muT</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-51"><a href="example-3-jags.html#cb199-51"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.mu,<span class="kw">aes</span>(<span class="dt">x=</span>mu,<span class="dt">y=</span>dens.mu,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-52"><a href="example-3-jags.html#cb199-52"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">11</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-53"><a href="example-3-jags.html#cb199-53"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb199-54"><a href="example-3-jags.html#cb199-54"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb199-55"><a href="example-3-jags.html#cb199-55"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb199-56"><a href="example-3-jags.html#cb199-56"></a></span>
-<span id="cb199-57"><a href="example-3-jags.html#cb199-57"></a>p5 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb199-58"><a href="example-3-jags.html#cb199-58"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">sigmaT</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-59"><a href="example-3-jags.html#cb199-59"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.sigt,<span class="kw">aes</span>(<span class="dt">x=</span>sigt,<span class="dt">y=</span>dens.sigt,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-60"><a href="example-3-jags.html#cb199-60"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb199-61"><a href="example-3-jags.html#cb199-61"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb199-62"><a href="example-3-jags.html#cb199-62"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb199-63"><a href="example-3-jags.html#cb199-63"></a></span>
-<span id="cb199-64"><a href="example-3-jags.html#cb199-64"></a>p6 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb199-65"><a href="example-3-jags.html#cb199-65"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">sigmaE</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-66"><a href="example-3-jags.html#cb199-66"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.sige,<span class="kw">aes</span>(<span class="dt">x=</span>sige,<span class="dt">y=</span>dens.sige,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb199-67"><a href="example-3-jags.html#cb199-67"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb199-68"><a href="example-3-jags.html#cb199-68"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb199-69"><a href="example-3-jags.html#cb199-69"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb199-70"><a href="example-3-jags.html#cb199-70"></a></span>
-<span id="cb199-71"><a href="example-3-jags.html#cb199-71"></a>p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span>p4 <span class="op">+</span><span class="st"> </span>p5 <span class="op">+</span><span class="st"> </span>p6 <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">guides=</span><span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="example-3-jags.html#cb181-1"></a><span class="co"># I prefer a posterior plot that includes prior and MLE</span></span>
+<span id="cb181-2"><a href="example-3-jags.html#cb181-2"></a>MLE &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rowMeans</span>(mydata<span class="op">$</span>X), <span class="kw">mean</span>(mydata<span class="op">$</span>X))</span>
+<span id="cb181-3"><a href="example-3-jags.html#cb181-3"></a></span>
+<span id="cb181-4"><a href="example-3-jags.html#cb181-4"></a>prior_mu &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dnorm</span>(x, <span class="dv">80</span>, <span class="dv">10</span>)}</span>
+<span id="cb181-5"><a href="example-3-jags.html#cb181-5"></a>x.mu&lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">50.1</span>, <span class="dv">100</span>, <span class="fl">0.1</span>)</span>
+<span id="cb181-6"><a href="example-3-jags.html#cb181-6"></a>prior.mu &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">mu=</span>x.mu, <span class="dt">dens.mu =</span> <span class="kw">prior_mu</span>(x.mu))</span>
+<span id="cb181-7"><a href="example-3-jags.html#cb181-7"></a></span>
+<span id="cb181-8"><a href="example-3-jags.html#cb181-8"></a>prior_sigt &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dinvgamma</span>(x, <span class="dv">1</span>, <span class="dv">6</span>)}</span>
+<span id="cb181-9"><a href="example-3-jags.html#cb181-9"></a>x.sigt&lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">1</span>, <span class="dv">15</span>, <span class="fl">0.1</span>)</span>
+<span id="cb181-10"><a href="example-3-jags.html#cb181-10"></a>prior.sigt &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sigt=</span>x.sigt, <span class="dt">dens.sigt =</span> <span class="kw">prior_sigt</span>(x.sigt))</span>
+<span id="cb181-11"><a href="example-3-jags.html#cb181-11"></a></span>
+<span id="cb181-12"><a href="example-3-jags.html#cb181-12"></a>prior_sige &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dinvgamma</span>(x, <span class="dv">1</span>, <span class="dv">4</span>)}</span>
+<span id="cb181-13"><a href="example-3-jags.html#cb181-13"></a>x.sige&lt;-<span class="st"> </span><span class="kw">seq</span>(.<span class="dv">1</span>, <span class="dv">10</span>, <span class="fl">0.1</span>)</span>
+<span id="cb181-14"><a href="example-3-jags.html#cb181-14"></a>prior.sige &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sige=</span>x.sige, <span class="dt">dens.sige =</span> <span class="kw">prior_sige</span>(x.sige))</span>
+<span id="cb181-15"><a href="example-3-jags.html#cb181-15"></a></span>
+<span id="cb181-16"><a href="example-3-jags.html#cb181-16"></a>prior_t &lt;-<span class="st"> </span><span class="cf">function</span>(x){</span>
+<span id="cb181-17"><a href="example-3-jags.html#cb181-17"></a>  mu &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, <span class="dv">80</span>, <span class="dv">10</span>)</span>
+<span id="cb181-18"><a href="example-3-jags.html#cb181-18"></a>  sig &lt;-<span class="st"> </span><span class="kw">rinvgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb181-19"><a href="example-3-jags.html#cb181-19"></a>  <span class="kw">rnorm</span>(x, mu, sig)</span>
+<span id="cb181-20"><a href="example-3-jags.html#cb181-20"></a>}</span>
+<span id="cb181-21"><a href="example-3-jags.html#cb181-21"></a>x.t&lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">50.1</span>, <span class="dv">100</span>, <span class="fl">0.1</span>)</span>
+<span id="cb181-22"><a href="example-3-jags.html#cb181-22"></a>prior.t &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">tr=</span><span class="kw">prior_t</span>(<span class="dv">10000</span>))</span>
+<span id="cb181-23"><a href="example-3-jags.html#cb181-23"></a>cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Posterior&quot;</span>=<span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;Prior&quot;</span>=<span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;MLE&quot;</span>=<span class="st"> &quot;black&quot;</span>)<span class="co">#&quot;#56B4E9&quot;, &quot;#E69F00&quot; &quot;#CC79A7&quot;</span></span>
+<span id="cb181-24"><a href="example-3-jags.html#cb181-24"></a></span>
+<span id="cb181-25"><a href="example-3-jags.html#cb181-25"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb181-26"><a href="example-3-jags.html#cb181-26"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">T[1]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-27"><a href="example-3-jags.html#cb181-27"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>prior.t,<span class="kw">aes</span>(<span class="dt">x=</span>tr,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-28"><a href="example-3-jags.html#cb181-28"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">1</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-29"><a href="example-3-jags.html#cb181-29"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb181-30"><a href="example-3-jags.html#cb181-30"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb181-31"><a href="example-3-jags.html#cb181-31"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb181-32"><a href="example-3-jags.html#cb181-32"></a></span>
+<span id="cb181-33"><a href="example-3-jags.html#cb181-33"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb181-34"><a href="example-3-jags.html#cb181-34"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">T[5]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-35"><a href="example-3-jags.html#cb181-35"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>prior.t,<span class="kw">aes</span>(<span class="dt">x=</span>tr,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-36"><a href="example-3-jags.html#cb181-36"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">5</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-37"><a href="example-3-jags.html#cb181-37"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb181-38"><a href="example-3-jags.html#cb181-38"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb181-39"><a href="example-3-jags.html#cb181-39"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb181-40"><a href="example-3-jags.html#cb181-40"></a></span>
+<span id="cb181-41"><a href="example-3-jags.html#cb181-41"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb181-42"><a href="example-3-jags.html#cb181-42"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">T[10]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-43"><a href="example-3-jags.html#cb181-43"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>prior.t,<span class="kw">aes</span>(<span class="dt">x=</span>tr,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-44"><a href="example-3-jags.html#cb181-44"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">10</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-45"><a href="example-3-jags.html#cb181-45"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb181-46"><a href="example-3-jags.html#cb181-46"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb181-47"><a href="example-3-jags.html#cb181-47"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb181-48"><a href="example-3-jags.html#cb181-48"></a></span>
+<span id="cb181-49"><a href="example-3-jags.html#cb181-49"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb181-50"><a href="example-3-jags.html#cb181-50"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">muT</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-51"><a href="example-3-jags.html#cb181-51"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.mu,<span class="kw">aes</span>(<span class="dt">x=</span>mu,<span class="dt">y=</span>dens.mu,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-52"><a href="example-3-jags.html#cb181-52"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">11</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-53"><a href="example-3-jags.html#cb181-53"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb181-54"><a href="example-3-jags.html#cb181-54"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb181-55"><a href="example-3-jags.html#cb181-55"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb181-56"><a href="example-3-jags.html#cb181-56"></a></span>
+<span id="cb181-57"><a href="example-3-jags.html#cb181-57"></a>p5 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb181-58"><a href="example-3-jags.html#cb181-58"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">sigmaT</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-59"><a href="example-3-jags.html#cb181-59"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.sigt,<span class="kw">aes</span>(<span class="dt">x=</span>sigt,<span class="dt">y=</span>dens.sigt,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-60"><a href="example-3-jags.html#cb181-60"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb181-61"><a href="example-3-jags.html#cb181-61"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb181-62"><a href="example-3-jags.html#cb181-62"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb181-63"><a href="example-3-jags.html#cb181-63"></a></span>
+<span id="cb181-64"><a href="example-3-jags.html#cb181-64"></a>p6 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb181-65"><a href="example-3-jags.html#cb181-65"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data, <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">sigmaE</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-66"><a href="example-3-jags.html#cb181-66"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.sige,<span class="kw">aes</span>(<span class="dt">x=</span>sige,<span class="dt">y=</span>dens.sige,<span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb181-67"><a href="example-3-jags.html#cb181-67"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb181-68"><a href="example-3-jags.html#cb181-68"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb181-69"><a href="example-3-jags.html#cb181-69"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb181-70"><a href="example-3-jags.html#cb181-70"></a></span>
+<span id="cb181-71"><a href="example-3-jags.html#cb181-71"></a>p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span>p4 <span class="op">+</span><span class="st"> </span>p5 <span class="op">+</span><span class="st"> </span>p6 <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">ncol=</span><span class="dv">3</span>, <span class="dt">guides=</span><span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
 <pre><code>## Error in FUN(X[[i]], ...): object &#39;muT&#39; not found</code></pre>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-jags-3-1.png" width="672" /></p>
 

@@ -227,7 +227,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb145-27"><a href="example-3-stan.html#cb145-27"></a><span class="st">generated quantities {</span></span>
 <span id="cb145-28"><a href="example-3-stan.html#cb145-28"></a><span class="st">  real rho;</span></span>
 <span id="cb145-29"><a href="example-3-stan.html#cb145-29"></a><span class="st">  real rhocomp;</span></span>
-<span id="cb145-30"><a href="example-3-stan.html#cb145-30"></a><span class="st">  </span></span>
+<span id="cb145-30"><a href="example-3-stan.html#cb145-30"></a></span>
 <span id="cb145-31"><a href="example-3-stan.html#cb145-31"></a><span class="st">  rho = square(sigmaT)/(square(sigmaT) + square(sigmaE));</span></span>
 <span id="cb145-32"><a href="example-3-stan.html#cb145-32"></a><span class="st">  rhocomp = J*rho/((J-1)*rho + 1);</span></span>
 <span id="cb145-33"><a href="example-3-stan.html#cb145-33"></a><span class="st">}</span></span>
@@ -235,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb145-35"><a href="example-3-stan.html#cb145-35"></a><span class="st">&#39;</span></span>
 <span id="cb145-36"><a href="example-3-stan.html#cb145-36"></a><span class="co"># data must be in a list</span></span>
 <span id="cb145-37"><a href="example-3-stan.html#cb145-37"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb145-38"><a href="example-3-stan.html#cb145-38"></a>  <span class="dt">N =</span> <span class="dv">10</span>, <span class="dt">J =</span> <span class="dv">5</span>, </span>
+<span id="cb145-38"><a href="example-3-stan.html#cb145-38"></a>  <span class="dt">N =</span> <span class="dv">10</span>, <span class="dt">J =</span> <span class="dv">5</span>,</span>
 <span id="cb145-39"><a href="example-3-stan.html#cb145-39"></a>  <span class="dt">X =</span> <span class="kw">matrix</span>(</span>
 <span id="cb145-40"><a href="example-3-stan.html#cb145-40"></a>    <span class="kw">c</span>(<span class="dv">80</span>, <span class="dv">77</span>, <span class="dv">80</span>, <span class="dv">73</span>, <span class="dv">73</span>,</span>
 <span id="cb145-41"><a href="example-3-stan.html#cb145-41"></a>      <span class="dv">83</span>, <span class="dv">79</span>, <span class="dv">78</span>, <span class="dv">78</span>, <span class="dv">77</span>,</span>
@@ -272,7 +272,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## TRUE): &#39;-E&#39; not found</code></pre>
 <div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="example-3-stan.html#cb147-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
 <span id="cb147-2"><a href="example-3-stan.html#cb147-2"></a><span class="kw">print</span>(fit)</span></code></pre></div>
-<pre><code>## Inference for Stan model: f523d9b514fd13e99030a749b220f21c.
+<pre><code>## Inference for Stan model: 8af61d5f99903650a9f4417c76fd9a69.
 ## 4 chains, each with iter=5000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=4000, total post-warmup draws=16000.
 ## 
@@ -311,7 +311,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## rhocomp    1
 ## lp__       1
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Oct 08 23:04:22 2020.
+## Samples were drawn using NUTS(diag_e) at Thu Oct 08 23:51:12 2020.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -327,14 +327,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb153-2"><a href="example-3-stan.html#cb153-2"></a>rstan<span class="op">::</span><span class="kw">traceplot</span>(fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;muT&quot;</span>, <span class="st">&quot;sigmaT&quot;</span>, <span class="st">&quot;sigmaE&quot;</span>, <span class="st">&quot;rho&quot;</span>, <span class="st">&quot;rhocomp&quot;</span>), <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-3-2.png" width="672" /></p>
 <div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="example-3-stan.html#cb154-1"></a><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span></span>
-<span id="cb154-2"><a href="example-3-stan.html#cb154-2"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb154-2"><a href="example-3-stan.html#cb154-2"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit)) <span class="op">+</span></span>
 <span id="cb154-3"><a href="example-3-stan.html#cb154-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
 <span id="cb154-4"><a href="example-3-stan.html#cb154-4"></a>p1</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-3-3.png" width="672" /></p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="example-3-stan.html#cb155-1"></a><span class="co"># autocorrelation</span></span>
-<span id="cb155-2"><a href="example-3-stan.html#cb155-2"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb155-2"><a href="example-3-stan.html#cb155-2"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit)) <span class="op">+</span></span>
 <span id="cb155-3"><a href="example-3-stan.html#cb155-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb155-4"><a href="example-3-stan.html#cb155-4"></a>p1 </span></code></pre></div>
+<span id="cb155-4"><a href="example-3-stan.html#cb155-4"></a>p1</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-3-4.png" width="672" /></p>
 <div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="example-3-stan.html#cb156-1"></a><span class="co"># plot the posterior density</span></span>
 <span id="cb156-2"><a href="example-3-stan.html#cb156-2"></a>plot.data &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(fit)</span>
@@ -344,19 +344,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb156-6"><a href="example-3-stan.html#cb156-6"></a><span class="kw">mcmc_areas</span>(</span>
 <span id="cb156-7"><a href="example-3-stan.html#cb156-7"></a>  plot.data,</span>
 <span id="cb156-8"><a href="example-3-stan.html#cb156-8"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;T[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="st">&quot;]&quot;</span>), <span class="st">&quot;muT&quot;</span>),</span>
-<span id="cb156-9"><a href="example-3-stan.html#cb156-9"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb156-9"><a href="example-3-stan.html#cb156-9"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
 <span id="cb156-10"><a href="example-3-stan.html#cb156-10"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-3-5.png" width="672" /></p>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="example-3-stan.html#cb157-1"></a><span class="kw">mcmc_areas</span>(</span>
 <span id="cb157-2"><a href="example-3-stan.html#cb157-2"></a>  plot.data,</span>
 <span id="cb157-3"><a href="example-3-stan.html#cb157-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;sigmaT&quot;</span>, <span class="st">&quot;sigmaE&quot;</span>),</span>
-<span id="cb157-4"><a href="example-3-stan.html#cb157-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb157-4"><a href="example-3-stan.html#cb157-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
 <span id="cb157-5"><a href="example-3-stan.html#cb157-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-3-6.png" width="672" /></p>
 <div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="example-3-stan.html#cb158-1"></a><span class="kw">mcmc_areas</span>(</span>
 <span id="cb158-2"><a href="example-3-stan.html#cb158-2"></a>  plot.data,</span>
 <span id="cb158-3"><a href="example-3-stan.html#cb158-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;rho&quot;</span>, <span class="st">&quot;rhocomp&quot;</span>),</span>
-<span id="cb158-4"><a href="example-3-stan.html#cb158-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb158-4"><a href="example-3-stan.html#cb158-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
 <span id="cb158-5"><a href="example-3-stan.html#cb158-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-3-7.png" width="672" /></p>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="example-3-stan.html#cb159-1"></a><span class="co"># I prefer a posterior plot that includes prior and MLE</span></span>
