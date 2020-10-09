@@ -4,17 +4,17 @@ For the regression models, we have built up what the DAG could look like.
 These representations are shown below.
 
 
-```{r chp4-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG a simple regression model with 1 predictor'}
+```{r chp6-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG a simple regression model with 1 predictor'}
 knitr::include_graphics(paste0(w.d,'/dag/chp6-regression1.png'),
                         auto_pdf = TRUE)
 ```
 
-```{r chp4-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG for a regression with $J$ predictors'}
+```{r chp6-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG for a regression with $J$ predictors'}
 knitr::include_graphics(paste0(w.d,'/dag/chp6-regression2.png'),
                         auto_pdf = TRUE)
 ```
 
-```{r chp4-dag-3, echo=FALSE,fig.align='center',fig.cap='Expanded DAG representation for regression with hyperparameters included'}
+```{r chp6-dag-3, echo=FALSE,fig.align='center',fig.cap='Expanded DAG representation for regression with hyperparameters included'}
 knitr::include_graphics(paste0(w.d,'/dag/chp6-regression3.png'),
                         auto_pdf = TRUE)
 ```

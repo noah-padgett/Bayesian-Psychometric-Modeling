@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2020-10-02" />
+<meta name="date" content="2020-10-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -164,6 +164,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="part"><span><b>II Psychometrics</b></span></li>
 <li class="chapter" data-level="7" data-path="canonical-bayesian-psychometric-modeling.html"><a href="canonical-bayesian-psychometric-modeling.html"><i class="fa fa-check"></i><b>7</b> Canonical Bayesian Psychometric Modeling</a></li>
+<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a><ul>
+<li class="chapter" data-level="8.1" data-path="example-1-known-measurement-model-parameters-with-1-measure.html"><a href="example-1-known-measurement-model-parameters-with-1-measure.html"><i class="fa fa-check"></i><b>8.1</b> Example 1 - Known measurement model parameters with 1 measure</a></li>
+<li class="chapter" data-level="8.2" data-path="example-1-stan.html"><a href="example-1-stan.html"><i class="fa fa-check"></i><b>8.2</b> Example 1 - Stan</a></li>
+<li class="chapter" data-level="8.3" data-path="example-1-jags.html"><a href="example-1-jags.html"><i class="fa fa-check"></i><b>8.3</b> Example 1 - JAGS</a></li>
+<li class="chapter" data-level="8.4" data-path="example-2-known-measurement-model-with-multiple-measures.html"><a href="example-2-known-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.4</b> Example 2 - Known Measurement Model with Multiple Measures</a></li>
+<li class="chapter" data-level="8.5" data-path="example-2-stan.html"><a href="example-2-stan.html"><i class="fa fa-check"></i><b>8.5</b> Example 2 - Stan</a></li>
+<li class="chapter" data-level="8.6" data-path="example-2-jags.html"><a href="example-2-jags.html"><i class="fa fa-check"></i><b>8.6</b> Example 2 - JAGS</a></li>
+<li class="chapter" data-level="8.7" data-path="example-3-unknown-measurement-model-with-multiple-measures.html"><a href="example-3-unknown-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.7</b> Example 3 - Unknown Measurement Model with Multiple Measures</a></li>
+<li class="chapter" data-level="8.8" data-path="example-3-stan.html"><a href="example-3-stan.html"><i class="fa fa-check"></i><b>8.8</b> Example 3 - Stan</a></li>
+<li class="chapter" data-level="8.9" data-path="example-3-jags.html"><a href="example-3-jags.html"><i class="fa fa-check"></i><b>8.9</b> Example 3 - JAGS</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -187,79 +198,79 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="stan-model-for-regression-model" class="section level2">
 <h2><span class="header-section-number">6.1</span> Stan Model for Regression Model</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="stan-model-for-regression-model.html#cb1-1"></a>model_reg &lt;-<span class="st"> &#39;</span></span>
-<span id="cb1-2"><a href="stan-model-for-regression-model.html#cb1-2"></a><span class="st">data {</span></span>
-<span id="cb1-3"><a href="stan-model-for-regression-model.html#cb1-3"></a><span class="st">  int  N;</span></span>
-<span id="cb1-4"><a href="stan-model-for-regression-model.html#cb1-4"></a><span class="st">  real x1[N];</span></span>
-<span id="cb1-5"><a href="stan-model-for-regression-model.html#cb1-5"></a><span class="st">  real x2[N];</span></span>
-<span id="cb1-6"><a href="stan-model-for-regression-model.html#cb1-6"></a><span class="st">  real y[N];</span></span>
-<span id="cb1-7"><a href="stan-model-for-regression-model.html#cb1-7"></a><span class="st">}</span></span>
-<span id="cb1-8"><a href="stan-model-for-regression-model.html#cb1-8"></a></span>
-<span id="cb1-9"><a href="stan-model-for-regression-model.html#cb1-9"></a><span class="st">parameters {</span></span>
-<span id="cb1-10"><a href="stan-model-for-regression-model.html#cb1-10"></a><span class="st">  real beta[3];</span></span>
-<span id="cb1-11"><a href="stan-model-for-regression-model.html#cb1-11"></a><span class="st">  real&lt;lower=0&gt; tau;</span></span>
-<span id="cb1-12"><a href="stan-model-for-regression-model.html#cb1-12"></a><span class="st">}</span></span>
-<span id="cb1-13"><a href="stan-model-for-regression-model.html#cb1-13"></a></span>
-<span id="cb1-14"><a href="stan-model-for-regression-model.html#cb1-14"></a><span class="st">transformed parameters {</span></span>
-<span id="cb1-15"><a href="stan-model-for-regression-model.html#cb1-15"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
-<span id="cb1-16"><a href="stan-model-for-regression-model.html#cb1-16"></a><span class="st">  sigma = 1/sqrt(tau);</span></span>
-<span id="cb1-17"><a href="stan-model-for-regression-model.html#cb1-17"></a><span class="st">}</span></span>
-<span id="cb1-18"><a href="stan-model-for-regression-model.html#cb1-18"></a></span>
-<span id="cb1-19"><a href="stan-model-for-regression-model.html#cb1-19"></a><span class="st">model {</span></span>
-<span id="cb1-20"><a href="stan-model-for-regression-model.html#cb1-20"></a><span class="st">  for(i in 1:N){</span></span>
-<span id="cb1-21"><a href="stan-model-for-regression-model.html#cb1-21"></a><span class="st">    y[i] ~ normal(beta[1] + beta[2]*x1[i] + beta[3]*x2[i], sigma);</span></span>
-<span id="cb1-22"><a href="stan-model-for-regression-model.html#cb1-22"></a><span class="st">  }</span></span>
-<span id="cb1-23"><a href="stan-model-for-regression-model.html#cb1-23"></a><span class="st">  beta  ~ normal(0, 100);</span></span>
-<span id="cb1-24"><a href="stan-model-for-regression-model.html#cb1-24"></a><span class="st">  tau ~ gamma(1, 1);</span></span>
-<span id="cb1-25"><a href="stan-model-for-regression-model.html#cb1-25"></a><span class="st">}</span></span>
-<span id="cb1-26"><a href="stan-model-for-regression-model.html#cb1-26"></a></span>
-<span id="cb1-27"><a href="stan-model-for-regression-model.html#cb1-27"></a><span class="st">generated quantities {</span></span>
-<span id="cb1-28"><a href="stan-model-for-regression-model.html#cb1-28"></a><span class="st">  real varerror;</span></span>
-<span id="cb1-29"><a href="stan-model-for-regression-model.html#cb1-29"></a><span class="st">  real vary;</span></span>
-<span id="cb1-30"><a href="stan-model-for-regression-model.html#cb1-30"></a><span class="st">  real Rsquared;</span></span>
-<span id="cb1-31"><a href="stan-model-for-regression-model.html#cb1-31"></a><span class="st">  real error[N];</span></span>
-<span id="cb1-32"><a href="stan-model-for-regression-model.html#cb1-32"></a><span class="st">  </span></span>
-<span id="cb1-33"><a href="stan-model-for-regression-model.html#cb1-33"></a><span class="st">  for(i in 1:N){</span></span>
-<span id="cb1-34"><a href="stan-model-for-regression-model.html#cb1-34"></a><span class="st">    error[i] = y[i] - (beta[1] + beta[2]*x1[i] + beta[3]*x2[i]);</span></span>
-<span id="cb1-35"><a href="stan-model-for-regression-model.html#cb1-35"></a><span class="st">  }</span></span>
-<span id="cb1-36"><a href="stan-model-for-regression-model.html#cb1-36"></a><span class="st">  </span></span>
-<span id="cb1-37"><a href="stan-model-for-regression-model.html#cb1-37"></a><span class="st">  varerror = variance(error);</span></span>
-<span id="cb1-38"><a href="stan-model-for-regression-model.html#cb1-38"></a><span class="st">  vary = variance(y);</span></span>
-<span id="cb1-39"><a href="stan-model-for-regression-model.html#cb1-39"></a><span class="st">  Rsquared = 1 - (varerror/vary);</span></span>
-<span id="cb1-40"><a href="stan-model-for-regression-model.html#cb1-40"></a><span class="st">}</span></span>
-<span id="cb1-41"><a href="stan-model-for-regression-model.html#cb1-41"></a></span>
-<span id="cb1-42"><a href="stan-model-for-regression-model.html#cb1-42"></a><span class="st">&#39;</span></span>
-<span id="cb1-43"><a href="stan-model-for-regression-model.html#cb1-43"></a><span class="co"># data must be in a list</span></span>
-<span id="cb1-44"><a href="stan-model-for-regression-model.html#cb1-44"></a>dat &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/Chp4_Reg_Chapter_Tests.dat&quot;</span>, <span class="dt">header=</span>T)</span>
-<span id="cb1-45"><a href="stan-model-for-regression-model.html#cb1-45"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb1-46"><a href="stan-model-for-regression-model.html#cb1-46"></a>  <span class="dt">N=</span><span class="kw">nrow</span>(dat), </span>
-<span id="cb1-47"><a href="stan-model-for-regression-model.html#cb1-47"></a>  <span class="dt">x1=</span>dat<span class="op">$</span>Ch1Test,</span>
-<span id="cb1-48"><a href="stan-model-for-regression-model.html#cb1-48"></a>  <span class="dt">x2=</span>dat<span class="op">$</span>Ch2Test,</span>
-<span id="cb1-49"><a href="stan-model-for-regression-model.html#cb1-49"></a>  <span class="dt">y =</span>dat<span class="op">$</span>Ch3Test</span>
-<span id="cb1-50"><a href="stan-model-for-regression-model.html#cb1-50"></a>)</span>
-<span id="cb1-51"><a href="stan-model-for-regression-model.html#cb1-51"></a></span>
-<span id="cb1-52"><a href="stan-model-for-regression-model.html#cb1-52"></a></span>
-<span id="cb1-53"><a href="stan-model-for-regression-model.html#cb1-53"></a><span class="co"># start values </span></span>
-<span id="cb1-54"><a href="stan-model-for-regression-model.html#cb1-54"></a>start_values &lt;-<span class="st"> </span><span class="cf">function</span>(){</span>
-<span id="cb1-55"><a href="stan-model-for-regression-model.html#cb1-55"></a>  <span class="kw">list</span>(<span class="dt">sigma=</span><span class="dv">1</span>, <span class="dt">beta=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb1-56"><a href="stan-model-for-regression-model.html#cb1-56"></a>}</span>
-<span id="cb1-57"><a href="stan-model-for-regression-model.html#cb1-57"></a></span>
-<span id="cb1-58"><a href="stan-model-for-regression-model.html#cb1-58"></a><span class="co"># Next, need to fit the model</span></span>
-<span id="cb1-59"><a href="stan-model-for-regression-model.html#cb1-59"></a><span class="co">#   I have explicited outlined some common parameters</span></span>
-<span id="cb1-60"><a href="stan-model-for-regression-model.html#cb1-60"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
-<span id="cb1-61"><a href="stan-model-for-regression-model.html#cb1-61"></a>  <span class="dt">model_code =</span> model_reg, <span class="co"># model code to be compiled</span></span>
-<span id="cb1-62"><a href="stan-model-for-regression-model.html#cb1-62"></a>  <span class="dt">data =</span> mydata,          <span class="co"># my data</span></span>
-<span id="cb1-63"><a href="stan-model-for-regression-model.html#cb1-63"></a>  <span class="dt">init =</span> start_values,    <span class="co"># starting values</span></span>
-<span id="cb1-64"><a href="stan-model-for-regression-model.html#cb1-64"></a>  <span class="dt">chains =</span> <span class="dv">4</span>,             <span class="co"># number of Markov chains</span></span>
-<span id="cb1-65"><a href="stan-model-for-regression-model.html#cb1-65"></a>  <span class="dt">warmup =</span> <span class="dv">1000</span>,          <span class="co"># number of warm up iterations per chain</span></span>
-<span id="cb1-66"><a href="stan-model-for-regression-model.html#cb1-66"></a>  <span class="dt">iter =</span> <span class="dv">5000</span>,            <span class="co"># total number of iterations per chain</span></span>
-<span id="cb1-67"><a href="stan-model-for-regression-model.html#cb1-67"></a>  <span class="dt">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
-<span id="cb1-68"><a href="stan-model-for-regression-model.html#cb1-68"></a>  <span class="dt">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
-<span id="cb1-69"><a href="stan-model-for-regression-model.html#cb1-69"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="stan-model-for-regression-model.html#cb70-1"></a>model_reg &lt;-<span class="st"> &#39;</span></span>
+<span id="cb70-2"><a href="stan-model-for-regression-model.html#cb70-2"></a><span class="st">data {</span></span>
+<span id="cb70-3"><a href="stan-model-for-regression-model.html#cb70-3"></a><span class="st">  int  N;</span></span>
+<span id="cb70-4"><a href="stan-model-for-regression-model.html#cb70-4"></a><span class="st">  real x1[N];</span></span>
+<span id="cb70-5"><a href="stan-model-for-regression-model.html#cb70-5"></a><span class="st">  real x2[N];</span></span>
+<span id="cb70-6"><a href="stan-model-for-regression-model.html#cb70-6"></a><span class="st">  real y[N];</span></span>
+<span id="cb70-7"><a href="stan-model-for-regression-model.html#cb70-7"></a><span class="st">}</span></span>
+<span id="cb70-8"><a href="stan-model-for-regression-model.html#cb70-8"></a></span>
+<span id="cb70-9"><a href="stan-model-for-regression-model.html#cb70-9"></a><span class="st">parameters {</span></span>
+<span id="cb70-10"><a href="stan-model-for-regression-model.html#cb70-10"></a><span class="st">  real beta[3];</span></span>
+<span id="cb70-11"><a href="stan-model-for-regression-model.html#cb70-11"></a><span class="st">  real&lt;lower=0&gt; tau;</span></span>
+<span id="cb70-12"><a href="stan-model-for-regression-model.html#cb70-12"></a><span class="st">}</span></span>
+<span id="cb70-13"><a href="stan-model-for-regression-model.html#cb70-13"></a></span>
+<span id="cb70-14"><a href="stan-model-for-regression-model.html#cb70-14"></a><span class="st">transformed parameters {</span></span>
+<span id="cb70-15"><a href="stan-model-for-regression-model.html#cb70-15"></a><span class="st">  real&lt;lower=0&gt; sigma;</span></span>
+<span id="cb70-16"><a href="stan-model-for-regression-model.html#cb70-16"></a><span class="st">  sigma = 1/sqrt(tau);</span></span>
+<span id="cb70-17"><a href="stan-model-for-regression-model.html#cb70-17"></a><span class="st">}</span></span>
+<span id="cb70-18"><a href="stan-model-for-regression-model.html#cb70-18"></a></span>
+<span id="cb70-19"><a href="stan-model-for-regression-model.html#cb70-19"></a><span class="st">model {</span></span>
+<span id="cb70-20"><a href="stan-model-for-regression-model.html#cb70-20"></a><span class="st">  for(i in 1:N){</span></span>
+<span id="cb70-21"><a href="stan-model-for-regression-model.html#cb70-21"></a><span class="st">    y[i] ~ normal(beta[1] + beta[2]*x1[i] + beta[3]*x2[i], sigma);</span></span>
+<span id="cb70-22"><a href="stan-model-for-regression-model.html#cb70-22"></a><span class="st">  }</span></span>
+<span id="cb70-23"><a href="stan-model-for-regression-model.html#cb70-23"></a><span class="st">  beta  ~ normal(0, 100);</span></span>
+<span id="cb70-24"><a href="stan-model-for-regression-model.html#cb70-24"></a><span class="st">  tau ~ gamma(1, 1);</span></span>
+<span id="cb70-25"><a href="stan-model-for-regression-model.html#cb70-25"></a><span class="st">}</span></span>
+<span id="cb70-26"><a href="stan-model-for-regression-model.html#cb70-26"></a></span>
+<span id="cb70-27"><a href="stan-model-for-regression-model.html#cb70-27"></a><span class="st">generated quantities {</span></span>
+<span id="cb70-28"><a href="stan-model-for-regression-model.html#cb70-28"></a><span class="st">  real varerror;</span></span>
+<span id="cb70-29"><a href="stan-model-for-regression-model.html#cb70-29"></a><span class="st">  real vary;</span></span>
+<span id="cb70-30"><a href="stan-model-for-regression-model.html#cb70-30"></a><span class="st">  real Rsquared;</span></span>
+<span id="cb70-31"><a href="stan-model-for-regression-model.html#cb70-31"></a><span class="st">  real error[N];</span></span>
+<span id="cb70-32"><a href="stan-model-for-regression-model.html#cb70-32"></a><span class="st">  </span></span>
+<span id="cb70-33"><a href="stan-model-for-regression-model.html#cb70-33"></a><span class="st">  for(i in 1:N){</span></span>
+<span id="cb70-34"><a href="stan-model-for-regression-model.html#cb70-34"></a><span class="st">    error[i] = y[i] - (beta[1] + beta[2]*x1[i] + beta[3]*x2[i]);</span></span>
+<span id="cb70-35"><a href="stan-model-for-regression-model.html#cb70-35"></a><span class="st">  }</span></span>
+<span id="cb70-36"><a href="stan-model-for-regression-model.html#cb70-36"></a><span class="st">  </span></span>
+<span id="cb70-37"><a href="stan-model-for-regression-model.html#cb70-37"></a><span class="st">  varerror = variance(error);</span></span>
+<span id="cb70-38"><a href="stan-model-for-regression-model.html#cb70-38"></a><span class="st">  vary = variance(y);</span></span>
+<span id="cb70-39"><a href="stan-model-for-regression-model.html#cb70-39"></a><span class="st">  Rsquared = 1 - (varerror/vary);</span></span>
+<span id="cb70-40"><a href="stan-model-for-regression-model.html#cb70-40"></a><span class="st">}</span></span>
+<span id="cb70-41"><a href="stan-model-for-regression-model.html#cb70-41"></a></span>
+<span id="cb70-42"><a href="stan-model-for-regression-model.html#cb70-42"></a><span class="st">&#39;</span></span>
+<span id="cb70-43"><a href="stan-model-for-regression-model.html#cb70-43"></a><span class="co"># data must be in a list</span></span>
+<span id="cb70-44"><a href="stan-model-for-regression-model.html#cb70-44"></a>dat &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/Chp4_Reg_Chapter_Tests.dat&quot;</span>, <span class="dt">header=</span>T)</span>
+<span id="cb70-45"><a href="stan-model-for-regression-model.html#cb70-45"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb70-46"><a href="stan-model-for-regression-model.html#cb70-46"></a>  <span class="dt">N=</span><span class="kw">nrow</span>(dat), </span>
+<span id="cb70-47"><a href="stan-model-for-regression-model.html#cb70-47"></a>  <span class="dt">x1=</span>dat<span class="op">$</span>Ch1Test,</span>
+<span id="cb70-48"><a href="stan-model-for-regression-model.html#cb70-48"></a>  <span class="dt">x2=</span>dat<span class="op">$</span>Ch2Test,</span>
+<span id="cb70-49"><a href="stan-model-for-regression-model.html#cb70-49"></a>  <span class="dt">y =</span>dat<span class="op">$</span>Ch3Test</span>
+<span id="cb70-50"><a href="stan-model-for-regression-model.html#cb70-50"></a>)</span>
+<span id="cb70-51"><a href="stan-model-for-regression-model.html#cb70-51"></a></span>
+<span id="cb70-52"><a href="stan-model-for-regression-model.html#cb70-52"></a></span>
+<span id="cb70-53"><a href="stan-model-for-regression-model.html#cb70-53"></a><span class="co"># start values </span></span>
+<span id="cb70-54"><a href="stan-model-for-regression-model.html#cb70-54"></a>start_values &lt;-<span class="st"> </span><span class="cf">function</span>(){</span>
+<span id="cb70-55"><a href="stan-model-for-regression-model.html#cb70-55"></a>  <span class="kw">list</span>(<span class="dt">sigma=</span><span class="dv">1</span>, <span class="dt">beta=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb70-56"><a href="stan-model-for-regression-model.html#cb70-56"></a>}</span>
+<span id="cb70-57"><a href="stan-model-for-regression-model.html#cb70-57"></a></span>
+<span id="cb70-58"><a href="stan-model-for-regression-model.html#cb70-58"></a><span class="co"># Next, need to fit the model</span></span>
+<span id="cb70-59"><a href="stan-model-for-regression-model.html#cb70-59"></a><span class="co">#   I have explicited outlined some common parameters</span></span>
+<span id="cb70-60"><a href="stan-model-for-regression-model.html#cb70-60"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
+<span id="cb70-61"><a href="stan-model-for-regression-model.html#cb70-61"></a>  <span class="dt">model_code =</span> model_reg, <span class="co"># model code to be compiled</span></span>
+<span id="cb70-62"><a href="stan-model-for-regression-model.html#cb70-62"></a>  <span class="dt">data =</span> mydata,          <span class="co"># my data</span></span>
+<span id="cb70-63"><a href="stan-model-for-regression-model.html#cb70-63"></a>  <span class="dt">init =</span> start_values,    <span class="co"># starting values</span></span>
+<span id="cb70-64"><a href="stan-model-for-regression-model.html#cb70-64"></a>  <span class="dt">chains =</span> <span class="dv">4</span>,             <span class="co"># number of Markov chains</span></span>
+<span id="cb70-65"><a href="stan-model-for-regression-model.html#cb70-65"></a>  <span class="dt">warmup =</span> <span class="dv">1000</span>,          <span class="co"># number of warm up iterations per chain</span></span>
+<span id="cb70-66"><a href="stan-model-for-regression-model.html#cb70-66"></a>  <span class="dt">iter =</span> <span class="dv">5000</span>,            <span class="co"># total number of iterations per chain</span></span>
+<span id="cb70-67"><a href="stan-model-for-regression-model.html#cb70-67"></a>  <span class="dt">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
+<span id="cb70-68"><a href="stan-model-for-regression-model.html#cb70-68"></a>  <span class="dt">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
+<span id="cb70-69"><a href="stan-model-for-regression-model.html#cb70-69"></a>)</span></code></pre></div>
 <pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr = TRUE): &#39;-E&#39; not
 ## found</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="stan-model-for-regression-model.html#cb3-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
-<span id="cb3-2"><a href="stan-model-for-regression-model.html#cb3-2"></a><span class="kw">print</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="stan-model-for-regression-model.html#cb72-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
+<span id="cb72-2"><a href="stan-model-for-regression-model.html#cb72-2"></a><span class="kw">print</span>(fit)</span></code></pre></div>
 <pre><code>## Inference for Stan model: 66db47b16bda4d720cafb6a9769da243.
 ## 4 chains, each with iter=5000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=4000, total post-warmup draws=16000.
@@ -329,112 +340,112 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="stan-model-for-regression-model.html#cb5-1"></a><span class="co"># plot the posterior in a</span></span>
-<span id="cb5-2"><a href="stan-model-for-regression-model.html#cb5-2"></a><span class="co">#  95% probability interval</span></span>
-<span id="cb5-3"><a href="stan-model-for-regression-model.html#cb5-3"></a><span class="co">#  and 80% to contrast the dispersion</span></span>
-<span id="cb5-4"><a href="stan-model-for-regression-model.html#cb5-4"></a><span class="kw">plot</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="stan-model-for-regression-model.html#cb74-1"></a><span class="co"># plot the posterior in a</span></span>
+<span id="cb74-2"><a href="stan-model-for-regression-model.html#cb74-2"></a><span class="co">#  95% probability interval</span></span>
+<span id="cb74-3"><a href="stan-model-for-regression-model.html#cb74-3"></a><span class="co">#  and 80% to contrast the dispersion</span></span>
+<span id="cb74-4"><a href="stan-model-for-regression-model.html#cb74-4"></a><span class="kw">plot</span>(fit)</span></code></pre></div>
 <pre><code>## &#39;pars&#39; not specified. Showing first 10 parameters by default.</code></pre>
 <pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
 <pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-stan-1.png" width="672" /></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="stan-model-for-regression-model.html#cb9-1"></a><span class="co"># traceplots</span></span>
-<span id="cb9-2"><a href="stan-model-for-regression-model.html#cb9-2"></a>rstan<span class="op">::</span><span class="kw">traceplot</span>(fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>), <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="stan-model-for-regression-model.html#cb78-1"></a><span class="co"># traceplots</span></span>
+<span id="cb78-2"><a href="stan-model-for-regression-model.html#cb78-2"></a>rstan<span class="op">::</span><span class="kw">traceplot</span>(fit, <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;sigma&quot;</span>), <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-stan-2.png" width="672" /></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="stan-model-for-regression-model.html#cb10-1"></a><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span></span>
-<span id="cb10-2"><a href="stan-model-for-regression-model.html#cb10-2"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;beta&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb10-3"><a href="stan-model-for-regression-model.html#cb10-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb10-4"><a href="stan-model-for-regression-model.html#cb10-4"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;sigma&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb10-5"><a href="stan-model-for-regression-model.html#cb10-5"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb10-6"><a href="stan-model-for-regression-model.html#cb10-6"></a>p1 <span class="op">+</span><span class="st"> </span>p2</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="stan-model-for-regression-model.html#cb79-1"></a><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span></span>
+<span id="cb79-2"><a href="stan-model-for-regression-model.html#cb79-2"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;beta&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb79-3"><a href="stan-model-for-regression-model.html#cb79-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb79-4"><a href="stan-model-for-regression-model.html#cb79-4"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;sigma&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb79-5"><a href="stan-model-for-regression-model.html#cb79-5"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb79-6"><a href="stan-model-for-regression-model.html#cb79-6"></a>p1 <span class="op">+</span><span class="st"> </span>p2</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-stan-3.png" width="672" /></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="stan-model-for-regression-model.html#cb11-1"></a><span class="co"># autocorrelation</span></span>
-<span id="cb11-2"><a href="stan-model-for-regression-model.html#cb11-2"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;beta&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb11-3"><a href="stan-model-for-regression-model.html#cb11-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb11-4"><a href="stan-model-for-regression-model.html#cb11-4"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;sigma&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb11-5"><a href="stan-model-for-regression-model.html#cb11-5"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb11-6"><a href="stan-model-for-regression-model.html#cb11-6"></a>p1 <span class="op">+</span><span class="st"> </span>p2</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="stan-model-for-regression-model.html#cb80-1"></a><span class="co"># autocorrelation</span></span>
+<span id="cb80-2"><a href="stan-model-for-regression-model.html#cb80-2"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;beta&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb80-3"><a href="stan-model-for-regression-model.html#cb80-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb80-4"><a href="stan-model-for-regression-model.html#cb80-4"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;sigma&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb80-5"><a href="stan-model-for-regression-model.html#cb80-5"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb80-6"><a href="stan-model-for-regression-model.html#cb80-6"></a>p1 <span class="op">+</span><span class="st"> </span>p2</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-stan-4.png" width="672" /></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="stan-model-for-regression-model.html#cb12-1"></a><span class="co"># plot the posterior density</span></span>
-<span id="cb12-2"><a href="stan-model-for-regression-model.html#cb12-2"></a>plot.data &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(fit)</span>
-<span id="cb12-3"><a href="stan-model-for-regression-model.html#cb12-3"></a></span>
-<span id="cb12-4"><a href="stan-model-for-regression-model.html#cb12-4"></a>plot_title &lt;-<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
-<span id="cb12-5"><a href="stan-model-for-regression-model.html#cb12-5"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
-<span id="cb12-6"><a href="stan-model-for-regression-model.html#cb12-6"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb12-7"><a href="stan-model-for-regression-model.html#cb12-7"></a>  plot.data,</span>
-<span id="cb12-8"><a href="stan-model-for-regression-model.html#cb12-8"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta[1]&quot;</span>, <span class="st">&quot;beta[2]&quot;</span>, <span class="st">&quot;beta[3]&quot;</span>, <span class="st">&quot;sigma&quot;</span>),</span>
-<span id="cb12-9"><a href="stan-model-for-regression-model.html#cb12-9"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb12-10"><a href="stan-model-for-regression-model.html#cb12-10"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="stan-model-for-regression-model.html#cb81-1"></a><span class="co"># plot the posterior density</span></span>
+<span id="cb81-2"><a href="stan-model-for-regression-model.html#cb81-2"></a>plot.data &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(fit)</span>
+<span id="cb81-3"><a href="stan-model-for-regression-model.html#cb81-3"></a></span>
+<span id="cb81-4"><a href="stan-model-for-regression-model.html#cb81-4"></a>plot_title &lt;-<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb81-5"><a href="stan-model-for-regression-model.html#cb81-5"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb81-6"><a href="stan-model-for-regression-model.html#cb81-6"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb81-7"><a href="stan-model-for-regression-model.html#cb81-7"></a>  plot.data,</span>
+<span id="cb81-8"><a href="stan-model-for-regression-model.html#cb81-8"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;beta[1]&quot;</span>, <span class="st">&quot;beta[2]&quot;</span>, <span class="st">&quot;beta[3]&quot;</span>, <span class="st">&quot;sigma&quot;</span>),</span>
+<span id="cb81-9"><a href="stan-model-for-regression-model.html#cb81-9"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb81-10"><a href="stan-model-for-regression-model.html#cb81-10"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-stan-5.png" width="672" /></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="stan-model-for-regression-model.html#cb13-1"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb13-2"><a href="stan-model-for-regression-model.html#cb13-2"></a>  plot.data,</span>
-<span id="cb13-3"><a href="stan-model-for-regression-model.html#cb13-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;Rsquared&quot;</span>),</span>
-<span id="cb13-4"><a href="stan-model-for-regression-model.html#cb13-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb13-5"><a href="stan-model-for-regression-model.html#cb13-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="stan-model-for-regression-model.html#cb82-1"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb82-2"><a href="stan-model-for-regression-model.html#cb82-2"></a>  plot.data,</span>
+<span id="cb82-3"><a href="stan-model-for-regression-model.html#cb82-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;Rsquared&quot;</span>),</span>
+<span id="cb82-4"><a href="stan-model-for-regression-model.html#cb82-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb82-5"><a href="stan-model-for-regression-model.html#cb82-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-stan-6.png" width="672" /></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="stan-model-for-regression-model.html#cb14-1"></a><span class="co"># I prefer a posterior plot that includes prior and MLE</span></span>
-<span id="cb14-2"><a href="stan-model-for-regression-model.html#cb14-2"></a><span class="co"># Expanded Posterior Plot</span></span>
-<span id="cb14-3"><a href="stan-model-for-regression-model.html#cb14-3"></a>fit.lm &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(Ch3Test <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Ch1Test <span class="op">+</span><span class="st"> </span>Ch2Test, <span class="dt">data=</span>dat))</span>
-<span id="cb14-4"><a href="stan-model-for-regression-model.html#cb14-4"></a>MLE &lt;-<span class="st"> </span><span class="kw">c</span>(fit.lm<span class="op">$</span>coefficients[,<span class="dv">1</span>], fit.lm<span class="op">$</span>sigma<span class="op">**</span><span class="dv">2</span>, fit.lm<span class="op">$</span>r.squared)</span>
-<span id="cb14-5"><a href="stan-model-for-regression-model.html#cb14-5"></a>prior_beta &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dnorm</span>(x, <span class="dv">0</span>, <span class="dv">1000</span>)}</span>
-<span id="cb14-6"><a href="stan-model-for-regression-model.html#cb14-6"></a>x.beta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">10</span>, <span class="fl">4.99</span>, <span class="fl">0.01</span>)</span>
-<span id="cb14-7"><a href="stan-model-for-regression-model.html#cb14-7"></a>prior.beta &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">beta=</span>x.beta, <span class="dt">dens.beta =</span> <span class="kw">prior_beta</span>(x.beta))</span>
-<span id="cb14-8"><a href="stan-model-for-regression-model.html#cb14-8"></a>prior_sig &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dgamma</span>(x, <span class="dv">1</span>, <span class="dv">1</span>)}</span>
-<span id="cb14-9"><a href="stan-model-for-regression-model.html#cb14-9"></a>x.sig &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="fl">2.5</span>, <span class="fl">0.01</span>)</span>
-<span id="cb14-10"><a href="stan-model-for-regression-model.html#cb14-10"></a>prior.sig &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sig=</span>x.sig, <span class="dt">dens.sig =</span> <span class="kw">prior_sig</span>(x.sig))</span>
-<span id="cb14-11"><a href="stan-model-for-regression-model.html#cb14-11"></a>cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Posterior&quot;</span>=<span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;Prior&quot;</span>=<span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;MLE&quot;</span>=<span class="st"> &quot;black&quot;</span>)<span class="co">#&quot;#56B4E9&quot;, &quot;#E69F00&quot; &quot;#CC79A7&quot;</span></span>
-<span id="cb14-12"><a href="stan-model-for-regression-model.html#cb14-12"></a>plot.data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(plot.data)</span>
-<span id="cb14-13"><a href="stan-model-for-regression-model.html#cb14-13"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb14-14"><a href="stan-model-for-regression-model.html#cb14-14"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
-<span id="cb14-15"><a href="stan-model-for-regression-model.html#cb14-15"></a>               <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">beta[1]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-16"><a href="stan-model-for-regression-model.html#cb14-16"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.beta,</span>
-<span id="cb14-17"><a href="stan-model-for-regression-model.html#cb14-17"></a>            <span class="kw">aes</span>(<span class="dt">x=</span>beta, <span class="dt">y=</span>dens.beta, <span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-18"><a href="stan-model-for-regression-model.html#cb14-18"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">1</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-19"><a href="stan-model-for-regression-model.html#cb14-19"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb14-20"><a href="stan-model-for-regression-model.html#cb14-20"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb14-21"><a href="stan-model-for-regression-model.html#cb14-21"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb14-22"><a href="stan-model-for-regression-model.html#cb14-22"></a></span>
-<span id="cb14-23"><a href="stan-model-for-regression-model.html#cb14-23"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb14-24"><a href="stan-model-for-regression-model.html#cb14-24"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
-<span id="cb14-25"><a href="stan-model-for-regression-model.html#cb14-25"></a>               <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">beta[2]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-26"><a href="stan-model-for-regression-model.html#cb14-26"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.beta,</span>
-<span id="cb14-27"><a href="stan-model-for-regression-model.html#cb14-27"></a>            <span class="kw">aes</span>(<span class="dt">x=</span>beta, <span class="dt">y=</span>dens.beta, <span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-28"><a href="stan-model-for-regression-model.html#cb14-28"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">2</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-29"><a href="stan-model-for-regression-model.html#cb14-29"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb14-30"><a href="stan-model-for-regression-model.html#cb14-30"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb14-31"><a href="stan-model-for-regression-model.html#cb14-31"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb14-32"><a href="stan-model-for-regression-model.html#cb14-32"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb14-33"><a href="stan-model-for-regression-model.html#cb14-33"></a></span>
-<span id="cb14-34"><a href="stan-model-for-regression-model.html#cb14-34"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb14-35"><a href="stan-model-for-regression-model.html#cb14-35"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
-<span id="cb14-36"><a href="stan-model-for-regression-model.html#cb14-36"></a>               <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">beta[3]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-37"><a href="stan-model-for-regression-model.html#cb14-37"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.beta,</span>
-<span id="cb14-38"><a href="stan-model-for-regression-model.html#cb14-38"></a>            <span class="kw">aes</span>(<span class="dt">x=</span>beta, <span class="dt">y=</span>dens.beta, <span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-39"><a href="stan-model-for-regression-model.html#cb14-39"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">3</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-40"><a href="stan-model-for-regression-model.html#cb14-40"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb14-41"><a href="stan-model-for-regression-model.html#cb14-41"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb14-42"><a href="stan-model-for-regression-model.html#cb14-42"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb14-43"><a href="stan-model-for-regression-model.html#cb14-43"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb14-44"><a href="stan-model-for-regression-model.html#cb14-44"></a></span>
-<span id="cb14-45"><a href="stan-model-for-regression-model.html#cb14-45"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb14-46"><a href="stan-model-for-regression-model.html#cb14-46"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
-<span id="cb14-47"><a href="stan-model-for-regression-model.html#cb14-47"></a>               <span class="kw">aes</span>(<span class="dt">x=</span>sigma, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-48"><a href="stan-model-for-regression-model.html#cb14-48"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.sig,</span>
-<span id="cb14-49"><a href="stan-model-for-regression-model.html#cb14-49"></a>            <span class="kw">aes</span>(<span class="dt">x=</span>sig, <span class="dt">y=</span>dens.sig, <span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-50"><a href="stan-model-for-regression-model.html#cb14-50"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">4</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-51"><a href="stan-model-for-regression-model.html#cb14-51"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb14-52"><a href="stan-model-for-regression-model.html#cb14-52"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb14-53"><a href="stan-model-for-regression-model.html#cb14-53"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb14-54"><a href="stan-model-for-regression-model.html#cb14-54"></a></span>
-<span id="cb14-55"><a href="stan-model-for-regression-model.html#cb14-55"></a>p5 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
-<span id="cb14-56"><a href="stan-model-for-regression-model.html#cb14-56"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
-<span id="cb14-57"><a href="stan-model-for-regression-model.html#cb14-57"></a>               <span class="kw">aes</span>(<span class="dt">x=</span>Rsquared, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-58"><a href="stan-model-for-regression-model.html#cb14-58"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">5</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
-<span id="cb14-59"><a href="stan-model-for-regression-model.html#cb14-59"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb14-60"><a href="stan-model-for-regression-model.html#cb14-60"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb14-61"><a href="stan-model-for-regression-model.html#cb14-61"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
-<span id="cb14-62"><a href="stan-model-for-regression-model.html#cb14-62"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
-<span id="cb14-63"><a href="stan-model-for-regression-model.html#cb14-63"></a></span>
-<span id="cb14-64"><a href="stan-model-for-regression-model.html#cb14-64"></a>p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span>p4 <span class="op">+</span><span class="st"> </span>p5 <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">guides=</span><span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="stan-model-for-regression-model.html#cb83-1"></a><span class="co"># I prefer a posterior plot that includes prior and MLE</span></span>
+<span id="cb83-2"><a href="stan-model-for-regression-model.html#cb83-2"></a><span class="co"># Expanded Posterior Plot</span></span>
+<span id="cb83-3"><a href="stan-model-for-regression-model.html#cb83-3"></a>fit.lm &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw">lm</span>(Ch3Test <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>Ch1Test <span class="op">+</span><span class="st"> </span>Ch2Test, <span class="dt">data=</span>dat))</span>
+<span id="cb83-4"><a href="stan-model-for-regression-model.html#cb83-4"></a>MLE &lt;-<span class="st"> </span><span class="kw">c</span>(fit.lm<span class="op">$</span>coefficients[,<span class="dv">1</span>], fit.lm<span class="op">$</span>sigma<span class="op">**</span><span class="dv">2</span>, fit.lm<span class="op">$</span>r.squared)</span>
+<span id="cb83-5"><a href="stan-model-for-regression-model.html#cb83-5"></a>prior_beta &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dnorm</span>(x, <span class="dv">0</span>, <span class="dv">1000</span>)}</span>
+<span id="cb83-6"><a href="stan-model-for-regression-model.html#cb83-6"></a>x.beta &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">10</span>, <span class="fl">4.99</span>, <span class="fl">0.01</span>)</span>
+<span id="cb83-7"><a href="stan-model-for-regression-model.html#cb83-7"></a>prior.beta &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">beta=</span>x.beta, <span class="dt">dens.beta =</span> <span class="kw">prior_beta</span>(x.beta))</span>
+<span id="cb83-8"><a href="stan-model-for-regression-model.html#cb83-8"></a>prior_sig &lt;-<span class="st"> </span><span class="cf">function</span>(x){<span class="kw">dgamma</span>(x, <span class="dv">1</span>, <span class="dv">1</span>)}</span>
+<span id="cb83-9"><a href="stan-model-for-regression-model.html#cb83-9"></a>x.sig &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="fl">0.01</span>, <span class="fl">2.5</span>, <span class="fl">0.01</span>)</span>
+<span id="cb83-10"><a href="stan-model-for-regression-model.html#cb83-10"></a>prior.sig &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">sig=</span>x.sig, <span class="dt">dens.sig =</span> <span class="kw">prior_sig</span>(x.sig))</span>
+<span id="cb83-11"><a href="stan-model-for-regression-model.html#cb83-11"></a>cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Posterior&quot;</span>=<span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;Prior&quot;</span>=<span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;MLE&quot;</span>=<span class="st"> &quot;black&quot;</span>)<span class="co">#&quot;#56B4E9&quot;, &quot;#E69F00&quot; &quot;#CC79A7&quot;</span></span>
+<span id="cb83-12"><a href="stan-model-for-regression-model.html#cb83-12"></a>plot.data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(plot.data)</span>
+<span id="cb83-13"><a href="stan-model-for-regression-model.html#cb83-13"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb83-14"><a href="stan-model-for-regression-model.html#cb83-14"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
+<span id="cb83-15"><a href="stan-model-for-regression-model.html#cb83-15"></a>               <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">beta[1]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-16"><a href="stan-model-for-regression-model.html#cb83-16"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.beta,</span>
+<span id="cb83-17"><a href="stan-model-for-regression-model.html#cb83-17"></a>            <span class="kw">aes</span>(<span class="dt">x=</span>beta, <span class="dt">y=</span>dens.beta, <span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-18"><a href="stan-model-for-regression-model.html#cb83-18"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">1</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-19"><a href="stan-model-for-regression-model.html#cb83-19"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb83-20"><a href="stan-model-for-regression-model.html#cb83-20"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb83-21"><a href="stan-model-for-regression-model.html#cb83-21"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb83-22"><a href="stan-model-for-regression-model.html#cb83-22"></a></span>
+<span id="cb83-23"><a href="stan-model-for-regression-model.html#cb83-23"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb83-24"><a href="stan-model-for-regression-model.html#cb83-24"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
+<span id="cb83-25"><a href="stan-model-for-regression-model.html#cb83-25"></a>               <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">beta[2]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-26"><a href="stan-model-for-regression-model.html#cb83-26"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.beta,</span>
+<span id="cb83-27"><a href="stan-model-for-regression-model.html#cb83-27"></a>            <span class="kw">aes</span>(<span class="dt">x=</span>beta, <span class="dt">y=</span>dens.beta, <span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-28"><a href="stan-model-for-regression-model.html#cb83-28"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">2</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-29"><a href="stan-model-for-regression-model.html#cb83-29"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb83-30"><a href="stan-model-for-regression-model.html#cb83-30"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="op">+</span></span>
+<span id="cb83-31"><a href="stan-model-for-regression-model.html#cb83-31"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb83-32"><a href="stan-model-for-regression-model.html#cb83-32"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb83-33"><a href="stan-model-for-regression-model.html#cb83-33"></a></span>
+<span id="cb83-34"><a href="stan-model-for-regression-model.html#cb83-34"></a>p3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb83-35"><a href="stan-model-for-regression-model.html#cb83-35"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
+<span id="cb83-36"><a href="stan-model-for-regression-model.html#cb83-36"></a>               <span class="kw">aes</span>(<span class="dt">x=</span><span class="st">`</span><span class="dt">beta[3]</span><span class="st">`</span>, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-37"><a href="stan-model-for-regression-model.html#cb83-37"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.beta,</span>
+<span id="cb83-38"><a href="stan-model-for-regression-model.html#cb83-38"></a>            <span class="kw">aes</span>(<span class="dt">x=</span>beta, <span class="dt">y=</span>dens.beta, <span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-39"><a href="stan-model-for-regression-model.html#cb83-39"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">3</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-40"><a href="stan-model-for-regression-model.html#cb83-40"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb83-41"><a href="stan-model-for-regression-model.html#cb83-41"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="op">+</span></span>
+<span id="cb83-42"><a href="stan-model-for-regression-model.html#cb83-42"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb83-43"><a href="stan-model-for-regression-model.html#cb83-43"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb83-44"><a href="stan-model-for-regression-model.html#cb83-44"></a></span>
+<span id="cb83-45"><a href="stan-model-for-regression-model.html#cb83-45"></a>p4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb83-46"><a href="stan-model-for-regression-model.html#cb83-46"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
+<span id="cb83-47"><a href="stan-model-for-regression-model.html#cb83-47"></a>               <span class="kw">aes</span>(<span class="dt">x=</span>sigma, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-48"><a href="stan-model-for-regression-model.html#cb83-48"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">data=</span>prior.sig,</span>
+<span id="cb83-49"><a href="stan-model-for-regression-model.html#cb83-49"></a>            <span class="kw">aes</span>(<span class="dt">x=</span>sig, <span class="dt">y=</span>dens.sig, <span class="dt">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-50"><a href="stan-model-for-regression-model.html#cb83-50"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">4</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-51"><a href="stan-model-for-regression-model.html#cb83-51"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb83-52"><a href="stan-model-for-regression-model.html#cb83-52"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb83-53"><a href="stan-model-for-regression-model.html#cb83-53"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb83-54"><a href="stan-model-for-regression-model.html#cb83-54"></a></span>
+<span id="cb83-55"><a href="stan-model-for-regression-model.html#cb83-55"></a>p5 &lt;-<span class="st"> </span><span class="kw">ggplot</span>()<span class="op">+</span></span>
+<span id="cb83-56"><a href="stan-model-for-regression-model.html#cb83-56"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">data=</span>plot.data,</span>
+<span id="cb83-57"><a href="stan-model-for-regression-model.html#cb83-57"></a>               <span class="kw">aes</span>(<span class="dt">x=</span>Rsquared, <span class="dt">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-58"><a href="stan-model-for-regression-model.html#cb83-58"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span>MLE[<span class="dv">5</span>], <span class="dt">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="op">+</span></span>
+<span id="cb83-59"><a href="stan-model-for-regression-model.html#cb83-59"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span>cols, <span class="dt">name=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
+<span id="cb83-60"><a href="stan-model-for-regression-model.html#cb83-60"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="op">+</span></span>
+<span id="cb83-61"><a href="stan-model-for-regression-model.html#cb83-61"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span></span>
+<span id="cb83-62"><a href="stan-model-for-regression-model.html#cb83-62"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb83-63"><a href="stan-model-for-regression-model.html#cb83-63"></a></span>
+<span id="cb83-64"><a href="stan-model-for-regression-model.html#cb83-64"></a>p1 <span class="op">+</span><span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span>p3 <span class="op">+</span><span class="st"> </span>p4 <span class="op">+</span><span class="st"> </span>p5 <span class="op">+</span><span class="st"> </span><span class="kw">plot_layout</span>(<span class="dt">guides=</span><span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 328 rows containing non-finite values (stat_density).</code></pre>
 <pre><code>## Warning: Removed 1399 row(s) containing missing values (geom_path).</code></pre>
 <pre><code>## Warning: Removed 1 rows containing non-finite values (stat_density).</code></pre>

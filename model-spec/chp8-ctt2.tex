@@ -1,0 +1,25 @@
+\documentclass{standalone}
+
+\usepackage{lscape}
+%Math typesetting packages
+\usepackage{amsfonts, amssymb, amsmath, latexsym, amsthm,xparse, bm}
+\newcommand\simiid{\stackrel{iid}{\sim}}
+\newcommand\simind{\stackrel{ind}{\sim}}
+\NewDocumentCommand{\qfrac}{smm}{%
+  \dfrac{\IfBooleanT{#1}{\vphantom{\big|}}#2}{\mathstrut #3}%
+}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,positioning,shapes,shapes.gates.logic.US,trees, intersections}
+
+\begin{document}
+
+\begin{tikzpicture}
+  \node at (0,0) {$x_{ij} \sim \mathrm{Normal}(T_i, \sigma^2_E)$} ;
+  	\draw[->] (0.7,-0.25) -- (0.7,-0.75);
+  	\node at (2.15, -1) {$T_i \sim \mathrm{Normal}(\mu_{T},\sigma^2_{T})$};		
+  	%\draw[->] (1.1, -0.25) |- (1.75, -0.75);
+  	%\node at (3.75, -0.75) {$\sigma^2\sim \mathrm{InvGamma}(\alpha_0, \beta_0)$};
+\end{tikzpicture}
+
+\end{document}

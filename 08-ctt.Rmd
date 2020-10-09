@@ -1,0 +1,1021 @@
+# Classical Test Theory
+
+The traditional model specification for CTT is
+\[X = T + E,\]
+where $X$ is the observed test/measure score, $T$ is the truce score we wish to make inferences about, and $E$ is the error.
+The true scores have population mean $\mu_T$ and variance $\sigma^2_T$.
+The errors for any individual are expected to be 0 on average, $\mathbb{E}(E_i)=0$ with variance $\sigma^2_E$.
+The errors are _uncorrelated_ with the true score in the population, that is
+\[\mathbb{COV}(T, E) = \sigma_{TE} = \rho_{TE}\sigma_{T}\sigma_E = 0.\]
+
+Some implications associated with the CTT model are:
+
+1. The population mean of observed scores is the same as the true scores
+\[\mu_x = \mu_T.\]
+
+2. The observed score variance can be decomposed into
+\begin{align*}
+\sigma^2_X &= \sigma^2_T + \sigma^2_E + 2\sigma_{TE}\\
+ &= \sigma^2_T + \sigma^2_E.
+\end{align*}
+
+3. We can define the _reliability_ in terms of the ratio of true score variance to observed score variance, that is
+\[\rho = \frac{\sigma^2_T}{\sigma^2_X}  = \frac{\sigma^2_T}{\sigma^2_T + \sigma^2_E}.\]
+
+An interesting approach to deriving estimates of true scores is to flip the traditional CTT model around so that we define the true score as a function of the observed score.
+This uses Kelley's formula [@Kelley1923],
+\begin{align*}
+\hat{T}_i &= \rho x_i + (1-\rho)\mu_x\\
+ &= \mu_x + \rho (x_i - \mu_x),
+\end{align*}
+where $\mu_x$ is the mean of the observed scores and $\hat{T}_i$ is the estimated true score of individual $i$.
+This is an interesting formula since there's the notion about how to incorporate uncertainty into the estimation of the true score.
+The higher the uncertainty (lower the reliability) the less we weight the observed score and more we rely on the population mean as our estimate.
+
+This has a very Bayesian feel to is, because it's nearly identical to how we derive the posterior mean in a conjugate normal model (see p.158).
+
+## Example 1 - Known measurement model parameters with 1 measure
+
+Here, we will discuss a simple CTT example where we assume that the measurement model parameters are known.
+This means we assume a value for $\mu_t$, $\sigma^2_T$, and $\sigma^2_E$.
+We would nearly always need to estimate these quantities to provide an informed decision as to what these parameters should be.
+
+This example using 3 observations (individuals) with 1 measure per individual.
+The DAG for this model is shown below.
+
+```{r chp8-dag-1, echo=FALSE,fig.align='center',fig.cap='Simple CTT model with 1 measure and known measurement parameters'}
+knitr::include_graphics(paste0(w.d,'/dag/chp8-ctt1.png'),
+                        auto_pdf = TRUE)
+```
+
+With a simply model specification using normal distributions as the underly probability functions.
+
+
+```{r chp8-spec-1, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the known parameters CTT model'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp8-ctt1.png'),
+                        auto_pdf = TRUE)
+```
+
+## Example 1 - Stan
+
+```{r chp8-ctt-fit-stan-1, warnings=T, message=T,error=T, cache=TRUE}
+
+model_ctt1 <- '
+data {
+  int  N;
+  real x[N];
+  real muT;
+  real sigmaT;
+  real sigmaE;
+}
+
+parameters {
+  real T[N];
+}
+
+model {
+  for(i in 1:N){
+    x[i] ~ normal(T[i], sigmaE);
+    T[i] ~ normal(muT, sigmaT);
+  }
+}
+
+'
+# data must be in a list
+mydata <- list(
+  N=3, 
+  x=c(70, 80, 96),
+  muT = 80,
+  sigmaT = 6, #sqrt(36)
+  sigmaE = 4 # sqrt(16)
+)
+
+# Next, need to fit the model
+#   I have explicitly outlined some common parameters
+fit <- stan(
+  model_code = model_ctt1, # model code to be compiled
+  data = mydata,          # my data
+  chains = 4,             # number of Markov chains
+  warmup = 1000,          # number of warm up iterations per chain
+  iter = 5000,            # total number of iterations per chain
+  cores = 4,              # number of cores (could use one per chain)
+  refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit)
+
+# plot the posterior in a
+#  95% probability interval
+#  and 80% to contrast the dispersion
+plot(fit)
+
+# traceplots
+rstan::traceplot(fit, pars = c("T"), inc_warmup = TRUE)
+
+# Gelman-Rubin-Brooks Convergence Criterion
+p1 <- ggs_grb(ggs(fit, family = "T")) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p1
+# autocorrelation
+p1 <- ggs_autocorrelation(ggs(fit, family="T")) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p1 
+# plot the posterior density
+plot.data <- as.matrix(fit)
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c("T[1]","T[2]","T[3]"),
+  prob = 0.8) + 
+  plot_title
+
+# I prefer a posterior plot that includes prior and MLE
+# Expanded Posterior Plot
+MLE <- mydata$x
+prior_t <- function(x){dnorm(x, 80, 6)}
+x.t<- seq(50.1, 100, 0.1)
+prior.t <- data.frame(tr=x.t, dens.t = prior_t(x.t))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+plot.data <- as.data.frame(plot.data)
+p1 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[1]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[1], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p2 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[2]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[2], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p3 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[3]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[3], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p1 + p2 + p3 + plot_layout(guides="collect")
+
+
+```
+
+## Example 1 - JAGS
+
+```{r chp8-ctt-fit-jags-1, warnings=T, message=T, error=T, cache=TRUE}
+
+# model code
+jags.model.ctt1 <- function(){
+   ############################################
+     # CLASSICAL TEST THEORY MODEL
+     # WITH KNOWN HYPERPARAMETERS
+     #    TRUE SCORE MEAN, TRUE SCORE VARIANCE
+     #    ERROR VARIANCE
+     ############################################
+
+     ############################################
+     # KNOWN HYPERPARAMETERS
+     ############################################
+     mu.T <- 80               # Mean of the true scores
+     sigma.squared.T <- 36    # Variance of the true scores
+     sigma.squared.E <- 16    # Variance of the errors
+
+     tau.T <- 1/sigma.squared.T   # Precision of the true scores
+     tau.E <- 1/sigma.squared.E   # Precision of the errors
+
+ 
+     ############################################
+     # MODEL FOR TRUE SCORES AND OBSERVABLES
+     ############################################
+ 
+     for (i in 1:n) {
+          T[i] ~ dnorm(mu.T, tau.T)     # Distribution of true scores
+          x[i] ~ dnorm(T[i], tau.E)     # Distribution of observables
+     }
+    
+}
+# data
+mydata <- list(
+  n=3, 
+  x=c(70, 80, 96)
+)
+
+# starting values
+start_values <- function(){
+  list("T"=c(80,80,80))
+}
+
+# vector of all parameters to save
+param_save <- c("T")
+
+# fit model
+fit <- jags(
+  model.file=jags.model.ctt1,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=4000,
+  n.burnin = 1000,
+  n.chains = 4,
+  n.thin=1,
+  progress.bar = "none")
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+R2jags::traceplot(jags.mcmc)
+
+# gelman-rubin-brook
+gelman.plot(jags.mcmc)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c("T[1]", "T[2]", "T[3]"),
+  prob = 0.8) + 
+  plot_title
+
+# I prefer a posterior plot that includes prior and MLE
+MLE <- mydata$x
+prior_t <- function(x){dnorm(x, 80, 6)}
+x.t<- seq(50.1, 100, 0.1)
+prior.t <- data.frame(tr=x.t, dens.t = prior_t(x.t))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+
+p1 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[1]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[1], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p2 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[2]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[2], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p3 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[3]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[3], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p1 + p2 + p3 + plot_layout(guides="collect")
+
+```
+
+
+## Example 2 - Known Measurement Model with Multiple Measures
+
+Here, the only thing that changes from the first example is that now we have multiple observations per individual.
+We can think of this as if we could administer a test (or parallel tests) repeatedly without learning occuring.
+The DAG and model-specification change to:
+
+```{r chp8-dag-2, echo=FALSE,fig.align='center',fig.cap='Simple CTT model with known measurement parameters and multiple measures'}
+knitr::include_graphics(paste0(w.d,'/dag/chp8-ctt2.png'),
+                        auto_pdf = TRUE)
+```
+
+
+```{r chp8-spec-2, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the known parameters CTT model and multiple measures'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp8-ctt2.png'),
+                        auto_pdf = TRUE)
+```
+
+## Example 2 - Stan
+
+```{r chp8-ctt-fit-stan-2, warnings=T, message=T,error=T, cache=TRUE}
+
+model_ctt2 <- '
+data {
+  int  N;
+  int  J;
+  matrix[N, J] X;
+  real muT;
+  real sigmaT;
+  real sigmaE;
+}
+
+parameters {
+  real T[N];
+}
+
+model {
+  for(i in 1:N){
+    T[i] ~ normal(muT, sigmaT);
+    for(j in 1:J){
+      X[i, j] ~ normal(T[i], sigmaE);
+    }
+  }
+}
+
+'
+# data must be in a list
+mydata <- list(
+  N = 10, J = 5, 
+  X = matrix(
+    c(80, 77, 80, 73, 73,
+      83, 79, 78, 78, 77,
+      85, 77, 88, 81, 80,
+      76, 76, 76, 78, 67,
+      70, 69, 73, 71, 77,
+      87, 89, 92, 91, 87,
+      76, 75, 79, 80, 75,
+      86, 75, 80, 80, 82,
+      84, 79, 79, 77, 82,
+      96, 85, 91, 87, 90),
+    ncol=5, nrow=10, byrow=T),
+  muT = 80,
+  sigmaT = 6, #sqrt(36)
+  sigmaE = 4 # sqrt(16)
+)
+
+# initial values
+start_values <- function(){
+  list(T=c(80,80,80,80,80,80,80,80,80,80))
+}
+
+# Next, need to fit the model
+#   I have explicitly outlined some common parameters
+fit <- stan(
+  model_code = model_ctt2, # model code to be compiled
+  data = mydata,          # my data
+  init = start_values,    # starting values
+  chains = 4,             # number of Markov chains
+  warmup = 1000,          # number of warm up iterations per chain
+  iter = 5000,            # total number of iterations per chain
+  cores = 4,              # number of cores (could use one per chain)
+  refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit)
+
+# plot the posterior in a
+#  95% probability interval
+#  and 80% to contrast the dispersion
+plot(fit)
+
+# traceplots
+rstan::traceplot(fit, pars = c("T"), inc_warmup = TRUE)
+
+# Gelman-Rubin-Brooks Convergence Criterion
+p1 <- ggs_grb(ggs(fit, family = "T")) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p1
+# autocorrelation
+p1 <- ggs_autocorrelation(ggs(fit, family="T")) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p1 
+# plot the posterior density
+plot.data <- as.matrix(fit)
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = paste0("T[",1:10,"]"),
+  prob = 0.8) + 
+  plot_title
+
+# I prefer a posterior plot that includes prior and MLE
+# Expanded Posterior Plot
+MLE <- rowMeans(mydata$X)
+prior_t <- function(x){dnorm(x, 80, 6)}
+x.t<- seq(50.1, 100, 0.1)
+prior.t <- data.frame(tr=x.t, dens.t = prior_t(x.t))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+plot.data <- as.data.frame(plot.data)
+p1 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[1]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[1], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p2 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[2]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[2], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p3 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[5]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[5], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p4 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[10]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[10], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+
+p1 + p2 + p3 + p4 + plot_layout(guides="collect")
+
+
+```
+
+## Example 2 - JAGS
+
+```{r chp8-ctt-fit-jags-2, warnings=T, message=T, error=T, cache=TRUE}
+
+# model code
+jags.model.ctt2 <- function(){
+   ############################################
+     # CLASSICAL TEST THEORY
+     # WITH KNOWN 
+     #    TRUE SCORE MEAN, TRUE SCORE VARIANCE
+     #    ERROR VARIANCE
+     ############################################
+
+     ############################################
+     # KNOWN HYPERPARAMETERS
+     ############################################
+     mu.T <- 80               # Mean of the true scores
+     sigma.squared.T <- 36    # Variance of the true scores
+     sigma.squared.E <- 16    # Variance of the errors
+
+     tau.T <- 1/sigma.squared.T   # Precision of the true scores
+     tau.E <- 1/sigma.squared.E   # Precision of the errors
+
+ 
+     ############################################
+     # MODEL FOR TRUE SCORES AND OBSERVABLES
+     ############################################
+ 
+     for (i in 1:N) {
+        T[i] ~ dnorm(mu.T, tau.T)     # Distribution of true scores
+        for(j in 1:J){
+          x[i, j] ~ dnorm(T[i], tau.E)     # Distribution of observables 
+        }
+     }
+    
+}
+# data
+mydata <- list(
+  N = 10, J = 5, 
+  x = matrix(
+    c(80, 77, 80, 73, 73,
+      83, 79, 78, 78, 77,
+      85, 77, 88, 81, 80,
+      76, 76, 76, 78, 67,
+      70, 69, 73, 71, 77,
+      87, 89, 92, 91, 87,
+      76, 75, 79, 80, 75,
+      86, 75, 80, 80, 82,
+      84, 79, 79, 77, 82,
+      96, 85, 91, 87, 90),
+    ncol=5, nrow=10, byrow=T)
+)
+
+# starting values
+start_values <- function(){
+  list("T"=rep(80,10))
+}
+
+# vector of all parameters to save
+param_save <- c("T")
+
+# fit model
+fit <- jags(
+  model.file=jags.model.ctt2,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=4000,
+  n.burnin = 1000,
+  n.chains = 4,
+  n.thin=1,
+  progress.bar = "none")
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+R2jags::traceplot(jags.mcmc)
+
+# gelman-rubin-brook
+gelman.plot(jags.mcmc)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c("T[1]", "T[2]", "T[3]"),
+  prob = 0.8) + 
+  plot_title
+
+# I prefer a posterior plot that includes prior and MLE
+MLE <- rowMeans(mydata$X)
+prior_t <- function(x){dnorm(x, 80, 6)}
+x.t<- seq(50.1, 100, 0.1)
+prior.t <- data.frame(tr=x.t, dens.t = prior_t(x.t))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+
+p1 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[1]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[1], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p2 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[2]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[2], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p3 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[5]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[5], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p3 <- ggplot()+
+  geom_density(data=plot.data,
+               aes(x=`T[10]`, color="Posterior"))+
+  geom_line(data=prior.t,
+            aes(x=tr, y=dens.t, color="Prior"))+
+  geom_vline(aes(xintercept=MLE[10], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p1 + p2 + p3 + plot_layout(guides="collect")
+
+```
+
+## Example 3 - Unknown Measurement Model with Multiple Measures
+
+Here, we finally get to the (more) realistic case when we don't have as much prior knowledge about the measurement model parameters (namely, variances).
+The structure relies on hierarchically specifying priors to induce conditional independence.
+The DAG and model-specification change to:
+
+```{r chp8-dag-3, echo=FALSE,fig.align='center',fig.cap='Simple CTT model with unknown measurement parameters'}
+knitr::include_graphics(paste0(w.d,'/dag/chp8-ctt3.png'),
+                        auto_pdf = TRUE)
+```
+
+
+```{r chp8-spec-3, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the unknown measurement model parameters'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp8-ctt3.png'),
+                        auto_pdf = TRUE)
+```
+
+## Example 3 - Stan
+
+```{r chp8-ctt-fit-stan-3, warnings=T, message=T,error=T, cache=TRUE}
+
+model_ctt3 <- '
+data {
+  int  N;
+  int  J;
+  matrix[N, J] X;
+}
+
+parameters {
+  real T[N];
+  real muT;
+  real<lower=0> sigmaT;
+  real<lower=0> sigmaE;
+}
+
+model {
+  for(i in 1:N){
+    T[i] ~ normal(muT, sigmaT);
+    for(j in 1:J){
+      X[i, j] ~ normal(T[i], sigmaE);
+    }
+  }
+  muT ~ normal(80, 10);
+  sigmaT ~ inv_gamma(1, 6);
+  sigmaE ~ inv_gamma(1, 4);
+}
+
+generated quantities {
+  real rho;
+  real rhocomp;
+  
+  rho = square(sigmaT)/(square(sigmaT) + square(sigmaE));
+  rhocomp = J*rho/((J-1)*rho + 1);
+}
+
+'
+# data must be in a list
+mydata <- list(
+  N = 10, J = 5, 
+  X = matrix(
+    c(80, 77, 80, 73, 73,
+      83, 79, 78, 78, 77,
+      85, 77, 88, 81, 80,
+      76, 76, 76, 78, 67,
+      70, 69, 73, 71, 77,
+      87, 89, 92, 91, 87,
+      76, 75, 79, 80, 75,
+      86, 75, 80, 80, 82,
+      84, 79, 79, 77, 82,
+      96, 85, 91, 87, 90),
+    ncol=5, nrow=10, byrow=T)
+)
+
+# initial values
+start_values <- function(){
+  list(T=c(80,80,80,80,80,80,80,80,80,80),
+       muT=80, sigmaT=10, sigmaE=5)
+}
+
+# Next, need to fit the model
+#   I have explicitly outlined some common parameters
+fit <- stan(
+  model_code = model_ctt3, # model code to be compiled
+  data = mydata,          # my data
+  init = start_values,    # starting values
+  chains = 4,             # number of Markov chains
+  warmup = 1000,          # number of warm up iterations per chain
+  iter = 5000,            # total number of iterations per chain
+  cores = 4,              # number of cores (could use one per chain)
+  refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit)
+
+# plot the posterior in a
+#  95% probability interval
+#  and 80% to contrast the dispersion
+plot(fit)
+
+# traceplots
+rstan::traceplot(fit, pars = c("T", "muT", "sigmaT", "sigmaE", "rho", "rhocomp"), inc_warmup = TRUE)
+
+# Gelman-Rubin-Brooks Convergence Criterion
+p1 <- ggs_grb(ggs(fit)) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p1
+# autocorrelation
+p1 <- ggs_autocorrelation(ggs(fit)) + 
+   theme_bw() + theme(panel.grid = element_blank())
+p1 
+# plot the posterior density
+plot.data <- as.matrix(fit)
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("T[",1:10,"]"), "muT"),
+  prob = 0.8) + 
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c("sigmaT", "sigmaE"),
+  prob = 0.8) + 
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c("rho", "rhocomp"),
+  prob = 0.8) + 
+  plot_title
+# I prefer a posterior plot that includes prior and MLE
+# Expanded Posterior Plot
+MLE <- c(rowMeans(mydata$X), mean(mydata$X))
+
+prior_mu <- function(x){dnorm(x, 80, 10)}
+x.mu<- seq(50.1, 100, 0.1)
+prior.mu <- data.frame(mu=x.mu, dens.mu = prior_mu(x.mu))
+
+prior_sigt <- function(x){dinvgamma(x, 1, 6)}
+x.sigt<- seq(.1, 15, 0.1)
+prior.sigt <- data.frame(sigt=x.sigt, dens.sigt = prior_sigt(x.sigt))
+
+prior_sige <- function(x){dinvgamma(x, 1, 4)}
+x.sige<- seq(.1, 10, 0.1)
+prior.sige <- data.frame(sige=x.sige, dens.sige = prior_sige(x.sige))
+
+prior_t <- function(x){
+  mu <- rnorm(1, 80, 10)
+  sig <- rinvgamma(1, 1, 4)
+  rnorm(x, mu, sig)
+}
+x.t<- seq(50.1, 100, 0.1)
+prior.t <- data.frame(tr=prior_t(10000))
+
+
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+plot.data <- as.data.frame(plot.data)
+p1 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`T[1]`, color="Posterior"))+
+  geom_density(data=prior.t,aes(x=tr,color="Prior"))+
+  geom_vline(aes(xintercept=MLE[1], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p2 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`T[5]`, color="Posterior"))+
+  geom_density(data=prior.t,aes(x=tr,color="Prior"))+
+  geom_vline(aes(xintercept=MLE[5], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p3 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`T[10]`, color="Posterior"))+
+  geom_density(data=prior.t,aes(x=tr,color="Prior"))+
+  geom_vline(aes(xintercept=MLE[10], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p4 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`muT`, color="Posterior"))+
+  geom_line(data=prior.mu,aes(x=mu,y=dens.mu,color="Prior"))+
+  geom_vline(aes(xintercept=MLE[11], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p5 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`sigmaT`, color="Posterior"))+
+  geom_line(data=prior.sigt,aes(x=sigt,y=dens.sigt,color="Prior"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p6 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`sigmaE`, color="Posterior"))+
+  geom_line(data=prior.sige,aes(x=sige,y=dens.sige,color="Prior"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(ncol=3, guides="collect")
+
+
+```
+
+## Example 3 - JAGS
+
+```{r chp8-ctt-fit-jags-3, warnings=T, message=T, error=T, cache=TRUE}
+
+# model code
+jags.model.ctt3 <- function(){
+     ############################################
+     # CLASSICAL TEST THEORY MODEL
+     # WITH UnkNOWN HYPERPARAMETERS
+     #    TRUE SCORE MEAN, TRUE SCORE VARIANCE
+     #    ERROR VARIANCE
+     ############################################
+
+     ############################################
+     # PRIOR DISTRIBUTIONS FOR HYPERPARAMETERS
+     ############################################
+     mu.T ~ dnorm(80,.01)     # Mean of the true scores
+
+     tau.T ~ dgamma(1, 36)   # Precision of the true scores
+     tau.E ~ dgamma(1, 16)   # Precision of the errors
+
+     sigma.squared.T <- 1/tau.T    # Variance of the true scores
+     sigma.squared.E <- 1/tau.E    # Variance of the errors      
+     # get SD for summarizing
+     sigmaT <- pow(sigma.squared.T, 0.5)
+     sigmaE <- pow(sigma.squared.E, 0.5)
+     ############################################
+     # MODEL FOR TRUE SCORES AND OBSERVABLES
+     ############################################
+ 
+     for (i in 1:N) {
+          T[i] ~ dnorm(mu.T, tau.T)     # Distribution of true scores
+          for(j in 1:J){
+               X[i,j] ~ dnorm(T[i], tau.E)     # Distribution of observables
+          }
+     }
+
+     ############################################
+     # RELIABILITY
+     ############################################
+     rho <- sigma.squared.T/(sigma.squared.T+sigma.squared.E)
+     rhocomp <- J*rho/((J-1)*rho+1)
+    
+}
+# data
+mydata <- list(
+  N = 10, J = 5, 
+  X = matrix(
+    c(80, 77, 80, 73, 73,
+      83, 79, 78, 78, 77,
+      85, 77, 88, 81, 80,
+      76, 76, 76, 78, 67,
+      70, 69, 73, 71, 77,
+      87, 89, 92, 91, 87,
+      76, 75, 79, 80, 75,
+      86, 75, 80, 80, 82,
+      84, 79, 79, 77, 82,
+      96, 85, 91, 87, 90),
+    ncol=5, nrow=10, byrow=T)
+)
+
+# initial values
+start_values <- function(){
+  list("T"=c(60,85,80,95,74,69,91,82,87,78),
+       "muT"=80, "sigmaT"=10, "sigmaE"=5)
+}
+
+# vector of all parameters to save
+param_save <- c("T","muT","sigmaT","sigmaE", "rho", "rhocomp")
+
+# fit model
+fit <- jags(
+  model.file=jags.model.ctt2,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=4000,
+  n.burnin = 1000,
+  n.chains = 4,
+  n.thin=1,
+  progress.bar = "none")
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+R2jags::traceplot(jags.mcmc)
+
+# gelman-rubin-brook
+gelman.plot(jags.mcmc)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("T[",1:10,"]"), "muT"),
+  prob = 0.8) + 
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c("sigmaT", "sigmaE"),
+  prob = 0.8) + 
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c("rho", "rhocomp"),
+  prob = 0.8) + 
+  plot_title
+
+# I prefer a posterior plot that includes prior and MLE
+MLE <- c(rowMeans(mydata$X), mean(mydata$X))
+
+prior_mu <- function(x){dnorm(x, 80, 10)}
+x.mu<- seq(50.1, 100, 0.1)
+prior.mu <- data.frame(mu=x.mu, dens.mu = prior_mu(x.mu))
+
+prior_sigt <- function(x){dinvgamma(x, 1, 6)}
+x.sigt<- seq(.1, 15, 0.1)
+prior.sigt <- data.frame(sigt=x.sigt, dens.sigt = prior_sigt(x.sigt))
+
+prior_sige <- function(x){dinvgamma(x, 1, 4)}
+x.sige<- seq(.1, 10, 0.1)
+prior.sige <- data.frame(sige=x.sige, dens.sige = prior_sige(x.sige))
+
+prior_t <- function(x){
+  mu <- rnorm(1, 80, 10)
+  sig <- rinvgamma(1, 1, 4)
+  rnorm(x, mu, sig)
+}
+x.t<- seq(50.1, 100, 0.1)
+prior.t <- data.frame(tr=prior_t(10000))
+cols <- c("Posterior"="#0072B2", "Prior"="#E69F00", "MLE"= "black")#"#56B4E9", "#E69F00" "#CC79A7"
+
+p1 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`T[1]`, color="Posterior"))+
+  geom_density(data=prior.t,aes(x=tr,color="Prior"))+
+  geom_vline(aes(xintercept=MLE[1], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p2 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`T[5]`, color="Posterior"))+
+  geom_density(data=prior.t,aes(x=tr,color="Prior"))+
+  geom_vline(aes(xintercept=MLE[5], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p3 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`T[10]`, color="Posterior"))+
+  geom_density(data=prior.t,aes(x=tr,color="Prior"))+
+  geom_vline(aes(xintercept=MLE[10], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p4 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`muT`, color="Posterior"))+
+  geom_line(data=prior.mu,aes(x=mu,y=dens.mu,color="Prior"))+
+  geom_vline(aes(xintercept=MLE[11], color="MLE"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p5 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`sigmaT`, color="Posterior"))+
+  geom_line(data=prior.sigt,aes(x=sigt,y=dens.sigt,color="Prior"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p6 <- ggplot()+
+  geom_density(data=plot.data, aes(x=`sigmaE`, color="Posterior"))+
+  geom_line(data=prior.sige,aes(x=sige,y=dens.sige,color="Prior"))+
+  scale_color_manual(values=cols, name=NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank())
+
+p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(ncol=3, guides="collect")
+
+```
+
