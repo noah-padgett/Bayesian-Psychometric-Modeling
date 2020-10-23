@@ -546,7 +546,7 @@ parameters {
                               // corr mat of random slopes
   vector[M] A; // Vector of factor variances
   matrix[N, M] ksi; //latent variable values
-  matrix[J] lambda; //factor loadings matrix
+  vector[J] lambda; //factor loadings matrix
   real tau[J]; //intercepts
   real<lower=0> psi[J]; //residual variance
 }
