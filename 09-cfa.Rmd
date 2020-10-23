@@ -72,6 +72,136 @@ knitr::include_graphics(paste0(w.d,'/model-spec/chp9-cfa1.png'),
                         auto_pdf = TRUE)
 ```
 
+
+## JAGS - Single Latent Variable
+
+```{r chp9-cfa-fit-jags-1, warnings=T, message=T, error=T, cache=TRUE}
+
+# model code
+jags.model.cfa1 <- function(){
+
+  ########################################
+  # Specify the factor analysis measurement model for the observables
+  ##############################################
+  for (i in 1:n){
+    for(j in 1:J){
+      mu[i,j] <- tau[j] + ksi[i]*lambda[j]      # model implied expectation for each observable
+      x[i,j] ~ dnorm(mu[i,j], inv.psi[j])    # distribution for each observable
+    }
+  }
+  
+  
+  ##################################
+  # Specify the (prior) distribution for the latent variables
+  ####################################
+  for (i in 1:n){
+    ksi[i] ~ dnorm(kappa, inv.phi)  # distribution for the latent variables
+  }
+  
+  
+  ######################################
+  # Specify the prior distribution for the parameters that govern the latent variables
+  ###################################
+  kappa <- 0              # Mean of factor 1
+  inv.phi ~ dgamma(5, 10) # Precision of factor 1
+  phi <- 1/inv.phi        # Variance of factor 1
+  
+  
+  ########################################
+  # Specify the prior distribution for the measurement model parameters
+  ########################################
+  for(j in 1:J){
+    tau[j] ~ dnorm(3, .1)        # Intercepts for observables
+  	inv.psi[j] ~ dgamma(5, 10) # Precisions for observables
+  	psi[j] <- 1/inv.psi[j]   # Variances for observables
+  }
+  
+  lambda[1] <- 1.0              # loading fixed to 1.0 
+  for (j in 2:J){
+  	lambda[j] ~ dnorm(1, .1)    # prior distribution for the remaining loadings
+  }
+}
+# data must be in a list
+dat <- read.table("code/CFA-One-Latent-Variable/Data/IIS.dat", header=T)
+
+mydata <- list(
+  n = 500, J = 5,
+  x = as.matrix(dat)
+)
+
+
+# initial values
+start_values <- list(
+  list("tau"=c(.1, .1, .1, .1, .1),
+       "lambda"=c(NA, 0, 0, 0, 0),
+       "inv.phi"=1,
+       "inv.psi"=c(1, 1, 1, 1, 1)),
+  list("tau"=c(3, 3, 3, 3, 3),
+       "lambda"=c(NA, 3, 3, 3, 3),
+       "inv.phi"=2,
+       "inv.psi"=c(2, 2, 2, 2, 2)),
+  list("tau"=c(5, 5, 5, 5, 5),
+       "lambda"=c(NA, 6, 6, 6, 6),
+       "inv.phi"=.5,
+       "inv.psi"=c(.5, .5, .5, .5, .5))
+)
+
+# vector of all parameters to save
+# exclude fixed lambda since it throws an error in
+# in the GRB plot
+param_save <- c("tau", paste0("lambda[",2:5,"]"), "phi", "psi")
+
+# fit model
+fit <- jags(
+  model.file=jags.model.cfa1,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=5000,
+  n.burnin = 2500,
+  n.chains = 3,
+  n.thin=1,
+  progress.bar = "none")
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+R2jags::traceplot(jags.mcmc)
+
+# gelman-rubin-brook
+gelman.plot(jags.mcmc)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("tau[",1:5,"]")),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("lambda[", 2:5, "]")),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("psi[", 1:5, "]"), "phi"),
+  prob = 0.8) +
+  plot_title
+
+```
+
+
 ## Stan - Single Latent Variable 
 
 ```{r chp9-cfa-fit-stan-1, warnings=T, message=T,error=T, cache=TRUE}
@@ -366,6 +496,176 @@ p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(guides = "collect")
 
 ```
 
+
+## JAGS - Two Latent Variable
+
+```{r chp9-cfa-fit-jags-2, warnings=T, message=T, error=T, cache=TRUE}
+
+# model code
+jags.model.cfa2 <- function(){
+
+  ###################
+  # Specify the factor analysis measurement model for the observables
+  ####################
+  for (i in 1:n){
+    
+    # expected value for each examinee for each observable
+    mu[i,1] <- tau[1] + lambda[1,1]*ksi[i,1]  	
+    mu[i,2] <- tau[2] + lambda[2,1]*ksi[i,1]     	
+    mu[i,3] <- tau[3] + lambda[3,1]*ksi[i,1]          
+    mu[i,4] <- tau[4] + lambda[4,2]*ksi[i,2]          
+    mu[i,5] <- tau[5] + lambda[5,2]*ksi[i,2]          
+    
+    for(j in 1:J){
+      x[i,j] ~ dnorm(mu[i,j], inv.psi[j])    # distribution for each observable
+    }
+  }
+  
+  
+  ######################################################################
+  # Specify the (prior) distribution for the latent variables
+  ######################################################################
+  for (i in 1:n){
+    ksi[i, 1:M] ~ dmnorm(kappa[], inv.phi[,])  # distribution for the latent variables
+  }
+  
+  
+  ######################################################################
+  # Specify the prior distribution for the parameters that govern the latent variables
+  ######################################################################
+  for(m in 1:M){
+    kappa[m] <- 0              # Means of latent variables
+  }
+  
+  inv.phi[1:M,1:M] ~ dwish(dxphi.0[ , ], d);  	# prior for precision matrix for the latent variables
+  phi[1:M,1:M] <- inverse(inv.phi[ , ]);  		# the covariance matrix for the latent vars
+  
+  phi.0[1,1] <- 1;       			
+  phi.0[1,2] <- .3;					
+  phi.0[2,1] <- .3;
+  phi.0[2,2] <- 1;
+  d <- 2;							
+                              
+  for (m in 1:M){						
+       for (mm in 1:M){
+            dxphi.0[m,mm] <- d*phi.0[m,mm];
+       }
+  }
+  
+  
+  
+  ######################################################################
+  # Specify the prior distribution for the measurement model parameters
+  ######################################################################
+  for(j in 1:J){
+    tau[j] ~ dnorm(3, .1)        # Intercepts for observables
+  	inv.psi[j] ~ dgamma(5, 10) # Precisions for observables
+  	psi[j] <- 1/inv.psi[j]   # Variances for observables
+  }
+  
+  lambda[1,1] <- 1.0              # loading fixed to 1.0 
+  lambda[4,2] <- 1.0              # loading fixed to 1.0 
+  
+  for (j in 2:3){
+  	lambda[j,1] ~ dnorm(1, .1)    # prior distribution for the remaining loadings
+  }
+  lambda[5,2] ~ dnorm(1, .1)      # prior distribution for the remaining loadings
+}
+# data must be in a list
+dat <- read.table("code/CFA-One-Latent-Variable/Data/IIS.dat", header=T)
+
+mydata <- list(
+  n = 500, J = 5, M =2,
+  x = as.matrix(dat)
+)
+
+
+# initial values
+start_values <- list(
+  list("tau"=c(1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01),
+       lambda= structure(
+         .Data= c( NA,  2.00E+00, 2.00E+00, NA, NA,
+                   NA,  NA,  NA,  NA, 2.00E+00),
+         .Dim=c(5, 2)),
+       inv.phi= structure(
+         .Data= c(1.00E+00, 0.00E+00, 0.00E+00, 1.00E+00),
+         .Dim=c(2, 2)),
+       inv.psi=c(1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00)),
+  list(tau=c(3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00),
+       lambda= structure(
+         .Data= c( NA,  5.00E-01, 5.00E-01,  NA, NA, 
+                   NA,  NA,  NA,  NA, 5.00E-01),
+         .Dim=c(5, 2)),
+       inv.phi= structure(
+         .Data= c(1.33E+00, -6.67E-01, -6.67E-01, 1.33E+00),
+         .Dim=c(2, 2)),
+       inv.psi=c(2.00E+00, 2.00E+00, 2.00E+00, 2.00E+00, 2.00E+00))
+,
+  list(tau=c(5.00E+00, 5.00E+00, 5.00E+00, 5.00E+00, 5.00E+00),
+       lambda= structure(
+         .Data= c( NA,  1.00E+00, 1.00E+00,  NA, NA,
+                   NA,  NA,  NA,  NA, 1.00E+00),
+         .Dim=c(5, 2)),
+       inv.phi= structure(
+         .Data= c(1.96E+00, -1.37E+00, -1.37E+00, 1.96E+00),
+         .Dim=c(2, 2)),
+       inv.psi=c(5.00E-01, 5.00E-01, 5.00E-01, 5.00E-01, 5.00E-01))
+)
+
+# vector of all parameters to save
+# exclude fixed lambda since it throws an error in
+# in the GRB plot
+param_save <- c("tau", "lambda[2,1]","lambda[3,1]","lambda[5,2]", "phi", "psi")
+
+# fit model
+fit <- jags(
+  model.file=jags.model.cfa2,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=5000,
+  n.burnin = 2500,
+  n.chains = 3,
+  n.thin=1,
+  progress.bar = "none")
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+R2jags::traceplot(jags.mcmc)
+
+# gelman-rubin-brook
+gelman.plot(jags.mcmc)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("tau[",1:5,"]")),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c("lambda[2,1]","lambda[3,1]","lambda[5,2]"),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("psi[", 1:5, "]"), "phi"),
+  prob = 0.8) +
+  plot_title
+
+```
 
 
 ## Stan - Two Latent Variable 
@@ -684,3 +984,97 @@ mcmc_areas(
 
 ```
 
+
+## Indeterminacy in One Factor CFA
+
+```{r chp9-cfa-fit-jags-FID, warnings=T, message=T,error=T, cache=TRUE}
+
+
+# model code
+jags.model.cfa.ind <- function(){
+
+  ######################################################################
+  # Specify the factor analysis measurement model for the observables
+  ######################################################################
+  for (i in 1:n){
+    for(j in 1:J){
+      mu[i,j] <- tau[j] + ksi[i]*lambda[j]      # model implied expectation for each observable
+      x[i,j] ~ dnorm(mu[i,j], inv.psi[j])    # distribution for each observable
+    }
+  }
+  
+  
+  ######################################################################
+  # Specify the (prior) distribution for the latent variables
+  ######################################################################
+  for (i in 1:n){
+    ksi[i] ~ dnorm(kappa, inv.phi)  # distribution for the latent variables
+  }
+  
+  
+  ######################################################################
+  # Specify the prior distribution for the parameters that govern the latent variables
+  ######################################################################
+  kappa <- 0              # Mean of factor 1
+  inv.phi <-1  	# Precision of factor 1
+  phi <- 1/inv.phi        # Variance of factor 1
+  
+  
+  ######################################################################
+  # Specify the prior distribution for the measurement model parameters
+  ######################################################################
+  for(j in 1:J){
+    tau[j] ~ dnorm(3, .1)        # Intercepts for observables
+  	inv.psi[j] ~ dgamma(5, 10) # Precisions for observables
+  	psi[j] <- 1/inv.psi[j]   # Variances for observables
+  }
+  
+  for (j in 1:J){
+  	lambda[j] ~ dnorm(1, .1)    # prior distribution for the remaining loadings
+  }
+}
+# data must be in a list
+dat <- read.table("code/CFA-One-Latent-Variable/Data/IIS.dat", header=T)
+
+mydata <- list(
+  n = 500, J = 5,
+  x = as.matrix(dat)
+)
+
+
+# initial values
+start_values <- list(
+  list("tau"=c(3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00),
+       "lambda"=c(3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00),
+       "inv.psi"=c(2.00E+00, 2.00E+00, 2.00E+00, 2.00E+00, 2.00E+00)),
+  list("tau"=c(3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00),
+       "lambda"=c(-3.00E+00, -3.00E+00, -3.00E+00, -3.00E+00, -3.00E+00),
+       "inv.psi"=c(2.00E+00, 2.00E+00, 2.00E+00, 2.00E+00, 2.00E+00))
+)
+
+# vector of all parameters to save
+# exclude fixed lambda since it throws an error in
+# in the GRB plot
+param_save <- c("tau[1]", "lambda[1]", "phi", "psi[1]", "ksi[8]")
+
+# fit model
+fit <- jags(
+  model.file=jags.model.cfa.ind,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=5000,
+  n.burnin = 2500,
+  n.chains = 2,
+  n.thin=1,
+  progress.bar = "none")
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+R2jags::traceplot(jags.mcmc)
+
+
+```
