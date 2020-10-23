@@ -524,6 +524,12 @@ ggs_autocorrelation(ggs(fit, family="phi")) +
 Because I had such massive problems with the above, I search for how people estimate CFA models in Stan.
 I found that most people use the LKJ Cholesky parameterization.
 
+Some helpful pages that I used to help get this to work.
+
+* [Stan User's Guide on Factor Covaraince Parameterization](https://mc-stan.org/docs/2_24/stan-users-guide/loading-matrix-for-factor-analysis.html)
+* [Michael DeWitt - Confirmatory Factor Analysis in Stan](https://michaeldewittjr.com/resources/stan_cfa.html#bayesian_version)
+* [Rick Farouni - Fitting a Bayesian Factor Analysis Model in Stan](https://rfarouni.github.io/assets/projects/BayesianFactorAnalysis/BayesianFactorAnalysis.html)
+
 ```{r chp9-cfa-fit-stan-3, warnings=T, message=T,error=T, cache=TRUE}
 
 
@@ -540,7 +546,7 @@ parameters {
                               // corr mat of random slopes
   vector[M] A; // Vector of factor variances
   matrix[N, M] ksi; //latent variable values
-  matrix[J, M] lambda; //factor loadings matrix
+  matrix[J] lambda; //factor loadings matrix
   real tau[J]; //intercepts
   real<lower=0> psi[J]; //residual variance
 }
@@ -571,6 +577,7 @@ model {
   // prior for measurement model parameters
   tau ~ normal(3, 10);
   psi ~ inv_gamma(5, 10);
+  // factor loading patterns
   lambda[1] ~ normal(1, .001);
   lambda[2] ~ normal(1, 10);
   lambda[3] ~ normal(1, 10);
