@@ -20,7 +20,7 @@
 # rm(list=ls())
 # list of packages
 packages <- c("patchwork", "tidyr", "dplyr", "ggplot2",
-              "R2jags","R2WinBUGS",
+              "R2jags","R2WinBUGS", "blavaan",
               "rstan", "brms", "bayesplot", "ggmcmc",
               "kableExtra", "extraDistr",
               "dagitty", "ggdag", "ggraph", "cowplot")

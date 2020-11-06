@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>10.2 Posterior Predictive Distributions | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
+  <meta name="description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="10.2 Posterior Predictive Distributions | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
+  <meta name="github-repo" content="noah-padgett/Bayesian-Psychometric-Modeling" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10.2 Posterior Predictive Distributions | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  
+  <meta name="twitter:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
+  
+
+<meta name="author" content="R. Noah Padgett" />
+
+
+<meta name="date" content="2020-11-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="residual-analysis.html"/>
+<link rel="next" href="model-comparison.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Bayesian Psychometric Modeling</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Foundations</b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started/Overview Chapter</a><ul>
+<li class="chapter" data-level="1.1" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i><b>1.1</b> Software</a></li>
+<li class="chapter" data-level="1.2" data-path="overview-of-assessment-and-psychometric-modeling.html"><a href="overview-of-assessment-and-psychometric-modeling.html"><i class="fa fa-check"></i><b>1.2</b> Overview of Assessment and Psychometric Modeling</a></li>
+<li class="chapter" data-level="1.3" data-path="looking-forward.html"><a href="looking-forward.html"><i class="fa fa-check"></i><b>1.3</b> Looking Forward</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="chp2.html"><a href="chp2.html"><i class="fa fa-check"></i><b>2</b> Introduction to Bayesian Inference</a><ul>
+<li class="chapter" data-level="2.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html"><i class="fa fa-check"></i><b>2.1</b> Beta-binomial Example</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-stan"><i class="fa fa-check"></i><b>2.1.1</b> Computation using Stan</a></li>
+<li class="chapter" data-level="2.1.2" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-winbugs-openbugs"><i class="fa fa-check"></i><b>2.1.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
+<li class="chapter" data-level="2.1.3" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-jags-r2jags"><i class="fa fa-check"></i><b>2.1.3</b> Computation using JAGS (R2jags)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html"><i class="fa fa-check"></i><b>2.2</b> Beta-Bernoulli Example</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-stan-1"><i class="fa fa-check"></i><b>2.2.1</b> Computation using Stan</a></li>
+<li class="chapter" data-level="2.2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-winbugs-openbugs-1"><i class="fa fa-check"></i><b>2.2.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
+<li class="chapter" data-level="2.2.3" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-jags-r2jags-1"><i class="fa fa-check"></i><b>2.2.3</b> Computation using JAGS (R2jags)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="conceptual-issues-in-bayesian-inference.html"><a href="conceptual-issues-in-bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Conceptual Issues in Bayesian Inference</a></li>
+<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a><ul>
+<li class="chapter" data-level="4.1" data-path="stan-model-for-mean-and-variance-unknown.html"><a href="stan-model-for-mean-and-variance-unknown.html"><i class="fa fa-check"></i><b>4.1</b> Stan Model for mean and variance unknown</a></li>
+<li class="chapter" data-level="4.2" data-path="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><a href="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><i class="fa fa-check"></i><b>4.2</b> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="markov-chain-monte-carlo-estimation.html"><a href="markov-chain-monte-carlo-estimation.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo Estimation</a></li>
+<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="stan-model-for-regression-model.html"><a href="stan-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.1</b> Stan Model for Regression Model</a></li>
+<li class="chapter" data-level="6.2" data-path="jags-model-for-regression-model.html"><a href="jags-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.2</b> JAGS Model for Regression Model</a></li>
+</ul></li>
+<li class="part"><span><b>II Psychometrics</b></span></li>
+<li class="chapter" data-level="7" data-path="canonical-bayesian-psychometric-modeling.html"><a href="canonical-bayesian-psychometric-modeling.html"><i class="fa fa-check"></i><b>7</b> Canonical Bayesian Psychometric Modeling</a></li>
+<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a><ul>
+<li class="chapter" data-level="8.1" data-path="example-1-known-measurement-model-parameters-with-1-measure.html"><a href="example-1-known-measurement-model-parameters-with-1-measure.html"><i class="fa fa-check"></i><b>8.1</b> Example 1 - Known measurement model parameters with 1 measure</a></li>
+<li class="chapter" data-level="8.2" data-path="example-1-stan.html"><a href="example-1-stan.html"><i class="fa fa-check"></i><b>8.2</b> Example 1 - Stan</a></li>
+<li class="chapter" data-level="8.3" data-path="example-1-jags.html"><a href="example-1-jags.html"><i class="fa fa-check"></i><b>8.3</b> Example 1 - JAGS</a></li>
+<li class="chapter" data-level="8.4" data-path="example-2-known-measurement-model-with-multiple-measures.html"><a href="example-2-known-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.4</b> Example 2 - Known Measurement Model with Multiple Measures</a></li>
+<li class="chapter" data-level="8.5" data-path="example-2-stan.html"><a href="example-2-stan.html"><i class="fa fa-check"></i><b>8.5</b> Example 2 - Stan</a></li>
+<li class="chapter" data-level="8.6" data-path="example-2-jags.html"><a href="example-2-jags.html"><i class="fa fa-check"></i><b>8.6</b> Example 2 - JAGS</a></li>
+<li class="chapter" data-level="8.7" data-path="example-3-unknown-measurement-model-with-multiple-measures.html"><a href="example-3-unknown-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.7</b> Example 3 - Unknown Measurement Model with Multiple Measures</a></li>
+<li class="chapter" data-level="8.8" data-path="example-3-stan.html"><a href="example-3-stan.html"><i class="fa fa-check"></i><b>8.8</b> Example 3 - Stan</a></li>
+<li class="chapter" data-level="8.9" data-path="example-3-jags.html"><a href="example-3-jags.html"><i class="fa fa-check"></i><b>8.9</b> Example 3 - JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="confirmatory-factor-analysis.html"><a href="confirmatory-factor-analysis.html"><i class="fa fa-check"></i><b>9</b> Confirmatory Factor Analysis</a><ul>
+<li class="chapter" data-level="9.1" data-path="single-latent-variable-model.html"><a href="single-latent-variable-model.html"><i class="fa fa-check"></i><b>9.1</b> Single Latent Variable Model</a></li>
+<li class="chapter" data-level="9.2" data-path="jags-single-latent-variable.html"><a href="jags-single-latent-variable.html"><i class="fa fa-check"></i><b>9.2</b> JAGS - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.3" data-path="stan-single-latent-variable.html"><a href="stan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.3</b> Stan - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.4" data-path="blavaan-single-latent-variable.html"><a href="blavaan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> Blavaan - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.5" data-path="two-latent-variable-model.html"><a href="two-latent-variable-model.html"><i class="fa fa-check"></i><b>9.5</b> Two Latent Variable Model</a></li>
+<li class="chapter" data-level="9.6" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> JAGS - Two Latent Variable</a></li>
+<li class="chapter" data-level="9.7" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.7</b> Stan - Two Latent Variable</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.7.1</b> Inverse-Wishart Prior</a></li>
+<li class="chapter" data-level="9.7.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.7.2</b> LKJ Cholesky Parameterization</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="blavaan-two-latent-variables.html"><a href="blavaan-two-latent-variables.html"><i class="fa fa-check"></i><b>9.8</b> Blavaan - Two Latent Variables</a></li>
+<li class="chapter" data-level="9.9" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.9</b> Indeterminacy in One Factor CFA</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a><ul>
+<li class="chapter" data-level="10.1" data-path="residual-analysis.html"><a href="residual-analysis.html"><i class="fa fa-check"></i><b>10.1</b> Residual Analysis</a></li>
+<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#example-of-posterior-predictive-distribution-of-correlations"><i class="fa fa-check"></i><b>10.2.1</b> Example of posterior predictive distribution of correlations</a></li>
+<li class="chapter" data-level="10.2.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#ppd-srmr"><i class="fa fa-check"></i><b>10.2.2</b> PPD SRMR</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="posterior-predictive-distributions" class="section level2">
+<h2><span class="header-section-number">10.2</span> Posterior Predictive Distributions</h2>
+<p>The posterior predictive distribution is used heavily in model evaluation.</p>
+<p>(look at Bayes notes)</p>
+<p>Basically, the posterior predictive distribution is the what values of the <em>observed</em> data (<span class="math inline">\(Y\)</span>) are mostly likely given the posterior distribution.</p>
+<div id="example-of-posterior-predictive-distribution-of-correlations" class="section level3">
+<h3><span class="header-section-number">10.2.1</span> Example of posterior predictive distribution of correlations</h3>
+<p>In this example, we use the correlations of the observed variable as the function of interest.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="posterior-predictive-distributions.html#cb1-1"></a><span class="co"># model code</span></span>
+<span id="cb1-2"><a href="posterior-predictive-distributions.html#cb1-2"></a>jags.model.cfa &lt;-<span class="st"> </span><span class="cf">function</span>(){</span>
+<span id="cb1-3"><a href="posterior-predictive-distributions.html#cb1-3"></a></span>
+<span id="cb1-4"><a href="posterior-predictive-distributions.html#cb1-4"></a>  <span class="co">########################################</span></span>
+<span id="cb1-5"><a href="posterior-predictive-distributions.html#cb1-5"></a>  <span class="co"># Specify the factor analysis measurement</span></span>
+<span id="cb1-6"><a href="posterior-predictive-distributions.html#cb1-6"></a>  <span class="co"># model for the observables</span></span>
+<span id="cb1-7"><a href="posterior-predictive-distributions.html#cb1-7"></a>  <span class="co">########################################</span></span>
+<span id="cb1-8"><a href="posterior-predictive-distributions.html#cb1-8"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
+<span id="cb1-9"><a href="posterior-predictive-distributions.html#cb1-9"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb1-10"><a href="posterior-predictive-distributions.html#cb1-10"></a>      <span class="co"># model implied expectation for each observable</span></span>
+<span id="cb1-11"><a href="posterior-predictive-distributions.html#cb1-11"></a>      mu[i,j] &lt;-<span class="st"> </span>tau[j] <span class="op">+</span><span class="st"> </span>ksi[i]<span class="op">*</span>lambda[j]</span>
+<span id="cb1-12"><a href="posterior-predictive-distributions.html#cb1-12"></a>      <span class="co"># distribution for each observable</span></span>
+<span id="cb1-13"><a href="posterior-predictive-distributions.html#cb1-13"></a>      x[i,j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(mu[i,j], inv.psi[j])    </span>
+<span id="cb1-14"><a href="posterior-predictive-distributions.html#cb1-14"></a>    }</span>
+<span id="cb1-15"><a href="posterior-predictive-distributions.html#cb1-15"></a>  }</span>
+<span id="cb1-16"><a href="posterior-predictive-distributions.html#cb1-16"></a>  </span>
+<span id="cb1-17"><a href="posterior-predictive-distributions.html#cb1-17"></a>  <span class="co">########################################</span></span>
+<span id="cb1-18"><a href="posterior-predictive-distributions.html#cb1-18"></a>  <span class="co"># Specify the (prior) distribution for </span></span>
+<span id="cb1-19"><a href="posterior-predictive-distributions.html#cb1-19"></a>  <span class="co"># the latent variables</span></span>
+<span id="cb1-20"><a href="posterior-predictive-distributions.html#cb1-20"></a>  <span class="co">########################################</span></span>
+<span id="cb1-21"><a href="posterior-predictive-distributions.html#cb1-21"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
+<span id="cb1-22"><a href="posterior-predictive-distributions.html#cb1-22"></a>    <span class="co"># distribution for the latent variables</span></span>
+<span id="cb1-23"><a href="posterior-predictive-distributions.html#cb1-23"></a>    ksi[i] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(kappa, inv.phi)  </span>
+<span id="cb1-24"><a href="posterior-predictive-distributions.html#cb1-24"></a>  }</span>
+<span id="cb1-25"><a href="posterior-predictive-distributions.html#cb1-25"></a>  </span>
+<span id="cb1-26"><a href="posterior-predictive-distributions.html#cb1-26"></a>  </span>
+<span id="cb1-27"><a href="posterior-predictive-distributions.html#cb1-27"></a>  <span class="co">########################################</span></span>
+<span id="cb1-28"><a href="posterior-predictive-distributions.html#cb1-28"></a>  <span class="co"># Specify the prior distribution for the</span></span>
+<span id="cb1-29"><a href="posterior-predictive-distributions.html#cb1-29"></a>  <span class="co"># parameters that govern the latent variables</span></span>
+<span id="cb1-30"><a href="posterior-predictive-distributions.html#cb1-30"></a>  <span class="co">########################################</span></span>
+<span id="cb1-31"><a href="posterior-predictive-distributions.html#cb1-31"></a>  kappa &lt;-<span class="st"> </span><span class="dv">0</span>              <span class="co"># Mean of factor 1</span></span>
+<span id="cb1-32"><a href="posterior-predictive-distributions.html#cb1-32"></a>  inv.phi <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">5</span>, <span class="dv">10</span>) <span class="co"># Precision of factor 1</span></span>
+<span id="cb1-33"><a href="posterior-predictive-distributions.html#cb1-33"></a>  phi &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.phi        <span class="co"># Variance of factor 1</span></span>
+<span id="cb1-34"><a href="posterior-predictive-distributions.html#cb1-34"></a>  </span>
+<span id="cb1-35"><a href="posterior-predictive-distributions.html#cb1-35"></a>  </span>
+<span id="cb1-36"><a href="posterior-predictive-distributions.html#cb1-36"></a>  <span class="co">########################################</span></span>
+<span id="cb1-37"><a href="posterior-predictive-distributions.html#cb1-37"></a>  <span class="co"># Specify the prior distribution for the</span></span>
+<span id="cb1-38"><a href="posterior-predictive-distributions.html#cb1-38"></a>  <span class="co"># measurement model parameters</span></span>
+<span id="cb1-39"><a href="posterior-predictive-distributions.html#cb1-39"></a>  <span class="co">########################################</span></span>
+<span id="cb1-40"><a href="posterior-predictive-distributions.html#cb1-40"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb1-41"><a href="posterior-predictive-distributions.html#cb1-41"></a>    tau[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">3</span>, <span class="fl">.1</span>)        <span class="co"># Intercepts for observables</span></span>
+<span id="cb1-42"><a href="posterior-predictive-distributions.html#cb1-42"></a>    inv.psi[j] <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">5</span>, <span class="dv">10</span>) <span class="co"># Precisions for observables</span></span>
+<span id="cb1-43"><a href="posterior-predictive-distributions.html#cb1-43"></a>    psi[j] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.psi[j]   <span class="co"># Variances for observables</span></span>
+<span id="cb1-44"><a href="posterior-predictive-distributions.html#cb1-44"></a>  }</span>
+<span id="cb1-45"><a href="posterior-predictive-distributions.html#cb1-45"></a>  </span>
+<span id="cb1-46"><a href="posterior-predictive-distributions.html#cb1-46"></a>  lambda[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">1.0</span>              <span class="co"># loading fixed to 1.0 </span></span>
+<span id="cb1-47"><a href="posterior-predictive-distributions.html#cb1-47"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>J){</span>
+<span id="cb1-48"><a href="posterior-predictive-distributions.html#cb1-48"></a>    lambda[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">1</span>, <span class="fl">.1</span>)    <span class="co"># prior distribution for the remaining loadings</span></span>
+<span id="cb1-49"><a href="posterior-predictive-distributions.html#cb1-49"></a>  }</span>
+<span id="cb1-50"><a href="posterior-predictive-distributions.html#cb1-50"></a></span>
+<span id="cb1-51"><a href="posterior-predictive-distributions.html#cb1-51"></a>}</span>
+<span id="cb1-52"><a href="posterior-predictive-distributions.html#cb1-52"></a><span class="co"># data must be in a list</span></span>
+<span id="cb1-53"><a href="posterior-predictive-distributions.html#cb1-53"></a>dat &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;code/CFA-One-Latent-Variable/Data/IIS.dat&quot;</span>, <span class="dt">header=</span>T)</span>
+<span id="cb1-54"><a href="posterior-predictive-distributions.html#cb1-54"></a></span>
+<span id="cb1-55"><a href="posterior-predictive-distributions.html#cb1-55"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb1-56"><a href="posterior-predictive-distributions.html#cb1-56"></a>  <span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">J =</span> <span class="dv">5</span>,</span>
+<span id="cb1-57"><a href="posterior-predictive-distributions.html#cb1-57"></a>  <span class="dt">x =</span> <span class="kw">as.matrix</span>(dat)</span>
+<span id="cb1-58"><a href="posterior-predictive-distributions.html#cb1-58"></a>)</span>
+<span id="cb1-59"><a href="posterior-predictive-distributions.html#cb1-59"></a></span>
+<span id="cb1-60"><a href="posterior-predictive-distributions.html#cb1-60"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb1-61"><a href="posterior-predictive-distributions.html#cb1-61"></a>param_save &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;tau&quot;</span>, <span class="kw">paste0</span>(<span class="st">&quot;lambda[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>), <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;psi&quot;</span>)</span>
+<span id="cb1-62"><a href="posterior-predictive-distributions.html#cb1-62"></a></span>
+<span id="cb1-63"><a href="posterior-predictive-distributions.html#cb1-63"></a><span class="co"># fit model</span></span>
+<span id="cb1-64"><a href="posterior-predictive-distributions.html#cb1-64"></a>fit &lt;-<span class="st"> </span><span class="kw">jags</span>(</span>
+<span id="cb1-65"><a href="posterior-predictive-distributions.html#cb1-65"></a>  <span class="dt">model.file=</span>jags.model.cfa,</span>
+<span id="cb1-66"><a href="posterior-predictive-distributions.html#cb1-66"></a>  <span class="dt">data=</span>mydata,</span>
+<span id="cb1-67"><a href="posterior-predictive-distributions.html#cb1-67"></a>  <span class="dt">parameters.to.save =</span> param_save,</span>
+<span id="cb1-68"><a href="posterior-predictive-distributions.html#cb1-68"></a>  <span class="dt">n.iter=</span><span class="dv">15000</span>,</span>
+<span id="cb1-69"><a href="posterior-predictive-distributions.html#cb1-69"></a>  <span class="dt">n.burnin =</span> <span class="dv">5000</span>,</span>
+<span id="cb1-70"><a href="posterior-predictive-distributions.html#cb1-70"></a>  <span class="dt">n.chains =</span> <span class="dv">1</span>, <span class="co"># for simplicity</span></span>
+<span id="cb1-71"><a href="posterior-predictive-distributions.html#cb1-71"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
+<span id="cb1-72"><a href="posterior-predictive-distributions.html#cb1-72"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## module glm loaded</code></pre>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 2500
+##    Unobserved stochastic nodes: 515
+##    Total graph size: 8029
+## 
+## Initializing model</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="posterior-predictive-distributions.html#cb4-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpoJYxxc/model8a8836155848.txt&quot;, fit using jags,
+##  1 chains, each with 15000 iterations (first 5000 discarded)
+##  n.sims = 10000 iterations saved
+##            mu.vect sd.vect     2.5%      25%      50%      75%    97.5%
+## lambda[1]    1.000   0.000    1.000    1.000    1.000    1.000    1.000
+## lambda[2]    0.727   0.045    0.641    0.697    0.726    0.757    0.820
+## lambda[3]    0.420   0.037    0.348    0.394    0.419    0.444    0.495
+## lambda[4]    1.049   0.066    0.925    1.003    1.047    1.093    1.182
+## lambda[5]    0.983   0.059    0.871    0.943    0.982    1.022    1.104
+## phi          0.436   0.043    0.357    0.406    0.435    0.464    0.525
+## psi[1]       0.373   0.028    0.321    0.353    0.372    0.391    0.431
+## psi[2]       0.183   0.014    0.157    0.173    0.182    0.192    0.212
+## psi[3]       0.180   0.012    0.157    0.171    0.179    0.187    0.204
+## psi[4]       0.378   0.030    0.322    0.357    0.377    0.397    0.441
+## psi[5]       0.266   0.022    0.226    0.251    0.265    0.280    0.311
+## tau[1]       3.333   0.041    3.253    3.306    3.333    3.361    3.411
+## tau[2]       3.898   0.029    3.841    3.878    3.897    3.917    3.955
+## tau[3]       4.596   0.023    4.552    4.580    4.596    4.612    4.640
+## tau[4]       3.033   0.041    2.953    3.006    3.034    3.061    3.114
+## tau[5]       3.712   0.037    3.638    3.687    3.713    3.738    3.785
+## deviance  3381.534  42.306 3300.328 3352.318 3380.587 3409.720 3465.205
+## 
+## DIC info (using the rule, pD = var(deviance)/2)
+## pD = 894.9 and DIC = 4276.4
+## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="posterior-predictive-distributions.html#cb6-1"></a><span class="kw">plot</span>(fit)</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp10-corr-1.png" width="672" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="posterior-predictive-distributions.html#cb7-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb7-2"><a href="posterior-predictive-distributions.html#cb7-2"></a>jags.mcmc &lt;-<span class="st"> </span><span class="kw">as.mcmc</span>(fit)</span>
+<span id="cb7-3"><a href="posterior-predictive-distributions.html#cb7-3"></a></span>
+<span id="cb7-4"><a href="posterior-predictive-distributions.html#cb7-4"></a></span>
+<span id="cb7-5"><a href="posterior-predictive-distributions.html#cb7-5"></a>a &lt;-<span class="st"> </span><span class="kw">colnames</span>(<span class="kw">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
+<span id="cb7-6"><a href="posterior-predictive-distributions.html#cb7-6"></a>plot.data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">as.matrix</span>(jags.mcmc, <span class="dt">chains=</span>T, <span class="dt">iters =</span> T))</span>
+<span id="cb7-7"><a href="posterior-predictive-distributions.html#cb7-7"></a><span class="kw">colnames</span>(plot.data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
+<span id="cb7-8"><a href="posterior-predictive-distributions.html#cb7-8"></a></span>
+<span id="cb7-9"><a href="posterior-predictive-distributions.html#cb7-9"></a></span>
+<span id="cb7-10"><a href="posterior-predictive-distributions.html#cb7-10"></a>plot_title &lt;-<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb7-11"><a href="posterior-predictive-distributions.html#cb7-11"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb7-12"><a href="posterior-predictive-distributions.html#cb7-12"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb7-13"><a href="posterior-predictive-distributions.html#cb7-13"></a>  plot.data,</span>
+<span id="cb7-14"><a href="posterior-predictive-distributions.html#cb7-14"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;tau[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb7-15"><a href="posterior-predictive-distributions.html#cb7-15"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb7-16"><a href="posterior-predictive-distributions.html#cb7-16"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp10-corr-2.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="posterior-predictive-distributions.html#cb8-1"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb8-2"><a href="posterior-predictive-distributions.html#cb8-2"></a>  plot.data,</span>
+<span id="cb8-3"><a href="posterior-predictive-distributions.html#cb8-3"></a>  <span class="dt">pars =</span> <span class="kw">paste0</span>(<span class="st">&quot;lambda[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>),</span>
+<span id="cb8-4"><a href="posterior-predictive-distributions.html#cb8-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb8-5"><a href="posterior-predictive-distributions.html#cb8-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp10-corr-3.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="posterior-predictive-distributions.html#cb9-1"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb9-2"><a href="posterior-predictive-distributions.html#cb9-2"></a>  plot.data,</span>
+<span id="cb9-3"><a href="posterior-predictive-distributions.html#cb9-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;psi[&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>), <span class="st">&quot;phi&quot;</span>),</span>
+<span id="cb9-4"><a href="posterior-predictive-distributions.html#cb9-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb9-5"><a href="posterior-predictive-distributions.html#cb9-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp10-corr-4.png" width="672" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="posterior-predictive-distributions.html#cb10-1"></a><span class="co"># compute model implied covariance/correlations</span></span>
+<span id="cb10-2"><a href="posterior-predictive-distributions.html#cb10-2"></a><span class="co"># for each iterations</span></span>
+<span id="cb10-3"><a href="posterior-predictive-distributions.html#cb10-3"></a>out.mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">ncol=</span><span class="dv">10</span>,<span class="dt">nrow=</span><span class="kw">nrow</span>(plot.data))</span>
+<span id="cb10-4"><a href="posterior-predictive-distributions.html#cb10-4"></a><span class="kw">colnames</span>(out.mat) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;r12&quot;</span>, <span class="st">&quot;r13&quot;</span>, <span class="st">&quot;r14&quot;</span>, <span class="st">&quot;r15&quot;</span>, <span class="st">&quot;r23&quot;</span>, <span class="st">&quot;r24&quot;</span>, <span class="st">&quot;r25&quot;</span>, <span class="st">&quot;r34&quot;</span>,<span class="st">&quot;r35&quot;</span>, <span class="st">&quot;r45&quot;</span>)</span>
+<span id="cb10-5"><a href="posterior-predictive-distributions.html#cb10-5"></a>plot.data1 &lt;-<span class="st"> </span><span class="kw">cbind</span>(plot.data,out.mat)</span>
+<span id="cb10-6"><a href="posterior-predictive-distributions.html#cb10-6"></a></span>
+<span id="cb10-7"><a href="posterior-predictive-distributions.html#cb10-7"></a><span class="co"># compute the model implied correlations for each iterations</span></span>
+<span id="cb10-8"><a href="posterior-predictive-distributions.html#cb10-8"></a>i &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb10-9"><a href="posterior-predictive-distributions.html#cb10-9"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(plot.data1)){</span>
+<span id="cb10-10"><a href="posterior-predictive-distributions.html#cb10-10"></a>  x &lt;-<span class="st"> </span>plot.data1[i,]</span>
+<span id="cb10-11"><a href="posterior-predictive-distributions.html#cb10-11"></a>  x &lt;-<span class="st"> </span><span class="kw">unlist</span>(x)</span>
+<span id="cb10-12"><a href="posterior-predictive-distributions.html#cb10-12"></a>  lambda &lt;-<span class="st"> </span><span class="kw">matrix</span>(x[<span class="dv">4</span><span class="op">:</span><span class="dv">8</span>], <span class="dt">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb10-13"><a href="posterior-predictive-distributions.html#cb10-13"></a>  phi &lt;-<span class="st"> </span><span class="kw">matrix</span>(x[<span class="dv">9</span>], <span class="dt">ncol=</span><span class="dv">1</span>)</span>
+<span id="cb10-14"><a href="posterior-predictive-distributions.html#cb10-14"></a>  psi &lt;-<span class="st"> </span><span class="kw">diag</span>(x[<span class="dv">10</span><span class="op">:</span><span class="dv">14</span>], <span class="dt">ncol=</span><span class="dv">5</span>, <span class="dt">nrow=</span><span class="dv">5</span>)</span>
+<span id="cb10-15"><a href="posterior-predictive-distributions.html#cb10-15"></a>  micov &lt;-<span class="st"> </span>lambda<span class="op">%*%</span>phi<span class="op">%*%</span><span class="kw">t</span>(lambda)<span class="op">+</span>psi</span>
+<span id="cb10-16"><a href="posterior-predictive-distributions.html#cb10-16"></a>  D &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">sqrt</span>(<span class="kw">diag</span>(micov)), <span class="dt">ncol=</span><span class="dv">5</span>, <span class="dt">nrow=</span><span class="dv">5</span>)</span>
+<span id="cb10-17"><a href="posterior-predictive-distributions.html#cb10-17"></a>  Dinv &lt;-<span class="st"> </span><span class="kw">solve</span>(D)</span>
+<span id="cb10-18"><a href="posterior-predictive-distributions.html#cb10-18"></a>  micor &lt;-<span class="st"> </span>Dinv<span class="op">%*%</span>micov<span class="op">%*%</span>Dinv</span>
+<span id="cb10-19"><a href="posterior-predictive-distributions.html#cb10-19"></a>  outr &lt;-<span class="st"> </span>micor[<span class="kw">lower.tri</span>(micor)]</span>
+<span id="cb10-20"><a href="posterior-predictive-distributions.html#cb10-20"></a>  <span class="co"># combine</span></span>
+<span id="cb10-21"><a href="posterior-predictive-distributions.html#cb10-21"></a>  plot.data1[i,<span class="dv">20</span><span class="op">:</span><span class="dv">29</span>] &lt;-<span class="st"> </span>outr</span>
+<span id="cb10-22"><a href="posterior-predictive-distributions.html#cb10-22"></a>}</span>
+<span id="cb10-23"><a href="posterior-predictive-distributions.html#cb10-23"></a></span>
+<span id="cb10-24"><a href="posterior-predictive-distributions.html#cb10-24"></a>obs.mat &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">cor</span>(dat)[<span class="kw">lower.tri</span>(<span class="kw">cor</span>(dat))],<span class="dt">byrow=</span>T,</span>
+<span id="cb10-25"><a href="posterior-predictive-distributions.html#cb10-25"></a>                  <span class="dt">ncol=</span><span class="dv">10</span>,<span class="dt">nrow=</span><span class="kw">nrow</span>(plot.data))</span>
+<span id="cb10-26"><a href="posterior-predictive-distributions.html#cb10-26"></a><span class="kw">colnames</span>(obs.mat) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ObsR12&quot;</span>, <span class="st">&quot;ObsR13&quot;</span>, <span class="st">&quot;ObsR14&quot;</span>, <span class="st">&quot;ObsR15&quot;</span>, <span class="st">&quot;ObsR23&quot;</span>, <span class="st">&quot;ObsR24&quot;</span>, <span class="st">&quot;ObsR25&quot;</span>, <span class="st">&quot;ObsR34&quot;</span>,<span class="st">&quot;ObsR35&quot;</span>, <span class="st">&quot;ObsR45&quot;</span>)</span>
+<span id="cb10-27"><a href="posterior-predictive-distributions.html#cb10-27"></a>plot.data1 &lt;-<span class="st"> </span><span class="kw">cbind</span>(plot.data1,obs.mat)</span>
+<span id="cb10-28"><a href="posterior-predictive-distributions.html#cb10-28"></a></span>
+<span id="cb10-29"><a href="posterior-predictive-distributions.html#cb10-29"></a></span>
+<span id="cb10-30"><a href="posterior-predictive-distributions.html#cb10-30"></a><span class="kw">theme_set</span>(<span class="kw">theme_classic</span>())</span>
+<span id="cb10-31"><a href="posterior-predictive-distributions.html#cb10-31"></a>t1 &lt;-<span class="st"> </span>grid<span class="op">::</span><span class="kw">textGrob</span>(<span class="st">&#39;PI&#39;</span>)</span>
+<span id="cb10-32"><a href="posterior-predictive-distributions.html#cb10-32"></a>t2 &lt;-<span class="st"> </span>grid<span class="op">::</span><span class="kw">textGrob</span>(<span class="st">&#39;AD&#39;</span>)</span>
+<span id="cb10-33"><a href="posterior-predictive-distributions.html#cb10-33"></a>t3 &lt;-<span class="st"> </span>grid<span class="op">::</span><span class="kw">textGrob</span>(<span class="st">&#39;IGC&#39;</span>)</span>
+<span id="cb10-34"><a href="posterior-predictive-distributions.html#cb10-34"></a>t4 &lt;-<span class="st"> </span>grid<span class="op">::</span><span class="kw">textGrob</span>(<span class="st">&#39;FI&#39;</span>)</span>
+<span id="cb10-35"><a href="posterior-predictive-distributions.html#cb10-35"></a>t5 &lt;-<span class="st"> </span>grid<span class="op">::</span><span class="kw">textGrob</span>(<span class="st">&#39;FC&#39;</span>)</span>
+<span id="cb10-36"><a href="posterior-predictive-distributions.html#cb10-36"></a>p12 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-37"><a href="posterior-predictive-distributions.html#cb10-37"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r12))<span class="op">+</span></span>
+<span id="cb10-38"><a href="posterior-predictive-distributions.html#cb10-38"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR12), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-39"><a href="posterior-predictive-distributions.html#cb10-39"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-40"><a href="posterior-predictive-distributions.html#cb10-40"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-41"><a href="posterior-predictive-distributions.html#cb10-41"></a>p13 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-42"><a href="posterior-predictive-distributions.html#cb10-42"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r13))<span class="op">+</span></span>
+<span id="cb10-43"><a href="posterior-predictive-distributions.html#cb10-43"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR13), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-44"><a href="posterior-predictive-distributions.html#cb10-44"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-45"><a href="posterior-predictive-distributions.html#cb10-45"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-46"><a href="posterior-predictive-distributions.html#cb10-46"></a>p14 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-47"><a href="posterior-predictive-distributions.html#cb10-47"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r14))<span class="op">+</span></span>
+<span id="cb10-48"><a href="posterior-predictive-distributions.html#cb10-48"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR14), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-49"><a href="posterior-predictive-distributions.html#cb10-49"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-50"><a href="posterior-predictive-distributions.html#cb10-50"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-51"><a href="posterior-predictive-distributions.html#cb10-51"></a>p15 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-52"><a href="posterior-predictive-distributions.html#cb10-52"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r15))<span class="op">+</span></span>
+<span id="cb10-53"><a href="posterior-predictive-distributions.html#cb10-53"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR15), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-54"><a href="posterior-predictive-distributions.html#cb10-54"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-55"><a href="posterior-predictive-distributions.html#cb10-55"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-56"><a href="posterior-predictive-distributions.html#cb10-56"></a>p23 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-57"><a href="posterior-predictive-distributions.html#cb10-57"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r23))<span class="op">+</span></span>
+<span id="cb10-58"><a href="posterior-predictive-distributions.html#cb10-58"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR23), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-59"><a href="posterior-predictive-distributions.html#cb10-59"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-60"><a href="posterior-predictive-distributions.html#cb10-60"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-61"><a href="posterior-predictive-distributions.html#cb10-61"></a>p24 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-62"><a href="posterior-predictive-distributions.html#cb10-62"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r24))<span class="op">+</span></span>
+<span id="cb10-63"><a href="posterior-predictive-distributions.html#cb10-63"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR24), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-64"><a href="posterior-predictive-distributions.html#cb10-64"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-65"><a href="posterior-predictive-distributions.html#cb10-65"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-66"><a href="posterior-predictive-distributions.html#cb10-66"></a>p25 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-67"><a href="posterior-predictive-distributions.html#cb10-67"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r25))<span class="op">+</span></span>
+<span id="cb10-68"><a href="posterior-predictive-distributions.html#cb10-68"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR25), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-69"><a href="posterior-predictive-distributions.html#cb10-69"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-70"><a href="posterior-predictive-distributions.html#cb10-70"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-71"><a href="posterior-predictive-distributions.html#cb10-71"></a>p34 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-72"><a href="posterior-predictive-distributions.html#cb10-72"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r34))<span class="op">+</span></span>
+<span id="cb10-73"><a href="posterior-predictive-distributions.html#cb10-73"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR34), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-74"><a href="posterior-predictive-distributions.html#cb10-74"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-75"><a href="posterior-predictive-distributions.html#cb10-75"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-76"><a href="posterior-predictive-distributions.html#cb10-76"></a>p35 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-77"><a href="posterior-predictive-distributions.html#cb10-77"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r35))<span class="op">+</span></span>
+<span id="cb10-78"><a href="posterior-predictive-distributions.html#cb10-78"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR35), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-79"><a href="posterior-predictive-distributions.html#cb10-79"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-80"><a href="posterior-predictive-distributions.html#cb10-80"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-81"><a href="posterior-predictive-distributions.html#cb10-81"></a>p45 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.data1) <span class="op">+</span></span>
+<span id="cb10-82"><a href="posterior-predictive-distributions.html#cb10-82"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="kw">aes</span>(<span class="dt">x=</span>r45))<span class="op">+</span></span>
+<span id="cb10-83"><a href="posterior-predictive-distributions.html#cb10-83"></a><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept =</span> ObsR45), <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-84"><a href="posterior-predictive-distributions.html#cb10-84"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb10-85"><a href="posterior-predictive-distributions.html#cb10-85"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>,<span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),<span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>(), <span class="dt">axis.line.y=</span><span class="kw">element_blank</span>())</span>
+<span id="cb10-86"><a href="posterior-predictive-distributions.html#cb10-86"></a></span>
+<span id="cb10-87"><a href="posterior-predictive-distributions.html#cb10-87"></a>layout &lt;-<span class="st"> &#39;</span></span>
+<span id="cb10-88"><a href="posterior-predictive-distributions.html#cb10-88"></a><span class="st">A####</span></span>
+<span id="cb10-89"><a href="posterior-predictive-distributions.html#cb10-89"></a><span class="st">BC###</span></span>
+<span id="cb10-90"><a href="posterior-predictive-distributions.html#cb10-90"></a><span class="st">DEF##</span></span>
+<span id="cb10-91"><a href="posterior-predictive-distributions.html#cb10-91"></a><span class="st">GHIJ#</span></span>
+<span id="cb10-92"><a href="posterior-predictive-distributions.html#cb10-92"></a><span class="st">KLMNO</span></span>
+<span id="cb10-93"><a href="posterior-predictive-distributions.html#cb10-93"></a><span class="st">&#39;</span></span>
+<span id="cb10-94"><a href="posterior-predictive-distributions.html#cb10-94"></a><span class="kw">wrap_plots</span>(<span class="dt">A=</span>t1,<span class="dt">C=</span>t2,<span class="dt">F=</span>t3,<span class="dt">J=</span>t4,<span class="dt">O=</span>t5,</span>
+<span id="cb10-95"><a href="posterior-predictive-distributions.html#cb10-95"></a>           <span class="dt">B=</span>p12,<span class="dt">D=</span>p13,<span class="dt">G=</span>p14,<span class="dt">K=</span>p15,</span>
+<span id="cb10-96"><a href="posterior-predictive-distributions.html#cb10-96"></a>           <span class="dt">E=</span>p23,<span class="dt">H=</span>p24,<span class="dt">L=</span>p25,</span>
+<span id="cb10-97"><a href="posterior-predictive-distributions.html#cb10-97"></a>           <span class="dt">I=</span>p34,<span class="dt">M=</span>p35,</span>
+<span id="cb10-98"><a href="posterior-predictive-distributions.html#cb10-98"></a>           <span class="dt">N=</span>p45,<span class="dt">design =</span> layout)</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp10-corr-5.png" width="672" /></p>
+</div>
+<div id="ppd-srmr" class="section level3">
+<h3><span class="header-section-number">10.2.2</span> PPD SRMR</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="posterior-predictive-distributions.html#cb11-1"></a><span class="co"># model code</span></span>
+<span id="cb11-2"><a href="posterior-predictive-distributions.html#cb11-2"></a>jags.model.cfa &lt;-<span class="st"> </span><span class="cf">function</span>(){</span>
+<span id="cb11-3"><a href="posterior-predictive-distributions.html#cb11-3"></a></span>
+<span id="cb11-4"><a href="posterior-predictive-distributions.html#cb11-4"></a>  <span class="co">########################################</span></span>
+<span id="cb11-5"><a href="posterior-predictive-distributions.html#cb11-5"></a>  <span class="co"># Specify the factor analysis measurement</span></span>
+<span id="cb11-6"><a href="posterior-predictive-distributions.html#cb11-6"></a>  <span class="co"># model for the observables</span></span>
+<span id="cb11-7"><a href="posterior-predictive-distributions.html#cb11-7"></a>  <span class="co">########################################</span></span>
+<span id="cb11-8"><a href="posterior-predictive-distributions.html#cb11-8"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
+<span id="cb11-9"><a href="posterior-predictive-distributions.html#cb11-9"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb11-10"><a href="posterior-predictive-distributions.html#cb11-10"></a>      <span class="co"># model implied expectation for each observable</span></span>
+<span id="cb11-11"><a href="posterior-predictive-distributions.html#cb11-11"></a>      mu[i,j] &lt;-<span class="st"> </span>tau[j] <span class="op">+</span><span class="st"> </span>ksi[i]<span class="op">*</span>lambda[j]</span>
+<span id="cb11-12"><a href="posterior-predictive-distributions.html#cb11-12"></a>      <span class="co"># distribution for each observable</span></span>
+<span id="cb11-13"><a href="posterior-predictive-distributions.html#cb11-13"></a>      x[i,j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(mu[i,j], inv.psi[j])  </span>
+<span id="cb11-14"><a href="posterior-predictive-distributions.html#cb11-14"></a>      <span class="co"># Posterior Predictive Distribution of x</span></span>
+<span id="cb11-15"><a href="posterior-predictive-distributions.html#cb11-15"></a>      <span class="co">#   needed for SRMR</span></span>
+<span id="cb11-16"><a href="posterior-predictive-distributions.html#cb11-16"></a>      <span class="co">#   set mean to 0</span></span>
+<span id="cb11-17"><a href="posterior-predictive-distributions.html#cb11-17"></a>      <span class="co"># x.ppd[i,j] ~ dnorm(0, inv.psi[j])  </span></span>
+<span id="cb11-18"><a href="posterior-predictive-distributions.html#cb11-18"></a>    }</span>
+<span id="cb11-19"><a href="posterior-predictive-distributions.html#cb11-19"></a>  }</span>
+<span id="cb11-20"><a href="posterior-predictive-distributions.html#cb11-20"></a>  </span>
+<span id="cb11-21"><a href="posterior-predictive-distributions.html#cb11-21"></a>  <span class="co">########################################</span></span>
+<span id="cb11-22"><a href="posterior-predictive-distributions.html#cb11-22"></a>  <span class="co"># Specify the (prior) distribution for </span></span>
+<span id="cb11-23"><a href="posterior-predictive-distributions.html#cb11-23"></a>  <span class="co"># the latent variables</span></span>
+<span id="cb11-24"><a href="posterior-predictive-distributions.html#cb11-24"></a>  <span class="co">########################################</span></span>
+<span id="cb11-25"><a href="posterior-predictive-distributions.html#cb11-25"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
+<span id="cb11-26"><a href="posterior-predictive-distributions.html#cb11-26"></a>    <span class="co"># distribution for the latent variables</span></span>
+<span id="cb11-27"><a href="posterior-predictive-distributions.html#cb11-27"></a>    ksi[i] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(kappa, inv.phi)  </span>
+<span id="cb11-28"><a href="posterior-predictive-distributions.html#cb11-28"></a>  }</span>
+<span id="cb11-29"><a href="posterior-predictive-distributions.html#cb11-29"></a>  </span>
+<span id="cb11-30"><a href="posterior-predictive-distributions.html#cb11-30"></a>  </span>
+<span id="cb11-31"><a href="posterior-predictive-distributions.html#cb11-31"></a>  <span class="co">########################################</span></span>
+<span id="cb11-32"><a href="posterior-predictive-distributions.html#cb11-32"></a>  <span class="co"># Specify the prior distribution for the</span></span>
+<span id="cb11-33"><a href="posterior-predictive-distributions.html#cb11-33"></a>  <span class="co"># parameters that govern the latent variables</span></span>
+<span id="cb11-34"><a href="posterior-predictive-distributions.html#cb11-34"></a>  <span class="co">########################################</span></span>
+<span id="cb11-35"><a href="posterior-predictive-distributions.html#cb11-35"></a>  kappa &lt;-<span class="st"> </span><span class="dv">0</span>              <span class="co"># Mean of factor 1</span></span>
+<span id="cb11-36"><a href="posterior-predictive-distributions.html#cb11-36"></a>  inv.phi <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">5</span>, <span class="dv">10</span>) <span class="co"># Precision of factor 1</span></span>
+<span id="cb11-37"><a href="posterior-predictive-distributions.html#cb11-37"></a>  phi &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.phi        <span class="co"># Variance of factor 1</span></span>
+<span id="cb11-38"><a href="posterior-predictive-distributions.html#cb11-38"></a>  </span>
+<span id="cb11-39"><a href="posterior-predictive-distributions.html#cb11-39"></a>  </span>
+<span id="cb11-40"><a href="posterior-predictive-distributions.html#cb11-40"></a>  <span class="co">########################################</span></span>
+<span id="cb11-41"><a href="posterior-predictive-distributions.html#cb11-41"></a>  <span class="co"># Specify the prior distribution for the</span></span>
+<span id="cb11-42"><a href="posterior-predictive-distributions.html#cb11-42"></a>  <span class="co"># measurement model parameters</span></span>
+<span id="cb11-43"><a href="posterior-predictive-distributions.html#cb11-43"></a>  <span class="co">########################################</span></span>
+<span id="cb11-44"><a href="posterior-predictive-distributions.html#cb11-44"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb11-45"><a href="posterior-predictive-distributions.html#cb11-45"></a>    tau[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">3</span>, <span class="fl">.1</span>)        <span class="co"># Intercepts for observables</span></span>
+<span id="cb11-46"><a href="posterior-predictive-distributions.html#cb11-46"></a>    inv.psi[j] <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">5</span>, <span class="dv">10</span>) <span class="co"># Precisions for observables</span></span>
+<span id="cb11-47"><a href="posterior-predictive-distributions.html#cb11-47"></a>    psi[j] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.psi[j]   <span class="co"># Variances for observables</span></span>
+<span id="cb11-48"><a href="posterior-predictive-distributions.html#cb11-48"></a>  }</span>
+<span id="cb11-49"><a href="posterior-predictive-distributions.html#cb11-49"></a>  </span>
+<span id="cb11-50"><a href="posterior-predictive-distributions.html#cb11-50"></a>  lambda[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">1.0</span>              <span class="co"># loading fixed to 1.0 </span></span>
+<span id="cb11-51"><a href="posterior-predictive-distributions.html#cb11-51"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>J){</span>
+<span id="cb11-52"><a href="posterior-predictive-distributions.html#cb11-52"></a>    lambda[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">1</span>, <span class="fl">.1</span>)    <span class="co"># prior distribution for the remaining loadings</span></span>
+<span id="cb11-53"><a href="posterior-predictive-distributions.html#cb11-53"></a>  }</span>
+<span id="cb11-54"><a href="posterior-predictive-distributions.html#cb11-54"></a></span>
+<span id="cb11-55"><a href="posterior-predictive-distributions.html#cb11-55"></a>}</span>
+<span id="cb11-56"><a href="posterior-predictive-distributions.html#cb11-56"></a><span class="co"># data must be in a list</span></span>
+<span id="cb11-57"><a href="posterior-predictive-distributions.html#cb11-57"></a>dat &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;code/CFA-One-Latent-Variable/Data/IIS.dat&quot;</span>, <span class="dt">header=</span>T)</span>
+<span id="cb11-58"><a href="posterior-predictive-distributions.html#cb11-58"></a></span>
+<span id="cb11-59"><a href="posterior-predictive-distributions.html#cb11-59"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb11-60"><a href="posterior-predictive-distributions.html#cb11-60"></a>  <span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">J =</span> <span class="dv">5</span>,</span>
+<span id="cb11-61"><a href="posterior-predictive-distributions.html#cb11-61"></a>  <span class="dt">x =</span> <span class="kw">as.matrix</span>(dat)</span>
+<span id="cb11-62"><a href="posterior-predictive-distributions.html#cb11-62"></a>)</span>
+<span id="cb11-63"><a href="posterior-predictive-distributions.html#cb11-63"></a></span>
+<span id="cb11-64"><a href="posterior-predictive-distributions.html#cb11-64"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb11-65"><a href="posterior-predictive-distributions.html#cb11-65"></a>param_save &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;tau&quot;</span>, <span class="kw">paste0</span>(<span class="st">&quot;lambda[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>), <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;psi&quot;</span>)<span class="co"># &quot;Sigma&quot;,</span></span>
+<span id="cb11-66"><a href="posterior-predictive-distributions.html#cb11-66"></a></span>
+<span id="cb11-67"><a href="posterior-predictive-distributions.html#cb11-67"></a><span class="co"># fit model</span></span>
+<span id="cb11-68"><a href="posterior-predictive-distributions.html#cb11-68"></a>fit &lt;-<span class="st"> </span><span class="kw">jags</span>(</span>
+<span id="cb11-69"><a href="posterior-predictive-distributions.html#cb11-69"></a>  <span class="dt">model.file=</span>jags.model.cfa,</span>
+<span id="cb11-70"><a href="posterior-predictive-distributions.html#cb11-70"></a>  <span class="dt">data=</span>mydata,</span>
+<span id="cb11-71"><a href="posterior-predictive-distributions.html#cb11-71"></a>  <span class="co">#inits=start_values,</span></span>
+<span id="cb11-72"><a href="posterior-predictive-distributions.html#cb11-72"></a>  <span class="dt">parameters.to.save =</span> param_save,</span>
+<span id="cb11-73"><a href="posterior-predictive-distributions.html#cb11-73"></a>  <span class="dt">n.iter=</span><span class="dv">10000</span>,</span>
+<span id="cb11-74"><a href="posterior-predictive-distributions.html#cb11-74"></a>  <span class="dt">n.burnin =</span> <span class="dv">5000</span>,</span>
+<span id="cb11-75"><a href="posterior-predictive-distributions.html#cb11-75"></a>  <span class="dt">n.chains =</span> <span class="dv">1</span>,</span>
+<span id="cb11-76"><a href="posterior-predictive-distributions.html#cb11-76"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
+<span id="cb11-77"><a href="posterior-predictive-distributions.html#cb11-77"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 2500
+##    Unobserved stochastic nodes: 515
+##    Total graph size: 8029
+## 
+## Initializing model</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="posterior-predictive-distributions.html#cb13-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpeKu3Vd/model5ca423966bf4.txt&quot;, fit using jags,
+##  1 chains, each with 10000 iterations (first 5000 discarded)
+##  n.sims = 5000 iterations saved
+##            mu.vect sd.vect     2.5%      25%      50%      75%    97.5%
+## lambda[1]    1.000   0.000    1.000    1.000    1.000    1.000    1.000
+## lambda[2]    0.727   0.045    0.641    0.696    0.726    0.757    0.818
+## lambda[3]    0.419   0.037    0.348    0.393    0.418    0.444    0.492
+## lambda[4]    1.048   0.066    0.923    1.004    1.045    1.091    1.182
+## lambda[5]    0.981   0.060    0.872    0.940    0.979    1.020    1.103
+## phi          0.437   0.043    0.357    0.408    0.436    0.465    0.525
+## psi[1]       0.374   0.028    0.321    0.354    0.373    0.392    0.431
+## psi[2]       0.182   0.014    0.156    0.172    0.182    0.191    0.211
+## psi[3]       0.180   0.012    0.157    0.171    0.179    0.187    0.204
+## psi[4]       0.377   0.030    0.322    0.357    0.376    0.396    0.439
+## psi[5]       0.266   0.022    0.226    0.251    0.265    0.281    0.312
+## tau[1]       3.332   0.040    3.253    3.305    3.332    3.360    3.410
+## tau[2]       3.897   0.029    3.842    3.878    3.897    3.917    3.954
+## tau[3]       4.595   0.023    4.551    4.579    4.595    4.611    4.641
+## tau[4]       3.033   0.041    2.953    3.006    3.033    3.062    3.113
+## tau[5]       3.711   0.036    3.638    3.687    3.712    3.736    3.781
+## deviance  3380.191  41.348 3300.402 3351.851 3379.587 3407.935 3462.773
+## 
+## DIC info (using the rule, pD = var(deviance)/2)
+## pD = 854.8 and DIC = 4235.0
+## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="posterior-predictive-distributions.html#cb15-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb15-2"><a href="posterior-predictive-distributions.html#cb15-2"></a>jags.mcmc &lt;-<span class="st"> </span><span class="kw">as.mcmc</span>(fit)[[<span class="dv">1</span>]]</span>
+<span id="cb15-3"><a href="posterior-predictive-distributions.html#cb15-3"></a></span>
+<span id="cb15-4"><a href="posterior-predictive-distributions.html#cb15-4"></a><span class="co"># function for estimating SRMR</span></span>
+<span id="cb15-5"><a href="posterior-predictive-distributions.html#cb15-5"></a>SRMR.function &lt;-<span class="st"> </span><span class="cf">function</span>(data.cov.matrix, mod.imp.cov.matrix){</span>
+<span id="cb15-6"><a href="posterior-predictive-distributions.html#cb15-6"></a></span>
+<span id="cb15-7"><a href="posterior-predictive-distributions.html#cb15-7"></a>  J=<span class="kw">nrow</span>(data.cov.matrix)</span>
+<span id="cb15-8"><a href="posterior-predictive-distributions.html#cb15-8"></a>    temp &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow=</span>J, <span class="dt">ncol=</span>J)</span>
+<span id="cb15-9"><a href="posterior-predictive-distributions.html#cb15-9"></a></span>
+<span id="cb15-10"><a href="posterior-predictive-distributions.html#cb15-10"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb15-11"><a href="posterior-predictive-distributions.html#cb15-11"></a>        <span class="cf">for</span>(jprime <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>j){</span>
+<span id="cb15-12"><a href="posterior-predictive-distributions.html#cb15-12"></a>            temp[j, jprime] &lt;-<span class="st"> </span>((data.cov.matrix[j, jprime] <span class="op">-</span><span class="st"> </span>mod.imp.cov.matrix[j, jprime])<span class="op">/</span>(data.cov.matrix[j, j] <span class="op">*</span><span class="st"> </span>data.cov.matrix[jprime, jprime]))<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb15-13"><a href="posterior-predictive-distributions.html#cb15-13"></a>        }</span>
+<span id="cb15-14"><a href="posterior-predictive-distributions.html#cb15-14"></a>    }</span>
+<span id="cb15-15"><a href="posterior-predictive-distributions.html#cb15-15"></a></span>
+<span id="cb15-16"><a href="posterior-predictive-distributions.html#cb15-16"></a>    SRMR &lt;-<span class="st"> </span><span class="kw">sqrt</span>((<span class="dv">2</span><span class="op">*</span><span class="kw">sum</span>(temp,<span class="dt">na.rm=</span><span class="ot">TRUE</span>))<span class="op">/</span>(J<span class="op">*</span>(J<span class="op">+</span><span class="dv">1</span>)))</span>
+<span id="cb15-17"><a href="posterior-predictive-distributions.html#cb15-17"></a>    SRMR</span>
+<span id="cb15-18"><a href="posterior-predictive-distributions.html#cb15-18"></a></span>
+<span id="cb15-19"><a href="posterior-predictive-distributions.html#cb15-19"></a>}</span>
+<span id="cb15-20"><a href="posterior-predictive-distributions.html#cb15-20"></a></span>
+<span id="cb15-21"><a href="posterior-predictive-distributions.html#cb15-21"></a><span class="co"># set up the parameters for </span></span>
+<span id="cb15-22"><a href="posterior-predictive-distributions.html#cb15-22"></a><span class="co">#   (1) model implied covariance</span></span>
+<span id="cb15-23"><a href="posterior-predictive-distributions.html#cb15-23"></a><span class="co">#   (2) PPD of x/covariance</span></span>
+<span id="cb15-24"><a href="posterior-predictive-distributions.html#cb15-24"></a>iter &lt;-<span class="st"> </span><span class="kw">nrow</span>(jags.mcmc)</span>
+<span id="cb15-25"><a href="posterior-predictive-distributions.html#cb15-25"></a>srmr.realized &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, iter)</span>
+<span id="cb15-26"><a href="posterior-predictive-distributions.html#cb15-26"></a>srmr.ppd      &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, iter)</span>
+<span id="cb15-27"><a href="posterior-predictive-distributions.html#cb15-27"></a>srmr.rpv      &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, iter)</span>
+<span id="cb15-28"><a href="posterior-predictive-distributions.html#cb15-28"></a>jags.mcmc &lt;-<span class="st"> </span><span class="kw">cbind</span>(jags.mcmc, srmr.realized, srmr.ppd, srmr.rpv)</span>
+<span id="cb15-29"><a href="posterior-predictive-distributions.html#cb15-29"></a></span>
+<span id="cb15-30"><a href="posterior-predictive-distributions.html#cb15-30"></a>N &lt;-<span class="st"> </span><span class="dv">500</span>; J &lt;-<span class="st"> </span><span class="dv">5</span>; M &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb15-31"><a href="posterior-predictive-distributions.html#cb15-31"></a>cov.x &lt;-<span class="st"> </span><span class="kw">cov</span>(mydata<span class="op">$</span>x)</span>
+<span id="cb15-32"><a href="posterior-predictive-distributions.html#cb15-32"></a>i &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb15-33"><a href="posterior-predictive-distributions.html#cb15-33"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>iter){</span>
+<span id="cb15-34"><a href="posterior-predictive-distributions.html#cb15-34"></a>  <span class="co"># set up parameters</span></span>
+<span id="cb15-35"><a href="posterior-predictive-distributions.html#cb15-35"></a>  x &lt;-<span class="st"> </span>jags.mcmc[i,]</span>
+<span id="cb15-36"><a href="posterior-predictive-distributions.html#cb15-36"></a>  lambda &lt;-<span class="st"> </span><span class="kw">matrix</span>(x[<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>], <span class="dt">ncol=</span>M, <span class="dt">nrow=</span>J)</span>
+<span id="cb15-37"><a href="posterior-predictive-distributions.html#cb15-37"></a>  phi    &lt;-<span class="st"> </span><span class="kw">matrix</span>(x[<span class="dv">7</span>], <span class="dt">ncol=</span>M, <span class="dt">nrow=</span>M)</span>
+<span id="cb15-38"><a href="posterior-predictive-distributions.html#cb15-38"></a>  psi    &lt;-<span class="st"> </span><span class="kw">diag</span>(x[<span class="dv">8</span><span class="op">:</span><span class="dv">12</span>], <span class="dt">ncol=</span>J, <span class="dt">nrow=</span>J)</span>
+<span id="cb15-39"><a href="posterior-predictive-distributions.html#cb15-39"></a>  <span class="co"># estimate model implied covariance matrix</span></span>
+<span id="cb15-40"><a href="posterior-predictive-distributions.html#cb15-40"></a>  cov.imp &lt;-<span class="st"> </span>lambda<span class="op">%*%</span>phi<span class="op">%*%</span><span class="kw">t</span>(lambda) <span class="op">+</span><span class="st"> </span>psi</span>
+<span id="cb15-41"><a href="posterior-predictive-distributions.html#cb15-41"></a>  <span class="co"># get posterior predicted observed x</span></span>
+<span id="cb15-42"><a href="posterior-predictive-distributions.html#cb15-42"></a>  x.ppd   &lt;-<span class="st"> </span>mvtnorm<span class="op">::</span><span class="kw">rmvnorm</span>(N, <span class="dt">mean=</span><span class="kw">rep</span>(<span class="dv">0</span>, J), <span class="dt">sigma=</span>cov.imp)</span>
+<span id="cb15-43"><a href="posterior-predictive-distributions.html#cb15-43"></a>  <span class="co"># compute posterior predictied covariance matrix</span></span>
+<span id="cb15-44"><a href="posterior-predictive-distributions.html#cb15-44"></a>  cov.ppd &lt;-<span class="st"> </span><span class="kw">cov</span>(x.ppd)</span>
+<span id="cb15-45"><a href="posterior-predictive-distributions.html#cb15-45"></a>  <span class="co"># estimate SRMR values </span></span>
+<span id="cb15-46"><a href="posterior-predictive-distributions.html#cb15-46"></a>  jags.mcmc[i,<span class="dv">18</span>] &lt;-<span class="st"> </span><span class="kw">SRMR.function</span>(cov.x, cov.imp)<span class="co"># srmr realized</span></span>
+<span id="cb15-47"><a href="posterior-predictive-distributions.html#cb15-47"></a>  jags.mcmc[i,<span class="dv">19</span>] &lt;-<span class="st"> </span><span class="kw">SRMR.function</span>(cov.ppd, cov.imp)<span class="co"># srmr ppd</span></span>
+<span id="cb15-48"><a href="posterior-predictive-distributions.html#cb15-48"></a>  <span class="co"># posterior predicted p-value of realized SRMR being &lt;= 0.08.</span></span>
+<span id="cb15-49"><a href="posterior-predictive-distributions.html#cb15-49"></a>  jags.mcmc[i,<span class="dv">20</span>] &lt;-<span class="st"> </span><span class="kw">ifelse</span>(jags.mcmc[i,<span class="dv">18</span>]<span class="op">&lt;=</span><span class="fl">0.08</span>, <span class="dv">1</span>, <span class="dv">0</span>) </span>
+<span id="cb15-50"><a href="posterior-predictive-distributions.html#cb15-50"></a>}</span>
+<span id="cb15-51"><a href="posterior-predictive-distributions.html#cb15-51"></a></span>
+<span id="cb15-52"><a href="posterior-predictive-distributions.html#cb15-52"></a>plot.dat &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(jags.mcmc)</span>
+<span id="cb15-53"><a href="posterior-predictive-distributions.html#cb15-53"></a></span>
+<span id="cb15-54"><a href="posterior-predictive-distributions.html#cb15-54"></a>p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.dat, <span class="kw">aes</span>(<span class="dt">x=</span>srmr.realized, <span class="dt">y=</span>srmr.ppd))<span class="op">+</span></span>
+<span id="cb15-55"><a href="posterior-predictive-distributions.html#cb15-55"></a><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb15-56"><a href="posterior-predictive-distributions.html#cb15-56"></a><span class="st">  </span><span class="kw">geom_abline</span>(<span class="dt">slope=</span><span class="dv">1</span>, <span class="dt">intercept =</span> <span class="dv">0</span>)<span class="op">+</span></span>
+<span id="cb15-57"><a href="posterior-predictive-distributions.html#cb15-57"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">y=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="op">+</span></span>
+<span id="cb15-58"><a href="posterior-predictive-distributions.html#cb15-58"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Realized SRMR&quot;</span>,<span class="dt">y=</span><span class="st">&quot;Posterior Predicted SRMR&quot;</span>) <span class="op">+</span></span>
+<span id="cb15-59"><a href="posterior-predictive-distributions.html#cb15-59"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb15-60"><a href="posterior-predictive-distributions.html#cb15-60"></a>p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(plot.dat, <span class="kw">aes</span>(<span class="dt">x=</span>srmr.realized))<span class="op">+</span></span>
+<span id="cb15-61"><a href="posterior-predictive-distributions.html#cb15-61"></a><span class="st">  </span><span class="kw">geom_density</span>()<span class="op">+</span></span>
+<span id="cb15-62"><a href="posterior-predictive-distributions.html#cb15-62"></a><span class="st">  </span><span class="kw">lims</span>(<span class="dt">x=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>))<span class="op">+</span></span>
+<span id="cb15-63"><a href="posterior-predictive-distributions.html#cb15-63"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Realized SRMR&quot;</span>, <span class="dt">y=</span><span class="ot">NULL</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb15-64"><a href="posterior-predictive-distributions.html#cb15-64"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="fl">0.75</span>, <span class="dt">y =</span> <span class="dv">3</span>,</span>
+<span id="cb15-65"><a href="posterior-predictive-distributions.html#cb15-65"></a>           <span class="dt">label =</span> <span class="kw">paste0</span>(<span class="st">&quot;Pr(SRMR &lt;= 0.08)= &quot;</span>,</span>
+<span id="cb15-66"><a href="posterior-predictive-distributions.html#cb15-66"></a>                          <span class="kw">round</span>(<span class="kw">mean</span>(plot.dat<span class="op">$</span>srmr.rpv), <span class="dv">2</span>))) <span class="op">+</span></span>
+<span id="cb15-67"><a href="posterior-predictive-distributions.html#cb15-67"></a><span class="st">  </span><span class="kw">theme_bw</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb15-68"><a href="posterior-predictive-distributions.html#cb15-68"></a>                   <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),</span>
+<span id="cb15-69"><a href="posterior-predictive-distributions.html#cb15-69"></a>                   <span class="dt">axis.ticks.y =</span> <span class="kw">element_blank</span>())</span>
+<span id="cb15-70"><a href="posterior-predictive-distributions.html#cb15-70"></a>p1 <span class="op">+</span><span class="st"> </span>p2</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp10-srmr-1.png" width="672" /></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="residual-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="model-comparison.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/10-model-evaluation.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-BPM.pdf", "bookdown-BPM.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

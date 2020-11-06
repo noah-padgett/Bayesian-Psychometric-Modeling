@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>9.6 Indeterminacy in One Factor CFA | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
+  <title>9.8 Indeterminacy in One Factor CFA | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
   <meta name="description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="9.6 Indeterminacy in One Factor CFA | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  <meta property="og:title" content="9.8 Indeterminacy in One Factor CFA | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="noah-padgett/Bayesian-Psychometric-Modeling" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="9.6 Indeterminacy in One Factor CFA | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  <meta name="twitter:title" content="9.8 Indeterminacy in One Factor CFA | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
   
   <meta name="twitter:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
   
@@ -24,15 +24,15 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2020-10-23" />
+<meta name="date" content="2020-11-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="stan-two-latent-variable.html"/>
-<link rel="next" href="references.html"/>
+<link rel="prev" href="blavaan-two-latent-variables.html"/>
+<link rel="next" href="model-evaluation.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -179,12 +181,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.1" data-path="single-latent-variable-model.html"><a href="single-latent-variable-model.html"><i class="fa fa-check"></i><b>9.1</b> Single Latent Variable Model</a></li>
 <li class="chapter" data-level="9.2" data-path="jags-single-latent-variable.html"><a href="jags-single-latent-variable.html"><i class="fa fa-check"></i><b>9.2</b> JAGS - Single Latent Variable</a></li>
 <li class="chapter" data-level="9.3" data-path="stan-single-latent-variable.html"><a href="stan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.3</b> Stan - Single Latent Variable</a></li>
-<li class="chapter" data-level="9.4" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> JAGS - Two Latent Variable</a></li>
-<li class="chapter" data-level="9.5" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.5</b> Stan - Two Latent Variable</a><ul>
-<li class="chapter" data-level="9.5.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.5.1</b> Inverse-Wishart Prior</a></li>
-<li class="chapter" data-level="9.5.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.5.2</b> LKJ Cholesky Parameterization</a></li>
+<li class="chapter" data-level="9.4" data-path="blavaan-single-latent-variable.html"><a href="blavaan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> Blavaan - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.5" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.5</b> JAGS - Two Latent Variable</a></li>
+<li class="chapter" data-level="9.6" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> Stan - Two Latent Variable</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.6.1</b> Inverse-Wishart Prior</a></li>
+<li class="chapter" data-level="9.6.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.6.2</b> LKJ Cholesky Parameterization</a></li>
 </ul></li>
-<li class="chapter" data-level="9.6" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.6</b> Indeterminacy in One Factor CFA</a></li>
+<li class="chapter" data-level="9.7" data-path="blavaan-two-latent-variables.html"><a href="blavaan-two-latent-variables.html"><i class="fa fa-check"></i><b>9.7</b> Blavaan - Two Latent Variables</a></li>
+<li class="chapter" data-level="9.8" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.8</b> Indeterminacy in One Factor CFA</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a><ul>
+<li class="chapter" data-level="10.1" data-path="residual-analysis.html"><a href="residual-analysis.html"><i class="fa fa-check"></i><b>10.1</b> Residual Analysis</a></li>
+<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#example-of-posterior-predictive-distribution-of-correlations"><i class="fa fa-check"></i><b>10.2.1</b> Example of posterior predictive distribution of correlations</a></li>
+<li class="chapter" data-level="10.2.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#ppd-srmr"><i class="fa fa-check"></i><b>10.2.2</b> PPD SRMR</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -208,85 +220,85 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="indeterminacy-in-one-factor-cfa" class="section level2">
-<h2><span class="header-section-number">9.6</span> Indeterminacy in One Factor CFA</h2>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="indeterminacy-in-one-factor-cfa.html#cb271-1"></a><span class="co"># model code</span></span>
-<span id="cb271-2"><a href="indeterminacy-in-one-factor-cfa.html#cb271-2"></a>jags.model.cfa.ind &lt;-<span class="st"> </span><span class="cf">function</span>(){</span>
-<span id="cb271-3"><a href="indeterminacy-in-one-factor-cfa.html#cb271-3"></a></span>
-<span id="cb271-4"><a href="indeterminacy-in-one-factor-cfa.html#cb271-4"></a>  <span class="co">######################################################################</span></span>
-<span id="cb271-5"><a href="indeterminacy-in-one-factor-cfa.html#cb271-5"></a>  <span class="co"># Specify the factor analysis measurement model for the observables</span></span>
-<span id="cb271-6"><a href="indeterminacy-in-one-factor-cfa.html#cb271-6"></a>  <span class="co">######################################################################</span></span>
-<span id="cb271-7"><a href="indeterminacy-in-one-factor-cfa.html#cb271-7"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
-<span id="cb271-8"><a href="indeterminacy-in-one-factor-cfa.html#cb271-8"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
-<span id="cb271-9"><a href="indeterminacy-in-one-factor-cfa.html#cb271-9"></a>      mu[i,j] &lt;-<span class="st"> </span>tau[j] <span class="op">+</span><span class="st"> </span>ksi[i]<span class="op">*</span>lambda[j]      <span class="co"># model implied expectation for each observable</span></span>
-<span id="cb271-10"><a href="indeterminacy-in-one-factor-cfa.html#cb271-10"></a>      x[i,j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(mu[i,j], inv.psi[j])    <span class="co"># distribution for each observable</span></span>
-<span id="cb271-11"><a href="indeterminacy-in-one-factor-cfa.html#cb271-11"></a>    }</span>
-<span id="cb271-12"><a href="indeterminacy-in-one-factor-cfa.html#cb271-12"></a>  }</span>
-<span id="cb271-13"><a href="indeterminacy-in-one-factor-cfa.html#cb271-13"></a>  </span>
-<span id="cb271-14"><a href="indeterminacy-in-one-factor-cfa.html#cb271-14"></a>  </span>
-<span id="cb271-15"><a href="indeterminacy-in-one-factor-cfa.html#cb271-15"></a>  <span class="co">######################################################################</span></span>
-<span id="cb271-16"><a href="indeterminacy-in-one-factor-cfa.html#cb271-16"></a>  <span class="co"># Specify the (prior) distribution for the latent variables</span></span>
-<span id="cb271-17"><a href="indeterminacy-in-one-factor-cfa.html#cb271-17"></a>  <span class="co">######################################################################</span></span>
-<span id="cb271-18"><a href="indeterminacy-in-one-factor-cfa.html#cb271-18"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
-<span id="cb271-19"><a href="indeterminacy-in-one-factor-cfa.html#cb271-19"></a>    ksi[i] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(kappa, inv.phi)  <span class="co"># distribution for the latent variables</span></span>
-<span id="cb271-20"><a href="indeterminacy-in-one-factor-cfa.html#cb271-20"></a>  }</span>
-<span id="cb271-21"><a href="indeterminacy-in-one-factor-cfa.html#cb271-21"></a>  </span>
-<span id="cb271-22"><a href="indeterminacy-in-one-factor-cfa.html#cb271-22"></a>  </span>
-<span id="cb271-23"><a href="indeterminacy-in-one-factor-cfa.html#cb271-23"></a>  <span class="co">######################################################################</span></span>
-<span id="cb271-24"><a href="indeterminacy-in-one-factor-cfa.html#cb271-24"></a>  <span class="co"># Specify the prior distribution for the parameters that govern the latent variables</span></span>
-<span id="cb271-25"><a href="indeterminacy-in-one-factor-cfa.html#cb271-25"></a>  <span class="co">######################################################################</span></span>
-<span id="cb271-26"><a href="indeterminacy-in-one-factor-cfa.html#cb271-26"></a>  kappa &lt;-<span class="st"> </span><span class="dv">0</span>              <span class="co"># Mean of factor 1</span></span>
-<span id="cb271-27"><a href="indeterminacy-in-one-factor-cfa.html#cb271-27"></a>  inv.phi &lt;-<span class="dv">1</span>  	<span class="co"># Precision of factor 1</span></span>
-<span id="cb271-28"><a href="indeterminacy-in-one-factor-cfa.html#cb271-28"></a>  phi &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.phi        <span class="co"># Variance of factor 1</span></span>
-<span id="cb271-29"><a href="indeterminacy-in-one-factor-cfa.html#cb271-29"></a>  </span>
-<span id="cb271-30"><a href="indeterminacy-in-one-factor-cfa.html#cb271-30"></a>  </span>
-<span id="cb271-31"><a href="indeterminacy-in-one-factor-cfa.html#cb271-31"></a>  <span class="co">######################################################################</span></span>
-<span id="cb271-32"><a href="indeterminacy-in-one-factor-cfa.html#cb271-32"></a>  <span class="co"># Specify the prior distribution for the measurement model parameters</span></span>
-<span id="cb271-33"><a href="indeterminacy-in-one-factor-cfa.html#cb271-33"></a>  <span class="co">######################################################################</span></span>
-<span id="cb271-34"><a href="indeterminacy-in-one-factor-cfa.html#cb271-34"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
-<span id="cb271-35"><a href="indeterminacy-in-one-factor-cfa.html#cb271-35"></a>    tau[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">3</span>, <span class="fl">.1</span>)        <span class="co"># Intercepts for observables</span></span>
-<span id="cb271-36"><a href="indeterminacy-in-one-factor-cfa.html#cb271-36"></a>  	inv.psi[j] <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">5</span>, <span class="dv">10</span>) <span class="co"># Precisions for observables</span></span>
-<span id="cb271-37"><a href="indeterminacy-in-one-factor-cfa.html#cb271-37"></a>  	psi[j] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.psi[j]   <span class="co"># Variances for observables</span></span>
-<span id="cb271-38"><a href="indeterminacy-in-one-factor-cfa.html#cb271-38"></a>  }</span>
-<span id="cb271-39"><a href="indeterminacy-in-one-factor-cfa.html#cb271-39"></a>  </span>
-<span id="cb271-40"><a href="indeterminacy-in-one-factor-cfa.html#cb271-40"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
-<span id="cb271-41"><a href="indeterminacy-in-one-factor-cfa.html#cb271-41"></a>  	lambda[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">1</span>, <span class="fl">.1</span>)    <span class="co"># prior distribution for the remaining loadings</span></span>
-<span id="cb271-42"><a href="indeterminacy-in-one-factor-cfa.html#cb271-42"></a>  }</span>
-<span id="cb271-43"><a href="indeterminacy-in-one-factor-cfa.html#cb271-43"></a>}</span>
-<span id="cb271-44"><a href="indeterminacy-in-one-factor-cfa.html#cb271-44"></a><span class="co"># data must be in a list</span></span>
-<span id="cb271-45"><a href="indeterminacy-in-one-factor-cfa.html#cb271-45"></a>dat &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;code/CFA-One-Latent-Variable/Data/IIS.dat&quot;</span>, <span class="dt">header=</span>T)</span>
-<span id="cb271-46"><a href="indeterminacy-in-one-factor-cfa.html#cb271-46"></a></span>
-<span id="cb271-47"><a href="indeterminacy-in-one-factor-cfa.html#cb271-47"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb271-48"><a href="indeterminacy-in-one-factor-cfa.html#cb271-48"></a>  <span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">J =</span> <span class="dv">5</span>,</span>
-<span id="cb271-49"><a href="indeterminacy-in-one-factor-cfa.html#cb271-49"></a>  <span class="dt">x =</span> <span class="kw">as.matrix</span>(dat)</span>
-<span id="cb271-50"><a href="indeterminacy-in-one-factor-cfa.html#cb271-50"></a>)</span>
-<span id="cb271-51"><a href="indeterminacy-in-one-factor-cfa.html#cb271-51"></a></span>
-<span id="cb271-52"><a href="indeterminacy-in-one-factor-cfa.html#cb271-52"></a></span>
-<span id="cb271-53"><a href="indeterminacy-in-one-factor-cfa.html#cb271-53"></a><span class="co"># initial values</span></span>
-<span id="cb271-54"><a href="indeterminacy-in-one-factor-cfa.html#cb271-54"></a>start_values &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb271-55"><a href="indeterminacy-in-one-factor-cfa.html#cb271-55"></a>  <span class="kw">list</span>(<span class="st">&quot;tau&quot;</span>=<span class="kw">c</span>(<span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>),</span>
-<span id="cb271-56"><a href="indeterminacy-in-one-factor-cfa.html#cb271-56"></a>       <span class="st">&quot;lambda&quot;</span>=<span class="kw">c</span>(<span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>),</span>
-<span id="cb271-57"><a href="indeterminacy-in-one-factor-cfa.html#cb271-57"></a>       <span class="st">&quot;inv.psi&quot;</span>=<span class="kw">c</span>(<span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>)),</span>
-<span id="cb271-58"><a href="indeterminacy-in-one-factor-cfa.html#cb271-58"></a>  <span class="kw">list</span>(<span class="st">&quot;tau&quot;</span>=<span class="kw">c</span>(<span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>),</span>
-<span id="cb271-59"><a href="indeterminacy-in-one-factor-cfa.html#cb271-59"></a>       <span class="st">&quot;lambda&quot;</span>=<span class="kw">c</span>(<span class="op">-</span><span class="fl">3.00E+00</span>, <span class="fl">-3.00E+00</span>, <span class="fl">-3.00E+00</span>, <span class="fl">-3.00E+00</span>, <span class="fl">-3.00E+00</span>),</span>
-<span id="cb271-60"><a href="indeterminacy-in-one-factor-cfa.html#cb271-60"></a>       <span class="st">&quot;inv.psi&quot;</span>=<span class="kw">c</span>(<span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>))</span>
-<span id="cb271-61"><a href="indeterminacy-in-one-factor-cfa.html#cb271-61"></a>)</span>
-<span id="cb271-62"><a href="indeterminacy-in-one-factor-cfa.html#cb271-62"></a></span>
-<span id="cb271-63"><a href="indeterminacy-in-one-factor-cfa.html#cb271-63"></a><span class="co"># vector of all parameters to save</span></span>
-<span id="cb271-64"><a href="indeterminacy-in-one-factor-cfa.html#cb271-64"></a><span class="co"># exclude fixed lambda since it throws an error in</span></span>
-<span id="cb271-65"><a href="indeterminacy-in-one-factor-cfa.html#cb271-65"></a><span class="co"># in the GRB plot</span></span>
-<span id="cb271-66"><a href="indeterminacy-in-one-factor-cfa.html#cb271-66"></a>param_save &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;tau[1]&quot;</span>, <span class="st">&quot;lambda[1]&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;psi[1]&quot;</span>, <span class="st">&quot;ksi[8]&quot;</span>)</span>
-<span id="cb271-67"><a href="indeterminacy-in-one-factor-cfa.html#cb271-67"></a></span>
-<span id="cb271-68"><a href="indeterminacy-in-one-factor-cfa.html#cb271-68"></a><span class="co"># fit model</span></span>
-<span id="cb271-69"><a href="indeterminacy-in-one-factor-cfa.html#cb271-69"></a>fit &lt;-<span class="st"> </span><span class="kw">jags</span>(</span>
-<span id="cb271-70"><a href="indeterminacy-in-one-factor-cfa.html#cb271-70"></a>  <span class="dt">model.file=</span>jags.model.cfa.ind,</span>
-<span id="cb271-71"><a href="indeterminacy-in-one-factor-cfa.html#cb271-71"></a>  <span class="dt">data=</span>mydata,</span>
-<span id="cb271-72"><a href="indeterminacy-in-one-factor-cfa.html#cb271-72"></a>  <span class="dt">inits=</span>start_values,</span>
-<span id="cb271-73"><a href="indeterminacy-in-one-factor-cfa.html#cb271-73"></a>  <span class="dt">parameters.to.save =</span> param_save,</span>
-<span id="cb271-74"><a href="indeterminacy-in-one-factor-cfa.html#cb271-74"></a>  <span class="dt">n.iter=</span><span class="dv">5000</span>,</span>
-<span id="cb271-75"><a href="indeterminacy-in-one-factor-cfa.html#cb271-75"></a>  <span class="dt">n.burnin =</span> <span class="dv">2500</span>,</span>
-<span id="cb271-76"><a href="indeterminacy-in-one-factor-cfa.html#cb271-76"></a>  <span class="dt">n.chains =</span> <span class="dv">2</span>,</span>
-<span id="cb271-77"><a href="indeterminacy-in-one-factor-cfa.html#cb271-77"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
-<span id="cb271-78"><a href="indeterminacy-in-one-factor-cfa.html#cb271-78"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<h2><span class="header-section-number">9.8</span> Indeterminacy in One Factor CFA</h2>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="indeterminacy-in-one-factor-cfa.html#cb281-1"></a><span class="co"># model code</span></span>
+<span id="cb281-2"><a href="indeterminacy-in-one-factor-cfa.html#cb281-2"></a>jags.model.cfa.ind &lt;-<span class="st"> </span><span class="cf">function</span>(){</span>
+<span id="cb281-3"><a href="indeterminacy-in-one-factor-cfa.html#cb281-3"></a></span>
+<span id="cb281-4"><a href="indeterminacy-in-one-factor-cfa.html#cb281-4"></a>  <span class="co">######################################################################</span></span>
+<span id="cb281-5"><a href="indeterminacy-in-one-factor-cfa.html#cb281-5"></a>  <span class="co"># Specify the factor analysis measurement model for the observables</span></span>
+<span id="cb281-6"><a href="indeterminacy-in-one-factor-cfa.html#cb281-6"></a>  <span class="co">######################################################################</span></span>
+<span id="cb281-7"><a href="indeterminacy-in-one-factor-cfa.html#cb281-7"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
+<span id="cb281-8"><a href="indeterminacy-in-one-factor-cfa.html#cb281-8"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb281-9"><a href="indeterminacy-in-one-factor-cfa.html#cb281-9"></a>      mu[i,j] &lt;-<span class="st"> </span>tau[j] <span class="op">+</span><span class="st"> </span>ksi[i]<span class="op">*</span>lambda[j]      <span class="co"># model implied expectation for each observable</span></span>
+<span id="cb281-10"><a href="indeterminacy-in-one-factor-cfa.html#cb281-10"></a>      x[i,j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(mu[i,j], inv.psi[j])    <span class="co"># distribution for each observable</span></span>
+<span id="cb281-11"><a href="indeterminacy-in-one-factor-cfa.html#cb281-11"></a>    }</span>
+<span id="cb281-12"><a href="indeterminacy-in-one-factor-cfa.html#cb281-12"></a>  }</span>
+<span id="cb281-13"><a href="indeterminacy-in-one-factor-cfa.html#cb281-13"></a>  </span>
+<span id="cb281-14"><a href="indeterminacy-in-one-factor-cfa.html#cb281-14"></a>  </span>
+<span id="cb281-15"><a href="indeterminacy-in-one-factor-cfa.html#cb281-15"></a>  <span class="co">######################################################################</span></span>
+<span id="cb281-16"><a href="indeterminacy-in-one-factor-cfa.html#cb281-16"></a>  <span class="co"># Specify the (prior) distribution for the latent variables</span></span>
+<span id="cb281-17"><a href="indeterminacy-in-one-factor-cfa.html#cb281-17"></a>  <span class="co">######################################################################</span></span>
+<span id="cb281-18"><a href="indeterminacy-in-one-factor-cfa.html#cb281-18"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
+<span id="cb281-19"><a href="indeterminacy-in-one-factor-cfa.html#cb281-19"></a>    ksi[i] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(kappa, inv.phi)  <span class="co"># distribution for the latent variables</span></span>
+<span id="cb281-20"><a href="indeterminacy-in-one-factor-cfa.html#cb281-20"></a>  }</span>
+<span id="cb281-21"><a href="indeterminacy-in-one-factor-cfa.html#cb281-21"></a>  </span>
+<span id="cb281-22"><a href="indeterminacy-in-one-factor-cfa.html#cb281-22"></a>  </span>
+<span id="cb281-23"><a href="indeterminacy-in-one-factor-cfa.html#cb281-23"></a>  <span class="co">######################################################################</span></span>
+<span id="cb281-24"><a href="indeterminacy-in-one-factor-cfa.html#cb281-24"></a>  <span class="co"># Specify the prior distribution for the parameters that govern the latent variables</span></span>
+<span id="cb281-25"><a href="indeterminacy-in-one-factor-cfa.html#cb281-25"></a>  <span class="co">######################################################################</span></span>
+<span id="cb281-26"><a href="indeterminacy-in-one-factor-cfa.html#cb281-26"></a>  kappa &lt;-<span class="st"> </span><span class="dv">0</span>              <span class="co"># Mean of factor 1</span></span>
+<span id="cb281-27"><a href="indeterminacy-in-one-factor-cfa.html#cb281-27"></a>  inv.phi &lt;-<span class="dv">1</span>   <span class="co"># Precision of factor 1</span></span>
+<span id="cb281-28"><a href="indeterminacy-in-one-factor-cfa.html#cb281-28"></a>  phi &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.phi        <span class="co"># Variance of factor 1</span></span>
+<span id="cb281-29"><a href="indeterminacy-in-one-factor-cfa.html#cb281-29"></a>  </span>
+<span id="cb281-30"><a href="indeterminacy-in-one-factor-cfa.html#cb281-30"></a>  </span>
+<span id="cb281-31"><a href="indeterminacy-in-one-factor-cfa.html#cb281-31"></a>  <span class="co">######################################################################</span></span>
+<span id="cb281-32"><a href="indeterminacy-in-one-factor-cfa.html#cb281-32"></a>  <span class="co"># Specify the prior distribution for the measurement model parameters</span></span>
+<span id="cb281-33"><a href="indeterminacy-in-one-factor-cfa.html#cb281-33"></a>  <span class="co">######################################################################</span></span>
+<span id="cb281-34"><a href="indeterminacy-in-one-factor-cfa.html#cb281-34"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb281-35"><a href="indeterminacy-in-one-factor-cfa.html#cb281-35"></a>    tau[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">3</span>, <span class="fl">.1</span>)        <span class="co"># Intercepts for observables</span></span>
+<span id="cb281-36"><a href="indeterminacy-in-one-factor-cfa.html#cb281-36"></a>    inv.psi[j] <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">5</span>, <span class="dv">10</span>) <span class="co"># Precisions for observables</span></span>
+<span id="cb281-37"><a href="indeterminacy-in-one-factor-cfa.html#cb281-37"></a>    psi[j] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.psi[j]   <span class="co"># Variances for observables</span></span>
+<span id="cb281-38"><a href="indeterminacy-in-one-factor-cfa.html#cb281-38"></a>  }</span>
+<span id="cb281-39"><a href="indeterminacy-in-one-factor-cfa.html#cb281-39"></a>  </span>
+<span id="cb281-40"><a href="indeterminacy-in-one-factor-cfa.html#cb281-40"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb281-41"><a href="indeterminacy-in-one-factor-cfa.html#cb281-41"></a>    lambda[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">1</span>, <span class="fl">.1</span>)    <span class="co"># prior distribution for the remaining loadings</span></span>
+<span id="cb281-42"><a href="indeterminacy-in-one-factor-cfa.html#cb281-42"></a>  }</span>
+<span id="cb281-43"><a href="indeterminacy-in-one-factor-cfa.html#cb281-43"></a>}</span>
+<span id="cb281-44"><a href="indeterminacy-in-one-factor-cfa.html#cb281-44"></a><span class="co"># data must be in a list</span></span>
+<span id="cb281-45"><a href="indeterminacy-in-one-factor-cfa.html#cb281-45"></a>dat &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;code/CFA-One-Latent-Variable/Data/IIS.dat&quot;</span>, <span class="dt">header=</span>T)</span>
+<span id="cb281-46"><a href="indeterminacy-in-one-factor-cfa.html#cb281-46"></a></span>
+<span id="cb281-47"><a href="indeterminacy-in-one-factor-cfa.html#cb281-47"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb281-48"><a href="indeterminacy-in-one-factor-cfa.html#cb281-48"></a>  <span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">J =</span> <span class="dv">5</span>,</span>
+<span id="cb281-49"><a href="indeterminacy-in-one-factor-cfa.html#cb281-49"></a>  <span class="dt">x =</span> <span class="kw">as.matrix</span>(dat)</span>
+<span id="cb281-50"><a href="indeterminacy-in-one-factor-cfa.html#cb281-50"></a>)</span>
+<span id="cb281-51"><a href="indeterminacy-in-one-factor-cfa.html#cb281-51"></a></span>
+<span id="cb281-52"><a href="indeterminacy-in-one-factor-cfa.html#cb281-52"></a></span>
+<span id="cb281-53"><a href="indeterminacy-in-one-factor-cfa.html#cb281-53"></a><span class="co"># initial values</span></span>
+<span id="cb281-54"><a href="indeterminacy-in-one-factor-cfa.html#cb281-54"></a>start_values &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb281-55"><a href="indeterminacy-in-one-factor-cfa.html#cb281-55"></a>  <span class="kw">list</span>(<span class="st">&quot;tau&quot;</span>=<span class="kw">c</span>(<span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>),</span>
+<span id="cb281-56"><a href="indeterminacy-in-one-factor-cfa.html#cb281-56"></a>       <span class="st">&quot;lambda&quot;</span>=<span class="kw">c</span>(<span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>),</span>
+<span id="cb281-57"><a href="indeterminacy-in-one-factor-cfa.html#cb281-57"></a>       <span class="st">&quot;inv.psi&quot;</span>=<span class="kw">c</span>(<span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>)),</span>
+<span id="cb281-58"><a href="indeterminacy-in-one-factor-cfa.html#cb281-58"></a>  <span class="kw">list</span>(<span class="st">&quot;tau&quot;</span>=<span class="kw">c</span>(<span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>),</span>
+<span id="cb281-59"><a href="indeterminacy-in-one-factor-cfa.html#cb281-59"></a>       <span class="st">&quot;lambda&quot;</span>=<span class="kw">c</span>(<span class="op">-</span><span class="fl">3.00E+00</span>, <span class="fl">-3.00E+00</span>, <span class="fl">-3.00E+00</span>, <span class="fl">-3.00E+00</span>, <span class="fl">-3.00E+00</span>),</span>
+<span id="cb281-60"><a href="indeterminacy-in-one-factor-cfa.html#cb281-60"></a>       <span class="st">&quot;inv.psi&quot;</span>=<span class="kw">c</span>(<span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>))</span>
+<span id="cb281-61"><a href="indeterminacy-in-one-factor-cfa.html#cb281-61"></a>)</span>
+<span id="cb281-62"><a href="indeterminacy-in-one-factor-cfa.html#cb281-62"></a></span>
+<span id="cb281-63"><a href="indeterminacy-in-one-factor-cfa.html#cb281-63"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb281-64"><a href="indeterminacy-in-one-factor-cfa.html#cb281-64"></a><span class="co"># exclude fixed lambda since it throws an error in</span></span>
+<span id="cb281-65"><a href="indeterminacy-in-one-factor-cfa.html#cb281-65"></a><span class="co"># in the GRB plot</span></span>
+<span id="cb281-66"><a href="indeterminacy-in-one-factor-cfa.html#cb281-66"></a>param_save &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;tau[1]&quot;</span>, <span class="st">&quot;lambda[1]&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;psi[1]&quot;</span>, <span class="st">&quot;ksi[8]&quot;</span>)</span>
+<span id="cb281-67"><a href="indeterminacy-in-one-factor-cfa.html#cb281-67"></a></span>
+<span id="cb281-68"><a href="indeterminacy-in-one-factor-cfa.html#cb281-68"></a><span class="co"># fit model</span></span>
+<span id="cb281-69"><a href="indeterminacy-in-one-factor-cfa.html#cb281-69"></a>fit &lt;-<span class="st"> </span><span class="kw">jags</span>(</span>
+<span id="cb281-70"><a href="indeterminacy-in-one-factor-cfa.html#cb281-70"></a>  <span class="dt">model.file=</span>jags.model.cfa.ind,</span>
+<span id="cb281-71"><a href="indeterminacy-in-one-factor-cfa.html#cb281-71"></a>  <span class="dt">data=</span>mydata,</span>
+<span id="cb281-72"><a href="indeterminacy-in-one-factor-cfa.html#cb281-72"></a>  <span class="dt">inits=</span>start_values,</span>
+<span id="cb281-73"><a href="indeterminacy-in-one-factor-cfa.html#cb281-73"></a>  <span class="dt">parameters.to.save =</span> param_save,</span>
+<span id="cb281-74"><a href="indeterminacy-in-one-factor-cfa.html#cb281-74"></a>  <span class="dt">n.iter=</span><span class="dv">5000</span>,</span>
+<span id="cb281-75"><a href="indeterminacy-in-one-factor-cfa.html#cb281-75"></a>  <span class="dt">n.burnin =</span> <span class="dv">2500</span>,</span>
+<span id="cb281-76"><a href="indeterminacy-in-one-factor-cfa.html#cb281-76"></a>  <span class="dt">n.chains =</span> <span class="dv">2</span>,</span>
+<span id="cb281-77"><a href="indeterminacy-in-one-factor-cfa.html#cb281-77"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
+<span id="cb281-78"><a href="indeterminacy-in-one-factor-cfa.html#cb281-78"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -296,7 +308,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    Total graph size: 8029
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="indeterminacy-in-one-factor-cfa.html#cb273-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="indeterminacy-in-one-factor-cfa.html#cb283-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
 <pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/Rtmpk3BvWg/modela6044663d6f.txt&quot;, fit using jags,
 ##  2 chains, each with 5000 iterations (first 2500 discarded)
 ##  n.sims = 5000 iterations saved
@@ -314,10 +326,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## DIC info (using the rule, pD = var(deviance)/2)
 ## pD = 2014.4 and DIC = 5399.9
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="indeterminacy-in-one-factor-cfa.html#cb275-1"></a><span class="co"># extract posteriors for all chains</span></span>
-<span id="cb275-2"><a href="indeterminacy-in-one-factor-cfa.html#cb275-2"></a>jags.mcmc &lt;-<span class="st"> </span><span class="kw">as.mcmc</span>(fit)</span>
-<span id="cb275-3"><a href="indeterminacy-in-one-factor-cfa.html#cb275-3"></a></span>
-<span id="cb275-4"><a href="indeterminacy-in-one-factor-cfa.html#cb275-4"></a>R2jags<span class="op">::</span><span class="kw">traceplot</span>(jags.mcmc)</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="indeterminacy-in-one-factor-cfa.html#cb285-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb285-2"><a href="indeterminacy-in-one-factor-cfa.html#cb285-2"></a>jags.mcmc &lt;-<span class="st"> </span><span class="kw">as.mcmc</span>(fit)</span>
+<span id="cb285-3"><a href="indeterminacy-in-one-factor-cfa.html#cb285-3"></a></span>
+<span id="cb285-4"><a href="indeterminacy-in-one-factor-cfa.html#cb285-4"></a>R2jags<span class="op">::</span><span class="kw">traceplot</span>(jags.mcmc)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-FID-1.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-FID-2.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-FID-3.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-FID-4.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-FID-5.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-FID-6.png" width="672" /></p>
 
 </div>
@@ -327,8 +339,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="stan-two-latent-variable.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="blavaan-two-latent-variables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="model-evaluation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

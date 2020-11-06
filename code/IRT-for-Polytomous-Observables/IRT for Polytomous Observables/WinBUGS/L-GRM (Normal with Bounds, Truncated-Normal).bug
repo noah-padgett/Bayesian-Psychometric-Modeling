@@ -2,55 +2,58 @@
 
 model{
 
-#####################################################################################
+#######################################
 # Specify the item response measurement model for the observables
-#####################################################################################
+#######################################
 for (i in 1:n){
   for(j in 1:J){
 
-    #####################################################################################
+    ###################################
     # Specify the probabilities of a value being greater than or equal to each category
-    #####################################################################################
+    ###################################
     for(k in 2:(K[j])){
-      P.gte[i,j,k] <- exp(a[j]*theta[i]+d[j,k])/(1+exp(a[j]*theta[i]+d[j,k]))       # P(greater than or equal to category k > 1)
+      # P(greater than or equal to category k > 1)
+      P.gte[i,j,k] <- exp(a[j]*theta[i]+d[j,k])/(1+exp(a[j]*theta[i]+d[j,k]))
     }
-    P.gte[i,j,1] <- 1                                 # P(greater than or equal to category 1)    
+    # P(greater than or equal to category 1)
+    P.gte[i,j,1] <- 1
 
 
-    #####################################################################################
+    ###################################
     # Specify the probabilities of a value being equal to each category
-    #####################################################################################
+    ###################################
     for(k in 1:(K[j]-1)){
-      P[i,j,k] <- P.gte[i,j,k]-P.gte[i,j,k+1]        # P(greater equal to category k < K)
+      # P(greater equal to category k < K)
+      P[i,j,k] <- P.gte[i,j,k]-P.gte[i,j,k+1]
     }
-    P[i,j,K[j]] <- P.gte[i,j,K[j]]                   # P(greater equal to category K)
+    # P(greater equal to category K)
+    P[i,j,K[j]] <- P.gte[i,j,K[j]]
 
 
-    #####################################################################################
+    ###################################
     # Specify the distribution for each observable
-    #####################################################################################
-    x[i,j] ~ dcat(P[i,j,1:K[j]])                  
+    ###################################
+    x[i,j] ~ dcat(P[i,j,1:K[j]])
   }
 }
 
 
-#####################################################################################
+#######################################
 # Specify the (prior) distribution for the latent variables
-#####################################################################################
+#######################################
 for (i in 1:n){
   theta[i] ~ dnorm(0, 1)  # distribution for the latent variables
 }
 
 
-#####################################################################################
+#######################################
 # Specify the prior distribution for the measurement model parameters
-#####################################################################################
+#######################################
 for(j in 1:J){
   d[j,2] ~ dnorm(2, .5)                   # Locations for k = 2
-  d[j,3] ~ dnorm(1, .5)I(d[j,4],d[j,2])   # Locations for k = 3      
-  d[j,4] ~ dnorm(-1, .5)I(d[j,5],d[j,3])  # Locations for k = 4  	  
-  d[j,5] ~ dnorm(-2, .5)I(,d[j,4])        # Locations for k = 5  	  
-  
+  d[j,3] ~ dnorm(1, .5)I(d[j,4],d[j,2])   # Locations for k = 3
+  d[j,4] ~ dnorm(-1, .5)I(d[j,5],d[j,3])  # Locations for k = 4
+  d[j,5] ~ dnorm(-2, .5)I(,d[j,4])        # Locations for k = 5
 
   a[j] ~ dnorm(1, .5) I(0,)    # Discriminations for observables
 

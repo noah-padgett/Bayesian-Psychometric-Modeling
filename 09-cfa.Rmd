@@ -60,7 +60,7 @@ knitr::include_graphics(paste0(w.d,'/dag/chp9-cfa1.png'),
 However, as the authors noted, the path diagram tradition of conveying models is also very useful in discussing and describing the model, which I give next.
 
 
-```{r chp9-pathdiag-1, echo=FALSE,fig.align='center',fig.cap='DAG for CFA model with 1 latent variable'}
+```{r chp9-pathdiag-1, echo=FALSE,fig.align='center',fig.cap='Path diagram for CFA model with 1 latent variable'}
 knitr::include_graphics(paste0(w.d,'/path-diagram/chp9-cfa1.png'),
                         auto_pdf = TRUE)
 ```
@@ -495,6 +495,51 @@ p1 + p2 + p3 + p4 + p5 + p6 + plot_layout(guides = "collect")
 
 
 ```
+
+
+## Blavaan - Single Latent Variable
+
+```{r chp9-cfa-fit-blavaan-1, warnings=T, message=T, error=T, cache=TRUE}
+
+# model
+model_cfa_blavaan <- "
+  f1 =~ 1*PI + AD + IGC + FI + FC
+"
+
+dat <- as.matrix(read.table("code/CFA-Two-Latent-Variables/Data/IIS.dat", header=T))
+
+fit <- blavaan::bcfa(model_cfa_blavaan, data=dat)
+
+summary(fit)
+plot(fit)
+
+
+```
+## Two Latent Variable Model
+
+Here we consider the model in section 9.4 which is a CFA model with 2 latent variables and 5 observed indicators.
+The graphical representation of these factor models get pretty complex pretty quickly, but for this example I have reproduced a version of Figure 9.4, shown below.
+
+```{r chp9-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG for CFA model with 2 latent variables'}
+knitr::include_graphics(paste0(w.d,'/dag/chp9-cfa2.png'),
+                        auto_pdf = TRUE)
+```
+
+However, as the authors noted, the path diagram tradition of conveying models is also very useful in discussing and describing the model, which I give next.
+
+
+```{r chp9-pathdiag-2, echo=FALSE,fig.align='center',fig.cap='Path Diagram for CFA model with 2 latent variables'}
+knitr::include_graphics(paste0(w.d,'/path-diagram/chp9-cfa2.png'),
+                        auto_pdf = TRUE)
+```
+
+For completeness, I have included the model specification diagram that more concretely connects the DAG and path diagram to the assumed distributions and priors.
+
+```{r chp9-spec-2, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the CFA model with 2 latent factors'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp9-cfa2.png'),
+                        auto_pdf = TRUE)
+```
+
 
 
 ## JAGS - Two Latent Variable
@@ -984,6 +1029,28 @@ mcmc_areas(
 
 ```
 
+## Blavaan - Two Latent Variables
+
+
+```{r chp9-cfa-fit-blavaan-2, warnings=T, message=T,error=T, cache=TRUE}
+
+# model
+model_cfa2_blavaan <- "
+  f1 =~ 1*PI + AD + IGC 
+  f2 =~ 1*FI + FC
+  f1 ~~ f2
+"
+
+dat <- as.matrix(read.table("code/CFA-Two-Latent-Variables/Data/IIS.dat", header=T))
+
+fit <- blavaan::bcfa(model_cfa2_blavaan, data=dat)
+
+summary(fit)
+
+plot(fit)
+
+
+```
 
 ## Indeterminacy in One Factor CFA
 

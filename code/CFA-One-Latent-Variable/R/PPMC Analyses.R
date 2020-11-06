@@ -1,32 +1,30 @@
-#################################################################################################################################################
+#######################################################
 # R code to compute the PPMC analyses for the CFA model
-#################################################################################################################################################
+#######################################################
 
 
 
+#######################################################
 
-#################################################################################################################################################
+#  GENERATE POSTERIOR PREDICTIVE DATASETS
+#  & MODEL-IMPLIED MEAN AND COVARIANCE MATRICES
 
-#      		GENERATE POSTERIOR PREDICTIVE DATASETS
-#         & MODEL-IMPLIED MEAN AND COVARIANCE MATRICES
-
-#         ONLY NEED TO RUN THIS ONCE, THEN CAN REVISIT LATER CODE
-#################################################################################################################################################
-
-############################################################################################################################
+#  ONLY NEED TO RUN THIS ONCE, THEN CAN REVISIT LATER CODE
+############################################################
+############################################################
 # Setup a subfolder for posterior predictive datasets
-############################################################################################################################
+##################################################################
 PP.datasets.folder <- paste(PPMC.folder, "PP Datasets\\", sep="")
 dir.create(PP.datasets.folder)
 
-  
-############################################################################################################################
+
+##################################################################
 # Loop over iterations
-############################################################################################################################
+##################################################################
 for(which.iter in 1:n.iters.total){
 
-  
-  
+
+
   #################################################################################################################################################
   # Extract the values of the needed model parameters for this iteration
   #################################################################################################################################################
@@ -36,15 +34,15 @@ for(which.iter in 1:n.iters.total){
   kappa <- kappa.iterations[which.iter, ]
   phi <- matrix(phi.iterations[which.iter, , ], nrow=M)
   ksi <- matrix(ksi.iterations[which.iter, , ], nrow=n)
- 
 
-  
+
+
   #################################################################################################################################################
   # Calculate the model-implied expected values for each data point
   #################################################################################################################################################
   expected.values <- (matrix(rep(1, n), nrow=n) %*% tau) + (ksi %*% t(lambda))
 
-  
+
   #################################################################################################################################################
   # Simulate error values in a matrix
   #################################################################################################################################################
@@ -53,12 +51,12 @@ for(which.iter in 1:n.iters.total){
 		error.values[, j] <- rnorm(n=n, mean=0, sd=sqrt(diag(psi)[j]))
 	}
 
-  
+
   #################################################################################################################################################
   # Construct the posterior predicted dataset
   #################################################################################################################################################
   x.postpred <- expected.values + error.values
-  
+
 
 
   #################################################################################################################################################
@@ -72,23 +70,23 @@ for(which.iter in 1:n.iters.total){
   #################################################################################################################################################
   model.implied.covariance.matrix <- lambda %*% phi %*% t(lambda) + psi
 
-  
+
   #################################################################################################################################################
-  # Write out the 
+  # Write out the
   #   posterior predicted data
   #   model-implied expected values
   #   model-implied covariance matrix
   #   model-implied mean vector
   #################################################################################################################################################
-  write.table(x.postpred, file=paste(PP.datasets.folder, "x.postpred.", which.iter, ".dat", sep=""), row.names=FALSE, col.names=FALSE)	
-	write.table(expected.values, file=paste(PP.datasets.folder, "expected.values.", which.iter, ".dat", sep=""), row.names=FALSE, col.names=FALSE)	
-	write.table(model.implied.covariance.matrix, file=paste(PP.datasets.folder, "model.implied.covariance.matrix.iteration.", which.iter, ".dat", sep=""), row.names=FALSE, col.names=FALSE)	
-	write.table(model.implied.mean.vector, file=paste(PP.datasets.folder, "model.implied.mean.vector.iteration.", which.iter, ".dat", sep=""), row.names=FALSE, col.names=FALSE)	
+  write.table(x.postpred, file=paste(PP.datasets.folder, "x.postpred.", which.iter, ".dat", sep=""), row.names=FALSE, col.names=FALSE)
+	write.table(expected.values, file=paste(PP.datasets.folder, "expected.values.", which.iter, ".dat", sep=""), row.names=FALSE, col.names=FALSE)
+	write.table(model.implied.covariance.matrix, file=paste(PP.datasets.folder, "model.implied.covariance.matrix.iteration.", which.iter, ".dat", sep=""), row.names=FALSE, col.names=FALSE)
+	write.table(model.implied.mean.vector, file=paste(PP.datasets.folder, "model.implied.mean.vector.iteration.", which.iter, ".dat", sep=""), row.names=FALSE, col.names=FALSE)
 
-  
+
 } # closes loop over iterations
-  
-  
+
+
 
 
 #################################################################################################################################################
@@ -98,7 +96,7 @@ for(which.iter in 1:n.iters.total){
 #################################################################################################################################################
 
 #################################################################################################################################################
-# Set up arrays to capture 
+# Set up arrays to capture
 
 # correlation matrices from posterior predicted data sets
 # p.values for correlations
@@ -124,10 +122,10 @@ for(which.iter in 1:n.iters.total){
   #   correlations
   ############################################################################################################################
   postpred.cors[which.iter, , ] <- cor(x.postpred)
-  
+
 
 } # closes loop over iterations
-  
+
 
 
 
@@ -167,9 +165,9 @@ par(mar=plot.margins)
 
 
 mat=matrix(seq(1:(J*J)), ncol=J)
-layout(mat=mat, 
+layout(mat=mat,
        widths=rep(1, ncol(mat)),
-       heights=rep(1, nrow(mat)), 
+       heights=rep(1, nrow(mat)),
        respect=FALSE
 )
 
@@ -185,14 +183,14 @@ var.labels <- colnames(x)
 
 for(j in 1:J){
   for(jj in 1:J){
-    
-    
-    
+
+
+
     #############################################################################################################################
     # Plot the nothing above the main diagonal
     #############################################################################################################################
     if(j>jj){
-      
+
       #############################################################################################################################
       # Plot density of posterior predicted values
       #############################################################################################################################
@@ -206,17 +204,17 @@ for(j in 1:J){
       )
     }
 
-    
-    
+
+
     #############################################################################################################################
     # Plot the correlations below the main diagonal
     #############################################################################################################################
     if(j<jj){
-      
+
       #############################################################################################################################
       # Plot density of posterior predicted values
       #############################################################################################################################
-      values.to.plot <- postpred.cors[ ,j, jj] 
+      values.to.plot <- postpred.cors[ ,j, jj]
       vertical.line.to.plot <- cor(x)[j,jj]
       plot(
         density(values.to.plot),
@@ -229,21 +227,21 @@ for(j in 1:J){
           max(ceiling(100*max(density(values.to.plot)$x))/100, vertical.line.to.plot)
         ),
         ylim=c(
-          0, 
+          0,
           ceiling(max(density(values.to.plot)$y))
         ),
         font=6, font.axis=6, font.main=6, font.lab=6
       )
-      
+
       axis(side=1, font=6, tcl=-.2, mgp=c(1,.2,0))
       #############################################################################################################################
       # add line at realized value
       #############################################################################################################################
       abline(v=vertical.line.to.plot)
-    }    
-    
-    
-    
+    }
+
+
+
     #############################################################################################################################
     # Plot the variable labels along the diagonal
     #############################################################################################################################
@@ -258,9 +256,9 @@ for(j in 1:J){
       )
       text(x=0, y=0, bquote(italic(.(var.labels[j]))), font=6, cex=1.5)
     }
-    
-  } # closes first loop over plotting 
-} # closes second loop over plotting 
+
+  } # closes first loop over plotting
+} # closes second loop over plotting
 
 
 
@@ -282,7 +280,7 @@ dev.off()  # closes the device opened in R
 
 for(j in 1:J){
   for(jj in j:J){
- 
+
 		#############################################################################################################################
 		# Define the realized and posterior predicted values
 		#############################################################################################################################
@@ -291,7 +289,7 @@ for(j in 1:J){
 
 		#############################################################################################################################
 		# Calculate the p-value
-		#############################################################################################################################	
+		#############################################################################################################################
 		postpred.cors.p[j,jj] <- mean(postpred.values > realized.values)
 
 	} # closes first loop over plotting of marginal covariances
@@ -314,7 +312,7 @@ write.table(postpred.cors.p, file=paste(PPMC.folder, file.name, sep=""), row.nam
 #################################################################################################################################################
 
 #################################################################################################################################################
-# Set up arrays to capture 
+# Set up arrays to capture
 #  realized LR fit
 #	 posterior predicted LR fit
 
@@ -347,24 +345,24 @@ LR.function <- function(data.cov.matrix, mod.imp.cov.matrix, n){
 for(which.iter in 1:n.iters.total){
 
   ############################################################################################################################
-  # Read in the 
+  # Read in the
   #   posterior predicted dataset
   #   model-implied covariance matrix
   ############################################################################################################################
   x.postpred <- read.table(file=paste(PP.datasets.folder, "x.postpred.", which.iter, ".dat", sep=""))
   model.implied.covariance.matrix <- as.matrix(read.table(file=paste(PP.datasets.folder, "model.implied.covariance.matrix.iteration.", which.iter, ".dat", sep="")))
-  
-  
+
+
   ############################################################################################################################
-  # Calculate the 
+  # Calculate the
   #   realized LR value
   #   posterior predicted LR value
   ############################################################################################################################
   realized.LR.fit[which.iter] <- LR.function(data.cov.matrix=cov(x), mod.imp.cov.matrix=model.implied.covariance.matrix, n=n)
   postpred.LR.fit[which.iter] <- LR.function(data.cov.matrix=cov(x.postpred), mod.imp.cov.matrix=model.implied.covariance.matrix, n=n)
-  
+
 } # closes loop over iterations
-  
+
 
 
 #################################################################################################################################################
@@ -379,7 +377,7 @@ postpred.values <- postpred.LR.fit
 
 
 ###########################################################################
-#  Define features of the plots 
+#  Define features of the plots
 ###########################################################################
 plot.width=3
 plot.height=3
@@ -388,7 +386,7 @@ if(write.axis.labels==TRUE){
   plot.margins=plot.margins+c(1,1,0,0)
 } # closes switch for if writing axis labels
 
-point.size=.6 
+point.size=.6
 point.type=19
 xlimit<-range(realized.values,postpred.values)
 ylimit<-xlimit
@@ -407,7 +405,7 @@ file.main.name <- paste("Scatterplot of LR", sep="")
 windows(width=plot.width, height=plot.height)
 par(family="serif") # font
 par(mar=plot.margins)
-  
+
 plot(
   x=realized.values,
   y=postpred.values,
@@ -472,7 +470,7 @@ write.table(postpred.LR.fit.p, file=paste(PPMC.folder, file.name, sep=""), row.n
 
 
 #################################################################################################################################################
-# Set up arrays to capture 
+# Set up arrays to capture
 #  realized SRMR
 #	 posterior predicted SRMR
 
@@ -490,15 +488,15 @@ postpred.SRMR.p <- NA
 
 SRMR.function <- function(data.cov.matrix, mod.imp.cov.matrix){
 
-  J=nrow(data.cov.matrix)	
+  J=nrow(data.cov.matrix)
 	temp <- matrix(NA, nrow=J, ncol=J)
-	
+
 	for(j in 1:J){
 		for(jprime in 1:j){
 			temp[j, jprime] <- ((data.cov.matrix[j, jprime] - mod.imp.cov.matrix[j, jprime])/(data.cov.matrix[j, j] * data.cov.matrix[jprime, jprime]))^2
 		}
 	}
-  
+
 	SRMR <- sqrt((2*sum(temp,na.rm=TRUE))/(J*(J+1)))
 	SRMR
 
@@ -512,24 +510,24 @@ SRMR.function <- function(data.cov.matrix, mod.imp.cov.matrix){
 for(which.iter in 1:n.iters.total){
 
   ############################################################################################################################
-  # Read in the 
+  # Read in the
   #   posterior predicted dataset
   #   model-implied covariance matrix
   ############################################################################################################################
   x.postpred <- read.table(file=paste(PP.datasets.folder, "x.postpred.", which.iter, ".dat", sep=""))
   model.implied.covariance.matrix <- as.matrix(read.table(file=paste(PP.datasets.folder, "model.implied.covariance.matrix.iteration.", which.iter, ".dat", sep="")))
-  
-  
+
+
   ############################################################################################################################
-  # Calculate the 
+  # Calculate the
   #   realized SRMR value
   #   posterior predicted SRMR value
   ############################################################################################################################
   realized.SRMR[which.iter] <- SRMR.function(data.cov.matrix=cov(x), mod.imp.cov.matrix=model.implied.covariance.matrix)
   postpred.SRMR[which.iter] <- SRMR.function(data.cov.matrix=cov(x.postpred), mod.imp.cov.matrix=model.implied.covariance.matrix)
-  
+
 } # closes loop over iterations
-  
+
 
 
 #################################################################################################################################################
@@ -550,7 +548,7 @@ for(which.iter in 1:n.iters.total){
 
 
   ###########################################################################
-  #  Define features of the plots 
+  #  Define features of the plots
   ###########################################################################
   plot.width=3
   plot.height=2.5
@@ -558,45 +556,45 @@ for(which.iter in 1:n.iters.total){
   if(write.axis.labels==TRUE){
     plot.margins=plot.margins+c(1,0,0,0)
   } # closes switch for if writing axis labels
-  
+
 
   ###########################################################################
   # Open a window, for creating the plot, which will then be saved as file types
   ###########################################################################
-  
+
   windows(width=plot.width, height=plot.height)
   par(family="serif") # font
   par(mar=plot.margins)
-  
+
   plot(
     density(realized.values),
     cex=point.size,
     axes=FALSE,
     ann=FALSE
   )
-  
+
   #################################################################################################################################################
   # Add the axes
   #################################################################################################################################################
   axis(side=1, font=6, labels=NA)
   axis(side = 1, lwd = 0, line = -.4, font=6)
-  
-  
+
+
   if(write.axis.labels==TRUE){
     mtext(side = 1, line = 1.5, text="Realized SRMR")
   } # closes switch for if writing axis labels
 
-  
+
   #############################################################################################################################
   # Copy to a .pdf
   #############################################################################################################################
   file.name <- paste(output.folder, file.main.name, ".pdf", sep="")
   dev.copy2pdf(file=file.name)
-  
+
   dev.off()  # closes the device opened in R
-    
-  
- 
+
+
+
 	#############################################################################################################################
 	# Summarize the realized values of SRMR
 	#############################################################################################################################
@@ -606,8 +604,8 @@ for(which.iter in 1:n.iters.total){
 
 
   summary.statistics <- cbind(
-    matrix(summary.stats$statistics, ncol=4), 
-    matrix(summary.stats$quantiles, ncol=5), 
+    matrix(summary.stats$statistics, ncol=4),
+    matrix(summary.stats$quantiles, ncol=5),
     matrix(HPDinterval(temp, prob=probability.for.HPD)[1,], ncol=2)
   )
 
@@ -629,7 +627,7 @@ for(which.iter in 1:n.iters.total){
 
 
 #############################################################################################################################
-# Define the plot name and open it 
+# Define the plot name and open it
 #############################################################################################################################
 
 ###########################################################################
@@ -639,7 +637,7 @@ file.main.name <- paste("Scatterplot of SRMR", sep="")
 
 
 ###########################################################################
-#  Define features of the plots 
+#  Define features of the plots
 ###########################################################################
 plot.width=3
 plot.height=3

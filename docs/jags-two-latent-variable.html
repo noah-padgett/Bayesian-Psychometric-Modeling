@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>9.4 JAGS - Two Latent Variable | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
+  <title>9.5 JAGS - Two Latent Variable | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
   <meta name="description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="9.4 JAGS - Two Latent Variable | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  <meta property="og:title" content="9.5 JAGS - Two Latent Variable | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="noah-padgett/Bayesian-Psychometric-Modeling" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="9.4 JAGS - Two Latent Variable | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  <meta name="twitter:title" content="9.5 JAGS - Two Latent Variable | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
   
   <meta name="twitter:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
   
@@ -24,14 +24,14 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2020-10-23" />
+<meta name="date" content="2020-11-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="stan-single-latent-variable.html"/>
+<link rel="prev" href="blavaan-single-latent-variable.html"/>
 <link rel="next" href="stan-two-latent-variable.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -179,12 +181,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.1" data-path="single-latent-variable-model.html"><a href="single-latent-variable-model.html"><i class="fa fa-check"></i><b>9.1</b> Single Latent Variable Model</a></li>
 <li class="chapter" data-level="9.2" data-path="jags-single-latent-variable.html"><a href="jags-single-latent-variable.html"><i class="fa fa-check"></i><b>9.2</b> JAGS - Single Latent Variable</a></li>
 <li class="chapter" data-level="9.3" data-path="stan-single-latent-variable.html"><a href="stan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.3</b> Stan - Single Latent Variable</a></li>
-<li class="chapter" data-level="9.4" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> JAGS - Two Latent Variable</a></li>
-<li class="chapter" data-level="9.5" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.5</b> Stan - Two Latent Variable</a><ul>
-<li class="chapter" data-level="9.5.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.5.1</b> Inverse-Wishart Prior</a></li>
-<li class="chapter" data-level="9.5.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.5.2</b> LKJ Cholesky Parameterization</a></li>
+<li class="chapter" data-level="9.4" data-path="blavaan-single-latent-variable.html"><a href="blavaan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> Blavaan - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.5" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.5</b> JAGS - Two Latent Variable</a></li>
+<li class="chapter" data-level="9.6" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> Stan - Two Latent Variable</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.6.1</b> Inverse-Wishart Prior</a></li>
+<li class="chapter" data-level="9.6.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.6.2</b> LKJ Cholesky Parameterization</a></li>
 </ul></li>
-<li class="chapter" data-level="9.6" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.6</b> Indeterminacy in One Factor CFA</a></li>
+<li class="chapter" data-level="9.7" data-path="blavaan-two-latent-variables.html"><a href="blavaan-two-latent-variables.html"><i class="fa fa-check"></i><b>9.7</b> Blavaan - Two Latent Variables</a></li>
+<li class="chapter" data-level="9.8" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.8</b> Indeterminacy in One Factor CFA</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a><ul>
+<li class="chapter" data-level="10.1" data-path="residual-analysis.html"><a href="residual-analysis.html"><i class="fa fa-check"></i><b>10.1</b> Residual Analysis</a></li>
+<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#example-of-posterior-predictive-distribution-of-correlations"><i class="fa fa-check"></i><b>10.2.1</b> Example of posterior predictive distribution of correlations</a></li>
+<li class="chapter" data-level="10.2.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#ppd-srmr"><i class="fa fa-check"></i><b>10.2.2</b> PPD SRMR</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -208,134 +220,134 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="jags---two-latent-variable" class="section level2">
-<h2><span class="header-section-number">9.4</span> JAGS - Two Latent Variable</h2>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="jags-two-latent-variable.html#cb220-1"></a><span class="co"># model code</span></span>
-<span id="cb220-2"><a href="jags-two-latent-variable.html#cb220-2"></a>jags.model.cfa2 &lt;-<span class="st"> </span><span class="cf">function</span>(){</span>
-<span id="cb220-3"><a href="jags-two-latent-variable.html#cb220-3"></a></span>
-<span id="cb220-4"><a href="jags-two-latent-variable.html#cb220-4"></a>  <span class="co">###################</span></span>
-<span id="cb220-5"><a href="jags-two-latent-variable.html#cb220-5"></a>  <span class="co"># Specify the factor analysis measurement model for the observables</span></span>
-<span id="cb220-6"><a href="jags-two-latent-variable.html#cb220-6"></a>  <span class="co">####################</span></span>
-<span id="cb220-7"><a href="jags-two-latent-variable.html#cb220-7"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
-<span id="cb220-8"><a href="jags-two-latent-variable.html#cb220-8"></a>    </span>
-<span id="cb220-9"><a href="jags-two-latent-variable.html#cb220-9"></a>    <span class="co"># expected value for each examinee for each observable</span></span>
-<span id="cb220-10"><a href="jags-two-latent-variable.html#cb220-10"></a>    mu[i,<span class="dv">1</span>] &lt;-<span class="st"> </span>tau[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>ksi[i,<span class="dv">1</span>]  	</span>
-<span id="cb220-11"><a href="jags-two-latent-variable.html#cb220-11"></a>    mu[i,<span class="dv">2</span>] &lt;-<span class="st"> </span>tau[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">*</span>ksi[i,<span class="dv">1</span>]     	</span>
-<span id="cb220-12"><a href="jags-two-latent-variable.html#cb220-12"></a>    mu[i,<span class="dv">3</span>] &lt;-<span class="st"> </span>tau[<span class="dv">3</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">3</span>,<span class="dv">1</span>]<span class="op">*</span>ksi[i,<span class="dv">1</span>]          </span>
-<span id="cb220-13"><a href="jags-two-latent-variable.html#cb220-13"></a>    mu[i,<span class="dv">4</span>] &lt;-<span class="st"> </span>tau[<span class="dv">4</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">4</span>,<span class="dv">2</span>]<span class="op">*</span>ksi[i,<span class="dv">2</span>]          </span>
-<span id="cb220-14"><a href="jags-two-latent-variable.html#cb220-14"></a>    mu[i,<span class="dv">5</span>] &lt;-<span class="st"> </span>tau[<span class="dv">5</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">5</span>,<span class="dv">2</span>]<span class="op">*</span>ksi[i,<span class="dv">2</span>]          </span>
-<span id="cb220-15"><a href="jags-two-latent-variable.html#cb220-15"></a>    </span>
-<span id="cb220-16"><a href="jags-two-latent-variable.html#cb220-16"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
-<span id="cb220-17"><a href="jags-two-latent-variable.html#cb220-17"></a>      x[i,j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(mu[i,j], inv.psi[j])    <span class="co"># distribution for each observable</span></span>
-<span id="cb220-18"><a href="jags-two-latent-variable.html#cb220-18"></a>    }</span>
-<span id="cb220-19"><a href="jags-two-latent-variable.html#cb220-19"></a>  }</span>
-<span id="cb220-20"><a href="jags-two-latent-variable.html#cb220-20"></a>  </span>
-<span id="cb220-21"><a href="jags-two-latent-variable.html#cb220-21"></a>  </span>
-<span id="cb220-22"><a href="jags-two-latent-variable.html#cb220-22"></a>  <span class="co">######################################################################</span></span>
-<span id="cb220-23"><a href="jags-two-latent-variable.html#cb220-23"></a>  <span class="co"># Specify the (prior) distribution for the latent variables</span></span>
-<span id="cb220-24"><a href="jags-two-latent-variable.html#cb220-24"></a>  <span class="co">######################################################################</span></span>
-<span id="cb220-25"><a href="jags-two-latent-variable.html#cb220-25"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
-<span id="cb220-26"><a href="jags-two-latent-variable.html#cb220-26"></a>    ksi[i, <span class="dv">1</span><span class="op">:</span>M] <span class="op">~</span><span class="st"> </span><span class="kw">dmnorm</span>(kappa[], inv.phi[,])  <span class="co"># distribution for the latent variables</span></span>
-<span id="cb220-27"><a href="jags-two-latent-variable.html#cb220-27"></a>  }</span>
-<span id="cb220-28"><a href="jags-two-latent-variable.html#cb220-28"></a>  </span>
-<span id="cb220-29"><a href="jags-two-latent-variable.html#cb220-29"></a>  </span>
-<span id="cb220-30"><a href="jags-two-latent-variable.html#cb220-30"></a>  <span class="co">######################################################################</span></span>
-<span id="cb220-31"><a href="jags-two-latent-variable.html#cb220-31"></a>  <span class="co"># Specify the prior distribution for the parameters that govern the latent variables</span></span>
-<span id="cb220-32"><a href="jags-two-latent-variable.html#cb220-32"></a>  <span class="co">######################################################################</span></span>
-<span id="cb220-33"><a href="jags-two-latent-variable.html#cb220-33"></a>  <span class="cf">for</span>(m <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M){</span>
-<span id="cb220-34"><a href="jags-two-latent-variable.html#cb220-34"></a>    kappa[m] &lt;-<span class="st"> </span><span class="dv">0</span>              <span class="co"># Means of latent variables</span></span>
-<span id="cb220-35"><a href="jags-two-latent-variable.html#cb220-35"></a>  }</span>
-<span id="cb220-36"><a href="jags-two-latent-variable.html#cb220-36"></a>  </span>
-<span id="cb220-37"><a href="jags-two-latent-variable.html#cb220-37"></a>  inv.phi[<span class="dv">1</span><span class="op">:</span>M,<span class="dv">1</span><span class="op">:</span>M] <span class="op">~</span><span class="st"> </span><span class="kw">dwish</span>(dxphi<span class="fl">.0</span>[ , ], d);  	<span class="co"># prior for precision matrix for the latent variables</span></span>
-<span id="cb220-38"><a href="jags-two-latent-variable.html#cb220-38"></a>  phi[<span class="dv">1</span><span class="op">:</span>M,<span class="dv">1</span><span class="op">:</span>M] &lt;-<span class="st"> </span><span class="kw">inverse</span>(inv.phi[ , ]);  		<span class="co"># the covariance matrix for the latent vars</span></span>
-<span id="cb220-39"><a href="jags-two-latent-variable.html#cb220-39"></a>  </span>
-<span id="cb220-40"><a href="jags-two-latent-variable.html#cb220-40"></a>  phi<span class="fl">.0</span>[<span class="dv">1</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">1</span>;       			</span>
-<span id="cb220-41"><a href="jags-two-latent-variable.html#cb220-41"></a>  phi<span class="fl">.0</span>[<span class="dv">1</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="fl">.3</span>;					</span>
-<span id="cb220-42"><a href="jags-two-latent-variable.html#cb220-42"></a>  phi<span class="fl">.0</span>[<span class="dv">2</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">.3</span>;</span>
-<span id="cb220-43"><a href="jags-two-latent-variable.html#cb220-43"></a>  phi<span class="fl">.0</span>[<span class="dv">2</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">1</span>;</span>
-<span id="cb220-44"><a href="jags-two-latent-variable.html#cb220-44"></a>  d &lt;-<span class="st"> </span><span class="dv">2</span>;							</span>
-<span id="cb220-45"><a href="jags-two-latent-variable.html#cb220-45"></a>                              </span>
-<span id="cb220-46"><a href="jags-two-latent-variable.html#cb220-46"></a>  <span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M){						</span>
-<span id="cb220-47"><a href="jags-two-latent-variable.html#cb220-47"></a>       <span class="cf">for</span> (mm <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M){</span>
-<span id="cb220-48"><a href="jags-two-latent-variable.html#cb220-48"></a>            dxphi<span class="fl">.0</span>[m,mm] &lt;-<span class="st"> </span>d<span class="op">*</span>phi<span class="fl">.0</span>[m,mm];</span>
-<span id="cb220-49"><a href="jags-two-latent-variable.html#cb220-49"></a>       }</span>
-<span id="cb220-50"><a href="jags-two-latent-variable.html#cb220-50"></a>  }</span>
-<span id="cb220-51"><a href="jags-two-latent-variable.html#cb220-51"></a>  </span>
-<span id="cb220-52"><a href="jags-two-latent-variable.html#cb220-52"></a>  </span>
-<span id="cb220-53"><a href="jags-two-latent-variable.html#cb220-53"></a>  </span>
-<span id="cb220-54"><a href="jags-two-latent-variable.html#cb220-54"></a>  <span class="co">######################################################################</span></span>
-<span id="cb220-55"><a href="jags-two-latent-variable.html#cb220-55"></a>  <span class="co"># Specify the prior distribution for the measurement model parameters</span></span>
-<span id="cb220-56"><a href="jags-two-latent-variable.html#cb220-56"></a>  <span class="co">######################################################################</span></span>
-<span id="cb220-57"><a href="jags-two-latent-variable.html#cb220-57"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
-<span id="cb220-58"><a href="jags-two-latent-variable.html#cb220-58"></a>    tau[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">3</span>, <span class="fl">.1</span>)        <span class="co"># Intercepts for observables</span></span>
-<span id="cb220-59"><a href="jags-two-latent-variable.html#cb220-59"></a>  	inv.psi[j] <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">5</span>, <span class="dv">10</span>) <span class="co"># Precisions for observables</span></span>
-<span id="cb220-60"><a href="jags-two-latent-variable.html#cb220-60"></a>  	psi[j] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.psi[j]   <span class="co"># Variances for observables</span></span>
-<span id="cb220-61"><a href="jags-two-latent-variable.html#cb220-61"></a>  }</span>
-<span id="cb220-62"><a href="jags-two-latent-variable.html#cb220-62"></a>  </span>
-<span id="cb220-63"><a href="jags-two-latent-variable.html#cb220-63"></a>  lambda[<span class="dv">1</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">1.0</span>              <span class="co"># loading fixed to 1.0 </span></span>
-<span id="cb220-64"><a href="jags-two-latent-variable.html#cb220-64"></a>  lambda[<span class="dv">4</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="fl">1.0</span>              <span class="co"># loading fixed to 1.0 </span></span>
-<span id="cb220-65"><a href="jags-two-latent-variable.html#cb220-65"></a>  </span>
-<span id="cb220-66"><a href="jags-two-latent-variable.html#cb220-66"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>){</span>
-<span id="cb220-67"><a href="jags-two-latent-variable.html#cb220-67"></a>  	lambda[j,<span class="dv">1</span>] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">1</span>, <span class="fl">.1</span>)    <span class="co"># prior distribution for the remaining loadings</span></span>
-<span id="cb220-68"><a href="jags-two-latent-variable.html#cb220-68"></a>  }</span>
-<span id="cb220-69"><a href="jags-two-latent-variable.html#cb220-69"></a>  lambda[<span class="dv">5</span>,<span class="dv">2</span>] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">1</span>, <span class="fl">.1</span>)      <span class="co"># prior distribution for the remaining loadings</span></span>
-<span id="cb220-70"><a href="jags-two-latent-variable.html#cb220-70"></a>}</span>
-<span id="cb220-71"><a href="jags-two-latent-variable.html#cb220-71"></a><span class="co"># data must be in a list</span></span>
-<span id="cb220-72"><a href="jags-two-latent-variable.html#cb220-72"></a>dat &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;code/CFA-One-Latent-Variable/Data/IIS.dat&quot;</span>, <span class="dt">header=</span>T)</span>
-<span id="cb220-73"><a href="jags-two-latent-variable.html#cb220-73"></a></span>
-<span id="cb220-74"><a href="jags-two-latent-variable.html#cb220-74"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb220-75"><a href="jags-two-latent-variable.html#cb220-75"></a>  <span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">J =</span> <span class="dv">5</span>, <span class="dt">M =</span><span class="dv">2</span>,</span>
-<span id="cb220-76"><a href="jags-two-latent-variable.html#cb220-76"></a>  <span class="dt">x =</span> <span class="kw">as.matrix</span>(dat)</span>
-<span id="cb220-77"><a href="jags-two-latent-variable.html#cb220-77"></a>)</span>
-<span id="cb220-78"><a href="jags-two-latent-variable.html#cb220-78"></a></span>
-<span id="cb220-79"><a href="jags-two-latent-variable.html#cb220-79"></a></span>
-<span id="cb220-80"><a href="jags-two-latent-variable.html#cb220-80"></a><span class="co"># initial values</span></span>
-<span id="cb220-81"><a href="jags-two-latent-variable.html#cb220-81"></a>start_values &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb220-82"><a href="jags-two-latent-variable.html#cb220-82"></a>  <span class="kw">list</span>(<span class="st">&quot;tau&quot;</span>=<span class="kw">c</span>(<span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>),</span>
-<span id="cb220-83"><a href="jags-two-latent-variable.html#cb220-83"></a>       <span class="dt">lambda=</span> <span class="kw">structure</span>(</span>
-<span id="cb220-84"><a href="jags-two-latent-variable.html#cb220-84"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>( <span class="ot">NA</span>,  <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="ot">NA</span>, <span class="ot">NA</span>,</span>
-<span id="cb220-85"><a href="jags-two-latent-variable.html#cb220-85"></a>                   <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>, <span class="fl">2.00E+00</span>),</span>
-<span id="cb220-86"><a href="jags-two-latent-variable.html#cb220-86"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>)),</span>
-<span id="cb220-87"><a href="jags-two-latent-variable.html#cb220-87"></a>       <span class="dt">inv.phi=</span> <span class="kw">structure</span>(</span>
-<span id="cb220-88"><a href="jags-two-latent-variable.html#cb220-88"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>(<span class="fl">1.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>),</span>
-<span id="cb220-89"><a href="jags-two-latent-variable.html#cb220-89"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
-<span id="cb220-90"><a href="jags-two-latent-variable.html#cb220-90"></a>       <span class="dt">inv.psi=</span><span class="kw">c</span>(<span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>)),</span>
-<span id="cb220-91"><a href="jags-two-latent-variable.html#cb220-91"></a>  <span class="kw">list</span>(<span class="dt">tau=</span><span class="kw">c</span>(<span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>),</span>
-<span id="cb220-92"><a href="jags-two-latent-variable.html#cb220-92"></a>       <span class="dt">lambda=</span> <span class="kw">structure</span>(</span>
-<span id="cb220-93"><a href="jags-two-latent-variable.html#cb220-93"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>( <span class="ot">NA</span>,  <span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>,  <span class="ot">NA</span>, <span class="ot">NA</span>, </span>
-<span id="cb220-94"><a href="jags-two-latent-variable.html#cb220-94"></a>                   <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>, <span class="fl">5.00E-01</span>),</span>
-<span id="cb220-95"><a href="jags-two-latent-variable.html#cb220-95"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>)),</span>
-<span id="cb220-96"><a href="jags-two-latent-variable.html#cb220-96"></a>       <span class="dt">inv.phi=</span> <span class="kw">structure</span>(</span>
-<span id="cb220-97"><a href="jags-two-latent-variable.html#cb220-97"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>(<span class="fl">1.33E+00</span>, <span class="fl">-6.67E-01</span>, <span class="fl">-6.67E-01</span>, <span class="fl">1.33E+00</span>),</span>
-<span id="cb220-98"><a href="jags-two-latent-variable.html#cb220-98"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
-<span id="cb220-99"><a href="jags-two-latent-variable.html#cb220-99"></a>       <span class="dt">inv.psi=</span><span class="kw">c</span>(<span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>))</span>
-<span id="cb220-100"><a href="jags-two-latent-variable.html#cb220-100"></a>,</span>
-<span id="cb220-101"><a href="jags-two-latent-variable.html#cb220-101"></a>  <span class="kw">list</span>(<span class="dt">tau=</span><span class="kw">c</span>(<span class="fl">5.00E+00</span>, <span class="fl">5.00E+00</span>, <span class="fl">5.00E+00</span>, <span class="fl">5.00E+00</span>, <span class="fl">5.00E+00</span>),</span>
-<span id="cb220-102"><a href="jags-two-latent-variable.html#cb220-102"></a>       <span class="dt">lambda=</span> <span class="kw">structure</span>(</span>
-<span id="cb220-103"><a href="jags-two-latent-variable.html#cb220-103"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>( <span class="ot">NA</span>,  <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>,  <span class="ot">NA</span>, <span class="ot">NA</span>,</span>
-<span id="cb220-104"><a href="jags-two-latent-variable.html#cb220-104"></a>                   <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>, <span class="fl">1.00E+00</span>),</span>
-<span id="cb220-105"><a href="jags-two-latent-variable.html#cb220-105"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>)),</span>
-<span id="cb220-106"><a href="jags-two-latent-variable.html#cb220-106"></a>       <span class="dt">inv.phi=</span> <span class="kw">structure</span>(</span>
-<span id="cb220-107"><a href="jags-two-latent-variable.html#cb220-107"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>(<span class="fl">1.96E+00</span>, <span class="fl">-1.37E+00</span>, <span class="fl">-1.37E+00</span>, <span class="fl">1.96E+00</span>),</span>
-<span id="cb220-108"><a href="jags-two-latent-variable.html#cb220-108"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
-<span id="cb220-109"><a href="jags-two-latent-variable.html#cb220-109"></a>       <span class="dt">inv.psi=</span><span class="kw">c</span>(<span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>))</span>
-<span id="cb220-110"><a href="jags-two-latent-variable.html#cb220-110"></a>)</span>
-<span id="cb220-111"><a href="jags-two-latent-variable.html#cb220-111"></a></span>
-<span id="cb220-112"><a href="jags-two-latent-variable.html#cb220-112"></a><span class="co"># vector of all parameters to save</span></span>
-<span id="cb220-113"><a href="jags-two-latent-variable.html#cb220-113"></a><span class="co"># exclude fixed lambda since it throws an error in</span></span>
-<span id="cb220-114"><a href="jags-two-latent-variable.html#cb220-114"></a><span class="co"># in the GRB plot</span></span>
-<span id="cb220-115"><a href="jags-two-latent-variable.html#cb220-115"></a>param_save &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;tau&quot;</span>, <span class="st">&quot;lambda[2,1]&quot;</span>,<span class="st">&quot;lambda[3,1]&quot;</span>,<span class="st">&quot;lambda[5,2]&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;psi&quot;</span>)</span>
-<span id="cb220-116"><a href="jags-two-latent-variable.html#cb220-116"></a></span>
-<span id="cb220-117"><a href="jags-two-latent-variable.html#cb220-117"></a><span class="co"># fit model</span></span>
-<span id="cb220-118"><a href="jags-two-latent-variable.html#cb220-118"></a>fit &lt;-<span class="st"> </span><span class="kw">jags</span>(</span>
-<span id="cb220-119"><a href="jags-two-latent-variable.html#cb220-119"></a>  <span class="dt">model.file=</span>jags.model.cfa2,</span>
-<span id="cb220-120"><a href="jags-two-latent-variable.html#cb220-120"></a>  <span class="dt">data=</span>mydata,</span>
-<span id="cb220-121"><a href="jags-two-latent-variable.html#cb220-121"></a>  <span class="dt">inits=</span>start_values,</span>
-<span id="cb220-122"><a href="jags-two-latent-variable.html#cb220-122"></a>  <span class="dt">parameters.to.save =</span> param_save,</span>
-<span id="cb220-123"><a href="jags-two-latent-variable.html#cb220-123"></a>  <span class="dt">n.iter=</span><span class="dv">5000</span>,</span>
-<span id="cb220-124"><a href="jags-two-latent-variable.html#cb220-124"></a>  <span class="dt">n.burnin =</span> <span class="dv">2500</span>,</span>
-<span id="cb220-125"><a href="jags-two-latent-variable.html#cb220-125"></a>  <span class="dt">n.chains =</span> <span class="dv">3</span>,</span>
-<span id="cb220-126"><a href="jags-two-latent-variable.html#cb220-126"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
-<span id="cb220-127"><a href="jags-two-latent-variable.html#cb220-127"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<h2><span class="header-section-number">9.5</span> JAGS - Two Latent Variable</h2>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="jags-two-latent-variable.html#cb225-1"></a><span class="co"># model code</span></span>
+<span id="cb225-2"><a href="jags-two-latent-variable.html#cb225-2"></a>jags.model.cfa2 &lt;-<span class="st"> </span><span class="cf">function</span>(){</span>
+<span id="cb225-3"><a href="jags-two-latent-variable.html#cb225-3"></a></span>
+<span id="cb225-4"><a href="jags-two-latent-variable.html#cb225-4"></a>  <span class="co">###################</span></span>
+<span id="cb225-5"><a href="jags-two-latent-variable.html#cb225-5"></a>  <span class="co"># Specify the factor analysis measurement model for the observables</span></span>
+<span id="cb225-6"><a href="jags-two-latent-variable.html#cb225-6"></a>  <span class="co">####################</span></span>
+<span id="cb225-7"><a href="jags-two-latent-variable.html#cb225-7"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
+<span id="cb225-8"><a href="jags-two-latent-variable.html#cb225-8"></a>    </span>
+<span id="cb225-9"><a href="jags-two-latent-variable.html#cb225-9"></a>    <span class="co"># expected value for each examinee for each observable</span></span>
+<span id="cb225-10"><a href="jags-two-latent-variable.html#cb225-10"></a>    mu[i,<span class="dv">1</span>] &lt;-<span class="st"> </span>tau[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>ksi[i,<span class="dv">1</span>]    </span>
+<span id="cb225-11"><a href="jags-two-latent-variable.html#cb225-11"></a>    mu[i,<span class="dv">2</span>] &lt;-<span class="st"> </span>tau[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">*</span>ksi[i,<span class="dv">1</span>]        </span>
+<span id="cb225-12"><a href="jags-two-latent-variable.html#cb225-12"></a>    mu[i,<span class="dv">3</span>] &lt;-<span class="st"> </span>tau[<span class="dv">3</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">3</span>,<span class="dv">1</span>]<span class="op">*</span>ksi[i,<span class="dv">1</span>]          </span>
+<span id="cb225-13"><a href="jags-two-latent-variable.html#cb225-13"></a>    mu[i,<span class="dv">4</span>] &lt;-<span class="st"> </span>tau[<span class="dv">4</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">4</span>,<span class="dv">2</span>]<span class="op">*</span>ksi[i,<span class="dv">2</span>]          </span>
+<span id="cb225-14"><a href="jags-two-latent-variable.html#cb225-14"></a>    mu[i,<span class="dv">5</span>] &lt;-<span class="st"> </span>tau[<span class="dv">5</span>] <span class="op">+</span><span class="st"> </span>lambda[<span class="dv">5</span>,<span class="dv">2</span>]<span class="op">*</span>ksi[i,<span class="dv">2</span>]          </span>
+<span id="cb225-15"><a href="jags-two-latent-variable.html#cb225-15"></a>    </span>
+<span id="cb225-16"><a href="jags-two-latent-variable.html#cb225-16"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb225-17"><a href="jags-two-latent-variable.html#cb225-17"></a>      x[i,j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(mu[i,j], inv.psi[j])    <span class="co"># distribution for each observable</span></span>
+<span id="cb225-18"><a href="jags-two-latent-variable.html#cb225-18"></a>    }</span>
+<span id="cb225-19"><a href="jags-two-latent-variable.html#cb225-19"></a>  }</span>
+<span id="cb225-20"><a href="jags-two-latent-variable.html#cb225-20"></a>  </span>
+<span id="cb225-21"><a href="jags-two-latent-variable.html#cb225-21"></a>  </span>
+<span id="cb225-22"><a href="jags-two-latent-variable.html#cb225-22"></a>  <span class="co">######################################################################</span></span>
+<span id="cb225-23"><a href="jags-two-latent-variable.html#cb225-23"></a>  <span class="co"># Specify the (prior) distribution for the latent variables</span></span>
+<span id="cb225-24"><a href="jags-two-latent-variable.html#cb225-24"></a>  <span class="co">######################################################################</span></span>
+<span id="cb225-25"><a href="jags-two-latent-variable.html#cb225-25"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n){</span>
+<span id="cb225-26"><a href="jags-two-latent-variable.html#cb225-26"></a>    ksi[i, <span class="dv">1</span><span class="op">:</span>M] <span class="op">~</span><span class="st"> </span><span class="kw">dmnorm</span>(kappa[], inv.phi[,])  <span class="co"># distribution for the latent variables</span></span>
+<span id="cb225-27"><a href="jags-two-latent-variable.html#cb225-27"></a>  }</span>
+<span id="cb225-28"><a href="jags-two-latent-variable.html#cb225-28"></a>  </span>
+<span id="cb225-29"><a href="jags-two-latent-variable.html#cb225-29"></a>  </span>
+<span id="cb225-30"><a href="jags-two-latent-variable.html#cb225-30"></a>  <span class="co">######################################################################</span></span>
+<span id="cb225-31"><a href="jags-two-latent-variable.html#cb225-31"></a>  <span class="co"># Specify the prior distribution for the parameters that govern the latent variables</span></span>
+<span id="cb225-32"><a href="jags-two-latent-variable.html#cb225-32"></a>  <span class="co">######################################################################</span></span>
+<span id="cb225-33"><a href="jags-two-latent-variable.html#cb225-33"></a>  <span class="cf">for</span>(m <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M){</span>
+<span id="cb225-34"><a href="jags-two-latent-variable.html#cb225-34"></a>    kappa[m] &lt;-<span class="st"> </span><span class="dv">0</span>              <span class="co"># Means of latent variables</span></span>
+<span id="cb225-35"><a href="jags-two-latent-variable.html#cb225-35"></a>  }</span>
+<span id="cb225-36"><a href="jags-two-latent-variable.html#cb225-36"></a>  </span>
+<span id="cb225-37"><a href="jags-two-latent-variable.html#cb225-37"></a>  inv.phi[<span class="dv">1</span><span class="op">:</span>M,<span class="dv">1</span><span class="op">:</span>M] <span class="op">~</span><span class="st"> </span><span class="kw">dwish</span>(dxphi<span class="fl">.0</span>[ , ], d);    <span class="co"># prior for precision matrix for the latent variables</span></span>
+<span id="cb225-38"><a href="jags-two-latent-variable.html#cb225-38"></a>  phi[<span class="dv">1</span><span class="op">:</span>M,<span class="dv">1</span><span class="op">:</span>M] &lt;-<span class="st"> </span><span class="kw">inverse</span>(inv.phi[ , ]);        <span class="co"># the covariance matrix for the latent vars</span></span>
+<span id="cb225-39"><a href="jags-two-latent-variable.html#cb225-39"></a>  </span>
+<span id="cb225-40"><a href="jags-two-latent-variable.html#cb225-40"></a>  phi<span class="fl">.0</span>[<span class="dv">1</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">1</span>;                  </span>
+<span id="cb225-41"><a href="jags-two-latent-variable.html#cb225-41"></a>  phi<span class="fl">.0</span>[<span class="dv">1</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="fl">.3</span>;                 </span>
+<span id="cb225-42"><a href="jags-two-latent-variable.html#cb225-42"></a>  phi<span class="fl">.0</span>[<span class="dv">2</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">.3</span>;</span>
+<span id="cb225-43"><a href="jags-two-latent-variable.html#cb225-43"></a>  phi<span class="fl">.0</span>[<span class="dv">2</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">1</span>;</span>
+<span id="cb225-44"><a href="jags-two-latent-variable.html#cb225-44"></a>  d &lt;-<span class="st"> </span><span class="dv">2</span>;                           </span>
+<span id="cb225-45"><a href="jags-two-latent-variable.html#cb225-45"></a>                              </span>
+<span id="cb225-46"><a href="jags-two-latent-variable.html#cb225-46"></a>  <span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M){                       </span>
+<span id="cb225-47"><a href="jags-two-latent-variable.html#cb225-47"></a>       <span class="cf">for</span> (mm <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>M){</span>
+<span id="cb225-48"><a href="jags-two-latent-variable.html#cb225-48"></a>            dxphi<span class="fl">.0</span>[m,mm] &lt;-<span class="st"> </span>d<span class="op">*</span>phi<span class="fl">.0</span>[m,mm];</span>
+<span id="cb225-49"><a href="jags-two-latent-variable.html#cb225-49"></a>       }</span>
+<span id="cb225-50"><a href="jags-two-latent-variable.html#cb225-50"></a>  }</span>
+<span id="cb225-51"><a href="jags-two-latent-variable.html#cb225-51"></a>  </span>
+<span id="cb225-52"><a href="jags-two-latent-variable.html#cb225-52"></a>  </span>
+<span id="cb225-53"><a href="jags-two-latent-variable.html#cb225-53"></a>  </span>
+<span id="cb225-54"><a href="jags-two-latent-variable.html#cb225-54"></a>  <span class="co">######################################################################</span></span>
+<span id="cb225-55"><a href="jags-two-latent-variable.html#cb225-55"></a>  <span class="co"># Specify the prior distribution for the measurement model parameters</span></span>
+<span id="cb225-56"><a href="jags-two-latent-variable.html#cb225-56"></a>  <span class="co">######################################################################</span></span>
+<span id="cb225-57"><a href="jags-two-latent-variable.html#cb225-57"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>J){</span>
+<span id="cb225-58"><a href="jags-two-latent-variable.html#cb225-58"></a>    tau[j] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">3</span>, <span class="fl">.1</span>)        <span class="co"># Intercepts for observables</span></span>
+<span id="cb225-59"><a href="jags-two-latent-variable.html#cb225-59"></a>    inv.psi[j] <span class="op">~</span><span class="st"> </span><span class="kw">dgamma</span>(<span class="dv">5</span>, <span class="dv">10</span>) <span class="co"># Precisions for observables</span></span>
+<span id="cb225-60"><a href="jags-two-latent-variable.html#cb225-60"></a>    psi[j] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>inv.psi[j]   <span class="co"># Variances for observables</span></span>
+<span id="cb225-61"><a href="jags-two-latent-variable.html#cb225-61"></a>  }</span>
+<span id="cb225-62"><a href="jags-two-latent-variable.html#cb225-62"></a>  </span>
+<span id="cb225-63"><a href="jags-two-latent-variable.html#cb225-63"></a>  lambda[<span class="dv">1</span>,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="fl">1.0</span>              <span class="co"># loading fixed to 1.0 </span></span>
+<span id="cb225-64"><a href="jags-two-latent-variable.html#cb225-64"></a>  lambda[<span class="dv">4</span>,<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="fl">1.0</span>              <span class="co"># loading fixed to 1.0 </span></span>
+<span id="cb225-65"><a href="jags-two-latent-variable.html#cb225-65"></a>  </span>
+<span id="cb225-66"><a href="jags-two-latent-variable.html#cb225-66"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>){</span>
+<span id="cb225-67"><a href="jags-two-latent-variable.html#cb225-67"></a>    lambda[j,<span class="dv">1</span>] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">1</span>, <span class="fl">.1</span>)    <span class="co"># prior distribution for the remaining loadings</span></span>
+<span id="cb225-68"><a href="jags-two-latent-variable.html#cb225-68"></a>  }</span>
+<span id="cb225-69"><a href="jags-two-latent-variable.html#cb225-69"></a>  lambda[<span class="dv">5</span>,<span class="dv">2</span>] <span class="op">~</span><span class="st"> </span><span class="kw">dnorm</span>(<span class="dv">1</span>, <span class="fl">.1</span>)      <span class="co"># prior distribution for the remaining loadings</span></span>
+<span id="cb225-70"><a href="jags-two-latent-variable.html#cb225-70"></a>}</span>
+<span id="cb225-71"><a href="jags-two-latent-variable.html#cb225-71"></a><span class="co"># data must be in a list</span></span>
+<span id="cb225-72"><a href="jags-two-latent-variable.html#cb225-72"></a>dat &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;code/CFA-One-Latent-Variable/Data/IIS.dat&quot;</span>, <span class="dt">header=</span>T)</span>
+<span id="cb225-73"><a href="jags-two-latent-variable.html#cb225-73"></a></span>
+<span id="cb225-74"><a href="jags-two-latent-variable.html#cb225-74"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb225-75"><a href="jags-two-latent-variable.html#cb225-75"></a>  <span class="dt">n =</span> <span class="dv">500</span>, <span class="dt">J =</span> <span class="dv">5</span>, <span class="dt">M =</span><span class="dv">2</span>,</span>
+<span id="cb225-76"><a href="jags-two-latent-variable.html#cb225-76"></a>  <span class="dt">x =</span> <span class="kw">as.matrix</span>(dat)</span>
+<span id="cb225-77"><a href="jags-two-latent-variable.html#cb225-77"></a>)</span>
+<span id="cb225-78"><a href="jags-two-latent-variable.html#cb225-78"></a></span>
+<span id="cb225-79"><a href="jags-two-latent-variable.html#cb225-79"></a></span>
+<span id="cb225-80"><a href="jags-two-latent-variable.html#cb225-80"></a><span class="co"># initial values</span></span>
+<span id="cb225-81"><a href="jags-two-latent-variable.html#cb225-81"></a>start_values &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb225-82"><a href="jags-two-latent-variable.html#cb225-82"></a>  <span class="kw">list</span>(<span class="st">&quot;tau&quot;</span>=<span class="kw">c</span>(<span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>),</span>
+<span id="cb225-83"><a href="jags-two-latent-variable.html#cb225-83"></a>       <span class="dt">lambda=</span> <span class="kw">structure</span>(</span>
+<span id="cb225-84"><a href="jags-two-latent-variable.html#cb225-84"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>( <span class="ot">NA</span>,  <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="ot">NA</span>, <span class="ot">NA</span>,</span>
+<span id="cb225-85"><a href="jags-two-latent-variable.html#cb225-85"></a>                   <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>, <span class="fl">2.00E+00</span>),</span>
+<span id="cb225-86"><a href="jags-two-latent-variable.html#cb225-86"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>)),</span>
+<span id="cb225-87"><a href="jags-two-latent-variable.html#cb225-87"></a>       <span class="dt">inv.phi=</span> <span class="kw">structure</span>(</span>
+<span id="cb225-88"><a href="jags-two-latent-variable.html#cb225-88"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>(<span class="fl">1.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>),</span>
+<span id="cb225-89"><a href="jags-two-latent-variable.html#cb225-89"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
+<span id="cb225-90"><a href="jags-two-latent-variable.html#cb225-90"></a>       <span class="dt">inv.psi=</span><span class="kw">c</span>(<span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>)),</span>
+<span id="cb225-91"><a href="jags-two-latent-variable.html#cb225-91"></a>  <span class="kw">list</span>(<span class="dt">tau=</span><span class="kw">c</span>(<span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>),</span>
+<span id="cb225-92"><a href="jags-two-latent-variable.html#cb225-92"></a>       <span class="dt">lambda=</span> <span class="kw">structure</span>(</span>
+<span id="cb225-93"><a href="jags-two-latent-variable.html#cb225-93"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>( <span class="ot">NA</span>,  <span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>,  <span class="ot">NA</span>, <span class="ot">NA</span>, </span>
+<span id="cb225-94"><a href="jags-two-latent-variable.html#cb225-94"></a>                   <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>, <span class="fl">5.00E-01</span>),</span>
+<span id="cb225-95"><a href="jags-two-latent-variable.html#cb225-95"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>)),</span>
+<span id="cb225-96"><a href="jags-two-latent-variable.html#cb225-96"></a>       <span class="dt">inv.phi=</span> <span class="kw">structure</span>(</span>
+<span id="cb225-97"><a href="jags-two-latent-variable.html#cb225-97"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>(<span class="fl">1.33E+00</span>, <span class="fl">-6.67E-01</span>, <span class="fl">-6.67E-01</span>, <span class="fl">1.33E+00</span>),</span>
+<span id="cb225-98"><a href="jags-two-latent-variable.html#cb225-98"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
+<span id="cb225-99"><a href="jags-two-latent-variable.html#cb225-99"></a>       <span class="dt">inv.psi=</span><span class="kw">c</span>(<span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">2.00E+00</span>))</span>
+<span id="cb225-100"><a href="jags-two-latent-variable.html#cb225-100"></a>,</span>
+<span id="cb225-101"><a href="jags-two-latent-variable.html#cb225-101"></a>  <span class="kw">list</span>(<span class="dt">tau=</span><span class="kw">c</span>(<span class="fl">5.00E+00</span>, <span class="fl">5.00E+00</span>, <span class="fl">5.00E+00</span>, <span class="fl">5.00E+00</span>, <span class="fl">5.00E+00</span>),</span>
+<span id="cb225-102"><a href="jags-two-latent-variable.html#cb225-102"></a>       <span class="dt">lambda=</span> <span class="kw">structure</span>(</span>
+<span id="cb225-103"><a href="jags-two-latent-variable.html#cb225-103"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>( <span class="ot">NA</span>,  <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>,  <span class="ot">NA</span>, <span class="ot">NA</span>,</span>
+<span id="cb225-104"><a href="jags-two-latent-variable.html#cb225-104"></a>                   <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>,  <span class="ot">NA</span>, <span class="fl">1.00E+00</span>),</span>
+<span id="cb225-105"><a href="jags-two-latent-variable.html#cb225-105"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>)),</span>
+<span id="cb225-106"><a href="jags-two-latent-variable.html#cb225-106"></a>       <span class="dt">inv.phi=</span> <span class="kw">structure</span>(</span>
+<span id="cb225-107"><a href="jags-two-latent-variable.html#cb225-107"></a>         <span class="dt">.Data=</span> <span class="kw">c</span>(<span class="fl">1.96E+00</span>, <span class="fl">-1.37E+00</span>, <span class="fl">-1.37E+00</span>, <span class="fl">1.96E+00</span>),</span>
+<span id="cb225-108"><a href="jags-two-latent-variable.html#cb225-108"></a>         <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
+<span id="cb225-109"><a href="jags-two-latent-variable.html#cb225-109"></a>       <span class="dt">inv.psi=</span><span class="kw">c</span>(<span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>, <span class="fl">5.00E-01</span>))</span>
+<span id="cb225-110"><a href="jags-two-latent-variable.html#cb225-110"></a>)</span>
+<span id="cb225-111"><a href="jags-two-latent-variable.html#cb225-111"></a></span>
+<span id="cb225-112"><a href="jags-two-latent-variable.html#cb225-112"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb225-113"><a href="jags-two-latent-variable.html#cb225-113"></a><span class="co"># exclude fixed lambda since it throws an error in</span></span>
+<span id="cb225-114"><a href="jags-two-latent-variable.html#cb225-114"></a><span class="co"># in the GRB plot</span></span>
+<span id="cb225-115"><a href="jags-two-latent-variable.html#cb225-115"></a>param_save &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;tau&quot;</span>, <span class="st">&quot;lambda[2,1]&quot;</span>,<span class="st">&quot;lambda[3,1]&quot;</span>,<span class="st">&quot;lambda[5,2]&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;psi&quot;</span>)</span>
+<span id="cb225-116"><a href="jags-two-latent-variable.html#cb225-116"></a></span>
+<span id="cb225-117"><a href="jags-two-latent-variable.html#cb225-117"></a><span class="co"># fit model</span></span>
+<span id="cb225-118"><a href="jags-two-latent-variable.html#cb225-118"></a>fit &lt;-<span class="st"> </span><span class="kw">jags</span>(</span>
+<span id="cb225-119"><a href="jags-two-latent-variable.html#cb225-119"></a>  <span class="dt">model.file=</span>jags.model.cfa2,</span>
+<span id="cb225-120"><a href="jags-two-latent-variable.html#cb225-120"></a>  <span class="dt">data=</span>mydata,</span>
+<span id="cb225-121"><a href="jags-two-latent-variable.html#cb225-121"></a>  <span class="dt">inits=</span>start_values,</span>
+<span id="cb225-122"><a href="jags-two-latent-variable.html#cb225-122"></a>  <span class="dt">parameters.to.save =</span> param_save,</span>
+<span id="cb225-123"><a href="jags-two-latent-variable.html#cb225-123"></a>  <span class="dt">n.iter=</span><span class="dv">5000</span>,</span>
+<span id="cb225-124"><a href="jags-two-latent-variable.html#cb225-124"></a>  <span class="dt">n.burnin =</span> <span class="dv">2500</span>,</span>
+<span id="cb225-125"><a href="jags-two-latent-variable.html#cb225-125"></a>  <span class="dt">n.chains =</span> <span class="dv">3</span>,</span>
+<span id="cb225-126"><a href="jags-two-latent-variable.html#cb225-126"></a>  <span class="dt">n.thin=</span><span class="dv">1</span>,</span>
+<span id="cb225-127"><a href="jags-two-latent-variable.html#cb225-127"></a>  <span class="dt">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -345,7 +357,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    Total graph size: 9035
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="jags-two-latent-variable.html#cb222-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="jags-two-latent-variable.html#cb227-1"></a><span class="kw">print</span>(fit)</span></code></pre></div>
 <pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/Rtmpk3BvWg/modela6053bd77dc.txt&quot;, fit using jags,
 ##  3 chains, each with 5000 iterations (first 2500 discarded)
 ##  n.sims = 7500 iterations saved
@@ -375,39 +387,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## DIC info (using the rule, pD = var(deviance)/2)
 ## pD = 8840.3 and DIC = 12026.8
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="jags-two-latent-variable.html#cb224-1"></a><span class="co"># extract posteriors for all chains</span></span>
-<span id="cb224-2"><a href="jags-two-latent-variable.html#cb224-2"></a>jags.mcmc &lt;-<span class="st"> </span><span class="kw">as.mcmc</span>(fit)</span>
-<span id="cb224-3"><a href="jags-two-latent-variable.html#cb224-3"></a></span>
-<span id="cb224-4"><a href="jags-two-latent-variable.html#cb224-4"></a>R2jags<span class="op">::</span><span class="kw">traceplot</span>(jags.mcmc)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="jags-two-latent-variable.html#cb229-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb229-2"><a href="jags-two-latent-variable.html#cb229-2"></a>jags.mcmc &lt;-<span class="st"> </span><span class="kw">as.mcmc</span>(fit)</span>
+<span id="cb229-3"><a href="jags-two-latent-variable.html#cb229-3"></a></span>
+<span id="cb229-4"><a href="jags-two-latent-variable.html#cb229-4"></a>R2jags<span class="op">::</span><span class="kw">traceplot</span>(jags.mcmc)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-1.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-2.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-3.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-4.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-5.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-6.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-7.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-8.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-9.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-10.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-11.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-12.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-13.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-14.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-15.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-16.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-17.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-18.png" width="672" /></p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="jags-two-latent-variable.html#cb225-1"></a><span class="co"># gelman-rubin-brook</span></span>
-<span id="cb225-2"><a href="jags-two-latent-variable.html#cb225-2"></a><span class="kw">gelman.plot</span>(jags.mcmc)</span></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="jags-two-latent-variable.html#cb230-1"></a><span class="co"># gelman-rubin-brook</span></span>
+<span id="cb230-2"><a href="jags-two-latent-variable.html#cb230-2"></a><span class="kw">gelman.plot</span>(jags.mcmc)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-19.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-20.png" width="672" /></p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="jags-two-latent-variable.html#cb226-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
-<span id="cb226-2"><a href="jags-two-latent-variable.html#cb226-2"></a>a &lt;-<span class="st"> </span><span class="kw">colnames</span>(<span class="kw">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
-<span id="cb226-3"><a href="jags-two-latent-variable.html#cb226-3"></a>plot.data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">as.matrix</span>(jags.mcmc, <span class="dt">chains=</span>T, <span class="dt">iters =</span> T))</span>
-<span id="cb226-4"><a href="jags-two-latent-variable.html#cb226-4"></a><span class="kw">colnames</span>(plot.data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
-<span id="cb226-5"><a href="jags-two-latent-variable.html#cb226-5"></a></span>
-<span id="cb226-6"><a href="jags-two-latent-variable.html#cb226-6"></a></span>
-<span id="cb226-7"><a href="jags-two-latent-variable.html#cb226-7"></a>plot_title &lt;-<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
-<span id="cb226-8"><a href="jags-two-latent-variable.html#cb226-8"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
-<span id="cb226-9"><a href="jags-two-latent-variable.html#cb226-9"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb226-10"><a href="jags-two-latent-variable.html#cb226-10"></a>  plot.data,</span>
-<span id="cb226-11"><a href="jags-two-latent-variable.html#cb226-11"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;tau[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
-<span id="cb226-12"><a href="jags-two-latent-variable.html#cb226-12"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
-<span id="cb226-13"><a href="jags-two-latent-variable.html#cb226-13"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="jags-two-latent-variable.html#cb231-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
+<span id="cb231-2"><a href="jags-two-latent-variable.html#cb231-2"></a>a &lt;-<span class="st"> </span><span class="kw">colnames</span>(<span class="kw">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
+<span id="cb231-3"><a href="jags-two-latent-variable.html#cb231-3"></a>plot.data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">as.matrix</span>(jags.mcmc, <span class="dt">chains=</span>T, <span class="dt">iters =</span> T))</span>
+<span id="cb231-4"><a href="jags-two-latent-variable.html#cb231-4"></a><span class="kw">colnames</span>(plot.data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
+<span id="cb231-5"><a href="jags-two-latent-variable.html#cb231-5"></a></span>
+<span id="cb231-6"><a href="jags-two-latent-variable.html#cb231-6"></a></span>
+<span id="cb231-7"><a href="jags-two-latent-variable.html#cb231-7"></a>plot_title &lt;-<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb231-8"><a href="jags-two-latent-variable.html#cb231-8"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb231-9"><a href="jags-two-latent-variable.html#cb231-9"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb231-10"><a href="jags-two-latent-variable.html#cb231-10"></a>  plot.data,</span>
+<span id="cb231-11"><a href="jags-two-latent-variable.html#cb231-11"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;tau[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb231-12"><a href="jags-two-latent-variable.html#cb231-12"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb231-13"><a href="jags-two-latent-variable.html#cb231-13"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-21.png" width="672" /></p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="jags-two-latent-variable.html#cb227-1"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb227-2"><a href="jags-two-latent-variable.html#cb227-2"></a>  plot.data,</span>
-<span id="cb227-3"><a href="jags-two-latent-variable.html#cb227-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;lambda[2,1]&quot;</span>,<span class="st">&quot;lambda[3,1]&quot;</span>,<span class="st">&quot;lambda[5,2]&quot;</span>),</span>
-<span id="cb227-4"><a href="jags-two-latent-variable.html#cb227-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
-<span id="cb227-5"><a href="jags-two-latent-variable.html#cb227-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="jags-two-latent-variable.html#cb232-1"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb232-2"><a href="jags-two-latent-variable.html#cb232-2"></a>  plot.data,</span>
+<span id="cb232-3"><a href="jags-two-latent-variable.html#cb232-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">&quot;lambda[2,1]&quot;</span>,<span class="st">&quot;lambda[3,1]&quot;</span>,<span class="st">&quot;lambda[5,2]&quot;</span>),</span>
+<span id="cb232-4"><a href="jags-two-latent-variable.html#cb232-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb232-5"><a href="jags-two-latent-variable.html#cb232-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-22.png" width="672" /></p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="jags-two-latent-variable.html#cb228-1"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb228-2"><a href="jags-two-latent-variable.html#cb228-2"></a>  plot.data,</span>
-<span id="cb228-3"><a href="jags-two-latent-variable.html#cb228-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;psi[&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>), <span class="st">&quot;phi&quot;</span>),</span>
-<span id="cb228-4"><a href="jags-two-latent-variable.html#cb228-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
-<span id="cb228-5"><a href="jags-two-latent-variable.html#cb228-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="jags-two-latent-variable.html#cb233-1"></a><span class="kw">mcmc_areas</span>(</span>
+<span id="cb233-2"><a href="jags-two-latent-variable.html#cb233-2"></a>  plot.data,</span>
+<span id="cb233-3"><a href="jags-two-latent-variable.html#cb233-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;psi[&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>), <span class="st">&quot;phi&quot;</span>),</span>
+<span id="cb233-4"><a href="jags-two-latent-variable.html#cb233-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
+<span id="cb233-5"><a href="jags-two-latent-variable.html#cb233-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
 <pre><code>## Error: Some &#39;pars&#39; don&#39;t match parameter names: phi FALSE</code></pre>
 </div>
             </section>
@@ -415,7 +427,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="stan-single-latent-variable.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="blavaan-single-latent-variable.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="stan-two-latent-variable.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

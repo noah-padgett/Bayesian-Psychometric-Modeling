@@ -3,7 +3,7 @@ title: "Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy"
 author: "R. Noah Padgett"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
-output: bookdown::gitbook
+output: bookdown::bs4_book
 self_contained: true
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -12,6 +12,13 @@ link-citations: yes
 github-repo: noah-padgett/Bayesian-Psychometric-Modeling
 description: "This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone."
 ---
+
+```{r init-setup, echo=F, warning=F, error=F, message=F}
+
+knitr::opts_chunk$set(cache = TRUE)
+
+```
+
 
 # (PART) Foundations {-}
 
