@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2020-11-06" />
+<meta name="date" content="2021-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="overview-of-assessment-and-psychometric-modeling.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,24 +51,20 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -87,7 +84,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -137,36 +134,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="part"><span><b>I Foundations</b></span></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started/Overview Chapter</a><ul>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started/Overview Chapter</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i><b>1.1</b> Software</a></li>
 <li class="chapter" data-level="1.2" data-path="overview-of-assessment-and-psychometric-modeling.html"><a href="overview-of-assessment-and-psychometric-modeling.html"><i class="fa fa-check"></i><b>1.2</b> Overview of Assessment and Psychometric Modeling</a></li>
 <li class="chapter" data-level="1.3" data-path="looking-forward.html"><a href="looking-forward.html"><i class="fa fa-check"></i><b>1.3</b> Looking Forward</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="chp2.html"><a href="chp2.html"><i class="fa fa-check"></i><b>2</b> Introduction to Bayesian Inference</a><ul>
-<li class="chapter" data-level="2.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html"><i class="fa fa-check"></i><b>2.1</b> Beta-binomial Example</a><ul>
+<li class="chapter" data-level="2" data-path="chp2.html"><a href="chp2.html"><i class="fa fa-check"></i><b>2</b> Introduction to Bayesian Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html"><i class="fa fa-check"></i><b>2.1</b> Beta-binomial Example</a>
+<ul>
 <li class="chapter" data-level="2.1.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-stan"><i class="fa fa-check"></i><b>2.1.1</b> Computation using Stan</a></li>
 <li class="chapter" data-level="2.1.2" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-winbugs-openbugs"><i class="fa fa-check"></i><b>2.1.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
 <li class="chapter" data-level="2.1.3" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-jags-r2jags"><i class="fa fa-check"></i><b>2.1.3</b> Computation using JAGS (R2jags)</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html"><i class="fa fa-check"></i><b>2.2</b> Beta-Bernoulli Example</a><ul>
+<li class="chapter" data-level="2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html"><i class="fa fa-check"></i><b>2.2</b> Beta-Bernoulli Example</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-stan-1"><i class="fa fa-check"></i><b>2.2.1</b> Computation using Stan</a></li>
 <li class="chapter" data-level="2.2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-winbugs-openbugs-1"><i class="fa fa-check"></i><b>2.2.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
 <li class="chapter" data-level="2.2.3" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-jags-r2jags-1"><i class="fa fa-check"></i><b>2.2.3</b> Computation using JAGS (R2jags)</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="conceptual-issues-in-bayesian-inference.html"><a href="conceptual-issues-in-bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Conceptual Issues in Bayesian Inference</a></li>
-<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a><ul>
+<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="stan-model-for-mean-and-variance-unknown.html"><a href="stan-model-for-mean-and-variance-unknown.html"><i class="fa fa-check"></i><b>4.1</b> Stan Model for mean and variance unknown</a></li>
 <li class="chapter" data-level="4.2" data-path="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><a href="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><i class="fa fa-check"></i><b>4.2</b> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="markov-chain-monte-carlo-estimation.html"><a href="markov-chain-monte-carlo-estimation.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo Estimation</a></li>
-<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
+<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="stan-model-for-regression-model.html"><a href="stan-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.1</b> Stan Model for Regression Model</a></li>
 <li class="chapter" data-level="6.2" data-path="jags-model-for-regression-model.html"><a href="jags-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.2</b> JAGS Model for Regression Model</a></li>
 </ul></li>
 <li class="part"><span><b>II Psychometrics</b></span></li>
 <li class="chapter" data-level="7" data-path="canonical-bayesian-psychometric-modeling.html"><a href="canonical-bayesian-psychometric-modeling.html"><i class="fa fa-check"></i><b>7</b> Canonical Bayesian Psychometric Modeling</a></li>
-<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a><ul>
+<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="example-1-known-measurement-model-parameters-with-1-measure.html"><a href="example-1-known-measurement-model-parameters-with-1-measure.html"><i class="fa fa-check"></i><b>8.1</b> Example 1 - Known measurement model parameters with 1 measure</a></li>
 <li class="chapter" data-level="8.2" data-path="example-1-stan.html"><a href="example-1-stan.html"><i class="fa fa-check"></i><b>8.2</b> Example 1 - Stan</a></li>
 <li class="chapter" data-level="8.3" data-path="example-1-jags.html"><a href="example-1-jags.html"><i class="fa fa-check"></i><b>8.3</b> Example 1 - JAGS</a></li>
@@ -177,27 +181,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.8" data-path="example-3-stan.html"><a href="example-3-stan.html"><i class="fa fa-check"></i><b>8.8</b> Example 3 - Stan</a></li>
 <li class="chapter" data-level="8.9" data-path="example-3-jags.html"><a href="example-3-jags.html"><i class="fa fa-check"></i><b>8.9</b> Example 3 - JAGS</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="confirmatory-factor-analysis.html"><a href="confirmatory-factor-analysis.html"><i class="fa fa-check"></i><b>9</b> Confirmatory Factor Analysis</a><ul>
+<li class="chapter" data-level="9" data-path="confirmatory-factor-analysis.html"><a href="confirmatory-factor-analysis.html"><i class="fa fa-check"></i><b>9</b> Confirmatory Factor Analysis</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="single-latent-variable-model.html"><a href="single-latent-variable-model.html"><i class="fa fa-check"></i><b>9.1</b> Single Latent Variable Model</a></li>
 <li class="chapter" data-level="9.2" data-path="jags-single-latent-variable.html"><a href="jags-single-latent-variable.html"><i class="fa fa-check"></i><b>9.2</b> JAGS - Single Latent Variable</a></li>
 <li class="chapter" data-level="9.3" data-path="stan-single-latent-variable.html"><a href="stan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.3</b> Stan - Single Latent Variable</a></li>
 <li class="chapter" data-level="9.4" data-path="blavaan-single-latent-variable.html"><a href="blavaan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> Blavaan - Single Latent Variable</a></li>
 <li class="chapter" data-level="9.5" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.5</b> JAGS - Two Latent Variable</a></li>
-<li class="chapter" data-level="9.6" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> Stan - Two Latent Variable</a><ul>
+<li class="chapter" data-level="9.6" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> Stan - Two Latent Variable</a>
+<ul>
 <li class="chapter" data-level="9.6.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.6.1</b> Inverse-Wishart Prior</a></li>
 <li class="chapter" data-level="9.6.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.6.2</b> LKJ Cholesky Parameterization</a></li>
 </ul></li>
 <li class="chapter" data-level="9.7" data-path="blavaan-two-latent-variables.html"><a href="blavaan-two-latent-variables.html"><i class="fa fa-check"></i><b>9.7</b> Blavaan - Two Latent Variables</a></li>
 <li class="chapter" data-level="9.8" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.8</b> Indeterminacy in One Factor CFA</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a><ul>
+<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a>
+<ul>
 <li class="chapter" data-level="10.1" data-path="residual-analysis.html"><a href="residual-analysis.html"><i class="fa fa-check"></i><b>10.1</b> Residual Analysis</a></li>
-<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a><ul>
+<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a>
+<ul>
 <li class="chapter" data-level="10.2.1" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#example-of-posterior-predictive-distribution-of-correlations"><i class="fa fa-check"></i><b>10.2.1</b> Example of posterior predictive distribution of correlations</a></li>
 <li class="chapter" data-level="10.2.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#ppd-srmr"><i class="fa fa-check"></i><b>10.2.2</b> PPD SRMR</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -219,7 +228,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="software" class="section level2">
+<div id="software" class="section level2" number="1.1">
 <h2><span class="header-section-number">1.1</span> Software</h2>
 <p>We have used <code>R</code> to call Stan. So we have relied on <code>rstan</code> heavily.</p>
 <p>NEED TO UPDATE - NEEDS A LOT MORE INFORMATION</p>

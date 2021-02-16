@@ -1,0 +1,719 @@
+--- 
+title: "Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy"
+author: "R. Noah Padgett"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::bs4_book
+self_contained: true
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: noah-padgett/Bayesian-Psychometric-Modeling
+description: "This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone."
+---
+
+# (PART) Foundations {-}
+# Getting Started/Overview Chapter
+
+Placeholder
+
+
+## Software 
+## Overview of Assessment and Psychometric Modeling
+## Looking Forward
+
+<!--chapter:end:index.Rmd-->
+
+
+# Introduction to Bayesian Inference {#chp2}
+
+Placeholder
+
+
+## Beta-binomial Example
+### Computation using Stan
+### Computation using WinBUGS (OpenBUGS)
+### Computation using JAGS (R2jags)
+## Beta-Bernoulli Example
+### Computation using Stan
+### Computation using WinBUGS (OpenBUGS)
+### Computation using JAGS (R2jags)
+
+<!--chapter:end:02-intro-bayes.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+# ============================================= #
+# script: load_packages.R
+# Project: Code Guide BPM
+# Author(s): R.N. Padgett
+# ============================================= #
+# Data Created: 2020-09-01
+# Date Modified: 2020-09-04
+# By: R. Noah Padgett
+# ============================================= #
+# Stems from Padgett's Independent Study
+# ============================================= #
+# Purpose:
+# This R script is for loading all necessary
+#   R packages
+#
+# No output - just loading packages into the
+#   environment
+# ============================================= #
+# Set up directory and libraries
+# rm(list=ls())
+# list of packages
+packages <- c("patchwork", "tidyr", "dplyr", "ggplot2",
+              "R2jags","R2WinBUGS", "blavaan",
+              "rstan", "brms", "bayesplot", "ggmcmc",
+              "kableExtra", "extraDistr",
+              "dagitty", "ggdag", "ggraph", "cowplot",
+              "pdftools")
+new.packages <- packages[!(packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+# Load packages
+lapply(packages, library, character.only = TRUE)
+
+w.d <- getwd()
+
+# pdf to png
+
+library(pdftools)
+w.d <- getwd()
+
+files.all <- list.files(paste0(w.d, '/dag/'))
+
+files <- paste0(paste0(w.d, '/dag/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+
+
+# model specification diagrams
+files.all <- list.files(paste0(w.d, '/model-spec/'))
+
+files <- paste0(paste0(w.d, '/model-spec/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+
+
+# path diagrams
+files.all <- list.files(paste0(w.d, '/path-diagram/'))
+
+files <- paste0(paste0(w.d, '/path-diagram/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+# Useful R functions for ploting and inspecting results
+
+# for Stan, extract results and compute Gelman-Rubin-Brooks convergence plot
+plot_rhat <- function(fit, par){
+  dat <- as.array(fit)
+  dim.dat <- dim(dat)
+  rhat_est <- data.frame(matrix(nrow=dim.dat[1], ncol=dim.dat[3]+1))
+  colnames(rhat_est) <- c('iter', dimnames(dat)[['parameters']])
+  rhat_est$iter <- 1:dim.dat[1]
+
+  pdat <- dat[,, parameters=par]
+
+  for(i in 1:dim.dat[1]){
+    rhat_est[i, par] <- rstan::Rhat(pdat[1:i,])
+  }
+
+  rhat_est$PARA <- rhat_est[, par]
+
+  a<-ggplot(rhat_est, aes(x=iter, y=PARA)) +
+    geom_line()+
+    geom_hline(yintercept = 1, linetype="dashed", color="grey")+
+    lims(y=c(min(rhat_est[,par])-0.05, max(rhat_est[,par])+0.05)) +
+    labs(y="Rhat",
+         x="Post-warm-up iteration",
+         title=paste0("Iteration Evolution of Gelman-Rubin-Brooks Convergence Criterion: ", par),
+         subtitle = "Should approach 1 as iterations increase") +
+    theme_bw() +
+    theme(panel.grid = element_blank())
+  return(a)
+}
+```
+# Conceptual Issues in Bayesian Inference
+
+This chapter was conceptual so there was no code.
+
+<!--chapter:end:03-conceptual-issues.Rmd-->
+
+
+# Normal Distribution Models
+
+Placeholder
+
+
+## Stan Model for mean and variance unknown
+## JAGS Model for mean and variance unknown (precision parameterization)
+
+<!--chapter:end:04-normal-models.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+# ============================================= #
+# script: load_packages.R
+# Project: Code Guide BPM
+# Author(s): R.N. Padgett
+# ============================================= #
+# Data Created: 2020-09-01
+# Date Modified: 2020-09-04
+# By: R. Noah Padgett
+# ============================================= #
+# Stems from Padgett's Independent Study
+# ============================================= #
+# Purpose:
+# This R script is for loading all necessary
+#   R packages
+#
+# No output - just loading packages into the
+#   environment
+# ============================================= #
+# Set up directory and libraries
+# rm(list=ls())
+# list of packages
+packages <- c("patchwork", "tidyr", "dplyr", "ggplot2",
+              "R2jags","R2WinBUGS", "blavaan",
+              "rstan", "brms", "bayesplot", "ggmcmc",
+              "kableExtra", "extraDistr",
+              "dagitty", "ggdag", "ggraph", "cowplot",
+              "pdftools")
+new.packages <- packages[!(packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+# Load packages
+lapply(packages, library, character.only = TRUE)
+
+w.d <- getwd()
+
+# pdf to png
+
+library(pdftools)
+w.d <- getwd()
+
+files.all <- list.files(paste0(w.d, '/dag/'))
+
+files <- paste0(paste0(w.d, '/dag/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+
+
+# model specification diagrams
+files.all <- list.files(paste0(w.d, '/model-spec/'))
+
+files <- paste0(paste0(w.d, '/model-spec/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+
+
+# path diagrams
+files.all <- list.files(paste0(w.d, '/path-diagram/'))
+
+files <- paste0(paste0(w.d, '/path-diagram/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+# Useful R functions for ploting and inspecting results
+
+# for Stan, extract results and compute Gelman-Rubin-Brooks convergence plot
+plot_rhat <- function(fit, par){
+  dat <- as.array(fit)
+  dim.dat <- dim(dat)
+  rhat_est <- data.frame(matrix(nrow=dim.dat[1], ncol=dim.dat[3]+1))
+  colnames(rhat_est) <- c('iter', dimnames(dat)[['parameters']])
+  rhat_est$iter <- 1:dim.dat[1]
+
+  pdat <- dat[,, parameters=par]
+
+  for(i in 1:dim.dat[1]){
+    rhat_est[i, par] <- rstan::Rhat(pdat[1:i,])
+  }
+
+  rhat_est$PARA <- rhat_est[, par]
+
+  a<-ggplot(rhat_est, aes(x=iter, y=PARA)) +
+    geom_line()+
+    geom_hline(yintercept = 1, linetype="dashed", color="grey")+
+    lims(y=c(min(rhat_est[,par])-0.05, max(rhat_est[,par])+0.05)) +
+    labs(y="Rhat",
+         x="Post-warm-up iteration",
+         title=paste0("Iteration Evolution of Gelman-Rubin-Brooks Convergence Criterion: ", par),
+         subtitle = "Should approach 1 as iterations increase") +
+    theme_bw() +
+    theme(panel.grid = element_blank())
+  return(a)
+}
+```
+# Markov Chain Monte Carlo Estimation
+
+This chapter on MCMC methods gives an introduction to some of the common and basic sampling approaches for Bayesian methods.
+These methods in
+
+1. Gibbs Sampling
+
+2. Metropolis Sampling
+
+3. Metropolis-Hastings
+
+and some notes on how these approaches are related.
+The most important take away for me was their section on practical issues in MCMC methods.
+These practical aspects of estimation that should be noted are:
+
+1. Assessing convergence - making sure enough iterations have been used including the potential scale reduction factor ($\hat{R}$),
+
+2. Serial dependence - where the samples drawn from the posterior are autocorrelated. This means that within a chain the draws are dependent but with enough draws and thinning all samples are sufficiently independent,
+
+3. Mixing - that different chains search/sample from the same parameter space but different chains can sometimes get "stuck" sampling one part of the parameter space that is not the same as the other chains.
+
+Lastly, a major take away from this chapter is that MCMC methods help to approximate the posterior distribution.
+The *distribution* is the solution of a full Bayesian analysis and not a point estimate.
+
+
+<!--chapter:end:05-mcmc.Rmd-->
+
+
+# Regression
+
+Placeholder
+
+
+## Stan Model for Regression Model
+## JAGS Model for Regression Model
+
+<!--chapter:end:06-regression.Rmd-->
+
+
+# (PART) Psychometrics {-}
+# Canonical Bayesian Psychometric Modeling
+
+Placeholder
+
+
+
+<!--chapter:end:07-canonical-bpm.Rmd-->
+
+
+# Classical Test Theory
+
+Placeholder
+
+
+## Example 1 - Known measurement model parameters with 1 measure
+## Example 1 - Stan
+## Example 1 - JAGS
+## Example 2 - Known Measurement Model with Multiple Measures
+## Example 2 - Stan
+## Example 2 - JAGS
+## Example 3 - Unknown Measurement Model with Multiple Measures
+## Example 3 - Stan
+## Example 3 - JAGS
+
+<!--chapter:end:08-ctt.Rmd-->
+
+
+# Confirmatory Factor Analysis
+
+Placeholder
+
+
+## Single Latent Variable Model
+## JAGS - Single Latent Variable
+## Stan - Single Latent Variable 
+## Blavaan - Single Latent Variable
+## Two Latent Variable Model
+## JAGS - Two Latent Variable
+## Stan - Two Latent Variable 
+### Inverse-Wishart Prior
+### LKJ Cholesky Parameterization
+## Blavaan - Two Latent Variables
+## Indeterminacy in One Factor CFA
+
+<!--chapter:end:09-cfa.Rmd-->
+
+
+# Model Evaluation
+
+Placeholder
+
+
+## Residual Analysis
+## Posterior Predictive Distributions
+### Example of posterior predictive distribution of correlations
+### PPD SRMR
+## Model Comparison
+
+<!--chapter:end:10-model-evaluation.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+# ============================================= #
+# script: load_packages.R
+# Project: Code Guide BPM
+# Author(s): R.N. Padgett
+# ============================================= #
+# Data Created: 2020-09-01
+# Date Modified: 2020-09-04
+# By: R. Noah Padgett
+# ============================================= #
+# Stems from Padgett's Independent Study
+# ============================================= #
+# Purpose:
+# This R script is for loading all necessary
+#   R packages
+#
+# No output - just loading packages into the
+#   environment
+# ============================================= #
+# Set up directory and libraries
+# rm(list=ls())
+# list of packages
+packages <- c("patchwork", "tidyr", "dplyr", "ggplot2",
+              "R2jags","R2WinBUGS", "blavaan",
+              "rstan", "brms", "bayesplot", "ggmcmc",
+              "kableExtra", "extraDistr",
+              "dagitty", "ggdag", "ggraph", "cowplot",
+              "pdftools")
+new.packages <- packages[!(packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+# Load packages
+lapply(packages, library, character.only = TRUE)
+
+w.d <- getwd()
+
+# pdf to png
+
+library(pdftools)
+w.d <- getwd()
+
+files.all <- list.files(paste0(w.d, '/dag/'))
+
+files <- paste0(paste0(w.d, '/dag/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+
+
+# model specification diagrams
+files.all <- list.files(paste0(w.d, '/model-spec/'))
+
+files <- paste0(paste0(w.d, '/model-spec/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+
+
+# path diagrams
+files.all <- list.files(paste0(w.d, '/path-diagram/'))
+
+files <- paste0(paste0(w.d, '/path-diagram/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+# Useful R functions for ploting and inspecting results
+
+# for Stan, extract results and compute Gelman-Rubin-Brooks convergence plot
+plot_rhat <- function(fit, par){
+  dat <- as.array(fit)
+  dim.dat <- dim(dat)
+  rhat_est <- data.frame(matrix(nrow=dim.dat[1], ncol=dim.dat[3]+1))
+  colnames(rhat_est) <- c('iter', dimnames(dat)[['parameters']])
+  rhat_est$iter <- 1:dim.dat[1]
+
+  pdat <- dat[,, parameters=par]
+
+  for(i in 1:dim.dat[1]){
+    rhat_est[i, par] <- rstan::Rhat(pdat[1:i,])
+  }
+
+  rhat_est$PARA <- rhat_est[, par]
+
+  a<-ggplot(rhat_est, aes(x=iter, y=PARA)) +
+    geom_line()+
+    geom_hline(yintercept = 1, linetype="dashed", color="grey")+
+    lims(y=c(min(rhat_est[,par])-0.05, max(rhat_est[,par])+0.05)) +
+    labs(y="Rhat",
+         x="Post-warm-up iteration",
+         title=paste0("Iteration Evolution of Gelman-Rubin-Brooks Convergence Criterion: ", par),
+         subtitle = "Should approach 1 as iterations increase") +
+    theme_bw() +
+    theme(panel.grid = element_blank())
+  return(a)
+}
+```
+# Item Response Theory
+
+Item response theory (IRT) builds models for item (stimuli that the measures collected) based on two broad classes of models
+
+1. Models for dichotomous (binary, 0/1) items and
+2. Models for polytomous (multi-category) items.
+
+First, for conventional dichotomous observed variables, an IRT model can be generally specified as follows.
+
+Let $x_{ij}$ be the observed value from respondent $i$ on observable (item) $j$.
+When $x$ is binary, the observed value can be $0$ or $1$. 
+Some common IRT models for binary observed variables can be expressed as a version of 
+
+\[p(x_{ij} = 1 \mid \theta_i, d_j, a_j, c_j) = c_j + (1-c_j)F(a_j \theta_i + d_j),\]
+
+where,
+
+* $\theta_i$ is the magnitude of the latent variable that individual $i$ possesses. In educational measurement, $\theta_i$ commonly represents proficiency so that a higher $\theta_i$ means that individual has more of the trait,
+* $d_j$ is the item location or difficulty parameter. $d_j$ is commonly transformed to be $d_j = -a_jb_j$ so that the location parameter is easier to interpret in relation to the latent trait $\theta_i$,
+* $a_j$ is the item slope or discrimination parameter,
+* $c_j$ is the item lower asymptote or guessing parameter,
+* $F(.)$ is the link function to be specified that determines the form of the transformation between latent trait and the item response probability. The link is common chosen to be either the logistic link or the normal-ogive link.
+
+Common IRT models are the
+
+* 1-PL, or one-parameter logistic model, which only uses one measurement parameter $d_j$ per item,
+* 2-PL, or two-parameter logistic model, which uses two measurement model parameters $a_j$ and $d_j$ per item,
+* 3-PL, or three-parameter logistic model, which uses all three parameters as shown above.
+* other models are also possible for binary item response formats but are omitted here.
+
+The above describes the functional form used to model why individual may have a greater or lesser likelihood of endorsing an item (have a $1$ as a measure).
+We use the above model as the basis for defining the conditional probability of any response given the values of the parameters.
+The conditional probability is then commonly used as part of a *marginal maximum likelihood (MML)* approach to finding parameters values for the measurement model which maximize the likelihood.
+However, given that the values of the latent variable $\theta_i$ are also unknown, the distribution of $\theta_i$ is marginalized out of the likelihood function.
+
+However, in the Bayesian formulation, we can side-step some of these issues by the use of prior distributions.
+Starting with the general form of the likelihood function
+\[p(\mathbf{x}\mid \boldsymbol{\theta}, \boldsymbol{\omega}) = \prod_{i=1}^np(\mathbf{x}_i\mid \theta_i, \boldsymbol{\omega}) = \prod_{i=1}^n\prod_{j=1}^Jp(x_{ij}\mid \theta_i, \boldsymbol{\omega}_j),\]
+where
+\[x_{ij}\mid \theta_i, \boldsymbol{\omega}_j \sim \mathrm{Bernoulli}[p(x_{ij}\mid \theta_i, \boldsymbol{\omega}_j)].\]
+
+Developing a joint prior distribution for $p(\boldsymbol{\theta}, \boldsymbol{\omega})$ is not straightforward given the high dimensional aspect of the components.
+But, a common assumption is that the distribution for the latent variables ($\boldsymbol{\theta}$) is independent of the distribution for the measurement model parameters ($\boldsymbol{\omega}$).
+That is, we can separate the problem into independent priors
+\[p(\boldsymbol{\theta}, \boldsymbol{\omega}) = p(\boldsymbol{\theta})p(\boldsymbol{\omega}).\]
+
+For the latent variables, the prior distributuion is generally build by assuming that all individuals are also independent.
+The independence of observations leads to a joint prior that is a product of priors with a common distribution,
+\[p(\boldsymbol{\theta}) = \prod_{i=1}^np(\theta_i\mid \boldsymbol{\theta}_p),\]
+where $\boldsymbol{\theta}_p$ are the hyperparameters governing the common prior for the latent variable distribution.
+A common choice is that $\theta_i \sim \mathrm{Normal}(\mu_{\theta} = 0, \sigma^2_{\theta}=1)$ because the distribution is arbitrary.
+
+For the measurement model parameters, a bit more complex specification is generally needed.
+One *simple* approach would be to invoke an exchangeability assumption among items and among item parameters.
+This would essentially make all priors independent and simplify the specification to product of univariate priors over all measurement model parameters 
+\[p(\boldsymbol{\omega}) = \prod_{j=1}^Jp(\boldsymbol{\omega}_j)=\prod_{j=1}^Jp(d_j)p(a_j)p(c_j).\]
+For for location parameter ($d_j$), a common prior distribution is an unbounded normal distribution.
+Because, the location can take on any value within the range of the latent variable which is also technically unbounded so we let
+\[d_j \sim \mathrm{Normal}(\mu_{d},\sigma^2_d).\]
+The choice of hyperparameters can be guided by prior research or set to a common relative diffuse value for all items such as $\mu_{d}=0,\sigma^2_d=10$.
+
+The discrimination parameter governs the strength of the relationship between the latent variable and the probability of endorsing the item.
+This is similar in flavor to a factor loading in CFA.
+An issue with specifying a prior for the discrimination parameter is the indeterminacy with respect the the orientation of the latent variable.
+In CFA, we resolved the orientation indeterminacy issue by fixing one factor loading to 1.
+In IRT, we can do so by constraining the possible values of the discrimination parameters to be strictly positive.
+This forces each item to have the meaning of higher values on the latent variable directly (or at least proportionally) increase the probability of endorsing the item.
+We achieve this by using a prior such as
+\[a_j \sim \mathrm{Normal}^{+}(\mu_a,\sigma^2_a).\]
+The term $\mathrm{Normal}^{+}(.)$ means that the normal distribution is truncated at 0 so that only positive values are possible.
+
+Lastly, the guessing parameter $c_j$ takes on values between $[0,1]$.
+A common choice for parameters bounded between 0 and 1 is a Beta prior, that is
+\[c_j \sim \mathrm{Beta}(\alpha_c, \beta_c).\]
+The hyperparameters $\alpha_c$ and $\beta_c$ determine the shape of the beta prior and affect the likelihood and magnitude of guessing parameters.
+
+## 3-PL LSAT Example
+
+In the Law School Admission Test (LSAT) example (p. 263-271), the data are from 1000 examinees responding to five items which is just a subset of the LSAT.
+We hypothesize that only one underlying latent variable is measured by these items.
+But that guessing is also plausible.
+The full 3-PL model we will use can be described in an equation as
+\[p(\boldsymbol{\theta}, \boldsymbol{d}, \boldsymbol{a}, \boldsymbol{c} \mid \mathbf{x}) \propto \prod_{i=1}^n\prod_{j=1}^Jp(\theta_i\mid\theta_i, d_j, a_j, c_j)p(\theta_i)p(d_j)p(a_j)p(c_j),\]
+where
+\begin{align*}
+x_{ij}\mid\theta_i\mid\theta_i, d_j, a_j, c_j &\sim \mathrm{Bernoulli}[p(\theta_i\mid\theta_i, d_j, a_j, c_j)],\ \mathrm{for}\ i=1, \cdots, 100,\ j = 1, \cdots, 5;\\
+p(\theta_i\mid\theta_i, d_j, a_j, c_j) &= c_j + (1-c_j)\Phi(a_j\theta_j + d_j),\ \mathrm{for}\ i=1, \cdots, 100,\ j = 1, \cdots, 5;\\
+\theta_i &\sim \mathrm{Normal}(0,1),\ \mathrm{for}\ i = 1, \cdots, 1000;\\
+d_j &\sim \mathrm{Normal}(0, 2),\ \mathrm{for}\ j=1, \cdots, 5;\\
+a_j &\sim \mathrm{Normal}^{+}(1, 2),\ \mathrm{for}\ j=1, \cdots, 5;\\
+c_j &\sim \mathrm{Beta}(5, 17),\ \mathrm{for}\ j=1, \cdots, 5.
+\end{align*}
+
+The above model can illustrated in a DAG as shown below.
+
+```{r chp11-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for 3-PL IRT model for LSAT Example'}
+knitr::include_graphics(paste0(w.d,'/dag/chp11-irt1.png'),
+                        auto_pdf = TRUE)
+```
+
+The path diagram for an IRT is essentially identical to the path diagram for a CFA model.
+This fact highlights an important feature of IRT/CFA in that the major conceptual difference between these approaches to is how we define the link between the latent variable the observed items.
+
+```{r chp9-pathdiag-1, echo=FALSE,fig.align='center',fig.cap='Path diagram for 3-PL IRT model'}
+knitr::include_graphics(paste0(w.d,'/path-diagram/chp11-irt1.png'),
+                        auto_pdf = TRUE)
+```
+
+For completeness, I have included the model specification diagram that more concretely connects the DAG and path diagram to the assumed distributions and priors.
+
+```{r chp11-spec-1, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the 3-PL IRT model'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp11-irt1.png'),
+                        auto_pdf = TRUE)
+```
+
+
+
+## Final Notes
+
+* A fully Bayesian approach to psychometric modeling helps highlight the major similarities between factor analytic frameworks and the item response theory perspective.
+
+
+<!--chapter:end:11-irt.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+# ============================================= #
+# script: load_packages.R
+# Project: Code Guide BPM
+# Author(s): R.N. Padgett
+# ============================================= #
+# Data Created: 2020-09-01
+# Date Modified: 2020-09-04
+# By: R. Noah Padgett
+# ============================================= #
+# Stems from Padgett's Independent Study
+# ============================================= #
+# Purpose:
+# This R script is for loading all necessary
+#   R packages
+#
+# No output - just loading packages into the
+#   environment
+# ============================================= #
+# Set up directory and libraries
+# rm(list=ls())
+# list of packages
+packages <- c("patchwork", "tidyr", "dplyr", "ggplot2",
+              "R2jags","R2WinBUGS", "blavaan",
+              "rstan", "brms", "bayesplot", "ggmcmc",
+              "kableExtra", "extraDistr",
+              "dagitty", "ggdag", "ggraph", "cowplot",
+              "pdftools")
+new.packages <- packages[!(packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+# Load packages
+lapply(packages, library, character.only = TRUE)
+
+w.d <- getwd()
+
+# pdf to png
+
+library(pdftools)
+w.d <- getwd()
+
+files.all <- list.files(paste0(w.d, '/dag/'))
+
+files <- paste0(paste0(w.d, '/dag/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+
+
+# model specification diagrams
+files.all <- list.files(paste0(w.d, '/model-spec/'))
+
+files <- paste0(paste0(w.d, '/model-spec/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+
+
+# path diagrams
+files.all <- list.files(paste0(w.d, '/path-diagram/'))
+
+files <- paste0(paste0(w.d, '/path-diagram/'), grep(".pdf", files.all, value=T))
+files.out <- paste0(unlist(strsplit(files, ".pdf")), ".png")
+dpi <- rep(400,length(files))
+for(i in 1:length(files)){
+  pdf_convert(files[i], format = "png", dpi = dpi[i],
+              filenames = files.out[i])
+}
+
+# Useful R functions for ploting and inspecting results
+
+# for Stan, extract results and compute Gelman-Rubin-Brooks convergence plot
+plot_rhat <- function(fit, par){
+  dat <- as.array(fit)
+  dim.dat <- dim(dat)
+  rhat_est <- data.frame(matrix(nrow=dim.dat[1], ncol=dim.dat[3]+1))
+  colnames(rhat_est) <- c('iter', dimnames(dat)[['parameters']])
+  rhat_est$iter <- 1:dim.dat[1]
+
+  pdat <- dat[,, parameters=par]
+
+  for(i in 1:dim.dat[1]){
+    rhat_est[i, par] <- rstan::Rhat(pdat[1:i,])
+  }
+
+  rhat_est$PARA <- rhat_est[, par]
+
+  a<-ggplot(rhat_est, aes(x=iter, y=PARA)) +
+    geom_line()+
+    geom_hline(yintercept = 1, linetype="dashed", color="grey")+
+    lims(y=c(min(rhat_est[,par])-0.05, max(rhat_est[,par])+0.05)) +
+    labs(y="Rhat",
+         x="Post-warm-up iteration",
+         title=paste0("Iteration Evolution of Gelman-Rubin-Brooks Convergence Criterion: ", par),
+         subtitle = "Should approach 1 as iterations increase") +
+    theme_bw() +
+    theme(panel.grid = element_blank())
+  return(a)
+}
+```
+`r if (knitr:::is_html_output()) '
+# References {-}
+'`
+
+<!--chapter:end:99-references.Rmd-->
+

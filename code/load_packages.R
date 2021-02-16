@@ -23,7 +23,8 @@ packages <- c("patchwork", "tidyr", "dplyr", "ggplot2",
               "R2jags","R2WinBUGS", "blavaan",
               "rstan", "brms", "bayesplot", "ggmcmc",
               "kableExtra", "extraDistr",
-              "dagitty", "ggdag", "ggraph", "cowplot")
+              "dagitty", "ggdag", "ggraph", "cowplot",
+              "pdftools")
 new.packages <- packages[!(packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 # Load packages

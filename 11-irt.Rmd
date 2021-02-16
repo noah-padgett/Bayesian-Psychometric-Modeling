@@ -1,0 +1,121 @@
+# Item Response Theory
+
+Item response theory (IRT) builds models for item (stimuli that the measures collected) based on two broad classes of models
+
+1. Models for dichotomous (binary, 0/1) items and
+2. Models for polytomous (multi-category) items.
+
+First, for conventional dichotomous observed variables, an IRT model can be generally specified as follows.
+
+Let $x_{ij}$ be the observed value from respondent $i$ on observable (item) $j$.
+When $x$ is binary, the observed value can be $0$ or $1$. 
+Some common IRT models for binary observed variables can be expressed as a version of 
+
+\[p(x_{ij} = 1 \mid \theta_i, d_j, a_j, c_j) = c_j + (1-c_j)F(a_j \theta_i + d_j),\]
+
+where,
+
+* $\theta_i$ is the magnitude of the latent variable that individual $i$ possesses. In educational measurement, $\theta_i$ commonly represents proficiency so that a higher $\theta_i$ means that individual has more of the trait,
+* $d_j$ is the item location or difficulty parameter. $d_j$ is commonly transformed to be $d_j = -a_jb_j$ so that the location parameter is easier to interpret in relation to the latent trait $\theta_i$,
+* $a_j$ is the item slope or discrimination parameter,
+* $c_j$ is the item lower asymptote or guessing parameter,
+* $F(.)$ is the link function to be specified that determines the form of the transformation between latent trait and the item response probability. The link is common chosen to be either the logistic link or the normal-ogive link.
+
+Common IRT models are the
+
+* 1-PL, or one-parameter logistic model, which only uses one measurement parameter $d_j$ per item,
+* 2-PL, or two-parameter logistic model, which uses two measurement model parameters $a_j$ and $d_j$ per item,
+* 3-PL, or three-parameter logistic model, which uses all three parameters as shown above.
+* other models are also possible for binary item response formats but are omitted here.
+
+The above describes the functional form used to model why individual may have a greater or lesser likelihood of endorsing an item (have a $1$ as a measure).
+We use the above model as the basis for defining the conditional probability of any response given the values of the parameters.
+The conditional probability is then commonly used as part of a *marginal maximum likelihood (MML)* approach to finding parameters values for the measurement model which maximize the likelihood.
+However, given that the values of the latent variable $\theta_i$ are also unknown, the distribution of $\theta_i$ is marginalized out of the likelihood function.
+
+However, in the Bayesian formulation, we can side-step some of these issues by the use of prior distributions.
+Starting with the general form of the likelihood function
+\[p(\mathbf{x}\mid \boldsymbol{\theta}, \boldsymbol{\omega}) = \prod_{i=1}^np(\mathbf{x}_i\mid \theta_i, \boldsymbol{\omega}) = \prod_{i=1}^n\prod_{j=1}^Jp(x_{ij}\mid \theta_i, \boldsymbol{\omega}_j),\]
+where
+\[x_{ij}\mid \theta_i, \boldsymbol{\omega}_j \sim \mathrm{Bernoulli}[p(x_{ij}\mid \theta_i, \boldsymbol{\omega}_j)].\]
+
+Developing a joint prior distribution for $p(\boldsymbol{\theta}, \boldsymbol{\omega})$ is not straightforward given the high dimensional aspect of the components.
+But, a common assumption is that the distribution for the latent variables ($\boldsymbol{\theta}$) is independent of the distribution for the measurement model parameters ($\boldsymbol{\omega}$).
+That is, we can separate the problem into independent priors
+\[p(\boldsymbol{\theta}, \boldsymbol{\omega}) = p(\boldsymbol{\theta})p(\boldsymbol{\omega}).\]
+
+For the latent variables, the prior distributuion is generally build by assuming that all individuals are also independent.
+The independence of observations leads to a joint prior that is a product of priors with a common distribution,
+\[p(\boldsymbol{\theta}) = \prod_{i=1}^np(\theta_i\mid \boldsymbol{\theta}_p),\]
+where $\boldsymbol{\theta}_p$ are the hyperparameters governing the common prior for the latent variable distribution.
+A common choice is that $\theta_i \sim \mathrm{Normal}(\mu_{\theta} = 0, \sigma^2_{\theta}=1)$ because the distribution is arbitrary.
+
+For the measurement model parameters, a bit more complex specification is generally needed.
+One *simple* approach would be to invoke an exchangeability assumption among items and among item parameters.
+This would essentially make all priors independent and simplify the specification to product of univariate priors over all measurement model parameters 
+\[p(\boldsymbol{\omega}) = \prod_{j=1}^Jp(\boldsymbol{\omega}_j)=\prod_{j=1}^Jp(d_j)p(a_j)p(c_j).\]
+For for location parameter ($d_j$), a common prior distribution is an unbounded normal distribution.
+Because, the location can take on any value within the range of the latent variable which is also technically unbounded so we let
+\[d_j \sim \mathrm{Normal}(\mu_{d},\sigma^2_d).\]
+The choice of hyperparameters can be guided by prior research or set to a common relative diffuse value for all items such as $\mu_{d}=0,\sigma^2_d=10$.
+
+The discrimination parameter governs the strength of the relationship between the latent variable and the probability of endorsing the item.
+This is similar in flavor to a factor loading in CFA.
+An issue with specifying a prior for the discrimination parameter is the indeterminacy with respect the the orientation of the latent variable.
+In CFA, we resolved the orientation indeterminacy issue by fixing one factor loading to 1.
+In IRT, we can do so by constraining the possible values of the discrimination parameters to be strictly positive.
+This forces each item to have the meaning of higher values on the latent variable directly (or at least proportionally) increase the probability of endorsing the item.
+We achieve this by using a prior such as
+\[a_j \sim \mathrm{Normal}^{+}(\mu_a,\sigma^2_a).\]
+The term $\mathrm{Normal}^{+}(.)$ means that the normal distribution is truncated at 0 so that only positive values are possible.
+
+Lastly, the guessing parameter $c_j$ takes on values between $[0,1]$.
+A common choice for parameters bounded between 0 and 1 is a Beta prior, that is
+\[c_j \sim \mathrm{Beta}(\alpha_c, \beta_c).\]
+The hyperparameters $\alpha_c$ and $\beta_c$ determine the shape of the beta prior and affect the likelihood and magnitude of guessing parameters.
+
+## 3-PL LSAT Example
+
+In the Law School Admission Test (LSAT) example (p. 263-271), the data are from 1000 examinees responding to five items which is just a subset of the LSAT.
+We hypothesize that only one underlying latent variable is measured by these items.
+But that guessing is also plausible.
+The full 3-PL model we will use can be described in an equation as
+\[p(\boldsymbol{\theta}, \boldsymbol{d}, \boldsymbol{a}, \boldsymbol{c} \mid \mathbf{x}) \propto \prod_{i=1}^n\prod_{j=1}^Jp(\theta_i\mid\theta_i, d_j, a_j, c_j)p(\theta_i)p(d_j)p(a_j)p(c_j),\]
+where
+\begin{align*}
+x_{ij}\mid\theta_i\mid\theta_i, d_j, a_j, c_j &\sim \mathrm{Bernoulli}[p(\theta_i\mid\theta_i, d_j, a_j, c_j)],\ \mathrm{for}\ i=1, \cdots, 100,\ j = 1, \cdots, 5;\\
+p(\theta_i\mid\theta_i, d_j, a_j, c_j) &= c_j + (1-c_j)\Phi(a_j\theta_j + d_j),\ \mathrm{for}\ i=1, \cdots, 100,\ j = 1, \cdots, 5;\\
+\theta_i &\sim \mathrm{Normal}(0,1),\ \mathrm{for}\ i = 1, \cdots, 1000;\\
+d_j &\sim \mathrm{Normal}(0, 2),\ \mathrm{for}\ j=1, \cdots, 5;\\
+a_j &\sim \mathrm{Normal}^{+}(1, 2),\ \mathrm{for}\ j=1, \cdots, 5;\\
+c_j &\sim \mathrm{Beta}(5, 17),\ \mathrm{for}\ j=1, \cdots, 5.
+\end{align*}
+
+The above model can illustrated in a DAG as shown below.
+
+```{r chp11-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for 3-PL IRT model for LSAT Example'}
+knitr::include_graphics(paste0(w.d,'/dag/chp11-irt1.png'),
+                        auto_pdf = TRUE)
+```
+
+The path diagram for an IRT is essentially identical to the path diagram for a CFA model.
+This fact highlights an important feature of IRT/CFA in that the major conceptual difference between these approaches to is how we define the link between the latent variable the observed items.
+
+```{r chp9-pathdiag-1, echo=FALSE,fig.align='center',fig.cap='Path diagram for 3-PL IRT model'}
+knitr::include_graphics(paste0(w.d,'/path-diagram/chp11-irt1.png'),
+                        auto_pdf = TRUE)
+```
+
+For completeness, I have included the model specification diagram that more concretely connects the DAG and path diagram to the assumed distributions and priors.
+
+```{r chp11-spec-1, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the 3-PL IRT model'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp11-irt1.png'),
+                        auto_pdf = TRUE)
+```
+
+
+
+## Final Notes
+
+* A fully Bayesian approach to psychometric modeling helps highlight the major similarities between factor analytic frameworks and the item response theory perspective.
+

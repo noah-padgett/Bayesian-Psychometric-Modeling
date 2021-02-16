@@ -76,4 +76,9 @@ posterior-predictive-distributions
 example-of-posterior-predictive-distribution-of-correlations
 ppd-srmr
 model-comparison
+item-response-theory
 two-latent-variable-model
+final-notes
+fig:chp11-dag-1
+fig:chp11-spec-1
+pl-lsat-example

@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2020-11-06" />
+<meta name="date" content="2021-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="jags-two-latent-variable.html"/>
 <link rel="next" href="blavaan-two-latent-variables.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,24 +51,20 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -87,7 +84,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -137,36 +134,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="part"><span><b>I Foundations</b></span></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started/Overview Chapter</a><ul>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started/Overview Chapter</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i><b>1.1</b> Software</a></li>
 <li class="chapter" data-level="1.2" data-path="overview-of-assessment-and-psychometric-modeling.html"><a href="overview-of-assessment-and-psychometric-modeling.html"><i class="fa fa-check"></i><b>1.2</b> Overview of Assessment and Psychometric Modeling</a></li>
 <li class="chapter" data-level="1.3" data-path="looking-forward.html"><a href="looking-forward.html"><i class="fa fa-check"></i><b>1.3</b> Looking Forward</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="chp2.html"><a href="chp2.html"><i class="fa fa-check"></i><b>2</b> Introduction to Bayesian Inference</a><ul>
-<li class="chapter" data-level="2.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html"><i class="fa fa-check"></i><b>2.1</b> Beta-binomial Example</a><ul>
+<li class="chapter" data-level="2" data-path="chp2.html"><a href="chp2.html"><i class="fa fa-check"></i><b>2</b> Introduction to Bayesian Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html"><i class="fa fa-check"></i><b>2.1</b> Beta-binomial Example</a>
+<ul>
 <li class="chapter" data-level="2.1.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-stan"><i class="fa fa-check"></i><b>2.1.1</b> Computation using Stan</a></li>
 <li class="chapter" data-level="2.1.2" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-winbugs-openbugs"><i class="fa fa-check"></i><b>2.1.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
 <li class="chapter" data-level="2.1.3" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-jags-r2jags"><i class="fa fa-check"></i><b>2.1.3</b> Computation using JAGS (R2jags)</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html"><i class="fa fa-check"></i><b>2.2</b> Beta-Bernoulli Example</a><ul>
+<li class="chapter" data-level="2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html"><i class="fa fa-check"></i><b>2.2</b> Beta-Bernoulli Example</a>
+<ul>
 <li class="chapter" data-level="2.2.1" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-stan-1"><i class="fa fa-check"></i><b>2.2.1</b> Computation using Stan</a></li>
 <li class="chapter" data-level="2.2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-winbugs-openbugs-1"><i class="fa fa-check"></i><b>2.2.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
 <li class="chapter" data-level="2.2.3" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-jags-r2jags-1"><i class="fa fa-check"></i><b>2.2.3</b> Computation using JAGS (R2jags)</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="conceptual-issues-in-bayesian-inference.html"><a href="conceptual-issues-in-bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Conceptual Issues in Bayesian Inference</a></li>
-<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a><ul>
+<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="stan-model-for-mean-and-variance-unknown.html"><a href="stan-model-for-mean-and-variance-unknown.html"><i class="fa fa-check"></i><b>4.1</b> Stan Model for mean and variance unknown</a></li>
 <li class="chapter" data-level="4.2" data-path="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><a href="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><i class="fa fa-check"></i><b>4.2</b> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="markov-chain-monte-carlo-estimation.html"><a href="markov-chain-monte-carlo-estimation.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo Estimation</a></li>
-<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
+<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="stan-model-for-regression-model.html"><a href="stan-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.1</b> Stan Model for Regression Model</a></li>
 <li class="chapter" data-level="6.2" data-path="jags-model-for-regression-model.html"><a href="jags-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.2</b> JAGS Model for Regression Model</a></li>
 </ul></li>
 <li class="part"><span><b>II Psychometrics</b></span></li>
 <li class="chapter" data-level="7" data-path="canonical-bayesian-psychometric-modeling.html"><a href="canonical-bayesian-psychometric-modeling.html"><i class="fa fa-check"></i><b>7</b> Canonical Bayesian Psychometric Modeling</a></li>
-<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a><ul>
+<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="example-1-known-measurement-model-parameters-with-1-measure.html"><a href="example-1-known-measurement-model-parameters-with-1-measure.html"><i class="fa fa-check"></i><b>8.1</b> Example 1 - Known measurement model parameters with 1 measure</a></li>
 <li class="chapter" data-level="8.2" data-path="example-1-stan.html"><a href="example-1-stan.html"><i class="fa fa-check"></i><b>8.2</b> Example 1 - Stan</a></li>
 <li class="chapter" data-level="8.3" data-path="example-1-jags.html"><a href="example-1-jags.html"><i class="fa fa-check"></i><b>8.3</b> Example 1 - JAGS</a></li>
@@ -177,27 +181,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.8" data-path="example-3-stan.html"><a href="example-3-stan.html"><i class="fa fa-check"></i><b>8.8</b> Example 3 - Stan</a></li>
 <li class="chapter" data-level="8.9" data-path="example-3-jags.html"><a href="example-3-jags.html"><i class="fa fa-check"></i><b>8.9</b> Example 3 - JAGS</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="confirmatory-factor-analysis.html"><a href="confirmatory-factor-analysis.html"><i class="fa fa-check"></i><b>9</b> Confirmatory Factor Analysis</a><ul>
+<li class="chapter" data-level="9" data-path="confirmatory-factor-analysis.html"><a href="confirmatory-factor-analysis.html"><i class="fa fa-check"></i><b>9</b> Confirmatory Factor Analysis</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="single-latent-variable-model.html"><a href="single-latent-variable-model.html"><i class="fa fa-check"></i><b>9.1</b> Single Latent Variable Model</a></li>
 <li class="chapter" data-level="9.2" data-path="jags-single-latent-variable.html"><a href="jags-single-latent-variable.html"><i class="fa fa-check"></i><b>9.2</b> JAGS - Single Latent Variable</a></li>
 <li class="chapter" data-level="9.3" data-path="stan-single-latent-variable.html"><a href="stan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.3</b> Stan - Single Latent Variable</a></li>
 <li class="chapter" data-level="9.4" data-path="blavaan-single-latent-variable.html"><a href="blavaan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> Blavaan - Single Latent Variable</a></li>
 <li class="chapter" data-level="9.5" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.5</b> JAGS - Two Latent Variable</a></li>
-<li class="chapter" data-level="9.6" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> Stan - Two Latent Variable</a><ul>
+<li class="chapter" data-level="9.6" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> Stan - Two Latent Variable</a>
+<ul>
 <li class="chapter" data-level="9.6.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.6.1</b> Inverse-Wishart Prior</a></li>
 <li class="chapter" data-level="9.6.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.6.2</b> LKJ Cholesky Parameterization</a></li>
 </ul></li>
 <li class="chapter" data-level="9.7" data-path="blavaan-two-latent-variables.html"><a href="blavaan-two-latent-variables.html"><i class="fa fa-check"></i><b>9.7</b> Blavaan - Two Latent Variables</a></li>
 <li class="chapter" data-level="9.8" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.8</b> Indeterminacy in One Factor CFA</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a><ul>
+<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a>
+<ul>
 <li class="chapter" data-level="10.1" data-path="residual-analysis.html"><a href="residual-analysis.html"><i class="fa fa-check"></i><b>10.1</b> Residual Analysis</a></li>
-<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a><ul>
+<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a>
+<ul>
 <li class="chapter" data-level="10.2.1" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#example-of-posterior-predictive-distribution-of-correlations"><i class="fa fa-check"></i><b>10.2.1</b> Example of posterior predictive distribution of correlations</a></li>
 <li class="chapter" data-level="10.2.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#ppd-srmr"><i class="fa fa-check"></i><b>10.2.2</b> PPD SRMR</a></li>
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -219,106 +228,106 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="stan---two-latent-variable" class="section level2">
+<div id="stan---two-latent-variable" class="section level2" number="9.6">
 <h2><span class="header-section-number">9.6</span> Stan - Two Latent Variable</h2>
-<div id="inverse-wishart-prior" class="section level3">
+<div id="inverse-wishart-prior" class="section level3" number="9.6.1">
 <h3><span class="header-section-number">9.6.1</span> Inverse-Wishart Prior</h3>
 <p>Using Stan based on a nearly identical model structure presented in the text.</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="stan-two-latent-variable.html#cb235-1"></a>model_cfa_2factor &lt;-<span class="st"> &quot;</span></span>
-<span id="cb235-2"><a href="stan-two-latent-variable.html#cb235-2"></a><span class="st">data {</span></span>
-<span id="cb235-3"><a href="stan-two-latent-variable.html#cb235-3"></a><span class="st">  int  N;</span></span>
-<span id="cb235-4"><a href="stan-two-latent-variable.html#cb235-4"></a><span class="st">  int  J;</span></span>
-<span id="cb235-5"><a href="stan-two-latent-variable.html#cb235-5"></a><span class="st">  int  M;</span></span>
-<span id="cb235-6"><a href="stan-two-latent-variable.html#cb235-6"></a><span class="st">  matrix[N, J] X;</span></span>
-<span id="cb235-7"><a href="stan-two-latent-variable.html#cb235-7"></a><span class="st">  matrix[M, M] phi0;</span></span>
-<span id="cb235-8"><a href="stan-two-latent-variable.html#cb235-8"></a><span class="st">}</span></span>
-<span id="cb235-9"><a href="stan-two-latent-variable.html#cb235-9"></a></span>
-<span id="cb235-10"><a href="stan-two-latent-variable.html#cb235-10"></a><span class="st">parameters {</span></span>
-<span id="cb235-11"><a href="stan-two-latent-variable.html#cb235-11"></a><span class="st">  matrix[M, M] phi; // latent variable covaraince matrix</span></span>
-<span id="cb235-12"><a href="stan-two-latent-variable.html#cb235-12"></a><span class="st">  matrix[N, M] ksi; //latent variable values</span></span>
-<span id="cb235-13"><a href="stan-two-latent-variable.html#cb235-13"></a><span class="st">  real lambda[J]; //factor loadings matrix</span></span>
-<span id="cb235-14"><a href="stan-two-latent-variable.html#cb235-14"></a><span class="st">  real tau[J]; //intercepts</span></span>
-<span id="cb235-15"><a href="stan-two-latent-variable.html#cb235-15"></a><span class="st">  real&lt;lower=0&gt; psi[J]; //residual variance</span></span>
-<span id="cb235-16"><a href="stan-two-latent-variable.html#cb235-16"></a><span class="st">}</span></span>
-<span id="cb235-17"><a href="stan-two-latent-variable.html#cb235-17"></a></span>
-<span id="cb235-18"><a href="stan-two-latent-variable.html#cb235-18"></a><span class="st">model {</span></span>
-<span id="cb235-19"><a href="stan-two-latent-variable.html#cb235-19"></a><span class="st">  // likelihood for data</span></span>
-<span id="cb235-20"><a href="stan-two-latent-variable.html#cb235-20"></a><span class="st">  for(i in 1:N){</span></span>
-<span id="cb235-21"><a href="stan-two-latent-variable.html#cb235-21"></a><span class="st">    X[i, 1] ~ normal(tau[1] + ksi[i,1]*lambda[1], psi[1]);</span></span>
-<span id="cb235-22"><a href="stan-two-latent-variable.html#cb235-22"></a><span class="st">    X[i, 2] ~ normal(tau[2] + ksi[i,1]*lambda[2], psi[2]);</span></span>
-<span id="cb235-23"><a href="stan-two-latent-variable.html#cb235-23"></a><span class="st">    X[i, 3] ~ normal(tau[3] + ksi[i,1]*lambda[3], psi[3]);</span></span>
-<span id="cb235-24"><a href="stan-two-latent-variable.html#cb235-24"></a><span class="st">    X[i, 4] ~ normal(tau[4] + ksi[i,2]*lambda[4], psi[4]);</span></span>
-<span id="cb235-25"><a href="stan-two-latent-variable.html#cb235-25"></a><span class="st">    X[i, 5] ~ normal(tau[5] + ksi[i,2]*lambda[5], psi[5]);</span></span>
-<span id="cb235-26"><a href="stan-two-latent-variable.html#cb235-26"></a><span class="st">    </span></span>
-<span id="cb235-27"><a href="stan-two-latent-variable.html#cb235-27"></a><span class="st">    // prior for ksi</span></span>
-<span id="cb235-28"><a href="stan-two-latent-variable.html#cb235-28"></a><span class="st">    ksi[i] ~ multi_normal(rep_vector(0, M), phi);</span></span>
-<span id="cb235-29"><a href="stan-two-latent-variable.html#cb235-29"></a><span class="st">  }</span></span>
-<span id="cb235-30"><a href="stan-two-latent-variable.html#cb235-30"></a><span class="st">  // latent variable variance matrix</span></span>
-<span id="cb235-31"><a href="stan-two-latent-variable.html#cb235-31"></a><span class="st">  phi  ~ inv_wishart(2, phi0);</span></span>
-<span id="cb235-32"><a href="stan-two-latent-variable.html#cb235-32"></a><span class="st">  // prior for measurement model parameters</span></span>
-<span id="cb235-33"><a href="stan-two-latent-variable.html#cb235-33"></a><span class="st">  tau ~ normal(3, 10);</span></span>
-<span id="cb235-34"><a href="stan-two-latent-variable.html#cb235-34"></a><span class="st">  psi ~ inv_gamma(5, 10);</span></span>
-<span id="cb235-35"><a href="stan-two-latent-variable.html#cb235-35"></a><span class="st">  lambda[1] ~ normal(1, .001);</span></span>
-<span id="cb235-36"><a href="stan-two-latent-variable.html#cb235-36"></a><span class="st">  lambda[2] ~ normal(1, 10);</span></span>
-<span id="cb235-37"><a href="stan-two-latent-variable.html#cb235-37"></a><span class="st">  lambda[3] ~ normal(1, 10);</span></span>
-<span id="cb235-38"><a href="stan-two-latent-variable.html#cb235-38"></a><span class="st">  lambda[4] ~ normal(1, .001);</span></span>
-<span id="cb235-39"><a href="stan-two-latent-variable.html#cb235-39"></a><span class="st">  lambda[5] ~ normal(1, 10);</span></span>
-<span id="cb235-40"><a href="stan-two-latent-variable.html#cb235-40"></a><span class="st">}</span></span>
-<span id="cb235-41"><a href="stan-two-latent-variable.html#cb235-41"></a></span>
-<span id="cb235-42"><a href="stan-two-latent-variable.html#cb235-42"></a><span class="st">&quot;</span></span>
-<span id="cb235-43"><a href="stan-two-latent-variable.html#cb235-43"></a></span>
-<span id="cb235-44"><a href="stan-two-latent-variable.html#cb235-44"></a><span class="co"># data must be in a list</span></span>
-<span id="cb235-45"><a href="stan-two-latent-variable.html#cb235-45"></a>dat &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">read.table</span>(<span class="st">&quot;code/CFA-Two-Latent-Variables/Data/IIS.dat&quot;</span>, <span class="dt">header=</span>T))</span>
-<span id="cb235-46"><a href="stan-two-latent-variable.html#cb235-46"></a></span>
-<span id="cb235-47"><a href="stan-two-latent-variable.html#cb235-47"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb235-48"><a href="stan-two-latent-variable.html#cb235-48"></a>  <span class="dt">N =</span> <span class="dv">500</span>, <span class="dt">J =</span> <span class="dv">5</span>,</span>
-<span id="cb235-49"><a href="stan-two-latent-variable.html#cb235-49"></a>  <span class="dt">M =</span> <span class="dv">2</span>,</span>
-<span id="cb235-50"><a href="stan-two-latent-variable.html#cb235-50"></a>  <span class="dt">X =</span> dat,</span>
-<span id="cb235-51"><a href="stan-two-latent-variable.html#cb235-51"></a>  <span class="dt">phi0 =</span> <span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">.3</span>, <span class="fl">.3</span>, <span class="dv">1</span>), <span class="dt">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb235-52"><a href="stan-two-latent-variable.html#cb235-52"></a>)</span>
-<span id="cb235-53"><a href="stan-two-latent-variable.html#cb235-53"></a></span>
-<span id="cb235-54"><a href="stan-two-latent-variable.html#cb235-54"></a><span class="co"># # initial values</span></span>
-<span id="cb235-55"><a href="stan-two-latent-variable.html#cb235-55"></a>start_values &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb235-56"><a href="stan-two-latent-variable.html#cb235-56"></a>  <span class="kw">list</span>(</span>
-<span id="cb235-57"><a href="stan-two-latent-variable.html#cb235-57"></a>    <span class="dt">phi=</span> <span class="kw">structure</span>(</span>
-<span id="cb235-58"><a href="stan-two-latent-variable.html#cb235-58"></a>      <span class="dt">.Data=</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.30</span>, <span class="fl">0.30</span>, <span class="dv">1</span>),</span>
-<span id="cb235-59"><a href="stan-two-latent-variable.html#cb235-59"></a>      <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
-<span id="cb235-60"><a href="stan-two-latent-variable.html#cb235-60"></a>    <span class="dt">tau =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>),</span>
-<span id="cb235-61"><a href="stan-two-latent-variable.html#cb235-61"></a>    <span class="dt">lambda=</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
-<span id="cb235-62"><a href="stan-two-latent-variable.html#cb235-62"></a>    <span class="dt">psi=</span><span class="kw">c</span>(.<span class="dv">5</span>, <span class="fl">.5</span>, <span class="fl">.5</span>, <span class="fl">.5</span>, <span class="fl">.5</span>)</span>
-<span id="cb235-63"><a href="stan-two-latent-variable.html#cb235-63"></a>  ),</span>
-<span id="cb235-64"><a href="stan-two-latent-variable.html#cb235-64"></a>  <span class="kw">list</span>(</span>
-<span id="cb235-65"><a href="stan-two-latent-variable.html#cb235-65"></a>    <span class="dt">phi=</span> <span class="kw">structure</span>(</span>
-<span id="cb235-66"><a href="stan-two-latent-variable.html#cb235-66"></a>      <span class="dt">.Data=</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb235-67"><a href="stan-two-latent-variable.html#cb235-67"></a>      <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
-<span id="cb235-68"><a href="stan-two-latent-variable.html#cb235-68"></a>    <span class="dt">tau =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>),</span>
-<span id="cb235-69"><a href="stan-two-latent-variable.html#cb235-69"></a>    <span class="dt">lambda=</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">.7</span>, <span class="fl">.7</span>, <span class="dv">1</span>, <span class="fl">.7</span>),</span>
-<span id="cb235-70"><a href="stan-two-latent-variable.html#cb235-70"></a>    <span class="dt">psi=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb235-71"><a href="stan-two-latent-variable.html#cb235-71"></a>  ),</span>
-<span id="cb235-72"><a href="stan-two-latent-variable.html#cb235-72"></a>  <span class="kw">list</span>(</span>
-<span id="cb235-73"><a href="stan-two-latent-variable.html#cb235-73"></a>    <span class="dt">phi=</span> <span class="kw">structure</span>(</span>
-<span id="cb235-74"><a href="stan-two-latent-variable.html#cb235-74"></a>      <span class="dt">.Data=</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.10</span>, <span class="fl">0.10</span>, <span class="dv">1</span>),</span>
-<span id="cb235-75"><a href="stan-two-latent-variable.html#cb235-75"></a>      <span class="dt">.Dim=</span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
-<span id="cb235-76"><a href="stan-two-latent-variable.html#cb235-76"></a>    <span class="dt">tau =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
-<span id="cb235-77"><a href="stan-two-latent-variable.html#cb235-77"></a>    <span class="dt">lambda=</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">1.3</span>, <span class="fl">1.3</span>, <span class="dv">1</span>, <span class="fl">1.3</span>),</span>
-<span id="cb235-78"><a href="stan-two-latent-variable.html#cb235-78"></a>    <span class="dt">psi=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb235-79"><a href="stan-two-latent-variable.html#cb235-79"></a>  )</span>
-<span id="cb235-80"><a href="stan-two-latent-variable.html#cb235-80"></a>)</span>
-<span id="cb235-81"><a href="stan-two-latent-variable.html#cb235-81"></a></span>
-<span id="cb235-82"><a href="stan-two-latent-variable.html#cb235-82"></a><span class="co"># Next, need to fit the model</span></span>
-<span id="cb235-83"><a href="stan-two-latent-variable.html#cb235-83"></a><span class="co">#   I have explicitly outlined some common parameters</span></span>
-<span id="cb235-84"><a href="stan-two-latent-variable.html#cb235-84"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
-<span id="cb235-85"><a href="stan-two-latent-variable.html#cb235-85"></a>  <span class="dt">model_code =</span> model_cfa_2factor, <span class="co"># model code to be compiled</span></span>
-<span id="cb235-86"><a href="stan-two-latent-variable.html#cb235-86"></a>  <span class="dt">data =</span> mydata,          <span class="co"># my data</span></span>
-<span id="cb235-87"><a href="stan-two-latent-variable.html#cb235-87"></a>  <span class="dt">init =</span> start_values,    <span class="co"># starting values</span></span>
-<span id="cb235-88"><a href="stan-two-latent-variable.html#cb235-88"></a>  <span class="dt">chains =</span> <span class="dv">3</span>,             <span class="co"># number of Markov chains</span></span>
-<span id="cb235-89"><a href="stan-two-latent-variable.html#cb235-89"></a>  <span class="co">#warmup = 1000,          # number of warm up iterations per chain</span></span>
-<span id="cb235-90"><a href="stan-two-latent-variable.html#cb235-90"></a>  <span class="dt">iter =</span> <span class="dv">10000</span>,            <span class="co"># total number of iterations per chain</span></span>
-<span id="cb235-91"><a href="stan-two-latent-variable.html#cb235-91"></a>  <span class="dt">cores =</span> <span class="dv">3</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
-<span id="cb235-92"><a href="stan-two-latent-variable.html#cb235-92"></a>  <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">adapt_delta =</span> <span class="fl">0.9</span>,</span>
-<span id="cb235-93"><a href="stan-two-latent-variable.html#cb235-93"></a>                 <span class="dt">max_treedepth =</span> <span class="dv">12</span>),</span>
-<span id="cb235-94"><a href="stan-two-latent-variable.html#cb235-94"></a>  <span class="dt">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
-<span id="cb235-95"><a href="stan-two-latent-variable.html#cb235-95"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="stan-two-latent-variable.html#cb235-1" aria-hidden="true" tabindex="-1"></a>model_cfa_2factor <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
+<span id="cb235-2"><a href="stan-two-latent-variable.html#cb235-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb235-3"><a href="stan-two-latent-variable.html#cb235-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int  N;</span></span>
+<span id="cb235-4"><a href="stan-two-latent-variable.html#cb235-4" aria-hidden="true" tabindex="-1"></a><span class="st">  int  J;</span></span>
+<span id="cb235-5"><a href="stan-two-latent-variable.html#cb235-5" aria-hidden="true" tabindex="-1"></a><span class="st">  int  M;</span></span>
+<span id="cb235-6"><a href="stan-two-latent-variable.html#cb235-6" aria-hidden="true" tabindex="-1"></a><span class="st">  matrix[N, J] X;</span></span>
+<span id="cb235-7"><a href="stan-two-latent-variable.html#cb235-7" aria-hidden="true" tabindex="-1"></a><span class="st">  matrix[M, M] phi0;</span></span>
+<span id="cb235-8"><a href="stan-two-latent-variable.html#cb235-8" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb235-9"><a href="stan-two-latent-variable.html#cb235-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-10"><a href="stan-two-latent-variable.html#cb235-10" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb235-11"><a href="stan-two-latent-variable.html#cb235-11" aria-hidden="true" tabindex="-1"></a><span class="st">  matrix[M, M] phi; // latent variable covaraince matrix</span></span>
+<span id="cb235-12"><a href="stan-two-latent-variable.html#cb235-12" aria-hidden="true" tabindex="-1"></a><span class="st">  matrix[N, M] ksi; //latent variable values</span></span>
+<span id="cb235-13"><a href="stan-two-latent-variable.html#cb235-13" aria-hidden="true" tabindex="-1"></a><span class="st">  real lambda[J]; //factor loadings matrix</span></span>
+<span id="cb235-14"><a href="stan-two-latent-variable.html#cb235-14" aria-hidden="true" tabindex="-1"></a><span class="st">  real tau[J]; //intercepts</span></span>
+<span id="cb235-15"><a href="stan-two-latent-variable.html#cb235-15" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; psi[J]; //residual variance</span></span>
+<span id="cb235-16"><a href="stan-two-latent-variable.html#cb235-16" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb235-17"><a href="stan-two-latent-variable.html#cb235-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-18"><a href="stan-two-latent-variable.html#cb235-18" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb235-19"><a href="stan-two-latent-variable.html#cb235-19" aria-hidden="true" tabindex="-1"></a><span class="st">  // likelihood for data</span></span>
+<span id="cb235-20"><a href="stan-two-latent-variable.html#cb235-20" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:N){</span></span>
+<span id="cb235-21"><a href="stan-two-latent-variable.html#cb235-21" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 1] ~ normal(tau[1] + ksi[i,1]*lambda[1], psi[1]);</span></span>
+<span id="cb235-22"><a href="stan-two-latent-variable.html#cb235-22" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 2] ~ normal(tau[2] + ksi[i,1]*lambda[2], psi[2]);</span></span>
+<span id="cb235-23"><a href="stan-two-latent-variable.html#cb235-23" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 3] ~ normal(tau[3] + ksi[i,1]*lambda[3], psi[3]);</span></span>
+<span id="cb235-24"><a href="stan-two-latent-variable.html#cb235-24" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 4] ~ normal(tau[4] + ksi[i,2]*lambda[4], psi[4]);</span></span>
+<span id="cb235-25"><a href="stan-two-latent-variable.html#cb235-25" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 5] ~ normal(tau[5] + ksi[i,2]*lambda[5], psi[5]);</span></span>
+<span id="cb235-26"><a href="stan-two-latent-variable.html#cb235-26" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb235-27"><a href="stan-two-latent-variable.html#cb235-27" aria-hidden="true" tabindex="-1"></a><span class="st">    // prior for ksi</span></span>
+<span id="cb235-28"><a href="stan-two-latent-variable.html#cb235-28" aria-hidden="true" tabindex="-1"></a><span class="st">    ksi[i] ~ multi_normal(rep_vector(0, M), phi);</span></span>
+<span id="cb235-29"><a href="stan-two-latent-variable.html#cb235-29" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb235-30"><a href="stan-two-latent-variable.html#cb235-30" aria-hidden="true" tabindex="-1"></a><span class="st">  // latent variable variance matrix</span></span>
+<span id="cb235-31"><a href="stan-two-latent-variable.html#cb235-31" aria-hidden="true" tabindex="-1"></a><span class="st">  phi  ~ inv_wishart(2, phi0);</span></span>
+<span id="cb235-32"><a href="stan-two-latent-variable.html#cb235-32" aria-hidden="true" tabindex="-1"></a><span class="st">  // prior for measurement model parameters</span></span>
+<span id="cb235-33"><a href="stan-two-latent-variable.html#cb235-33" aria-hidden="true" tabindex="-1"></a><span class="st">  tau ~ normal(3, 10);</span></span>
+<span id="cb235-34"><a href="stan-two-latent-variable.html#cb235-34" aria-hidden="true" tabindex="-1"></a><span class="st">  psi ~ inv_gamma(5, 10);</span></span>
+<span id="cb235-35"><a href="stan-two-latent-variable.html#cb235-35" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[1] ~ normal(1, .001);</span></span>
+<span id="cb235-36"><a href="stan-two-latent-variable.html#cb235-36" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[2] ~ normal(1, 10);</span></span>
+<span id="cb235-37"><a href="stan-two-latent-variable.html#cb235-37" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[3] ~ normal(1, 10);</span></span>
+<span id="cb235-38"><a href="stan-two-latent-variable.html#cb235-38" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[4] ~ normal(1, .001);</span></span>
+<span id="cb235-39"><a href="stan-two-latent-variable.html#cb235-39" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[5] ~ normal(1, 10);</span></span>
+<span id="cb235-40"><a href="stan-two-latent-variable.html#cb235-40" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb235-41"><a href="stan-two-latent-variable.html#cb235-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-42"><a href="stan-two-latent-variable.html#cb235-42" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb235-43"><a href="stan-two-latent-variable.html#cb235-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-44"><a href="stan-two-latent-variable.html#cb235-44" aria-hidden="true" tabindex="-1"></a><span class="co"># data must be in a list</span></span>
+<span id="cb235-45"><a href="stan-two-latent-variable.html#cb235-45" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="st">&quot;code/CFA-Two-Latent-Variables/Data/IIS.dat&quot;</span>, <span class="at">header=</span>T))</span>
+<span id="cb235-46"><a href="stan-two-latent-variable.html#cb235-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-47"><a href="stan-two-latent-variable.html#cb235-47" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb235-48"><a href="stan-two-latent-variable.html#cb235-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="dv">500</span>, <span class="at">J =</span> <span class="dv">5</span>,</span>
+<span id="cb235-49"><a href="stan-two-latent-variable.html#cb235-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">M =</span> <span class="dv">2</span>,</span>
+<span id="cb235-50"><a href="stan-two-latent-variable.html#cb235-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> dat,</span>
+<span id="cb235-51"><a href="stan-two-latent-variable.html#cb235-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">phi0 =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">3</span>, .<span class="dv">3</span>, <span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb235-52"><a href="stan-two-latent-variable.html#cb235-52" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb235-53"><a href="stan-two-latent-variable.html#cb235-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-54"><a href="stan-two-latent-variable.html#cb235-54" aria-hidden="true" tabindex="-1"></a><span class="co"># # initial values</span></span>
+<span id="cb235-55"><a href="stan-two-latent-variable.html#cb235-55" aria-hidden="true" tabindex="-1"></a>start_values <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb235-56"><a href="stan-two-latent-variable.html#cb235-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb235-57"><a href="stan-two-latent-variable.html#cb235-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">phi=</span> <span class="fu">structure</span>(</span>
+<span id="cb235-58"><a href="stan-two-latent-variable.html#cb235-58" aria-hidden="true" tabindex="-1"></a>      <span class="at">.Data=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.30</span>, <span class="fl">0.30</span>, <span class="dv">1</span>),</span>
+<span id="cb235-59"><a href="stan-two-latent-variable.html#cb235-59" aria-hidden="true" tabindex="-1"></a>      <span class="at">.Dim=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
+<span id="cb235-60"><a href="stan-two-latent-variable.html#cb235-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">tau =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>),</span>
+<span id="cb235-61"><a href="stan-two-latent-variable.html#cb235-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">lambda=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb235-62"><a href="stan-two-latent-variable.html#cb235-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">psi=</span><span class="fu">c</span>(.<span class="dv">5</span>, .<span class="dv">5</span>, .<span class="dv">5</span>, .<span class="dv">5</span>, .<span class="dv">5</span>)</span>
+<span id="cb235-63"><a href="stan-two-latent-variable.html#cb235-63" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb235-64"><a href="stan-two-latent-variable.html#cb235-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb235-65"><a href="stan-two-latent-variable.html#cb235-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">phi=</span> <span class="fu">structure</span>(</span>
+<span id="cb235-66"><a href="stan-two-latent-variable.html#cb235-66" aria-hidden="true" tabindex="-1"></a>      <span class="at">.Data=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb235-67"><a href="stan-two-latent-variable.html#cb235-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">.Dim=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
+<span id="cb235-68"><a href="stan-two-latent-variable.html#cb235-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">tau =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>),</span>
+<span id="cb235-69"><a href="stan-two-latent-variable.html#cb235-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">lambda=</span> <span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">7</span>, .<span class="dv">7</span>, <span class="dv">1</span>, .<span class="dv">7</span>),</span>
+<span id="cb235-70"><a href="stan-two-latent-variable.html#cb235-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">psi=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb235-71"><a href="stan-two-latent-variable.html#cb235-71" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb235-72"><a href="stan-two-latent-variable.html#cb235-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb235-73"><a href="stan-two-latent-variable.html#cb235-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">phi=</span> <span class="fu">structure</span>(</span>
+<span id="cb235-74"><a href="stan-two-latent-variable.html#cb235-74" aria-hidden="true" tabindex="-1"></a>      <span class="at">.Data=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.10</span>, <span class="fl">0.10</span>, <span class="dv">1</span>),</span>
+<span id="cb235-75"><a href="stan-two-latent-variable.html#cb235-75" aria-hidden="true" tabindex="-1"></a>      <span class="at">.Dim=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)),</span>
+<span id="cb235-76"><a href="stan-two-latent-variable.html#cb235-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">tau =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb235-77"><a href="stan-two-latent-variable.html#cb235-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">lambda=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.3</span>, <span class="fl">1.3</span>, <span class="dv">1</span>, <span class="fl">1.3</span>),</span>
+<span id="cb235-78"><a href="stan-two-latent-variable.html#cb235-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">psi=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb235-79"><a href="stan-two-latent-variable.html#cb235-79" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb235-80"><a href="stan-two-latent-variable.html#cb235-80" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb235-81"><a href="stan-two-latent-variable.html#cb235-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-82"><a href="stan-two-latent-variable.html#cb235-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Next, need to fit the model</span></span>
+<span id="cb235-83"><a href="stan-two-latent-variable.html#cb235-83" aria-hidden="true" tabindex="-1"></a><span class="co">#   I have explicitly outlined some common parameters</span></span>
+<span id="cb235-84"><a href="stan-two-latent-variable.html#cb235-84" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb235-85"><a href="stan-two-latent-variable.html#cb235-85" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_code =</span> model_cfa_2factor, <span class="co"># model code to be compiled</span></span>
+<span id="cb235-86"><a href="stan-two-latent-variable.html#cb235-86" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> mydata,          <span class="co"># my data</span></span>
+<span id="cb235-87"><a href="stan-two-latent-variable.html#cb235-87" aria-hidden="true" tabindex="-1"></a>  <span class="at">init =</span> start_values,    <span class="co"># starting values</span></span>
+<span id="cb235-88"><a href="stan-two-latent-variable.html#cb235-88" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">3</span>,             <span class="co"># number of Markov chains</span></span>
+<span id="cb235-89"><a href="stan-two-latent-variable.html#cb235-89" aria-hidden="true" tabindex="-1"></a>  <span class="co">#warmup = 1000,          # number of warm up iterations per chain</span></span>
+<span id="cb235-90"><a href="stan-two-latent-variable.html#cb235-90" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">10000</span>,            <span class="co"># total number of iterations per chain</span></span>
+<span id="cb235-91"><a href="stan-two-latent-variable.html#cb235-91" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">3</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
+<span id="cb235-92"><a href="stan-two-latent-variable.html#cb235-92" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">adapt_delta =</span> <span class="fl">0.9</span>,</span>
+<span id="cb235-93"><a href="stan-two-latent-variable.html#cb235-93" aria-hidden="true" tabindex="-1"></a>                 <span class="at">max_treedepth =</span> <span class="dv">12</span>),</span>
+<span id="cb235-94"><a href="stan-two-latent-variable.html#cb235-94" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
+<span id="cb235-95"><a href="stan-two-latent-variable.html#cb235-95" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr = TRUE): &#39;-E&#39; not found</code></pre>
 <pre><code>## Warning: There were 14950 divergent transitions after warmup. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
@@ -335,12 +344,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
 ## Running the chains for more iterations may help. See
 ## http://mc-stan.org/misc/warnings.html#tail-ess</code></pre>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="stan-two-latent-variable.html#cb243-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
-<span id="cb243-2"><a href="stan-two-latent-variable.html#cb243-2"></a><span class="kw">print</span>(fit, </span>
-<span id="cb243-3"><a href="stan-two-latent-variable.html#cb243-3"></a>      <span class="dt">pars =</span><span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
-<span id="cb243-4"><a href="stan-two-latent-variable.html#cb243-4"></a>              <span class="st">&quot;phi&quot;</span>,</span>
-<span id="cb243-5"><a href="stan-two-latent-variable.html#cb243-5"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
-<span id="cb243-6"><a href="stan-two-latent-variable.html#cb243-6"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="stan-two-latent-variable.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
+<span id="cb243-2"><a href="stan-two-latent-variable.html#cb243-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit, </span>
+<span id="cb243-3"><a href="stan-two-latent-variable.html#cb243-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">pars =</span><span class="fu">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
+<span id="cb243-4"><a href="stan-two-latent-variable.html#cb243-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;phi&quot;</span>,</span>
+<span id="cb243-5"><a href="stan-two-latent-variable.html#cb243-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
+<span id="cb243-6"><a href="stan-two-latent-variable.html#cb243-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>))</span></code></pre></div>
 <pre><code>## Inference for Stan model: 9cba7ccbea0f9cb6bfe744cf6be59b64.
 ## 3 chains, each with iter=10000; warmup=5000; thin=1; 
 ## post-warmup draws per chain=5000, total post-warmup draws=15000.
@@ -374,54 +383,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="stan-two-latent-variable.html#cb245-1"></a><span class="co"># plot the posterior in a</span></span>
-<span id="cb245-2"><a href="stan-two-latent-variable.html#cb245-2"></a><span class="co">#  95% probability interval</span></span>
-<span id="cb245-3"><a href="stan-two-latent-variable.html#cb245-3"></a><span class="co">#  and 80% to contrast the dispersion</span></span>
-<span id="cb245-4"><a href="stan-two-latent-variable.html#cb245-4"></a><span class="kw">plot</span>(fit,</span>
-<span id="cb245-5"><a href="stan-two-latent-variable.html#cb245-5"></a>     <span class="dt">pars =</span><span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
-<span id="cb245-6"><a href="stan-two-latent-variable.html#cb245-6"></a>              <span class="st">&quot;phi&quot;</span>,</span>
-<span id="cb245-7"><a href="stan-two-latent-variable.html#cb245-7"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
-<span id="cb245-8"><a href="stan-two-latent-variable.html#cb245-8"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="stan-two-latent-variable.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the posterior in a</span></span>
+<span id="cb245-2"><a href="stan-two-latent-variable.html#cb245-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  95% probability interval</span></span>
+<span id="cb245-3"><a href="stan-two-latent-variable.html#cb245-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  and 80% to contrast the dispersion</span></span>
+<span id="cb245-4"><a href="stan-two-latent-variable.html#cb245-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit,</span>
+<span id="cb245-5"><a href="stan-two-latent-variable.html#cb245-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">pars =</span><span class="fu">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
+<span id="cb245-6"><a href="stan-two-latent-variable.html#cb245-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;phi&quot;</span>,</span>
+<span id="cb245-7"><a href="stan-two-latent-variable.html#cb245-7" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
+<span id="cb245-8"><a href="stan-two-latent-variable.html#cb245-8" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>))</span></code></pre></div>
 <pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
 <pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-1.png" width="672" /></p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="stan-two-latent-variable.html#cb248-1"></a><span class="co"># traceplots</span></span>
-<span id="cb248-2"><a href="stan-two-latent-variable.html#cb248-2"></a>rstan<span class="op">::</span><span class="kw">traceplot</span>(</span>
-<span id="cb248-3"><a href="stan-two-latent-variable.html#cb248-3"></a>  fit,</span>
-<span id="cb248-4"><a href="stan-two-latent-variable.html#cb248-4"></a>  <span class="dt">pars =</span><span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
-<span id="cb248-5"><a href="stan-two-latent-variable.html#cb248-5"></a>              <span class="st">&quot;phi&quot;</span>,</span>
-<span id="cb248-6"><a href="stan-two-latent-variable.html#cb248-6"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
-<span id="cb248-7"><a href="stan-two-latent-variable.html#cb248-7"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>),</span>
-<span id="cb248-8"><a href="stan-two-latent-variable.html#cb248-8"></a>  <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="stan-two-latent-variable.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="co"># traceplots</span></span>
+<span id="cb248-2"><a href="stan-two-latent-variable.html#cb248-2" aria-hidden="true" tabindex="-1"></a>rstan<span class="sc">::</span><span class="fu">traceplot</span>(</span>
+<span id="cb248-3"><a href="stan-two-latent-variable.html#cb248-3" aria-hidden="true" tabindex="-1"></a>  fit,</span>
+<span id="cb248-4"><a href="stan-two-latent-variable.html#cb248-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span><span class="fu">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
+<span id="cb248-5"><a href="stan-two-latent-variable.html#cb248-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;phi&quot;</span>,</span>
+<span id="cb248-6"><a href="stan-two-latent-variable.html#cb248-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
+<span id="cb248-7"><a href="stan-two-latent-variable.html#cb248-7" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>),</span>
+<span id="cb248-8"><a href="stan-two-latent-variable.html#cb248-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">inc_warmup =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-2.png" width="672" /></p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="stan-two-latent-variable.html#cb249-1"></a><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span></span>
-<span id="cb249-2"><a href="stan-two-latent-variable.html#cb249-2"></a><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>))) <span class="op">+</span></span>
-<span id="cb249-3"><a href="stan-two-latent-variable.html#cb249-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="stan-two-latent-variable.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span></span>
+<span id="cb249-2"><a href="stan-two-latent-variable.html#cb249-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="fu">c</span>(<span class="st">&quot;lambda&quot;</span>))) <span class="sc">+</span></span>
+<span id="cb249-3"><a href="stan-two-latent-variable.html#cb249-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-3.png" width="672" /></p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="stan-two-latent-variable.html#cb250-1"></a><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;tau&quot;</span>)) <span class="op">+</span></span>
-<span id="cb250-2"><a href="stan-two-latent-variable.html#cb250-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="stan-two-latent-variable.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="st">&quot;tau&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb250-2"><a href="stan-two-latent-variable.html#cb250-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-4.png" width="672" /></p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="stan-two-latent-variable.html#cb251-1"></a><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;psi&quot;</span>)) <span class="op">+</span></span>
-<span id="cb251-2"><a href="stan-two-latent-variable.html#cb251-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="stan-two-latent-variable.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="st">&quot;psi&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb251-2"><a href="stan-two-latent-variable.html#cb251-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-5.png" width="672" /></p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="stan-two-latent-variable.html#cb252-1"></a><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;phi&quot;</span>)) <span class="op">+</span></span>
-<span id="cb252-2"><a href="stan-two-latent-variable.html#cb252-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="stan-two-latent-variable.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="st">&quot;phi&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb252-2"><a href="stan-two-latent-variable.html#cb252-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-6.png" width="672" /></p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="stan-two-latent-variable.html#cb253-1"></a><span class="co"># autocorrelation</span></span>
-<span id="cb253-2"><a href="stan-two-latent-variable.html#cb253-2"></a><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;lambda&quot;</span>)) <span class="op">+</span></span>
-<span id="cb253-3"><a href="stan-two-latent-variable.html#cb253-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="stan-two-latent-variable.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="co"># autocorrelation</span></span>
+<span id="cb253-2"><a href="stan-two-latent-variable.html#cb253-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;lambda&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb253-3"><a href="stan-two-latent-variable.html#cb253-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-7.png" width="672" /></p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="stan-two-latent-variable.html#cb254-1"></a><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;tau&quot;</span>)) <span class="op">+</span></span>
-<span id="cb254-2"><a href="stan-two-latent-variable.html#cb254-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="stan-two-latent-variable.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;tau&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb254-2"><a href="stan-two-latent-variable.html#cb254-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-8.png" width="672" /></p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="stan-two-latent-variable.html#cb255-1"></a><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;psi&quot;</span>)) <span class="op">+</span></span>
-<span id="cb255-2"><a href="stan-two-latent-variable.html#cb255-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="stan-two-latent-variable.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;psi&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb255-2"><a href="stan-two-latent-variable.html#cb255-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-9.png" width="672" /></p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="stan-two-latent-variable.html#cb256-1"></a><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;phi&quot;</span>)) <span class="op">+</span></span>
-<span id="cb256-2"><a href="stan-two-latent-variable.html#cb256-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="stan-two-latent-variable.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;phi&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb256-2"><a href="stan-two-latent-variable.html#cb256-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-10.png" width="672" /></p>
 </div>
-<div id="lkj-cholesky-parameterization" class="section level3">
+<div id="lkj-cholesky-parameterization" class="section level3" number="9.6.2">
 <h3><span class="header-section-number">9.6.2</span> LKJ Cholesky Parameterization</h3>
 <p>Because I had such massive problems with the above, I search for how people estimate CFA models in Stan.
 I found that most people use the LKJ Cholesky parameterization.</p>
@@ -431,96 +440,96 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 <li><a href="https://michaeldewittjr.com/resources/stan_cfa.html#bayesian_version">Michael DeWitt - Confirmatory Factor Analysis in Stan</a></li>
 <li><a href="https://rfarouni.github.io/assets/projects/BayesianFactorAnalysis/BayesianFactorAnalysis.html">Rick Farouni - Fitting a Bayesian Factor Analysis Model in Stan</a></li>
 </ul>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="stan-two-latent-variable.html#cb257-1"></a>model_cfa2 &lt;-<span class="st"> &quot;</span></span>
-<span id="cb257-2"><a href="stan-two-latent-variable.html#cb257-2"></a><span class="st">data {</span></span>
-<span id="cb257-3"><a href="stan-two-latent-variable.html#cb257-3"></a><span class="st">  int  N;</span></span>
-<span id="cb257-4"><a href="stan-two-latent-variable.html#cb257-4"></a><span class="st">  int  J;</span></span>
-<span id="cb257-5"><a href="stan-two-latent-variable.html#cb257-5"></a><span class="st">  int  M;</span></span>
-<span id="cb257-6"><a href="stan-two-latent-variable.html#cb257-6"></a><span class="st">  matrix[N, J] X;</span></span>
-<span id="cb257-7"><a href="stan-two-latent-variable.html#cb257-7"></a><span class="st">}</span></span>
-<span id="cb257-8"><a href="stan-two-latent-variable.html#cb257-8"></a></span>
-<span id="cb257-9"><a href="stan-two-latent-variable.html#cb257-9"></a><span class="st">parameters {</span></span>
-<span id="cb257-10"><a href="stan-two-latent-variable.html#cb257-10"></a><span class="st">  cholesky_factor_corr[M] L; // Cholesky decomp of </span></span>
-<span id="cb257-11"><a href="stan-two-latent-variable.html#cb257-11"></a><span class="st">                              // corr mat of random slopes</span></span>
-<span id="cb257-12"><a href="stan-two-latent-variable.html#cb257-12"></a><span class="st">  vector[M] A; // Vector of factor variances</span></span>
-<span id="cb257-13"><a href="stan-two-latent-variable.html#cb257-13"></a><span class="st">  matrix[N, M] ksi; //latent variable values</span></span>
-<span id="cb257-14"><a href="stan-two-latent-variable.html#cb257-14"></a><span class="st">  vector[J] lambda; //factor loadings matrix</span></span>
-<span id="cb257-15"><a href="stan-two-latent-variable.html#cb257-15"></a><span class="st">  real tau[J]; //intercepts</span></span>
-<span id="cb257-16"><a href="stan-two-latent-variable.html#cb257-16"></a><span class="st">  real&lt;lower=0&gt; psi[J]; //residual variance</span></span>
-<span id="cb257-17"><a href="stan-two-latent-variable.html#cb257-17"></a><span class="st">}</span></span>
-<span id="cb257-18"><a href="stan-two-latent-variable.html#cb257-18"></a></span>
-<span id="cb257-19"><a href="stan-two-latent-variable.html#cb257-19"></a><span class="st">transformed parameters {</span></span>
-<span id="cb257-20"><a href="stan-two-latent-variable.html#cb257-20"></a><span class="st">  matrix[M, M] A0;</span></span>
-<span id="cb257-21"><a href="stan-two-latent-variable.html#cb257-21"></a><span class="st">  vector[M] S;</span></span>
-<span id="cb257-22"><a href="stan-two-latent-variable.html#cb257-22"></a><span class="st">  A0 = diag_pre_multiply(A, L);</span></span>
-<span id="cb257-23"><a href="stan-two-latent-variable.html#cb257-23"></a><span class="st">  S = sqrt(A);</span></span>
-<span id="cb257-24"><a href="stan-two-latent-variable.html#cb257-24"></a><span class="st">}</span></span>
-<span id="cb257-25"><a href="stan-two-latent-variable.html#cb257-25"></a></span>
-<span id="cb257-26"><a href="stan-two-latent-variable.html#cb257-26"></a><span class="st">model {</span></span>
-<span id="cb257-27"><a href="stan-two-latent-variable.html#cb257-27"></a><span class="st">  </span></span>
-<span id="cb257-28"><a href="stan-two-latent-variable.html#cb257-28"></a><span class="st">  // likelihood for data</span></span>
-<span id="cb257-29"><a href="stan-two-latent-variable.html#cb257-29"></a><span class="st">  for(i in 1:N){</span></span>
-<span id="cb257-30"><a href="stan-two-latent-variable.html#cb257-30"></a><span class="st">    X[i, 1] ~ normal(tau[1] + ksi[i,1]*lambda[1], psi[1]);</span></span>
-<span id="cb257-31"><a href="stan-two-latent-variable.html#cb257-31"></a><span class="st">    X[i, 2] ~ normal(tau[2] + ksi[i,1]*lambda[2], psi[2]);</span></span>
-<span id="cb257-32"><a href="stan-two-latent-variable.html#cb257-32"></a><span class="st">    X[i, 3] ~ normal(tau[3] + ksi[i,1]*lambda[3], psi[3]);</span></span>
-<span id="cb257-33"><a href="stan-two-latent-variable.html#cb257-33"></a><span class="st">    X[i, 4] ~ normal(tau[4] + ksi[i,2]*lambda[4], psi[4]);</span></span>
-<span id="cb257-34"><a href="stan-two-latent-variable.html#cb257-34"></a><span class="st">    X[i, 5] ~ normal(tau[5] + ksi[i,2]*lambda[5], psi[5]);</span></span>
-<span id="cb257-35"><a href="stan-two-latent-variable.html#cb257-35"></a><span class="st">  }</span></span>
-<span id="cb257-36"><a href="stan-two-latent-variable.html#cb257-36"></a><span class="st">  // latent variable parameters</span></span>
-<span id="cb257-37"><a href="stan-two-latent-variable.html#cb257-37"></a><span class="st">  A ~ inv_gamma(5, 10);</span></span>
-<span id="cb257-38"><a href="stan-two-latent-variable.html#cb257-38"></a><span class="st">  L ~ lkj_corr_cholesky(M);</span></span>
-<span id="cb257-39"><a href="stan-two-latent-variable.html#cb257-39"></a><span class="st">  for(i in 1:N){</span></span>
-<span id="cb257-40"><a href="stan-two-latent-variable.html#cb257-40"></a><span class="st">    ksi[i] ~ multi_normal_cholesky(rep_vector(0, M), A0);</span></span>
-<span id="cb257-41"><a href="stan-two-latent-variable.html#cb257-41"></a><span class="st">  }</span></span>
-<span id="cb257-42"><a href="stan-two-latent-variable.html#cb257-42"></a><span class="st">  // prior for measurement model parameters</span></span>
-<span id="cb257-43"><a href="stan-two-latent-variable.html#cb257-43"></a><span class="st">  tau ~ normal(3, 10);</span></span>
-<span id="cb257-44"><a href="stan-two-latent-variable.html#cb257-44"></a><span class="st">  psi ~ inv_gamma(5, 10);</span></span>
-<span id="cb257-45"><a href="stan-two-latent-variable.html#cb257-45"></a><span class="st">  // factor loading patterns</span></span>
-<span id="cb257-46"><a href="stan-two-latent-variable.html#cb257-46"></a><span class="st">  lambda[1] ~ normal(1, .001);</span></span>
-<span id="cb257-47"><a href="stan-two-latent-variable.html#cb257-47"></a><span class="st">  lambda[2] ~ normal(1, 10);</span></span>
-<span id="cb257-48"><a href="stan-two-latent-variable.html#cb257-48"></a><span class="st">  lambda[3] ~ normal(1, 10);</span></span>
-<span id="cb257-49"><a href="stan-two-latent-variable.html#cb257-49"></a><span class="st">  lambda[4] ~ normal(1, .001);</span></span>
-<span id="cb257-50"><a href="stan-two-latent-variable.html#cb257-50"></a><span class="st">  lambda[5] ~ normal(1, 10);</span></span>
-<span id="cb257-51"><a href="stan-two-latent-variable.html#cb257-51"></a><span class="st">}</span></span>
-<span id="cb257-52"><a href="stan-two-latent-variable.html#cb257-52"></a></span>
-<span id="cb257-53"><a href="stan-two-latent-variable.html#cb257-53"></a><span class="st">generated quantities {</span></span>
-<span id="cb257-54"><a href="stan-two-latent-variable.html#cb257-54"></a><span class="st">  matrix[M, M] R;</span></span>
-<span id="cb257-55"><a href="stan-two-latent-variable.html#cb257-55"></a><span class="st">  matrix[M, M] phi;</span></span>
-<span id="cb257-56"><a href="stan-two-latent-variable.html#cb257-56"></a><span class="st">  </span></span>
-<span id="cb257-57"><a href="stan-two-latent-variable.html#cb257-57"></a><span class="st">  R = tcrossprod(L);</span></span>
-<span id="cb257-58"><a href="stan-two-latent-variable.html#cb257-58"></a><span class="st">  phi = quad_form_diag(R, S);</span></span>
-<span id="cb257-59"><a href="stan-two-latent-variable.html#cb257-59"></a><span class="st">}</span></span>
-<span id="cb257-60"><a href="stan-two-latent-variable.html#cb257-60"></a></span>
-<span id="cb257-61"><a href="stan-two-latent-variable.html#cb257-61"></a><span class="st">&quot;</span></span>
-<span id="cb257-62"><a href="stan-two-latent-variable.html#cb257-62"></a></span>
-<span id="cb257-63"><a href="stan-two-latent-variable.html#cb257-63"></a><span class="co"># data must be in a list</span></span>
-<span id="cb257-64"><a href="stan-two-latent-variable.html#cb257-64"></a>dat &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">read.table</span>(<span class="st">&quot;code/CFA-Two-Latent-Variables/Data/IIS.dat&quot;</span>, <span class="dt">header=</span>T))</span>
-<span id="cb257-65"><a href="stan-two-latent-variable.html#cb257-65"></a></span>
-<span id="cb257-66"><a href="stan-two-latent-variable.html#cb257-66"></a>mydata &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb257-67"><a href="stan-two-latent-variable.html#cb257-67"></a>  <span class="dt">N =</span> <span class="dv">500</span>, <span class="dt">J =</span> <span class="dv">5</span>,</span>
-<span id="cb257-68"><a href="stan-two-latent-variable.html#cb257-68"></a>  <span class="dt">M =</span> <span class="dv">2</span>,</span>
-<span id="cb257-69"><a href="stan-two-latent-variable.html#cb257-69"></a>  <span class="dt">X =</span> dat</span>
-<span id="cb257-70"><a href="stan-two-latent-variable.html#cb257-70"></a>)</span>
-<span id="cb257-71"><a href="stan-two-latent-variable.html#cb257-71"></a></span>
-<span id="cb257-72"><a href="stan-two-latent-variable.html#cb257-72"></a><span class="co"># Next, need to fit the model</span></span>
-<span id="cb257-73"><a href="stan-two-latent-variable.html#cb257-73"></a><span class="co">#   I have explicitly outlined some common parameters</span></span>
-<span id="cb257-74"><a href="stan-two-latent-variable.html#cb257-74"></a>fit &lt;-<span class="st"> </span><span class="kw">stan</span>(</span>
-<span id="cb257-75"><a href="stan-two-latent-variable.html#cb257-75"></a>  <span class="dt">model_code =</span> model_cfa2, <span class="co"># model code to be compiled</span></span>
-<span id="cb257-76"><a href="stan-two-latent-variable.html#cb257-76"></a>  <span class="dt">data =</span> mydata,          <span class="co"># my data</span></span>
-<span id="cb257-77"><a href="stan-two-latent-variable.html#cb257-77"></a>  <span class="co">#init = init_fun, #start_values,    # starting values</span></span>
-<span id="cb257-78"><a href="stan-two-latent-variable.html#cb257-78"></a>  <span class="dt">chains =</span> <span class="dv">3</span>,             <span class="co"># number of Markov chains</span></span>
-<span id="cb257-79"><a href="stan-two-latent-variable.html#cb257-79"></a>  <span class="co">#warmup = 1000,          # number of warm up iterations per chain</span></span>
-<span id="cb257-80"><a href="stan-two-latent-variable.html#cb257-80"></a>  <span class="dt">iter =</span> <span class="dv">10000</span>,            <span class="co"># total number of iterations per chain</span></span>
-<span id="cb257-81"><a href="stan-two-latent-variable.html#cb257-81"></a>  <span class="dt">cores =</span> <span class="dv">3</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
-<span id="cb257-82"><a href="stan-two-latent-variable.html#cb257-82"></a>  <span class="dt">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
-<span id="cb257-83"><a href="stan-two-latent-variable.html#cb257-83"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="stan-two-latent-variable.html#cb257-1" aria-hidden="true" tabindex="-1"></a>model_cfa2 <span class="ot">&lt;-</span> <span class="st">&quot;</span></span>
+<span id="cb257-2"><a href="stan-two-latent-variable.html#cb257-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb257-3"><a href="stan-two-latent-variable.html#cb257-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int  N;</span></span>
+<span id="cb257-4"><a href="stan-two-latent-variable.html#cb257-4" aria-hidden="true" tabindex="-1"></a><span class="st">  int  J;</span></span>
+<span id="cb257-5"><a href="stan-two-latent-variable.html#cb257-5" aria-hidden="true" tabindex="-1"></a><span class="st">  int  M;</span></span>
+<span id="cb257-6"><a href="stan-two-latent-variable.html#cb257-6" aria-hidden="true" tabindex="-1"></a><span class="st">  matrix[N, J] X;</span></span>
+<span id="cb257-7"><a href="stan-two-latent-variable.html#cb257-7" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb257-8"><a href="stan-two-latent-variable.html#cb257-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-9"><a href="stan-two-latent-variable.html#cb257-9" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb257-10"><a href="stan-two-latent-variable.html#cb257-10" aria-hidden="true" tabindex="-1"></a><span class="st">  cholesky_factor_corr[M] L; // Cholesky decomp of </span></span>
+<span id="cb257-11"><a href="stan-two-latent-variable.html#cb257-11" aria-hidden="true" tabindex="-1"></a><span class="st">                              // corr mat of random slopes</span></span>
+<span id="cb257-12"><a href="stan-two-latent-variable.html#cb257-12" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[M] A; // Vector of factor variances</span></span>
+<span id="cb257-13"><a href="stan-two-latent-variable.html#cb257-13" aria-hidden="true" tabindex="-1"></a><span class="st">  matrix[N, M] ksi; //latent variable values</span></span>
+<span id="cb257-14"><a href="stan-two-latent-variable.html#cb257-14" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[J] lambda; //factor loadings matrix</span></span>
+<span id="cb257-15"><a href="stan-two-latent-variable.html#cb257-15" aria-hidden="true" tabindex="-1"></a><span class="st">  real tau[J]; //intercepts</span></span>
+<span id="cb257-16"><a href="stan-two-latent-variable.html#cb257-16" aria-hidden="true" tabindex="-1"></a><span class="st">  real&lt;lower=0&gt; psi[J]; //residual variance</span></span>
+<span id="cb257-17"><a href="stan-two-latent-variable.html#cb257-17" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb257-18"><a href="stan-two-latent-variable.html#cb257-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-19"><a href="stan-two-latent-variable.html#cb257-19" aria-hidden="true" tabindex="-1"></a><span class="st">transformed parameters {</span></span>
+<span id="cb257-20"><a href="stan-two-latent-variable.html#cb257-20" aria-hidden="true" tabindex="-1"></a><span class="st">  matrix[M, M] A0;</span></span>
+<span id="cb257-21"><a href="stan-two-latent-variable.html#cb257-21" aria-hidden="true" tabindex="-1"></a><span class="st">  vector[M] S;</span></span>
+<span id="cb257-22"><a href="stan-two-latent-variable.html#cb257-22" aria-hidden="true" tabindex="-1"></a><span class="st">  A0 = diag_pre_multiply(A, L);</span></span>
+<span id="cb257-23"><a href="stan-two-latent-variable.html#cb257-23" aria-hidden="true" tabindex="-1"></a><span class="st">  S = sqrt(A);</span></span>
+<span id="cb257-24"><a href="stan-two-latent-variable.html#cb257-24" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb257-25"><a href="stan-two-latent-variable.html#cb257-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-26"><a href="stan-two-latent-variable.html#cb257-26" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb257-27"><a href="stan-two-latent-variable.html#cb257-27" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb257-28"><a href="stan-two-latent-variable.html#cb257-28" aria-hidden="true" tabindex="-1"></a><span class="st">  // likelihood for data</span></span>
+<span id="cb257-29"><a href="stan-two-latent-variable.html#cb257-29" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:N){</span></span>
+<span id="cb257-30"><a href="stan-two-latent-variable.html#cb257-30" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 1] ~ normal(tau[1] + ksi[i,1]*lambda[1], psi[1]);</span></span>
+<span id="cb257-31"><a href="stan-two-latent-variable.html#cb257-31" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 2] ~ normal(tau[2] + ksi[i,1]*lambda[2], psi[2]);</span></span>
+<span id="cb257-32"><a href="stan-two-latent-variable.html#cb257-32" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 3] ~ normal(tau[3] + ksi[i,1]*lambda[3], psi[3]);</span></span>
+<span id="cb257-33"><a href="stan-two-latent-variable.html#cb257-33" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 4] ~ normal(tau[4] + ksi[i,2]*lambda[4], psi[4]);</span></span>
+<span id="cb257-34"><a href="stan-two-latent-variable.html#cb257-34" aria-hidden="true" tabindex="-1"></a><span class="st">    X[i, 5] ~ normal(tau[5] + ksi[i,2]*lambda[5], psi[5]);</span></span>
+<span id="cb257-35"><a href="stan-two-latent-variable.html#cb257-35" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb257-36"><a href="stan-two-latent-variable.html#cb257-36" aria-hidden="true" tabindex="-1"></a><span class="st">  // latent variable parameters</span></span>
+<span id="cb257-37"><a href="stan-two-latent-variable.html#cb257-37" aria-hidden="true" tabindex="-1"></a><span class="st">  A ~ inv_gamma(5, 10);</span></span>
+<span id="cb257-38"><a href="stan-two-latent-variable.html#cb257-38" aria-hidden="true" tabindex="-1"></a><span class="st">  L ~ lkj_corr_cholesky(M);</span></span>
+<span id="cb257-39"><a href="stan-two-latent-variable.html#cb257-39" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:N){</span></span>
+<span id="cb257-40"><a href="stan-two-latent-variable.html#cb257-40" aria-hidden="true" tabindex="-1"></a><span class="st">    ksi[i] ~ multi_normal_cholesky(rep_vector(0, M), A0);</span></span>
+<span id="cb257-41"><a href="stan-two-latent-variable.html#cb257-41" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb257-42"><a href="stan-two-latent-variable.html#cb257-42" aria-hidden="true" tabindex="-1"></a><span class="st">  // prior for measurement model parameters</span></span>
+<span id="cb257-43"><a href="stan-two-latent-variable.html#cb257-43" aria-hidden="true" tabindex="-1"></a><span class="st">  tau ~ normal(3, 10);</span></span>
+<span id="cb257-44"><a href="stan-two-latent-variable.html#cb257-44" aria-hidden="true" tabindex="-1"></a><span class="st">  psi ~ inv_gamma(5, 10);</span></span>
+<span id="cb257-45"><a href="stan-two-latent-variable.html#cb257-45" aria-hidden="true" tabindex="-1"></a><span class="st">  // factor loading patterns</span></span>
+<span id="cb257-46"><a href="stan-two-latent-variable.html#cb257-46" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[1] ~ normal(1, .001);</span></span>
+<span id="cb257-47"><a href="stan-two-latent-variable.html#cb257-47" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[2] ~ normal(1, 10);</span></span>
+<span id="cb257-48"><a href="stan-two-latent-variable.html#cb257-48" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[3] ~ normal(1, 10);</span></span>
+<span id="cb257-49"><a href="stan-two-latent-variable.html#cb257-49" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[4] ~ normal(1, .001);</span></span>
+<span id="cb257-50"><a href="stan-two-latent-variable.html#cb257-50" aria-hidden="true" tabindex="-1"></a><span class="st">  lambda[5] ~ normal(1, 10);</span></span>
+<span id="cb257-51"><a href="stan-two-latent-variable.html#cb257-51" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb257-52"><a href="stan-two-latent-variable.html#cb257-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-53"><a href="stan-two-latent-variable.html#cb257-53" aria-hidden="true" tabindex="-1"></a><span class="st">generated quantities {</span></span>
+<span id="cb257-54"><a href="stan-two-latent-variable.html#cb257-54" aria-hidden="true" tabindex="-1"></a><span class="st">  matrix[M, M] R;</span></span>
+<span id="cb257-55"><a href="stan-two-latent-variable.html#cb257-55" aria-hidden="true" tabindex="-1"></a><span class="st">  matrix[M, M] phi;</span></span>
+<span id="cb257-56"><a href="stan-two-latent-variable.html#cb257-56" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb257-57"><a href="stan-two-latent-variable.html#cb257-57" aria-hidden="true" tabindex="-1"></a><span class="st">  R = tcrossprod(L);</span></span>
+<span id="cb257-58"><a href="stan-two-latent-variable.html#cb257-58" aria-hidden="true" tabindex="-1"></a><span class="st">  phi = quad_form_diag(R, S);</span></span>
+<span id="cb257-59"><a href="stan-two-latent-variable.html#cb257-59" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb257-60"><a href="stan-two-latent-variable.html#cb257-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-61"><a href="stan-two-latent-variable.html#cb257-61" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb257-62"><a href="stan-two-latent-variable.html#cb257-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-63"><a href="stan-two-latent-variable.html#cb257-63" aria-hidden="true" tabindex="-1"></a><span class="co"># data must be in a list</span></span>
+<span id="cb257-64"><a href="stan-two-latent-variable.html#cb257-64" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="st">&quot;code/CFA-Two-Latent-Variables/Data/IIS.dat&quot;</span>, <span class="at">header=</span>T))</span>
+<span id="cb257-65"><a href="stan-two-latent-variable.html#cb257-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-66"><a href="stan-two-latent-variable.html#cb257-66" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb257-67"><a href="stan-two-latent-variable.html#cb257-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="dv">500</span>, <span class="at">J =</span> <span class="dv">5</span>,</span>
+<span id="cb257-68"><a href="stan-two-latent-variable.html#cb257-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">M =</span> <span class="dv">2</span>,</span>
+<span id="cb257-69"><a href="stan-two-latent-variable.html#cb257-69" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> dat</span>
+<span id="cb257-70"><a href="stan-two-latent-variable.html#cb257-70" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb257-71"><a href="stan-two-latent-variable.html#cb257-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-72"><a href="stan-two-latent-variable.html#cb257-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Next, need to fit the model</span></span>
+<span id="cb257-73"><a href="stan-two-latent-variable.html#cb257-73" aria-hidden="true" tabindex="-1"></a><span class="co">#   I have explicitly outlined some common parameters</span></span>
+<span id="cb257-74"><a href="stan-two-latent-variable.html#cb257-74" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb257-75"><a href="stan-two-latent-variable.html#cb257-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_code =</span> model_cfa2, <span class="co"># model code to be compiled</span></span>
+<span id="cb257-76"><a href="stan-two-latent-variable.html#cb257-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> mydata,          <span class="co"># my data</span></span>
+<span id="cb257-77"><a href="stan-two-latent-variable.html#cb257-77" aria-hidden="true" tabindex="-1"></a>  <span class="co">#init = init_fun, #start_values,    # starting values</span></span>
+<span id="cb257-78"><a href="stan-two-latent-variable.html#cb257-78" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">3</span>,             <span class="co"># number of Markov chains</span></span>
+<span id="cb257-79"><a href="stan-two-latent-variable.html#cb257-79" aria-hidden="true" tabindex="-1"></a>  <span class="co">#warmup = 1000,          # number of warm up iterations per chain</span></span>
+<span id="cb257-80"><a href="stan-two-latent-variable.html#cb257-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">10000</span>,            <span class="co"># total number of iterations per chain</span></span>
+<span id="cb257-81"><a href="stan-two-latent-variable.html#cb257-81" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">3</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
+<span id="cb257-82"><a href="stan-two-latent-variable.html#cb257-82" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
+<span id="cb257-83"><a href="stan-two-latent-variable.html#cb257-83" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr = TRUE): &#39;-E&#39; not found</code></pre>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="stan-two-latent-variable.html#cb259-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
-<span id="cb259-2"><a href="stan-two-latent-variable.html#cb259-2"></a><span class="kw">print</span>(fit, </span>
-<span id="cb259-3"><a href="stan-two-latent-variable.html#cb259-3"></a>      <span class="dt">pars =</span><span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
-<span id="cb259-4"><a href="stan-two-latent-variable.html#cb259-4"></a>              <span class="st">&quot;R&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;A0&quot;</span>, <span class="st">&quot;phi&quot;</span>,</span>
-<span id="cb259-5"><a href="stan-two-latent-variable.html#cb259-5"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
-<span id="cb259-6"><a href="stan-two-latent-variable.html#cb259-6"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="stan-two-latent-variable.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
+<span id="cb259-2"><a href="stan-two-latent-variable.html#cb259-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit, </span>
+<span id="cb259-3"><a href="stan-two-latent-variable.html#cb259-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">pars =</span><span class="fu">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
+<span id="cb259-4"><a href="stan-two-latent-variable.html#cb259-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;R&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;A0&quot;</span>, <span class="st">&quot;phi&quot;</span>,</span>
+<span id="cb259-5"><a href="stan-two-latent-variable.html#cb259-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
+<span id="cb259-6"><a href="stan-two-latent-variable.html#cb259-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>))</span></code></pre></div>
 <pre><code>## Inference for Stan model: 09d22e8b8116ca5395ea85ab1df26f50.
 ## 3 chains, each with iter=10000; warmup=5000; thin=1; 
 ## post-warmup draws per chain=5000, total post-warmup draws=15000.
@@ -564,72 +573,72 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="stan-two-latent-variable.html#cb261-1"></a><span class="co"># plot the posterior in a</span></span>
-<span id="cb261-2"><a href="stan-two-latent-variable.html#cb261-2"></a><span class="co">#  95% probability interval</span></span>
-<span id="cb261-3"><a href="stan-two-latent-variable.html#cb261-3"></a><span class="co">#  and 80% to contrast the dispersion</span></span>
-<span id="cb261-4"><a href="stan-two-latent-variable.html#cb261-4"></a><span class="kw">plot</span>(fit,<span class="dt">pars =</span><span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
-<span id="cb261-5"><a href="stan-two-latent-variable.html#cb261-5"></a>                 <span class="st">&quot;phi&quot;</span>,</span>
-<span id="cb261-6"><a href="stan-two-latent-variable.html#cb261-6"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
-<span id="cb261-7"><a href="stan-two-latent-variable.html#cb261-7"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="stan-two-latent-variable.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the posterior in a</span></span>
+<span id="cb261-2"><a href="stan-two-latent-variable.html#cb261-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  95% probability interval</span></span>
+<span id="cb261-3"><a href="stan-two-latent-variable.html#cb261-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  and 80% to contrast the dispersion</span></span>
+<span id="cb261-4"><a href="stan-two-latent-variable.html#cb261-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit,<span class="at">pars =</span><span class="fu">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
+<span id="cb261-5"><a href="stan-two-latent-variable.html#cb261-5" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;phi&quot;</span>,</span>
+<span id="cb261-6"><a href="stan-two-latent-variable.html#cb261-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
+<span id="cb261-7"><a href="stan-two-latent-variable.html#cb261-7" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>))</span></code></pre></div>
 <pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
 <pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-1.png" width="672" /></p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="stan-two-latent-variable.html#cb264-1"></a><span class="co"># traceplots</span></span>
-<span id="cb264-2"><a href="stan-two-latent-variable.html#cb264-2"></a>rstan<span class="op">::</span><span class="kw">traceplot</span>(fit,</span>
-<span id="cb264-3"><a href="stan-two-latent-variable.html#cb264-3"></a>      <span class="dt">pars =</span><span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
-<span id="cb264-4"><a href="stan-two-latent-variable.html#cb264-4"></a>              <span class="st">&quot;phi&quot;</span>,</span>
-<span id="cb264-5"><a href="stan-two-latent-variable.html#cb264-5"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
-<span id="cb264-6"><a href="stan-two-latent-variable.html#cb264-6"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>), <span class="dt">inc_warmup =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="stan-two-latent-variable.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="co"># traceplots</span></span>
+<span id="cb264-2"><a href="stan-two-latent-variable.html#cb264-2" aria-hidden="true" tabindex="-1"></a>rstan<span class="sc">::</span><span class="fu">traceplot</span>(fit,</span>
+<span id="cb264-3"><a href="stan-two-latent-variable.html#cb264-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">pars =</span><span class="fu">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
+<span id="cb264-4"><a href="stan-two-latent-variable.html#cb264-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;phi&quot;</span>,</span>
+<span id="cb264-5"><a href="stan-two-latent-variable.html#cb264-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[1, 1]&quot;</span>, <span class="st">&quot;ksi[1, 2]&quot;</span>,</span>
+<span id="cb264-6"><a href="stan-two-latent-variable.html#cb264-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;ksi[8, 1]&quot;</span>, <span class="st">&quot;ksi[8, 2]&quot;</span>), <span class="at">inc_warmup =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-2.png" width="672" /></p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="stan-two-latent-variable.html#cb265-1"></a><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span></span>
-<span id="cb265-2"><a href="stan-two-latent-variable.html#cb265-2"></a><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>))) <span class="op">+</span></span>
-<span id="cb265-3"><a href="stan-two-latent-variable.html#cb265-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="stan-two-latent-variable.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span></span>
+<span id="cb265-2"><a href="stan-two-latent-variable.html#cb265-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="fu">c</span>(<span class="st">&quot;lambda&quot;</span>))) <span class="sc">+</span></span>
+<span id="cb265-3"><a href="stan-two-latent-variable.html#cb265-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-3.png" width="672" /></p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="stan-two-latent-variable.html#cb266-1"></a><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;tau&quot;</span>)) <span class="op">+</span></span>
-<span id="cb266-2"><a href="stan-two-latent-variable.html#cb266-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="stan-two-latent-variable.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="st">&quot;tau&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb266-2"><a href="stan-two-latent-variable.html#cb266-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-4.png" width="672" /></p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="stan-two-latent-variable.html#cb267-1"></a><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;psi&quot;</span>)) <span class="op">+</span></span>
-<span id="cb267-2"><a href="stan-two-latent-variable.html#cb267-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="stan-two-latent-variable.html#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="st">&quot;psi&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb267-2"><a href="stan-two-latent-variable.html#cb267-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-5.png" width="672" /></p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="stan-two-latent-variable.html#cb268-1"></a><span class="kw">ggs_grb</span>(<span class="kw">ggs</span>(fit, <span class="dt">family =</span> <span class="st">&quot;phi&quot;</span>)) <span class="op">+</span></span>
-<span id="cb268-2"><a href="stan-two-latent-variable.html#cb268-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="stan-two-latent-variable.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="st">&quot;phi&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb268-2"><a href="stan-two-latent-variable.html#cb268-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-6.png" width="672" /></p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="stan-two-latent-variable.html#cb269-1"></a><span class="co"># autocorrelation</span></span>
-<span id="cb269-2"><a href="stan-two-latent-variable.html#cb269-2"></a><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;lambda&quot;</span>)) <span class="op">+</span></span>
-<span id="cb269-3"><a href="stan-two-latent-variable.html#cb269-3"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="stan-two-latent-variable.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="co"># autocorrelation</span></span>
+<span id="cb269-2"><a href="stan-two-latent-variable.html#cb269-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;lambda&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb269-3"><a href="stan-two-latent-variable.html#cb269-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-7.png" width="672" /></p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="stan-two-latent-variable.html#cb270-1"></a><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;tau&quot;</span>)) <span class="op">+</span></span>
-<span id="cb270-2"><a href="stan-two-latent-variable.html#cb270-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="stan-two-latent-variable.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;tau&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb270-2"><a href="stan-two-latent-variable.html#cb270-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-8.png" width="672" /></p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="stan-two-latent-variable.html#cb271-1"></a><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;psi&quot;</span>)) <span class="op">+</span></span>
-<span id="cb271-2"><a href="stan-two-latent-variable.html#cb271-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="stan-two-latent-variable.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;psi&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb271-2"><a href="stan-two-latent-variable.html#cb271-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-9.png" width="672" /></p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="stan-two-latent-variable.html#cb272-1"></a><span class="kw">ggs_autocorrelation</span>(<span class="kw">ggs</span>(fit, <span class="dt">family=</span><span class="st">&quot;phi&quot;</span>)) <span class="op">+</span></span>
-<span id="cb272-2"><a href="stan-two-latent-variable.html#cb272-2"></a><span class="st">   </span><span class="kw">theme_bw</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">panel.grid =</span> <span class="kw">element_blank</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="stan-two-latent-variable.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;phi&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb272-2"><a href="stan-two-latent-variable.html#cb272-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-10.png" width="672" /></p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="stan-two-latent-variable.html#cb273-1"></a><span class="co"># plot the posterior density</span></span>
-<span id="cb273-2"><a href="stan-two-latent-variable.html#cb273-2"></a>plot.data &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(fit)</span>
-<span id="cb273-3"><a href="stan-two-latent-variable.html#cb273-3"></a></span>
-<span id="cb273-4"><a href="stan-two-latent-variable.html#cb273-4"></a>plot_title &lt;-<span class="st"> </span><span class="kw">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
-<span id="cb273-5"><a href="stan-two-latent-variable.html#cb273-5"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
-<span id="cb273-6"><a href="stan-two-latent-variable.html#cb273-6"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb273-7"><a href="stan-two-latent-variable.html#cb273-7"></a>  plot.data,</span>
-<span id="cb273-8"><a href="stan-two-latent-variable.html#cb273-8"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;lambda[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
-<span id="cb273-9"><a href="stan-two-latent-variable.html#cb273-9"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
-<span id="cb273-10"><a href="stan-two-latent-variable.html#cb273-10"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="stan-two-latent-variable.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the posterior density</span></span>
+<span id="cb273-2"><a href="stan-two-latent-variable.html#cb273-2" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(fit)</span>
+<span id="cb273-3"><a href="stan-two-latent-variable.html#cb273-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb273-4"><a href="stan-two-latent-variable.html#cb273-4" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb273-5"><a href="stan-two-latent-variable.html#cb273-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb273-6"><a href="stan-two-latent-variable.html#cb273-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb273-7"><a href="stan-two-latent-variable.html#cb273-7" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb273-8"><a href="stan-two-latent-variable.html#cb273-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;lambda[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb273-9"><a href="stan-two-latent-variable.html#cb273-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb273-10"><a href="stan-two-latent-variable.html#cb273-10" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-11.png" width="672" /></p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="stan-two-latent-variable.html#cb274-1"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb274-2"><a href="stan-two-latent-variable.html#cb274-2"></a>  plot.data,</span>
-<span id="cb274-3"><a href="stan-two-latent-variable.html#cb274-3"></a>  <span class="dt">pars =</span> <span class="kw">paste0</span>(<span class="st">&quot;tau[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>),</span>
-<span id="cb274-4"><a href="stan-two-latent-variable.html#cb274-4"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
-<span id="cb274-5"><a href="stan-two-latent-variable.html#cb274-5"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="stan-two-latent-variable.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb274-2"><a href="stan-two-latent-variable.html#cb274-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb274-3"><a href="stan-two-latent-variable.html#cb274-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">paste0</span>(<span class="st">&quot;tau[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>),</span>
+<span id="cb274-4"><a href="stan-two-latent-variable.html#cb274-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb274-5"><a href="stan-two-latent-variable.html#cb274-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-12.png" width="672" /></p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="stan-two-latent-variable.html#cb275-1"></a><span class="kw">mcmc_areas</span>(</span>
-<span id="cb275-2"><a href="stan-two-latent-variable.html#cb275-2"></a>  plot.data,</span>
-<span id="cb275-3"><a href="stan-two-latent-variable.html#cb275-3"></a>  <span class="dt">pars =</span> <span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;psi[&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>),</span>
-<span id="cb275-4"><a href="stan-two-latent-variable.html#cb275-4"></a>           <span class="st">&quot;phi[1,1]&quot;</span>, <span class="st">&quot;phi[1,2]&quot;</span>, <span class="st">&quot;phi[2,2]&quot;</span>),</span>
-<span id="cb275-5"><a href="stan-two-latent-variable.html#cb275-5"></a>  <span class="dt">prob =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
-<span id="cb275-6"><a href="stan-two-latent-variable.html#cb275-6"></a><span class="st">  </span>plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="stan-two-latent-variable.html#cb275-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb275-2"><a href="stan-two-latent-variable.html#cb275-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb275-3"><a href="stan-two-latent-variable.html#cb275-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;psi[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>),</span>
+<span id="cb275-4"><a href="stan-two-latent-variable.html#cb275-4" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;phi[1,1]&quot;</span>, <span class="st">&quot;phi[1,2]&quot;</span>, <span class="st">&quot;phi[2,2]&quot;</span>),</span>
+<span id="cb275-5"><a href="stan-two-latent-variable.html#cb275-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb275-6"><a href="stan-two-latent-variable.html#cb275-6" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-13.png" width="672" /></p>
 </div>
 </div>
