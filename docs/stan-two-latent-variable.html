@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-02-16" />
+<meta name="date" content="2021-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="jags-two-latent-variable.html"/>
 <link rel="next" href="blavaan-two-latent-variables.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -206,7 +206,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html#lsat-example-using-jags"><i class="fa fa-check"></i><b>11.2.1</b> LSAT Example Using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.3</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.4" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.4</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#peer-interactions-example-using-jags"><i class="fa fa-check"></i><b>11.4.1</b> Peer Interactions Example using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.5</b> Final Notes</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -328,14 +341,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb235-93"><a href="stan-two-latent-variable.html#cb235-93" aria-hidden="true" tabindex="-1"></a>                 <span class="at">max_treedepth =</span> <span class="dv">12</span>),</span>
 <span id="cb235-94"><a href="stan-two-latent-variable.html#cb235-94" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
 <span id="cb235-95"><a href="stan-two-latent-variable.html#cb235-95" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr = TRUE): &#39;-E&#39; not found</code></pre>
-<pre><code>## Warning: There were 14950 divergent transitions after warmup. See
+<pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr =
+## TRUE): &#39;-E&#39; not found</code></pre>
+<pre><code>## Warning: There were 14910 divergent transitions after warmup. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 ## to find out why this is a problem and how to eliminate them.</code></pre>
-<pre><code>## Warning: There were 50 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 12. See
+<pre><code>## Warning: There were 90 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 12. See
 ## http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded</code></pre>
 <pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
-<pre><code>## Warning: The largest R-hat is 3.79, indicating chains have not mixed.
+<pre><code>## Warning: The largest R-hat is 3.8, indicating chains have not mixed.
 ## Running the chains for more iterations may help. See
 ## http://mc-stan.org/misc/warnings.html#r-hat</code></pre>
 <pre><code>## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
@@ -354,32 +368,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 3 chains, each with iter=10000; warmup=5000; thin=1; 
 ## post-warmup draws per chain=5000, total post-warmup draws=15000.
 ## 
-##            mean se_mean   sd  2.5%   25%   50%  75% 97.5% n_eff       Rhat
-## lambda[1]  1.00    0.00 0.00  1.00  1.00  1.00 1.00  1.00     2       7.23
-## lambda[2]  1.00    0.20 0.24  0.70  0.70  1.00 1.30  1.30     2  335751.68
-## lambda[3]  1.00    0.20 0.24  0.70  0.70  1.00 1.30  1.30     2  277279.09
-## lambda[4]  1.00    0.00 0.00  1.00  1.00  1.00 1.00  1.00     2       5.87
-## lambda[5]  1.00    0.20 0.24  0.70  0.70  1.00 1.30  1.30     2  397640.53
-## tau[1]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2 1763632.95
-## tau[2]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2 2151915.04
-## tau[3]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2 2081316.86
-## tau[4]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2 1660555.71
-## tau[5]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2 1654968.94
-## psi[1]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2  486301.20
-## psi[2]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2  551224.66
-## psi[3]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2  596832.25
-## psi[4]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2  486021.86
-## psi[5]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2  279141.94
-## phi[1,1]   1.00    0.00 0.00  1.00  1.00  1.00 1.00  1.00     2       3.58
-## phi[1,2]   0.13    0.10 0.12  0.00  0.00  0.10 0.30  0.30     2  320432.06
-## phi[2,1]   0.13    0.10 0.12  0.00  0.00  0.10 0.30  0.30     2  320528.37
-## phi[2,2]   1.00    0.00 0.00  1.00  1.00  1.00 1.00  1.00     2       5.80
-## ksi[1,1]   0.36    0.80 0.98 -0.74 -0.74  0.17 1.64  1.64     2 1253804.87
-## ksi[1,2]   0.02    0.96 1.18 -1.65 -1.65  0.83 0.87  0.87     2 1456604.89
-## ksi[8,1]  -0.60    0.93 1.13 -1.65 -1.65 -1.13 0.97  0.97     2 1536897.56
-## ksi[8,2]   1.18    0.28 0.35  0.71  0.71  1.29 1.54  1.54     2  526350.60
+##            mean se_mean   sd  2.5%   25%   50%  75% 97.5% n_eff
+## lambda[1]  1.00    0.00 0.00  1.00  1.00  1.00 1.00  1.00     2
+## lambda[2]  1.00    0.20 0.24  0.70  0.70  1.00 1.30  1.30     2
+## lambda[3]  1.00    0.20 0.24  0.70  0.70  1.00 1.30  1.30     2
+## lambda[4]  1.00    0.00 0.00  1.00  1.00  1.00 1.00  1.00     2
+## lambda[5]  1.00    0.20 0.24  0.70  0.70  1.00 1.30  1.30     2
+## tau[1]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2
+## tau[2]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2
+## tau[3]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2
+## tau[4]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2
+## tau[5]     3.00    1.33 1.63  1.00  1.00  3.00 5.00  5.00     2
+## psi[1]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2
+## psi[2]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2
+## psi[3]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2
+## psi[4]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2
+## psi[5]     1.17    0.51 0.62  0.50  0.50  1.00 2.00  2.00     2
+## phi[1,1]   1.00    0.00 0.00  1.00  1.00  1.00 1.00  1.00     5
+## phi[1,2]   0.13    0.10 0.12  0.00  0.00  0.10 0.30  0.30     2
+## phi[2,1]   0.13    0.10 0.12  0.00  0.00  0.10 0.30  0.30     2
+## phi[2,2]   1.00    0.00 0.00  1.00  1.00  1.00 1.00  1.00     2
+## ksi[1,1]   0.81    1.01 1.24 -0.91 -0.91  1.43 1.93  1.93     2
+## ksi[1,2]   0.62    0.72 0.89 -0.57 -0.57  0.85 1.56  1.56     2
+## ksi[8,1]   0.14    0.62 0.76 -0.84 -0.84  0.27 1.00  1.00     2
+## ksi[8,2]  -0.12    0.17 0.20 -0.34 -0.34 -0.17 0.15  0.15     2
+##                 Rhat
+## lambda[1]       3.76
+## lambda[2]  200082.02
+## lambda[3]  110868.47
+## lambda[4]       3.24
+## lambda[5]   94909.59
+## tau[1]     971982.86
+## tau[2]    1168347.77
+## tau[3]    1446723.31
+## tau[4]     842172.13
+## tau[5]    1190014.95
+## psi[1]     277869.53
+## psi[2]     256094.75
+## psi[3]     333243.02
+## psi[4]     272051.82
+## psi[5]     201375.90
+## phi[1,1]        1.62
+## phi[1,2]   103038.69
+## phi[2,1]   103035.55
+## phi[2,2]        2.68
+## ksi[1,1]   536377.12
+## ksi[1,2]   706233.82
+## ksi[8,1]   519297.43
+## ksi[8,2]   159190.73
 ## 
-## Samples were drawn using NUTS(diag_e) at Fri Oct 23 10:48:19 2020.
+## Samples were drawn using NUTS(diag_e) at Mon Apr 05 04:23:50 2021.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -523,7 +561,8 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 <span id="cb257-81"><a href="stan-two-latent-variable.html#cb257-81" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">3</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
 <span id="cb257-82"><a href="stan-two-latent-variable.html#cb257-82" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
 <span id="cb257-83"><a href="stan-two-latent-variable.html#cb257-83" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr = TRUE): &#39;-E&#39; not found</code></pre>
+<pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr =
+## TRUE): &#39;-E&#39; not found</code></pre>
 <div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="stan-two-latent-variable.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
 <span id="cb259-2"><a href="stan-two-latent-variable.html#cb259-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit, </span>
 <span id="cb259-3"><a href="stan-two-latent-variable.html#cb259-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">pars =</span><span class="fu">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;tau&quot;</span>, <span class="st">&quot;psi&quot;</span>,</span>
@@ -535,41 +574,41 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 ## post-warmup draws per chain=5000, total post-warmup draws=15000.
 ## 
 ##            mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## lambda[1]  1.00       0 0.00  1.00  1.00  1.00  1.00  1.00 14546    1
-## lambda[2]  0.87       0 0.06  0.77  0.83  0.87  0.91  0.99  2330    1
-## lambda[3]  0.52       0 0.04  0.44  0.49  0.52  0.55  0.61  3462    1
-## lambda[4]  1.00       0 0.00  1.00  1.00  1.00  1.00  1.00 15733    1
-## lambda[5]  0.96       0 0.05  0.86  0.93  0.96  1.00  1.07  3454    1
-## tau[1]     3.33       0 0.04  3.26  3.31  3.33  3.36  3.41  4440    1
-## tau[2]     3.90       0 0.03  3.85  3.88  3.90  3.92  3.95  3406    1
-## tau[3]     4.60       0 0.02  4.55  4.58  4.60  4.61  4.64  5069    1
-## tau[4]     3.03       0 0.04  2.96  3.01  3.03  3.06  3.11  3858    1
-## tau[5]     3.71       0 0.04  3.64  3.69  3.71  3.74  3.78  3459    1
-## psi[1]     0.61       0 0.02  0.56  0.59  0.61  0.62  0.65  9826    1
-## psi[2]     0.32       0 0.02  0.28  0.31  0.32  0.33  0.36  4452    1
-## psi[3]     0.36       0 0.01  0.33  0.35  0.36  0.36  0.38 13161    1
-## psi[4]     0.57       0 0.03  0.52  0.55  0.57  0.58  0.62  8054    1
-## psi[5]     0.42       0 0.03  0.37  0.41  0.42  0.44  0.47  4909    1
+## lambda[1]  1.00       0 0.00  1.00  1.00  1.00  1.00  1.00 16739    1
+## lambda[2]  0.87       0 0.06  0.76  0.83  0.87  0.91  0.99  2092    1
+## lambda[3]  0.52       0 0.04  0.44  0.49  0.52  0.54  0.60  3029    1
+## lambda[4]  1.00       0 0.00  1.00  1.00  1.00  1.00  1.00 16022    1
+## lambda[5]  0.96       0 0.05  0.86  0.92  0.96  1.00  1.07  2956    1
+## tau[1]     3.33       0 0.04  3.26  3.31  3.33  3.36  3.41  4249    1
+## tau[2]     3.90       0 0.03  3.84  3.88  3.90  3.92  3.95  3252    1
+## tau[3]     4.60       0 0.02  4.55  4.58  4.60  4.61  4.64  4964    1
+## tau[4]     3.03       0 0.04  2.95  3.01  3.03  3.06  3.11  3855    1
+## tau[5]     3.71       0 0.04  3.64  3.69  3.71  3.74  3.78  3324    1
+## psi[1]     0.61       0 0.02  0.56  0.59  0.61  0.62  0.65 10217    1
+## psi[2]     0.32       0 0.02  0.28  0.31  0.32  0.33  0.36  3488    1
+## psi[3]     0.36       0 0.01  0.33  0.35  0.36  0.36  0.38 11296    1
+## psi[4]     0.57       0 0.03  0.52  0.55  0.57  0.58  0.62  7958    1
+## psi[5]     0.42       0 0.03  0.37  0.41  0.42  0.44  0.47  4437    1
 ## R[1,1]     1.00     NaN 0.00  1.00  1.00  1.00  1.00  1.00   NaN  NaN
-## R[1,2]     0.86       0 0.03  0.80  0.84  0.86  0.88  0.91  2177    1
-## R[2,1]     0.86       0 0.03  0.80  0.84  0.86  0.88  0.91  2177    1
+## R[1,2]     0.86       0 0.03  0.80  0.84  0.86  0.88  0.91  2366    1
+## R[2,1]     0.86       0 0.03  0.80  0.84  0.86  0.88  0.91  2366    1
 ## R[2,2]     1.00     NaN 0.00  1.00  1.00  1.00  1.00  1.00   NaN  NaN
-## A[1]       0.60       0 0.04  0.53  0.57  0.60  0.62  0.67  2883    1
-## A[2]       0.71       0 0.04  0.64  0.68  0.71  0.73  0.78  4785    1
-## A0[1,1]    0.60       0 0.04  0.53  0.57  0.60  0.62  0.67  2883    1
+## A[1]       0.60       0 0.04  0.53  0.58  0.60  0.62  0.67  2717    1
+## A[2]       0.71       0 0.04  0.64  0.68  0.71  0.73  0.78  3536    1
+## A0[1,1]    0.60       0 0.04  0.53  0.58  0.60  0.62  0.67  2717    1
 ## A0[1,2]    0.00     NaN 0.00  0.00  0.00  0.00  0.00  0.00   NaN  NaN
-## A0[2,1]    0.60       0 0.04  0.53  0.58  0.60  0.63  0.68  6089    1
-## A0[2,2]    0.36       0 0.04  0.29  0.34  0.36  0.39  0.43  1750    1
-## phi[1,1]   0.60       0 0.04  0.53  0.57  0.60  0.62  0.67  2883    1
-## phi[1,2]   0.56       0 0.03  0.49  0.53  0.56  0.58  0.62  4219    1
-## phi[2,1]   0.56       0 0.03  0.49  0.53  0.56  0.58  0.62  4219    1
-## phi[2,2]   0.71       0 0.04  0.64  0.68  0.71  0.73  0.78  4785    1
-## ksi[1,1]  -0.22       0 0.23 -0.68 -0.38 -0.22 -0.06  0.23 26119    1
-## ksi[1,2]  -0.37       0 0.28 -0.91 -0.55 -0.37 -0.18  0.18 25490    1
-## ksi[8,1]   0.91       0 0.23  0.46  0.75  0.91  1.07  1.37 18842    1
-## ksi[8,2]   0.88       0 0.28  0.34  0.69  0.87  1.06  1.41 25520    1
+## A0[2,1]    0.61       0 0.04  0.53  0.58  0.60  0.63  0.68  4887    1
+## A0[2,2]    0.36       0 0.04  0.29  0.34  0.36  0.39  0.43  1869    1
+## phi[1,1]   0.60       0 0.04  0.53  0.58  0.60  0.62  0.67  2717    1
+## phi[1,2]   0.56       0 0.03  0.49  0.54  0.56  0.58  0.62  3882    1
+## phi[2,1]   0.56       0 0.03  0.49  0.54  0.56  0.58  0.62  3882    1
+## phi[2,2]   0.71       0 0.04  0.64  0.68  0.71  0.73  0.78  3536    1
+## ksi[1,1]  -0.22       0 0.23 -0.67 -0.38 -0.22 -0.07  0.24 24053    1
+## ksi[1,2]  -0.36       0 0.28 -0.91 -0.55 -0.37 -0.18  0.18 22191    1
+## ksi[8,1]   0.91       0 0.23  0.46  0.75  0.91  1.06  1.38 19097    1
+## ksi[8,2]   0.88       0 0.27  0.34  0.70  0.88  1.07  1.42 23361    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Fri Oct 23 14:11:15 2020.
+## Samples were drawn using NUTS(diag_e) at Mon Apr 05 04:46:37 2021.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>

@@ -60,20 +60,20 @@ In this example, we use the correlations of the observed variable as the functio
 # model code
 jags.model.cfa <- function(){
 
-  ########################################
-  # Specify the factor analysis measurement
-  # model for the observables
-  ########################################
+#
+# Specify the factor analysis measurement
+# model for the observables
+#
   for (i in 1:n){
     for(j in 1:J){
-      # model implied expectation for each observable
+    # model implied expectation for each observable
       mu[i,j] <- tau[j] + ksi[i]*lambda[j]
       # distribution for each observable
       x[i,j] ~ dnorm(mu[i,j], inv.psi[j])    
     }
   }
   
-  ########################################
+########################################
   # Specify the (prior) distribution for 
   # the latent variables
   ########################################

@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-02-16" />
+<meta name="date" content="2021-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="example-2-stan.html"/>
 <link rel="next" href="example-3-unknown-measurement-model-with-multiple-measures.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -206,7 +206,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html#lsat-example-using-jags"><i class="fa fa-check"></i><b>11.2.1</b> LSAT Example Using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.3</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.4" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.4</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#peer-interactions-example-using-jags"><i class="fa fa-check"></i><b>11.4.1</b> Peer Interactions Example using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.5</b> Final Notes</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -309,39 +322,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Initializing model</code></pre>
 <div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="example-2-jags.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpI5mSk0/model38e016423157.txt&quot;, fit using jags,
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/Rtmpq8pU6a/model4d046a677c1.txt&quot;, fit using jags,
 ##  4 chains, each with 4000 iterations (first 1000 discarded)
 ##  n.sims = 12000 iterations saved
-##          mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat
-## T[1]      76.879   1.722  73.558  75.726  76.863  78.018  80.280 1.001
-## T[2]      79.068   1.729  75.686  77.884  79.056  80.230  82.478 1.001
-## T[3]      82.037   1.712  78.669  80.903  82.043  83.191  85.399 1.001
-## T[4]      75.047   1.725  71.677  73.886  75.018  76.224  78.411 1.001
-## T[5]      72.631   1.728  69.260  71.462  72.636  73.790  76.066 1.001
-## T[6]      88.445   1.712  85.090  87.294  88.452  89.615  91.797 1.001
-## T[7]      77.244   1.705  73.959  76.082  77.256  78.399  80.570 1.001
-## T[8]      80.561   1.718  77.206  79.402  80.560  81.727  83.921 1.001
-## T[9]      80.196   1.706  76.860  79.051  80.177  81.361  83.578 1.001
-## T[10]     88.980   1.726  85.579  87.830  88.983  90.122  92.380 1.001
-## deviance 269.676   4.383 262.984 266.483 269.050 272.206 279.747 1.001
-##          n.eff
-## T[1]      6200
-## T[2]     12000
-## T[3]      9500
-## T[4]     12000
-## T[5]     12000
-## T[6]      8900
-## T[7]     12000
-## T[8]      7000
-## T[9]     12000
-## T[10]    11000
-## deviance  7200
+##          mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
+## T[1]      76.888   1.720  73.515  75.728  76.892  78.032  80.294 1.001 12000
+## T[2]      79.064   1.709  75.655  77.935  79.083  80.206  82.408 1.001 11000
+## T[3]      82.045   1.725  78.681  80.880  82.046  83.204  85.450 1.001 12000
+## T[4]      75.053   1.729  71.659  73.884  75.063  76.228  78.436 1.001 12000
+## T[5]      72.673   1.689  69.365  71.570  72.651  73.805  75.988 1.001  7300
+## T[6]      88.407   1.714  85.006  87.274  88.393  89.578  91.730 1.001 12000
+## T[7]      77.246   1.710  73.864  76.083  77.266  78.417  80.576 1.001 12000
+## T[8]      80.535   1.712  77.170  79.390  80.521  81.703  83.841 1.001 12000
+## T[9]      80.178   1.722  76.833  78.988  80.190  81.330  83.543 1.001 12000
+## T[10]     88.952   1.725  85.559  87.763  88.955  90.114  92.331 1.001 12000
+## deviance 269.701   4.423 262.951 266.485 269.038 272.243 280.007 1.001 11000
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ## 
 ## DIC info (using the rule, pD = var(deviance)/2)
-## pD = 9.6 and DIC = 279.3
+## pD = 9.8 and DIC = 279.5
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
 <div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="example-2-jags.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
 <span id="cb139-2"><a href="example-2-jags.html#cb139-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>

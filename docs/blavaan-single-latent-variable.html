@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-02-16" />
+<meta name="date" content="2021-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="stan-single-latent-variable.html"/>
 <link rel="next" href="jags-two-latent-variable.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -206,7 +206,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html#lsat-example-using-jags"><i class="fa fa-check"></i><b>11.2.1</b> LSAT Example Using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.3</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.4" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.4</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#peer-interactions-example-using-jags"><i class="fa fa-check"></i><b>11.4.1</b> Peer Interactions Example using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.5</b> Final Notes</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -259,9 +272,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Chain 1: Iteration: 1400 / 1500 [ 93%]  (Sampling)
 ## Chain 1: Iteration: 1500 / 1500 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 9.024 seconds (Warm-up)
-## Chain 1:                11.519 seconds (Sampling)
-## Chain 1:                20.543 seconds (Total)
+## Chain 1:  Elapsed Time: 5.473 seconds (Warm-up)
+## Chain 1:                8.591 seconds (Sampling)
+## Chain 1:                14.064 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;stanmarg&#39; NOW (CHAIN 2).
@@ -284,15 +297,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Chain 2: Iteration: 1400 / 1500 [ 93%]  (Sampling)
 ## Chain 2: Iteration: 1500 / 1500 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 7.261 seconds (Warm-up)
-## Chain 2:                11.087 seconds (Sampling)
-## Chain 2:                18.348 seconds (Total)
+## Chain 2:  Elapsed Time: 5.892 seconds (Warm-up)
+## Chain 2:                9.185 seconds (Sampling)
+## Chain 2:                15.077 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;stanmarg&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 0.002 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 20 seconds.
+## Chain 3: Gradient evaluation took 0.001 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -309,58 +322,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## Chain 3: Iteration: 1400 / 1500 [ 93%]  (Sampling)
 ## Chain 3: Iteration: 1500 / 1500 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 7.556 seconds (Warm-up)
-## Chain 3:                11.606 seconds (Sampling)
-## Chain 3:                19.162 seconds (Total)
+## Chain 3:  Elapsed Time: 5.008 seconds (Warm-up)
+## Chain 3:                8.132 seconds (Sampling)
+## Chain 3:                13.14 seconds (Total)
 ## Chain 3: 
 ## Computing posterior predictives...</code></pre>
 <div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="blavaan-single-latent-variable.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
-<pre><code>## lavaan 0.6-7 ended normally after 1000 iterations
+<pre><code>## blavaan (0.3-15) results of 1000 samples after 500 adapt/burnin iterations
 ## 
-##   Estimator                                      BAYES
-##   Optimization method                           NLMINB
-##   Number of free parameters                         15
-##                                                       
 ##   Number of observations                           500
+## 
 ##   Number of missing patterns                         1
-##                                                       
-## Model Test User Model:
-##                                                        
-##   Test statistic                              -2196.616
-##   Degrees of freedom                                 NA
-##                                                       
-##   Test statistic                                 0.000
-##   Degrees of freedom                                NA
 ## 
-## Parameter Estimates:
-## 
+##   Statistic                                 MargLogLik         PPP
+##   Value                                      -2196.709       0.000
 ## 
 ## Latent Variables:
-##                    Estimate
-##   f1 =~                    
-##     PI                1.000
-##     AD                0.845
-##     IGC               0.492
-##     FI                1.129
-##     FC                1.089
+##                    Estimate  Post.SD pi.lower pi.upper     Rhat    Prior       
+##   f1 =~                                                                        
+##     PI                1.000                                  NA                
+##     AD                0.847    0.054    0.748     0.96    1.000    normal(0,10)
+##     IGC               0.494    0.039    0.424    0.575    1.000    normal(0,10)
+##     FI                1.130    0.076    0.984    1.289    1.000    normal(0,10)
+##     FC                1.090    0.070    0.958    1.237    1.000    normal(0,10)
 ## 
 ## Intercepts:
-##                    Estimate
-##    .PI                3.334
-##    .AD                3.899
-##    .IGC               4.597
-##    .FI                3.035
-##    .FC                3.714
-##     f1                0.000
+##                    Estimate  Post.SD pi.lower pi.upper     Rhat    Prior       
+##    .PI                3.333    0.038    3.258    3.408    1.001    normal(0,32)
+##    .AD                3.898    0.027    3.846     3.95    1.002    normal(0,32)
+##    .IGC               4.596    0.021    4.555    4.638    1.002    normal(0,32)
+##    .FI                3.034    0.041    2.951    3.114    1.002    normal(0,32)
+##    .FC                3.712    0.037     3.64    3.784    1.001    normal(0,32)
+##     f1                0.000                                  NA                
 ## 
 ## Variances:
-##                    Estimate
-##    .PI                0.353
-##    .AD                0.121
-##    .IGC               0.133
-##    .FI                0.361
-##    .FC                0.223
-##     f1                0.338</code></pre>
+##                    Estimate  Post.SD pi.lower pi.upper     Rhat    Prior       
+##    .PI                0.353    0.026    0.304    0.407    1.002 gamma(1,.5)[sd]
+##    .AD                0.120    0.012    0.097    0.146    0.999 gamma(1,.5)[sd]
+##    .IGC               0.133    0.009    0.116    0.152    1.000 gamma(1,.5)[sd]
+##    .FI                0.362    0.030    0.306    0.423    0.999 gamma(1,.5)[sd]
+##    .FC                0.223    0.021    0.185    0.267    1.000 gamma(1,.5)[sd]
+##     f1                0.337    0.040    0.263    0.419    1.000 gamma(1,.5)[sd]</code></pre>
 <div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="blavaan-single-latent-variable.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-blavaan-1-1.png" width="672" />
 ## Two Latent Variable Model</p>

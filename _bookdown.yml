@@ -5,5 +5,6 @@ language:
 before_chapter_script: ["code/load_packages.R",
                         "code/pdf2png.R",
                         "code/utility_functions.R"]
+after_chapter_script:  ["code/clean_workspace.R"]
 delete_merged_file: true
 output_dir: "docs"

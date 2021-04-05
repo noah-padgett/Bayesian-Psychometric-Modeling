@@ -5,6 +5,8 @@ Item response theory (IRT) builds models for item (stimuli that the measures col
 1. Models for dichotomous (binary, 0/1) items and
 2. Models for polytomous (multi-category) items.
 
+## IRT Models for Dichotomous Data
+
 First, for conventional dichotomous observed variables, an IRT model can be generally specified as follows.
 
 Let $x_{ij}$ be the observed value from respondent $i$ on observable (item) $j$.
@@ -101,7 +103,7 @@ knitr::include_graphics(paste0(w.d,'/dag/chp11-irt1.png'),
 The path diagram for an IRT is essentially identical to the path diagram for a CFA model.
 This fact highlights an important feature of IRT/CFA in that the major conceptual difference between these approaches to is how we define the link between the latent variable the observed items.
 
-```{r chp9-pathdiag-1, echo=FALSE,fig.align='center',fig.cap='Path diagram for 3-PL IRT model'}
+```{r chp11-pathdiag-1, echo=FALSE,fig.align='center',fig.cap='Path diagram for 3-PL IRT model'}
 knitr::include_graphics(paste0(w.d,'/path-diagram/chp11-irt1.png'),
                         auto_pdf = TRUE)
 ```
@@ -113,9 +115,493 @@ knitr::include_graphics(paste0(w.d,'/model-spec/chp11-irt1.png'),
                         auto_pdf = TRUE)
 ```
 
+### LSAT Example Using JAGS
+
+```{r chp11-lsat-jags, warnings=T, message=T, error=T, cache=TRUE}
+
+jags.model.lsat <- function(){
+
+#########################################
+# Specify the item response measurement model for the observables
+#########################################
+for (i in 1:n){
+  for(j in 1:J){
+    P[i,j] <- c[j]+(1-c[j])*phi(a[j]*theta[i]+d[j])       # 3P-NO expression
+    x[i,j] ~ dbern(P[i,j])                  # distribution for each observable
+  }
+}
+
+
+##########################################
+# Specify the (prior) distribution for the latent variables
+##########################################
+for (i in 1:n){
+  theta[i] ~ dnorm(0, 1)  # distribution for the latent variables
+}
+
+
+##########################################
+# Specify the prior distribution for the measurement model parameters
+##########################################
+for(j in 1:J){
+  d[j] ~ dnorm(0, .5)          # Locations for observables
+  a[j] ~ dnorm(1, .5); I(0,)    # Discriminations for observables
+  c[j] ~ dbeta(5,17)           # Lower asymptotes for observables
+  
+}
+
+
+} # closes the model
+
+# initial values
+start_values <- list(
+  list("d"=c(1.00, 1.00, 1.00, 1.00, 1.00),
+       "a"=c(1.00, 1.00, 1.00, 1.00, 1.00),
+       "c"=c(0.20, 0.20, 0.20, 0.20, 0.20)),
+  list("d"=c(-3.00, -3.00, -3.00, -3.00, -3.00),
+       "a"=c(3.00, 3.00, 3.00, 3.00, 3.00),
+       "c"=c(0.50, 0.50, 0.50, 0.50, 0.50)),
+  list("d"=c(3.00, 3.00, 3.00, 3.00, 3.00),
+       "a"=c(0.1, 0.1, 0.1, 0.1, 0.1),
+       "c"=c(0.05, 0.05, 0.05, 0.05, 0.05))
+)
+
+# vector of all parameters to save
+param_save <- c("a", "c", "d", "theta")
+
+# dataset
+dat <- read.table("data/LSAT.dat", header=T)
+
+mydata <- list(
+  n = nrow(dat), J = ncol(dat),
+  x = as.matrix(dat)
+)
+
+# fit model
+fit <- jags(
+  model.file=jags.model.lsat,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=2000,
+  n.burnin = 1000,
+  n.chains = 3,
+  progress.bar = "none")
+
+print(fit)
+round(fit$BUGSoutput$summary[ !rownames(fit$BUGSoutput$summary) %like% "theta", ], 3)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+# the below two plots are too big to be useful given the 1000 observations.
+#R2jags::traceplot(jags.mcmc)
+
+# gelman-rubin-brook
+#gelman.plot(jags.mcmc)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("d[",1:5,"]")),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("a[", 1:5, "]")),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("c[", 1:5, "]")),
+  prob = 0.8) +
+  plot_title
+
+
+```
+
+#### Posterior Predicted Distributions
+
+Here, we want to compare the observed and expected posterior predicted distributions.
+
+Statistical functions of interest are the (1) standardized model-based covariance (SMBC) and (2) the standardized generalized discrepancy measure (SGDDM).
+
+For (1), the SMBC is
+\[SMBC_{jj^\prime}=\frac{\frac{1}{n}\sum_{i=1}^n(x_{ij} - E(x_{ij} \mid \theta_i,\boldsymbol{\omega}_j))(x_{ij^\prime} - E(x_{ij^\prime} \mid \theta_i,\boldsymbol{\omega}_j^\prime))}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij} - E(x_{ij} \mid \theta_i,\boldsymbol{\omega}_j))^2}\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij^\prime} - E(x_{ij^\prime} \mid \theta_i,\boldsymbol{\omega}_j^\prime))}}\]
+
+In R, the functions below can be used to compute these qualtities.
+
+```{r chp11-ppd-functions}
+
+calculate.SGDDM <- function(data.matrix, expected.value.matrix){
+	
+	J.local = ncol(data.matrix)
+
+	SMBC.matrix <- calculate.SMBC.matrix(data.matrix, expected.value.matrix)
+	
+	SGDDM = sum(abs((lower.tri(SMBC.matrix, diag=FALSE))*SMBC.matrix))/((J.local*(J.local-1))/2)
+
+	SGDDM
+
+} # closes calculate.SGDDM
+
+calculate.SMBC.matrix <- function(data.matrix, expected.value.matrix){
+	
+	N.local <- nrow(data.matrix)
+
+	MBC.matrix <- (t(data.matrix-expected.value.matrix) %*% (data.matrix-expected.value.matrix))/N.local
+
+	MBStddevs.matrix <- diag(sqrt(diag(MBC.matrix)))
+
+	#SMBC.matrix <- solve(MBStddevs.matrix) %*% MBC.matrix %*% solve(MBStddevs.matrix)
+
+
+	J.local <- ncol(data.matrix)
+
+	SMBC.matrix <- matrix(NA, nrow=J.local, ncol=J.local)
+
+	for(j in 1:J.local){
+		for(jj in 1:J.local){
+			SMBC.matrix[j,jj] <- MBC.matrix[j,jj]/(MBStddevs.matrix[j,j]*MBStddevs.matrix[jj,jj])
+		}
+	}
+
+	SMBC.matrix 
+
+} # closes calculate.MBC.matrix
+
+```
+
+Next, we will use the functions above among other basic data wrangling to construct a full posterior predictive distribution analysis to probe our resulting posterior.
+
+```{r chp11-lsat-jags-ppd, warnings=T, message=T, error=T, cache=TRUE}
+# Data wrangle the results/posterior draws for use
+datv1 <- plot.data %>%
+  pivot_longer(
+    cols = `a[1]`:`a[5]`,
+    values_to = "a",
+    names_to = "item"
+  ) %>%
+  mutate(item = substr(item, 3,3)) %>%
+  select(chain, iter, item, a)
+datv2 <- plot.data %>%
+  pivot_longer(
+    cols = `c[1]`:`c[5]`,
+    values_to = "c",
+    names_to = "item"
+  ) %>%
+  mutate(item = substr(item, 3,3)) %>%
+  select(chain, iter, item, c)
+datv3 <- plot.data %>%
+  pivot_longer(
+    cols = `d[1]`:`d[5]`,
+    values_to = "d",
+    names_to = "item"
+  ) %>%
+  mutate(item = substr(item, 3,3)) %>%
+  select(chain, iter, item, d)
+
+datv4 <- plot.data %>%
+  pivot_longer(
+    cols = `theta[1]`:`theta[999]`,
+    values_to = "theta",
+    names_to = "person"
+  ) %>%
+  select(chain, iter, person, theta)
+
+dat_long <- full_join(datv1, datv2)
+dat_long <- full_join(dat_long, datv3)
+dat_long <- full_join(dat_long, datv4)
+
+dat1 <- dat
+dat1$person <- paste0("theta[",1:nrow(dat), "]")
+datvl <- dat1 %>%
+  pivot_longer(
+    cols=contains("item"),
+    names_to = "item",
+    values_to = "x"
+  ) %>%
+  mutate(
+    item = substr(item, 6, 100)
+  )
+
+dat_long <- left_join(dat_long, datvl)
+
+# compute expected prob
+ilogit <- function(x){exp(x)/(1+exp(x))}
+dat_long <- dat_long %>%
+  as_tibble()%>%
+  mutate(
+    x.exp = c + (1-c)*ilogit(a*(theta - d)),
+    x.dif = x - x.exp
+  )
+
+
+dat_long$x.ppd <- apply(
+  dat_long, 1, 
+  FUN=function(x){
+    rbern(1, as.numeric(x[10]))
+  }
+  )
+
+# figure 11.4
+d <- dat_long %>%
+  group_by(chain, iter, person) %>%
+  summarise(raw.score = sum(x),
+            raw.score.ppd = sum(x.ppd))
+
+di <- d %>%
+  filter(chain==1, iter==1001) %>%
+  group_by(raw.score) %>%
+  summarise(count = n())
+dii <- d %>%
+  group_by(chain, iter, raw.score.ppd)%>%
+  summarise(raw.score = n())
+# overall fit of observed scores
+ggplot()+
+  geom_boxplot(data=dii, aes(y=raw.score, x= raw.score.ppd, group=raw.score.ppd))+
+  geom_point(data=di, aes(x=raw.score, y=count), color="red", size=2)+
+  labs(x="Raw Score", y="Number of Examinees")+
+  scale_x_continuous(breaks=0:5)+
+  theme_classic()
+
+# by item
+d <- dat_long %>%
+  group_by(chain, iter, person) %>%
+  mutate(raw.score = sum(x),
+         raw.score.ppd = sum(x.ppd))
+di <- d %>%
+  filter(chain==1, iter==1001) %>%
+  group_by(raw.score, item) %>%
+  summarise(p.correct = mean(x))
+dii <- d %>%
+  group_by(chain, iter, raw.score.ppd, item)%>%
+  summarise(p.correct = mean(x.ppd))
+
+ggplot()+
+  geom_boxplot(data=dii,
+               aes(y= p.correct,
+                   x= raw.score.ppd,
+                   group=raw.score.ppd))+
+  geom_point(data=di,
+             aes(x=raw.score, y=p.correct),
+             color="red", size=2)+
+  facet_wrap(.~item)+
+  labs(x="Raw Score", y="Number of Examinees")+
+  theme_classic()
+
+```
+
+
+```{r chp11-ppd-smbc-formatting, warnings=T, message=T, error=T, cache=TRUE}
+# computing standardized model summary statistics
+# objects for results
+J <- 5
+n.chain <- 3
+n.iters <- 1000
+n.iters.PPMC <- n.iters*n.chain
+
+realized.SMBC.array <- array(NA, c(n.iters.PPMC, J, J))
+postpred.SMBC.array <- array(NA, c(n.iters.PPMC, J, J))
+realized.SGDDM.vector <- array(NA, c(n.iters.PPMC))
+postpred.SGDDM.vector <- array(NA, c(n.iters.PPMC))
+
+
+
+ii <- i <- c <- 1
+# iteration condiitons
+iter.cond <- unique(dat_long$iter)
+Xobs <- as.matrix(dat[,-6])
+
+for(i in 1:length(iter.cond)){
+  for(c in 1:3){
+  cc <- iter.cond[i]
+  Xexp <- dat_long[dat_long$chain==c & dat_long$iter==cc , ] %>%
+    pivot_wider(
+      id_cols = person,
+      names_from = "item",
+      values_from = "x.exp",
+      names_prefix = "item"
+    ) %>%
+    ungroup()%>%
+    select(item1:item5)%>%
+    as.matrix()
+  Xppd <- dat_long[dat_long$chain==c & dat_long$iter==cc , ] %>%
+    pivot_wider(
+      id_cols = person,
+      names_from = "item",
+      values_from = "x.ppd",
+      names_prefix = "item"
+    ) %>%
+    ungroup()%>%
+    select(item1:item5)%>%
+    as.matrix()
+
+  # compute realized values
+  realized.SMBC.array[ii, ,] <- calculate.SMBC.matrix(Xobs, Xexp)
+  realized.SGDDM.vector[ii] <-  calculate.SGDDM(Xobs, Xexp)
+  # compute PPD values
+  postpred.SMBC.array[ii, ,] <- calculate.SMBC.matrix(Xppd, Xexp)
+  postpred.SGDDM.vector[ii] <-  calculate.SGDDM(Xppd, Xexp)
+    ii <- ii + 1
+  }
+}
+
+
+```
+
+Next, generate plots to help summarize and describe the posterior predictor distributions of these statistics.
+
+```{r chp11-ppd-lsat-plots, warnings=T, message=T, error=T, cache=TRUE}
+
+plot.dat.ppd <- data.frame(
+  real = realized.SGDDM.vector,
+  ppd = postpred.SGDDM.vector
+)
+
+
+ggplot(plot.dat.ppd, aes(x=real, y=ppd))+
+  geom_point()+
+  geom_abline(intercept = 0, slope=1)+
+  lims(x=c(0,0.5), y=c(0, 0.5))
+
+
+# transform smbc into plotable format
+ddim <- dim(postpred.SMBC.array)
+plot.dat.ppd <- as.data.frame(matrix(0, nrow=ddim[1]*ddim[2]*ddim[3], ncol=4))
+colnames(plot.dat.ppd) <- c("itemj", "itemjj", "real", "ppd")
+ii <- i <- j <- jj <- 1
+
+for(i in 1:ddim[1]){
+  for(j in 1:ddim[2]){
+    for(jj in 1:ddim[3]){
+      plot.dat.ppd[ii, 1] <- j
+      plot.dat.ppd[ii, 2] <- jj
+      plot.dat.ppd[ii, 3] <- realized.SMBC.array[i, j, jj]
+      plot.dat.ppd[ii, 4] <- postpred.SMBC.array[i, j, jj]
+      ii <- ii + 1
+    }
+  }
+}
+
+plot.dat.ppd <- plot.dat.ppd %>%
+  filter(itemj < itemjj) %>%
+  mutate(
+    cov = paste0("cov(", itemj, ", ", itemjj,")")
+  )
+
+ggplot(plot.dat.ppd, aes(x=real, y=ppd))+
+  geom_point(alpha=0.25)+
+  geom_density2d(adjust=2)+
+  geom_abline(intercept = 0, slope=1)+
+  facet_wrap(.~cov)+
+  lims(x=c(-1,1), y=c(-1,1))+
+  theme_classic()
+
+
+```
+
+
+## IRT Models for Polytomous Data
+
+A commonly used IRT model for polytomous items is the graded response model (GRM).
+Below is one way of describing the model.
+Let $x_{ij}$ be the observed response to item $j$ from examinee $i$ that may take on values 1, 2, ..., $K_j$, where $K_j$ is the number of possible responses/outcomes for item $j$.
+In many applications, the number of response options is constant across items, though this need not be the case.
+The GRM using conditional probability statements about the probability of a response being at or above a specific category and obtaining the probability for each category as a difference of two such conditional probabilities.
+That is 
+\[P(x_{ij} = k \mid \theta_i, \boldsymbol{d}_j,a_j) = P(x_{ij} \geq k \mid \theta_i, d_{jk},a_j) - P(x_{ij \geq k+1 \mid \theta_i, d_{j(k+1)},a_j),\]
+where $\boldsymbol{d}_j$ is the collection of location/threshold parameters for item $j$.
+The GRM takes on a structure similar to the 2-PL for any one category
+\[P(x_{ij} \geq k \mid \theta_i, d_{jk},a_j)=F(a_j\theta_i + d_{jk}).\]
+
+The conditional probability of observed responses may be modeled similarly as we have used for dichotomous responses but with a few important differences.
+The conditional distribution of the data is
+\[p(\boldsymbol{x}\mid \boldsymbol{\theta},\boldsymbol{\omega}) = \prod_{i=1}^np(\boldsymbol{x}_i\mid \theta_i, \boldsymbol{\omega}) = \prod_{i=1}^n\prod_{j=1}^Jp(x_{ij}\mid \theta_i, \boldsymbol{\omega}_j),\]
+where each $x_{ij}$ is specified as a categorical random variable (or multinomial).
+A categorical random variable is a generalization of the Bernoulli distribution which is defined be the collection of category response probabilities
+\[x_{ij} \sim \mathrm{Categorical}(\boldsymbol{P}(x_{ij}\mid\theta_i, \boldsymbol{\omega}_j)).\]
+
+The above helps form the likelihood of the observed data.
+Next, the prior distribution is described because what the structure should be is not necessarily obvious.
+
+First, the prior for the latent ability follows the same logic from the dichotomous model.
+We employ an exchangeability assumption to specify independent priors for each respondent with a normally distribution prior.
+
+Next, the measurement model parameters' priors are described.
+We again can assume exchangeability and arrive at a common but independent prior across items, and assume that the priors for the location and discrimination parameters are independent.
+These assumptions may not be tenable in theory, but they are practically useful.
+The priors for discrimination stay the same as the dichotomous model.
+The priors for the location parameters are a bit more involved.
+
+For the location parameters, the first location parameter $d_{j1}$ specifies the probability of responding a 1 or greater which is a certainty if they gave a response.
+Therefore, the probability would be 1.
+We set $d_{j1} = -\inf$ and then set a normal prior for $d_{j2}\sim \mathrm{Normal}(\mu_{d2},\sigma^2_{d2})$.
+The priors for the remaining location parameters ($d_{3}-d_{k}$) can be specified as truncated normal distributions.
+That is, the location of the next threshold is constrained to be larger than the previous threshold and is formally
+\[d_{jk} \sim \mathrm{Normal}^{>d_{j(k-1)}}(\mu_{d_k},\sigma^2_{d_k},\ \mathrm{for}\ k=3, ...,K_j.\]
+
+The posterior distribution for the GRM can be parameterized as follows.
+The model as described below is very general and can accommodate varying number of thresholds per item but is constrained to only 1 latent factor.
+
+\[p(\boldsymbol{\theta}, \boldsymbol{d}, \boldsymbol{a}\mid \mathbf{x}) \propto \prod_{i=1}^n\prod_{j=1}^Jp(\theta_i\mid\theta_i, \boldsymbol{d}_j, a_j)p(\theta_i)p(a_j)\prod_{k=2}^{K_j}p(d_{jk}),\]
+where
+\begin{align*}
+x_{ij}\mid\theta_i\mid\theta_i, \boldsymbol{d}_j, a_j) &\sim \mathrm{Categorical}(\boldsymbol{P}(x_{ij}\mid\theta_i, \boldsymbol{\omega}_j)),\ \mathrm{for}\ i=1, \cdots, n,\ j = 1, \cdots, J;\\
+\mathbf{P}(x_{ij}\mid\theta_i, \boldsymbol{d}_j, a_j) &= \left(P(x_{ij}=1\mid\theta_i, \boldsymbol{d}_j, a_j), \cdots, P(x_{ij}=K_j\mid\theta_i, \boldsymbol{d}_j, a_j)\right),\ \mathrm{for}\ i=1, \cdots, n,\ j = 1, \cdots, J;\\
+P(x_{ij}=k\mid\theta_i, \boldsymbol{d}_j, a_j) &= P(x_{ij}\geq k\mid\theta_i,d_{jk}, a_j) - P(x_{ij}\geq k+1\mid\theta_i, d_{j(k+1)}, a_j),\ \mathrm{for}\ i=1, \cdots, n,\ j = 1, \cdots, J,\ k = 1,\cdots,K_j-1;\\
+P(x_{ij}=K_j\mid\theta_i, \boldsymbol{d}_j, a_j) &= P(x_{ij}\geq K_j\mid\theta_i,d_{jK_j}, a_j),\ \mathrm{for}\ i=1, \cdots, n,\ j = 1, \cdots, J;\\
+P(x_{ij}\geq k\mid\theta_i, d_{jk}, a_j) &= F(a_j\theta_j + d_{jk}),\ \mathrm{for}\ i=1, \cdots, n,\ j = 1, \cdots, J,\ k=2,\cdots,K_j;\\
+P(x_{ij}\geq 1\mid\theta_i, d_{j1}, a_j) &= 1,\ \mathrm{for}\ i=1, \cdots, n,\ j = 1, \cdots, J;\\
+\theta_i \mid \mu_{\theta}, \sigma^2_{\theta} &\sim \mathrm{Normal}(\mu_{\theta}, \sigma^2_{\theta}),\ \mathrm{for}\ i = 1, \cdots, n;\\
+a_j \mid \mu_{a}, \sigma^2_{a} &\sim \mathrm{Normal}^{+}(\mu_{a}, \sigma^2_{a}),\ \mathrm{for}\ j=1, \cdots, J;\\
+d_{j2}\mid\mu_{j2}, \sigma^2_{j2} &\sim \mathrm{Normal}(\mu_{j2}, \sigma^2_{j2} ),\ \mathrm{for}\ j=1, \cdots, J;\ \mathrm{and}\\
+d_{jk}\mid\mu_{d_{jk}},\sigma^2_{d_{jk}} &\sim \mathrm{Normal}^{>d_{j(k-1)}}(\mu_{d_{jk}},\sigma^2_{d_{jk}}),\ \mathrm{for}\ j=1, \cdots, J,\ k=3, ...,K_j.
+\end{align*}
+
+## GRM Peer Interactions Example
+
+The book uses an example of Peer Interactions from 500 responses to seven items. All the responses are coded from 1 to 5 on an agreement Likert-type scale.
+A DAG for the GRM corresponding to these data is shown below.
+
+```{r chp11-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG for the for Peer Interactions GRM analysis'}
+knitr::include_graphics(paste0(w.d,'/dag/chp11-grm.png'),
+                        auto_pdf = TRUE)
+```
+
+The path diagram version is substantially simpler and identical to the path diagram for the 3-PL and factor analysis diagrams.
+Highlighting the similarity in *substantive* modeling of polytomous items to dichotomous items.
+
+```{r chp11-pathdiag-2, echo=FALSE,fig.align='center',fig.cap='Path diagram for the Peer Interactions GRM analysis'}
+knitr::include_graphics(paste0(w.d,'/path-diagram/chp11-grm.png'),
+                        auto_pdf = TRUE)
+```
+
+For completeness, I have included the model specification diagram that more concretely connects the DAG and path diagram to the assumed distributions and priors.
+
+```{r chp11-spec-2, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the Peer Interactions GRM analysis'}
+knitr::include_graphics(paste0(w.d,'/model-spec/chp11-grm.png'),
+                        auto_pdf = TRUE)
+```
+
+### Peer Interactions Example using JAGS
+
 
 
 ## Final Notes
 
 * A fully Bayesian approach to psychometric modeling helps highlight the major similarities between factor analytic frameworks and the item response theory perspective.
 
+```{r}
+
+rm(list=ls())
+
+```

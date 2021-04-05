@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-02-16" />
+<meta name="date" content="2021-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="example-1-known-measurement-model-parameters-with-1-measure.html"/>
 <link rel="next" href="example-1-jags.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -206,7 +206,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html#lsat-example-using-jags"><i class="fa fa-check"></i><b>11.2.1</b> LSAT Example Using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.3</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.4" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.4</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#peer-interactions-example-using-jags"><i class="fa fa-check"></i><b>11.4.1</b> Peer Interactions Example using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.5</b> Final Notes</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -230,135 +243,135 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="example-1---stan" class="section level2" number="8.2">
 <h2><span class="header-section-number">8.2</span> Example 1 - Stan</h2>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="example-1-stan.html#cb102-1" aria-hidden="true" tabindex="-1"></a>model_ctt1 <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
-<span id="cb102-2"><a href="example-1-stan.html#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
-<span id="cb102-3"><a href="example-1-stan.html#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int  N;</span></span>
-<span id="cb102-4"><a href="example-1-stan.html#cb102-4" aria-hidden="true" tabindex="-1"></a><span class="st">  real x[N];</span></span>
-<span id="cb102-5"><a href="example-1-stan.html#cb102-5" aria-hidden="true" tabindex="-1"></a><span class="st">  real muT;</span></span>
-<span id="cb102-6"><a href="example-1-stan.html#cb102-6" aria-hidden="true" tabindex="-1"></a><span class="st">  real sigmaT;</span></span>
-<span id="cb102-7"><a href="example-1-stan.html#cb102-7" aria-hidden="true" tabindex="-1"></a><span class="st">  real sigmaE;</span></span>
-<span id="cb102-8"><a href="example-1-stan.html#cb102-8" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb102-9"><a href="example-1-stan.html#cb102-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb102-10"><a href="example-1-stan.html#cb102-10" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
-<span id="cb102-11"><a href="example-1-stan.html#cb102-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real T[N];</span></span>
-<span id="cb102-12"><a href="example-1-stan.html#cb102-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb102-13"><a href="example-1-stan.html#cb102-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb102-14"><a href="example-1-stan.html#cb102-14" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
-<span id="cb102-15"><a href="example-1-stan.html#cb102-15" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:N){</span></span>
-<span id="cb102-16"><a href="example-1-stan.html#cb102-16" aria-hidden="true" tabindex="-1"></a><span class="st">    x[i] ~ normal(T[i], sigmaE);</span></span>
-<span id="cb102-17"><a href="example-1-stan.html#cb102-17" aria-hidden="true" tabindex="-1"></a><span class="st">    T[i] ~ normal(muT, sigmaT);</span></span>
-<span id="cb102-18"><a href="example-1-stan.html#cb102-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb102-19"><a href="example-1-stan.html#cb102-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb102-20"><a href="example-1-stan.html#cb102-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb102-21"><a href="example-1-stan.html#cb102-21" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb102-22"><a href="example-1-stan.html#cb102-22" aria-hidden="true" tabindex="-1"></a><span class="co"># data must be in a list</span></span>
-<span id="cb102-23"><a href="example-1-stan.html#cb102-23" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb102-24"><a href="example-1-stan.html#cb102-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">N=</span><span class="dv">3</span>, </span>
-<span id="cb102-25"><a href="example-1-stan.html#cb102-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">80</span>, <span class="dv">96</span>),</span>
-<span id="cb102-26"><a href="example-1-stan.html#cb102-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">muT =</span> <span class="dv">80</span>,</span>
-<span id="cb102-27"><a href="example-1-stan.html#cb102-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigmaT =</span> <span class="dv">6</span>, <span class="co">#sqrt(36)</span></span>
-<span id="cb102-28"><a href="example-1-stan.html#cb102-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigmaE =</span> <span class="dv">4</span> <span class="co"># sqrt(16)</span></span>
-<span id="cb102-29"><a href="example-1-stan.html#cb102-29" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb102-30"><a href="example-1-stan.html#cb102-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb102-31"><a href="example-1-stan.html#cb102-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Next, need to fit the model</span></span>
-<span id="cb102-32"><a href="example-1-stan.html#cb102-32" aria-hidden="true" tabindex="-1"></a><span class="co">#   I have explicitly outlined some common parameters</span></span>
-<span id="cb102-33"><a href="example-1-stan.html#cb102-33" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
-<span id="cb102-34"><a href="example-1-stan.html#cb102-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_code =</span> model_ctt1, <span class="co"># model code to be compiled</span></span>
-<span id="cb102-35"><a href="example-1-stan.html#cb102-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> mydata,          <span class="co"># my data</span></span>
-<span id="cb102-36"><a href="example-1-stan.html#cb102-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>,             <span class="co"># number of Markov chains</span></span>
-<span id="cb102-37"><a href="example-1-stan.html#cb102-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,          <span class="co"># number of warm up iterations per chain</span></span>
-<span id="cb102-38"><a href="example-1-stan.html#cb102-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">5000</span>,            <span class="co"># total number of iterations per chain</span></span>
-<span id="cb102-39"><a href="example-1-stan.html#cb102-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
-<span id="cb102-40"><a href="example-1-stan.html#cb102-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
-<span id="cb102-41"><a href="example-1-stan.html#cb102-41" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="example-1-stan.html#cb101-1" aria-hidden="true" tabindex="-1"></a>model_ctt1 <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb101-2"><a href="example-1-stan.html#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="st">data {</span></span>
+<span id="cb101-3"><a href="example-1-stan.html#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="st">  int  N;</span></span>
+<span id="cb101-4"><a href="example-1-stan.html#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="st">  real x[N];</span></span>
+<span id="cb101-5"><a href="example-1-stan.html#cb101-5" aria-hidden="true" tabindex="-1"></a><span class="st">  real muT;</span></span>
+<span id="cb101-6"><a href="example-1-stan.html#cb101-6" aria-hidden="true" tabindex="-1"></a><span class="st">  real sigmaT;</span></span>
+<span id="cb101-7"><a href="example-1-stan.html#cb101-7" aria-hidden="true" tabindex="-1"></a><span class="st">  real sigmaE;</span></span>
+<span id="cb101-8"><a href="example-1-stan.html#cb101-8" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb101-9"><a href="example-1-stan.html#cb101-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-10"><a href="example-1-stan.html#cb101-10" aria-hidden="true" tabindex="-1"></a><span class="st">parameters {</span></span>
+<span id="cb101-11"><a href="example-1-stan.html#cb101-11" aria-hidden="true" tabindex="-1"></a><span class="st">  real T[N];</span></span>
+<span id="cb101-12"><a href="example-1-stan.html#cb101-12" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb101-13"><a href="example-1-stan.html#cb101-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-14"><a href="example-1-stan.html#cb101-14" aria-hidden="true" tabindex="-1"></a><span class="st">model {</span></span>
+<span id="cb101-15"><a href="example-1-stan.html#cb101-15" aria-hidden="true" tabindex="-1"></a><span class="st">  for(i in 1:N){</span></span>
+<span id="cb101-16"><a href="example-1-stan.html#cb101-16" aria-hidden="true" tabindex="-1"></a><span class="st">    x[i] ~ normal(T[i], sigmaE);</span></span>
+<span id="cb101-17"><a href="example-1-stan.html#cb101-17" aria-hidden="true" tabindex="-1"></a><span class="st">    T[i] ~ normal(muT, sigmaT);</span></span>
+<span id="cb101-18"><a href="example-1-stan.html#cb101-18" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb101-19"><a href="example-1-stan.html#cb101-19" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb101-20"><a href="example-1-stan.html#cb101-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-21"><a href="example-1-stan.html#cb101-21" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb101-22"><a href="example-1-stan.html#cb101-22" aria-hidden="true" tabindex="-1"></a><span class="co"># data must be in a list</span></span>
+<span id="cb101-23"><a href="example-1-stan.html#cb101-23" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb101-24"><a href="example-1-stan.html#cb101-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">N=</span><span class="dv">3</span>, </span>
+<span id="cb101-25"><a href="example-1-stan.html#cb101-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">80</span>, <span class="dv">96</span>),</span>
+<span id="cb101-26"><a href="example-1-stan.html#cb101-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">muT =</span> <span class="dv">80</span>,</span>
+<span id="cb101-27"><a href="example-1-stan.html#cb101-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigmaT =</span> <span class="dv">6</span>, <span class="co">#sqrt(36)</span></span>
+<span id="cb101-28"><a href="example-1-stan.html#cb101-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigmaE =</span> <span class="dv">4</span> <span class="co"># sqrt(16)</span></span>
+<span id="cb101-29"><a href="example-1-stan.html#cb101-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb101-30"><a href="example-1-stan.html#cb101-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-31"><a href="example-1-stan.html#cb101-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Next, need to fit the model</span></span>
+<span id="cb101-32"><a href="example-1-stan.html#cb101-32" aria-hidden="true" tabindex="-1"></a><span class="co">#   I have explicitly outlined some common parameters</span></span>
+<span id="cb101-33"><a href="example-1-stan.html#cb101-33" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">stan</span>(</span>
+<span id="cb101-34"><a href="example-1-stan.html#cb101-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">model_code =</span> model_ctt1, <span class="co"># model code to be compiled</span></span>
+<span id="cb101-35"><a href="example-1-stan.html#cb101-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> mydata,          <span class="co"># my data</span></span>
+<span id="cb101-36"><a href="example-1-stan.html#cb101-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">chains =</span> <span class="dv">4</span>,             <span class="co"># number of Markov chains</span></span>
+<span id="cb101-37"><a href="example-1-stan.html#cb101-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">warmup =</span> <span class="dv">1000</span>,          <span class="co"># number of warm up iterations per chain</span></span>
+<span id="cb101-38"><a href="example-1-stan.html#cb101-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">5000</span>,            <span class="co"># total number of iterations per chain</span></span>
+<span id="cb101-39"><a href="example-1-stan.html#cb101-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
+<span id="cb101-40"><a href="example-1-stan.html#cb101-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
+<span id="cb101-41"><a href="example-1-stan.html#cb101-41" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr =
 ## TRUE): &#39;-E&#39; not found</code></pre>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="example-1-stan.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
-<span id="cb104-2"><a href="example-1-stan.html#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="example-1-stan.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
+<span id="cb103-2"><a href="example-1-stan.html#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
 <pre><code>## Inference for Stan model: f5d98d6088830a6665ad87ae5eaa93c8.
 ## 4 chains, each with iter=5000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=4000, total post-warmup draws=16000.
 ## 
 ##       mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## T[1] 73.08    0.03 3.31 66.58 70.85 73.07 75.30 79.52 16644    1
-## T[2] 79.98    0.03 3.32 73.53 77.76 79.96 82.23 86.43 16872    1
-## T[3] 91.06    0.03 3.28 84.59 88.88 91.05 93.25 97.57 16258    1
-## lp__ -4.90    0.01 1.21 -8.03 -5.45 -4.58 -4.01 -3.53  8251    1
+## T[1] 73.06    0.03 3.33 66.58 70.84 73.03 75.31 79.59 15634    1
+## T[2] 80.00    0.03 3.31 73.61 77.75 80.00 82.23 86.45 15102    1
+## T[3] 91.09    0.03 3.37 84.55 88.80 91.08 93.35 97.73 16506    1
+## lp__ -4.93    0.01 1.24 -8.17 -5.48 -4.61 -4.03 -3.53  7836    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Oct 08 16:13:28 2020.
+## Samples were drawn using NUTS(diag_e) at Mon Apr 05 02:26:32 2021.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="example-1-stan.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the posterior in a</span></span>
-<span id="cb106-2"><a href="example-1-stan.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  95% probability interval</span></span>
-<span id="cb106-3"><a href="example-1-stan.html#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  and 80% to contrast the dispersion</span></span>
-<span id="cb106-4"><a href="example-1-stan.html#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="example-1-stan.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the posterior in a</span></span>
+<span id="cb105-2"><a href="example-1-stan.html#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  95% probability interval</span></span>
+<span id="cb105-3"><a href="example-1-stan.html#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  and 80% to contrast the dispersion</span></span>
+<span id="cb105-4"><a href="example-1-stan.html#cb105-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code></pre></div>
 <pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
 <pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-1-1.png" width="672" /></p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="example-1-stan.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># traceplots</span></span>
-<span id="cb109-2"><a href="example-1-stan.html#cb109-2" aria-hidden="true" tabindex="-1"></a>rstan<span class="sc">::</span><span class="fu">traceplot</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>), <span class="at">inc_warmup =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="example-1-stan.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># traceplots</span></span>
+<span id="cb108-2"><a href="example-1-stan.html#cb108-2" aria-hidden="true" tabindex="-1"></a>rstan<span class="sc">::</span><span class="fu">traceplot</span>(fit, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>), <span class="at">inc_warmup =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-1-2.png" width="672" /></p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="example-1-stan.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span></span>
-<span id="cb110-2"><a href="example-1-stan.html#cb110-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="st">&quot;T&quot;</span>)) <span class="sc">+</span> </span>
-<span id="cb110-3"><a href="example-1-stan.html#cb110-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb110-4"><a href="example-1-stan.html#cb110-4" aria-hidden="true" tabindex="-1"></a>p1</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="example-1-stan.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span></span>
+<span id="cb109-2"><a href="example-1-stan.html#cb109-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(fit, <span class="at">family =</span> <span class="st">&quot;T&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb109-3"><a href="example-1-stan.html#cb109-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb109-4"><a href="example-1-stan.html#cb109-4" aria-hidden="true" tabindex="-1"></a>p1</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-1-3.png" width="672" /></p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="example-1-stan.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># autocorrelation</span></span>
-<span id="cb111-2"><a href="example-1-stan.html#cb111-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;T&quot;</span>)) <span class="sc">+</span> </span>
-<span id="cb111-3"><a href="example-1-stan.html#cb111-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb111-4"><a href="example-1-stan.html#cb111-4" aria-hidden="true" tabindex="-1"></a>p1 </span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="example-1-stan.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># autocorrelation</span></span>
+<span id="cb110-2"><a href="example-1-stan.html#cb110-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggs_autocorrelation</span>(<span class="fu">ggs</span>(fit, <span class="at">family=</span><span class="st">&quot;T&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb110-3"><a href="example-1-stan.html#cb110-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb110-4"><a href="example-1-stan.html#cb110-4" aria-hidden="true" tabindex="-1"></a>p1 </span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-1-4.png" width="672" /></p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="example-1-stan.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the posterior density</span></span>
-<span id="cb112-2"><a href="example-1-stan.html#cb112-2" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(fit)</span>
-<span id="cb112-3"><a href="example-1-stan.html#cb112-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb112-4"><a href="example-1-stan.html#cb112-4" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
-<span id="cb112-5"><a href="example-1-stan.html#cb112-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
-<span id="cb112-6"><a href="example-1-stan.html#cb112-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb112-7"><a href="example-1-stan.html#cb112-7" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
-<span id="cb112-8"><a href="example-1-stan.html#cb112-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;T[1]&quot;</span>,<span class="st">&quot;T[2]&quot;</span>,<span class="st">&quot;T[3]&quot;</span>),</span>
-<span id="cb112-9"><a href="example-1-stan.html#cb112-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
-<span id="cb112-10"><a href="example-1-stan.html#cb112-10" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="example-1-stan.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the posterior density</span></span>
+<span id="cb111-2"><a href="example-1-stan.html#cb111-2" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(fit)</span>
+<span id="cb111-3"><a href="example-1-stan.html#cb111-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-4"><a href="example-1-stan.html#cb111-4" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb111-5"><a href="example-1-stan.html#cb111-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb111-6"><a href="example-1-stan.html#cb111-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb111-7"><a href="example-1-stan.html#cb111-7" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb111-8"><a href="example-1-stan.html#cb111-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;T[1]&quot;</span>,<span class="st">&quot;T[2]&quot;</span>,<span class="st">&quot;T[3]&quot;</span>),</span>
+<span id="cb111-9"><a href="example-1-stan.html#cb111-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
+<span id="cb111-10"><a href="example-1-stan.html#cb111-10" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-1-5.png" width="672" /></p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="example-1-stan.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I prefer a posterior plot that includes prior and MLE</span></span>
-<span id="cb113-2"><a href="example-1-stan.html#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Expanded Posterior Plot</span></span>
-<span id="cb113-3"><a href="example-1-stan.html#cb113-3" aria-hidden="true" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> mydata<span class="sc">$</span>x</span>
-<span id="cb113-4"><a href="example-1-stan.html#cb113-4" aria-hidden="true" tabindex="-1"></a>prior_t <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">dnorm</span>(x, <span class="dv">80</span>, <span class="dv">6</span>)}</span>
-<span id="cb113-5"><a href="example-1-stan.html#cb113-5" aria-hidden="true" tabindex="-1"></a>x.t<span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">50.1</span>, <span class="dv">100</span>, <span class="fl">0.1</span>)</span>
-<span id="cb113-6"><a href="example-1-stan.html#cb113-6" aria-hidden="true" tabindex="-1"></a>prior.t <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">tr=</span>x.t, <span class="at">dens.t =</span> <span class="fu">prior_t</span>(x.t))</span>
-<span id="cb113-7"><a href="example-1-stan.html#cb113-7" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Posterior&quot;</span><span class="ot">=</span><span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;Prior&quot;</span><span class="ot">=</span><span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;MLE&quot;</span><span class="ot">=</span> <span class="st">&quot;black&quot;</span>)<span class="co">#&quot;#56B4E9&quot;, &quot;#E69F00&quot; &quot;#CC79A7&quot;</span></span>
-<span id="cb113-8"><a href="example-1-stan.html#cb113-8" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(plot.data)</span>
-<span id="cb113-9"><a href="example-1-stan.html#cb113-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb113-10"><a href="example-1-stan.html#cb113-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
-<span id="cb113-11"><a href="example-1-stan.html#cb113-11" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">T[1]</span><span class="st">`</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb113-12"><a href="example-1-stan.html#cb113-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.t,</span>
-<span id="cb113-13"><a href="example-1-stan.html#cb113-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>tr, <span class="at">y=</span>dens.t, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb113-14"><a href="example-1-stan.html#cb113-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">1</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
-<span id="cb113-15"><a href="example-1-stan.html#cb113-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb113-16"><a href="example-1-stan.html#cb113-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb113-17"><a href="example-1-stan.html#cb113-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb113-18"><a href="example-1-stan.html#cb113-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb113-19"><a href="example-1-stan.html#cb113-19" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb113-20"><a href="example-1-stan.html#cb113-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
-<span id="cb113-21"><a href="example-1-stan.html#cb113-21" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">T[2]</span><span class="st">`</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb113-22"><a href="example-1-stan.html#cb113-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.t,</span>
-<span id="cb113-23"><a href="example-1-stan.html#cb113-23" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>tr, <span class="at">y=</span>dens.t, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb113-24"><a href="example-1-stan.html#cb113-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">2</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
-<span id="cb113-25"><a href="example-1-stan.html#cb113-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb113-26"><a href="example-1-stan.html#cb113-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb113-27"><a href="example-1-stan.html#cb113-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb113-28"><a href="example-1-stan.html#cb113-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb113-29"><a href="example-1-stan.html#cb113-29" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb113-30"><a href="example-1-stan.html#cb113-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
-<span id="cb113-31"><a href="example-1-stan.html#cb113-31" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">T[3]</span><span class="st">`</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb113-32"><a href="example-1-stan.html#cb113-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.t,</span>
-<span id="cb113-33"><a href="example-1-stan.html#cb113-33" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>tr, <span class="at">y=</span>dens.t, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb113-34"><a href="example-1-stan.html#cb113-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">3</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
-<span id="cb113-35"><a href="example-1-stan.html#cb113-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb113-36"><a href="example-1-stan.html#cb113-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb113-37"><a href="example-1-stan.html#cb113-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb113-38"><a href="example-1-stan.html#cb113-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb113-39"><a href="example-1-stan.html#cb113-39" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="example-1-stan.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I prefer a posterior plot that includes prior and MLE</span></span>
+<span id="cb112-2"><a href="example-1-stan.html#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Expanded Posterior Plot</span></span>
+<span id="cb112-3"><a href="example-1-stan.html#cb112-3" aria-hidden="true" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> mydata<span class="sc">$</span>x</span>
+<span id="cb112-4"><a href="example-1-stan.html#cb112-4" aria-hidden="true" tabindex="-1"></a>prior_t <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">dnorm</span>(x, <span class="dv">80</span>, <span class="dv">6</span>)}</span>
+<span id="cb112-5"><a href="example-1-stan.html#cb112-5" aria-hidden="true" tabindex="-1"></a>x.t<span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">50.1</span>, <span class="dv">100</span>, <span class="fl">0.1</span>)</span>
+<span id="cb112-6"><a href="example-1-stan.html#cb112-6" aria-hidden="true" tabindex="-1"></a>prior.t <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">tr=</span>x.t, <span class="at">dens.t =</span> <span class="fu">prior_t</span>(x.t))</span>
+<span id="cb112-7"><a href="example-1-stan.html#cb112-7" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Posterior&quot;</span><span class="ot">=</span><span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;Prior&quot;</span><span class="ot">=</span><span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;MLE&quot;</span><span class="ot">=</span> <span class="st">&quot;black&quot;</span>)<span class="co">#&quot;#56B4E9&quot;, &quot;#E69F00&quot; &quot;#CC79A7&quot;</span></span>
+<span id="cb112-8"><a href="example-1-stan.html#cb112-8" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(plot.data)</span>
+<span id="cb112-9"><a href="example-1-stan.html#cb112-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb112-10"><a href="example-1-stan.html#cb112-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
+<span id="cb112-11"><a href="example-1-stan.html#cb112-11" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">T[1]</span><span class="st">`</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb112-12"><a href="example-1-stan.html#cb112-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.t,</span>
+<span id="cb112-13"><a href="example-1-stan.html#cb112-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>tr, <span class="at">y=</span>dens.t, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb112-14"><a href="example-1-stan.html#cb112-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">1</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
+<span id="cb112-15"><a href="example-1-stan.html#cb112-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb112-16"><a href="example-1-stan.html#cb112-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb112-17"><a href="example-1-stan.html#cb112-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb112-18"><a href="example-1-stan.html#cb112-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-19"><a href="example-1-stan.html#cb112-19" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb112-20"><a href="example-1-stan.html#cb112-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
+<span id="cb112-21"><a href="example-1-stan.html#cb112-21" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">T[2]</span><span class="st">`</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb112-22"><a href="example-1-stan.html#cb112-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.t,</span>
+<span id="cb112-23"><a href="example-1-stan.html#cb112-23" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>tr, <span class="at">y=</span>dens.t, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb112-24"><a href="example-1-stan.html#cb112-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">2</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
+<span id="cb112-25"><a href="example-1-stan.html#cb112-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb112-26"><a href="example-1-stan.html#cb112-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb112-27"><a href="example-1-stan.html#cb112-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb112-28"><a href="example-1-stan.html#cb112-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-29"><a href="example-1-stan.html#cb112-29" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb112-30"><a href="example-1-stan.html#cb112-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
+<span id="cb112-31"><a href="example-1-stan.html#cb112-31" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">T[3]</span><span class="st">`</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb112-32"><a href="example-1-stan.html#cb112-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.t,</span>
+<span id="cb112-33"><a href="example-1-stan.html#cb112-33" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>tr, <span class="at">y=</span>dens.t, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb112-34"><a href="example-1-stan.html#cb112-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">3</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
+<span id="cb112-35"><a href="example-1-stan.html#cb112-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb112-36"><a href="example-1-stan.html#cb112-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb112-37"><a href="example-1-stan.html#cb112-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb112-38"><a href="example-1-stan.html#cb112-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-39"><a href="example-1-stan.html#cb112-39" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp8-ctt-fit-stan-1-6.png" width="672" /></p>
 </div>
             </section>

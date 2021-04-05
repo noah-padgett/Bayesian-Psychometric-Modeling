@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-02-16" />
+<meta name="date" content="2021-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="example-1-stan.html"/>
 <link rel="next" href="example-2-known-measurement-model-with-multiple-measures.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -206,7 +206,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html#lsat-example-using-jags"><i class="fa fa-check"></i><b>11.2.1</b> LSAT Example Using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.3</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.4" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.4</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#peer-interactions-example-using-jags"><i class="fa fa-check"></i><b>11.4.1</b> Peer Interactions Example using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.5</b> Final Notes</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -230,61 +243,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="example-1---jags" class="section level2" number="8.3">
 <h2><span class="header-section-number">8.3</span> Example 1 - JAGS</h2>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="example-1-jags.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model code</span></span>
-<span id="cb114-2"><a href="example-1-jags.html#cb114-2" aria-hidden="true" tabindex="-1"></a>jags.model.ctt1 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb114-3"><a href="example-1-jags.html#cb114-3" aria-hidden="true" tabindex="-1"></a>   <span class="do">############################################</span></span>
-<span id="cb114-4"><a href="example-1-jags.html#cb114-4" aria-hidden="true" tabindex="-1"></a>     <span class="co"># CLASSICAL </span><span class="al">TEST</span><span class="co"> THEORY MODEL</span></span>
-<span id="cb114-5"><a href="example-1-jags.html#cb114-5" aria-hidden="true" tabindex="-1"></a>     <span class="co"># WITH KNOWN HYPERPARAMETERS</span></span>
-<span id="cb114-6"><a href="example-1-jags.html#cb114-6" aria-hidden="true" tabindex="-1"></a>     <span class="co">#    TRUE SCORE MEAN, TRUE SCORE VARIANCE</span></span>
-<span id="cb114-7"><a href="example-1-jags.html#cb114-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">#    ERROR VARIANCE</span></span>
-<span id="cb114-8"><a href="example-1-jags.html#cb114-8" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
-<span id="cb114-9"><a href="example-1-jags.html#cb114-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-10"><a href="example-1-jags.html#cb114-10" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
-<span id="cb114-11"><a href="example-1-jags.html#cb114-11" aria-hidden="true" tabindex="-1"></a>     <span class="co"># KNOWN HYPERPARAMETERS</span></span>
-<span id="cb114-12"><a href="example-1-jags.html#cb114-12" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
-<span id="cb114-13"><a href="example-1-jags.html#cb114-13" aria-hidden="true" tabindex="-1"></a>     mu.T <span class="ot">&lt;-</span> <span class="dv">80</span>               <span class="co"># Mean of the true scores</span></span>
-<span id="cb114-14"><a href="example-1-jags.html#cb114-14" aria-hidden="true" tabindex="-1"></a>     sigma.squared.T <span class="ot">&lt;-</span> <span class="dv">36</span>    <span class="co"># Variance of the true scores</span></span>
-<span id="cb114-15"><a href="example-1-jags.html#cb114-15" aria-hidden="true" tabindex="-1"></a>     sigma.squared.E <span class="ot">&lt;-</span> <span class="dv">16</span>    <span class="co"># Variance of the errors</span></span>
-<span id="cb114-16"><a href="example-1-jags.html#cb114-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-17"><a href="example-1-jags.html#cb114-17" aria-hidden="true" tabindex="-1"></a>     tau.T <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sigma.squared.T   <span class="co"># Precision of the true scores</span></span>
-<span id="cb114-18"><a href="example-1-jags.html#cb114-18" aria-hidden="true" tabindex="-1"></a>     tau.E <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sigma.squared.E   <span class="co"># Precision of the errors</span></span>
-<span id="cb114-19"><a href="example-1-jags.html#cb114-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-20"><a href="example-1-jags.html#cb114-20" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb114-21"><a href="example-1-jags.html#cb114-21" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
-<span id="cb114-22"><a href="example-1-jags.html#cb114-22" aria-hidden="true" tabindex="-1"></a>     <span class="co"># MODEL FOR TRUE SCORES AND OBSERVABLES</span></span>
-<span id="cb114-23"><a href="example-1-jags.html#cb114-23" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
-<span id="cb114-24"><a href="example-1-jags.html#cb114-24" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb114-25"><a href="example-1-jags.html#cb114-25" aria-hidden="true" tabindex="-1"></a>     <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
-<span id="cb114-26"><a href="example-1-jags.html#cb114-26" aria-hidden="true" tabindex="-1"></a>          T[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu.T, tau.T)     <span class="co"># Distribution of true scores</span></span>
-<span id="cb114-27"><a href="example-1-jags.html#cb114-27" aria-hidden="true" tabindex="-1"></a>          x[i] <span class="sc">~</span> <span class="fu">dnorm</span>(T[i], tau.E)     <span class="co"># Distribution of observables</span></span>
-<span id="cb114-28"><a href="example-1-jags.html#cb114-28" aria-hidden="true" tabindex="-1"></a>     }</span>
-<span id="cb114-29"><a href="example-1-jags.html#cb114-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb114-30"><a href="example-1-jags.html#cb114-30" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb114-31"><a href="example-1-jags.html#cb114-31" aria-hidden="true" tabindex="-1"></a><span class="co"># data</span></span>
-<span id="cb114-32"><a href="example-1-jags.html#cb114-32" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb114-33"><a href="example-1-jags.html#cb114-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">n=</span><span class="dv">3</span>, </span>
-<span id="cb114-34"><a href="example-1-jags.html#cb114-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">80</span>, <span class="dv">96</span>)</span>
-<span id="cb114-35"><a href="example-1-jags.html#cb114-35" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb114-36"><a href="example-1-jags.html#cb114-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-37"><a href="example-1-jags.html#cb114-37" aria-hidden="true" tabindex="-1"></a><span class="co"># starting values</span></span>
-<span id="cb114-38"><a href="example-1-jags.html#cb114-38" aria-hidden="true" tabindex="-1"></a>start_values <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb114-39"><a href="example-1-jags.html#cb114-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;T&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">80</span>,<span class="dv">80</span>))</span>
-<span id="cb114-40"><a href="example-1-jags.html#cb114-40" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb114-41"><a href="example-1-jags.html#cb114-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-42"><a href="example-1-jags.html#cb114-42" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of all parameters to save</span></span>
-<span id="cb114-43"><a href="example-1-jags.html#cb114-43" aria-hidden="true" tabindex="-1"></a>param_save <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
-<span id="cb114-44"><a href="example-1-jags.html#cb114-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb114-45"><a href="example-1-jags.html#cb114-45" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
-<span id="cb114-46"><a href="example-1-jags.html#cb114-46" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">jags</span>(</span>
-<span id="cb114-47"><a href="example-1-jags.html#cb114-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.file=</span>jags.model.ctt1,</span>
-<span id="cb114-48"><a href="example-1-jags.html#cb114-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>mydata,</span>
-<span id="cb114-49"><a href="example-1-jags.html#cb114-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits=</span>start_values,</span>
-<span id="cb114-50"><a href="example-1-jags.html#cb114-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters.to.save =</span> param_save,</span>
-<span id="cb114-51"><a href="example-1-jags.html#cb114-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">4000</span>,</span>
-<span id="cb114-52"><a href="example-1-jags.html#cb114-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">1000</span>,</span>
-<span id="cb114-53"><a href="example-1-jags.html#cb114-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.chains =</span> <span class="dv">4</span>,</span>
-<span id="cb114-54"><a href="example-1-jags.html#cb114-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.thin=</span><span class="dv">1</span>,</span>
-<span id="cb114-55"><a href="example-1-jags.html#cb114-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="example-1-jags.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model code</span></span>
+<span id="cb113-2"><a href="example-1-jags.html#cb113-2" aria-hidden="true" tabindex="-1"></a>jags.model.ctt1 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb113-3"><a href="example-1-jags.html#cb113-3" aria-hidden="true" tabindex="-1"></a>   <span class="do">############################################</span></span>
+<span id="cb113-4"><a href="example-1-jags.html#cb113-4" aria-hidden="true" tabindex="-1"></a>     <span class="co"># CLASSICAL </span><span class="al">TEST</span><span class="co"> THEORY MODEL</span></span>
+<span id="cb113-5"><a href="example-1-jags.html#cb113-5" aria-hidden="true" tabindex="-1"></a>     <span class="co"># WITH KNOWN HYPERPARAMETERS</span></span>
+<span id="cb113-6"><a href="example-1-jags.html#cb113-6" aria-hidden="true" tabindex="-1"></a>     <span class="co">#    TRUE SCORE MEAN, TRUE SCORE VARIANCE</span></span>
+<span id="cb113-7"><a href="example-1-jags.html#cb113-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">#    ERROR VARIANCE</span></span>
+<span id="cb113-8"><a href="example-1-jags.html#cb113-8" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
+<span id="cb113-9"><a href="example-1-jags.html#cb113-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-10"><a href="example-1-jags.html#cb113-10" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
+<span id="cb113-11"><a href="example-1-jags.html#cb113-11" aria-hidden="true" tabindex="-1"></a>     <span class="co"># KNOWN HYPERPARAMETERS</span></span>
+<span id="cb113-12"><a href="example-1-jags.html#cb113-12" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
+<span id="cb113-13"><a href="example-1-jags.html#cb113-13" aria-hidden="true" tabindex="-1"></a>     mu.T <span class="ot">&lt;-</span> <span class="dv">80</span>               <span class="co"># Mean of the true scores</span></span>
+<span id="cb113-14"><a href="example-1-jags.html#cb113-14" aria-hidden="true" tabindex="-1"></a>     sigma.squared.T <span class="ot">&lt;-</span> <span class="dv">36</span>    <span class="co"># Variance of the true scores</span></span>
+<span id="cb113-15"><a href="example-1-jags.html#cb113-15" aria-hidden="true" tabindex="-1"></a>     sigma.squared.E <span class="ot">&lt;-</span> <span class="dv">16</span>    <span class="co"># Variance of the errors</span></span>
+<span id="cb113-16"><a href="example-1-jags.html#cb113-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-17"><a href="example-1-jags.html#cb113-17" aria-hidden="true" tabindex="-1"></a>     tau.T <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sigma.squared.T   <span class="co"># Precision of the true scores</span></span>
+<span id="cb113-18"><a href="example-1-jags.html#cb113-18" aria-hidden="true" tabindex="-1"></a>     tau.E <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>sigma.squared.E   <span class="co"># Precision of the errors</span></span>
+<span id="cb113-19"><a href="example-1-jags.html#cb113-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-20"><a href="example-1-jags.html#cb113-20" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb113-21"><a href="example-1-jags.html#cb113-21" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
+<span id="cb113-22"><a href="example-1-jags.html#cb113-22" aria-hidden="true" tabindex="-1"></a>     <span class="co"># MODEL FOR TRUE SCORES AND OBSERVABLES</span></span>
+<span id="cb113-23"><a href="example-1-jags.html#cb113-23" aria-hidden="true" tabindex="-1"></a>     <span class="do">############################################</span></span>
+<span id="cb113-24"><a href="example-1-jags.html#cb113-24" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb113-25"><a href="example-1-jags.html#cb113-25" aria-hidden="true" tabindex="-1"></a>     <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb113-26"><a href="example-1-jags.html#cb113-26" aria-hidden="true" tabindex="-1"></a>          T[i] <span class="sc">~</span> <span class="fu">dnorm</span>(mu.T, tau.T)     <span class="co"># Distribution of true scores</span></span>
+<span id="cb113-27"><a href="example-1-jags.html#cb113-27" aria-hidden="true" tabindex="-1"></a>          x[i] <span class="sc">~</span> <span class="fu">dnorm</span>(T[i], tau.E)     <span class="co"># Distribution of observables</span></span>
+<span id="cb113-28"><a href="example-1-jags.html#cb113-28" aria-hidden="true" tabindex="-1"></a>     }</span>
+<span id="cb113-29"><a href="example-1-jags.html#cb113-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb113-30"><a href="example-1-jags.html#cb113-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb113-31"><a href="example-1-jags.html#cb113-31" aria-hidden="true" tabindex="-1"></a><span class="co"># data</span></span>
+<span id="cb113-32"><a href="example-1-jags.html#cb113-32" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb113-33"><a href="example-1-jags.html#cb113-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">n=</span><span class="dv">3</span>, </span>
+<span id="cb113-34"><a href="example-1-jags.html#cb113-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">x=</span><span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">80</span>, <span class="dv">96</span>)</span>
+<span id="cb113-35"><a href="example-1-jags.html#cb113-35" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb113-36"><a href="example-1-jags.html#cb113-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-37"><a href="example-1-jags.html#cb113-37" aria-hidden="true" tabindex="-1"></a><span class="co"># starting values</span></span>
+<span id="cb113-38"><a href="example-1-jags.html#cb113-38" aria-hidden="true" tabindex="-1"></a>start_values <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb113-39"><a href="example-1-jags.html#cb113-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;T&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">80</span>,<span class="dv">80</span>))</span>
+<span id="cb113-40"><a href="example-1-jags.html#cb113-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb113-41"><a href="example-1-jags.html#cb113-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-42"><a href="example-1-jags.html#cb113-42" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb113-43"><a href="example-1-jags.html#cb113-43" aria-hidden="true" tabindex="-1"></a>param_save <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>)</span>
+<span id="cb113-44"><a href="example-1-jags.html#cb113-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-45"><a href="example-1-jags.html#cb113-45" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb113-46"><a href="example-1-jags.html#cb113-46" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">jags</span>(</span>
+<span id="cb113-47"><a href="example-1-jags.html#cb113-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.file=</span>jags.model.ctt1,</span>
+<span id="cb113-48"><a href="example-1-jags.html#cb113-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>mydata,</span>
+<span id="cb113-49"><a href="example-1-jags.html#cb113-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits=</span>start_values,</span>
+<span id="cb113-50"><a href="example-1-jags.html#cb113-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters.to.save =</span> param_save,</span>
+<span id="cb113-51"><a href="example-1-jags.html#cb113-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">4000</span>,</span>
+<span id="cb113-52"><a href="example-1-jags.html#cb113-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">1000</span>,</span>
+<span id="cb113-53"><a href="example-1-jags.html#cb113-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.chains =</span> <span class="dv">4</span>,</span>
+<span id="cb113-54"><a href="example-1-jags.html#cb113-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.thin=</span><span class="dv">1</span>,</span>
+<span id="cb113-55"><a href="example-1-jags.html#cb113-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## module glm loaded</code></pre>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -295,20 +309,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Initializing model</code></pre>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="example-1-jags.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpSoNenU/model999c150077df.txt&quot;, fit using jags,
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpQ7YNVi/model49f46422dfa.txt&quot;, fit using jags,
 ##  4 chains, each with 4000 iterations (first 1000 discarded)
 ##  n.sims = 12000 iterations saved
 ##          mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-## T[1]      73.042   3.338 66.454 70.789 73.054 75.303 79.637 1.001  6600
-## T[2]      79.964   3.334 73.438 77.701 79.932 82.230 86.546 1.001 12000
-## T[3]      91.072   3.348 84.497 88.844 91.078 93.324 97.589 1.001  8300
-## deviance  18.019   2.969 14.232 15.816 17.391 19.499 25.562 1.001 12000
+## T[1]      73.117   3.319 66.487 70.918 73.108 75.357 79.648 1.001  9200
+## T[2]      80.044   3.329 73.532 77.825 80.032 82.300 86.535 1.002  3500
+## T[3]      90.991   3.335 84.418 88.774 90.974 93.255 97.499 1.001 12000
+## deviance  18.083   2.990 14.240 15.841 17.479 19.645 25.392 1.001 12000
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ## 
 ## DIC info (using the rule, pD = var(deviance)/2)
-## pD = 4.4 and DIC = 22.4
+## pD = 4.5 and DIC = 22.6
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
 <div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="example-1-jags.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
 <span id="cb118-2"><a href="example-1-jags.html#cb118-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>

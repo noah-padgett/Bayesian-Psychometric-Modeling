@@ -19,7 +19,8 @@
 # Set up directory and libraries
 # rm(list=ls())
 # list of packages
-packages <- c("patchwork", "tidyr", "dplyr", "ggplot2",
+packages <- c("patchwork", "tidyr", "dplyr",
+              "dtplyr", "data.table", "ggplot2",
               "R2jags","R2WinBUGS", "blavaan",
               "rstan", "brms", "bayesplot", "ggmcmc",
               "kableExtra", "extraDistr",
