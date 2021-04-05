@@ -183,8 +183,8 @@ fit <- jags(
   data=mydata,
   inits=start_values,
   parameters.to.save = param_save,
-  n.iter=2000,
-  n.burnin = 1000,
+  n.iter=20000,
+  n.burnin = 6000,
   n.chains = 3,
   progress.bar = "none")
 
@@ -351,15 +351,14 @@ dat_long$x.ppd <- apply(
     rbern(1, as.numeric(x[10]))
   }
   )
-
+itermin <- min(dat_long$iter) # used for subseting
 # figure 11.4
 d <- dat_long %>%
   group_by(chain, iter, person) %>%
   summarise(raw.score = sum(x),
             raw.score.ppd = sum(x.ppd))
 
-di <- d %>%
-  filter(chain==1, iter==1001) %>%
+di <- d[ d$chain ==1 & d$iter == itermin, ] %>%
   group_by(raw.score) %>%
   summarise(count = n())
 dii <- d %>%
@@ -378,8 +377,7 @@ d <- dat_long %>%
   group_by(chain, iter, person) %>%
   mutate(raw.score = sum(x),
          raw.score.ppd = sum(x.ppd))
-di <- d %>%
-  filter(chain==1, iter==1001) %>%
+di <- d[ d$chain ==1 & d$iter == itermin, ] %>%
   group_by(raw.score, item) %>%
   summarise(p.correct = mean(x))
 dii <- d %>%
@@ -406,7 +404,7 @@ ggplot()+
 # objects for results
 J <- 5
 n.chain <- 3
-n.iters <- 1000
+n.iters <- length(unique(dat_long$iter))
 n.iters.PPMC <- n.iters*n.chain
 
 realized.SMBC.array <- array(NA, c(n.iters.PPMC, J, J))
