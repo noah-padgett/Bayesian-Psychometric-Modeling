@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-02-16" />
+<meta name="date" content="2021-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="regression.html"/>
 <link rel="next" href="jags-model-for-regression-model.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -206,7 +206,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html#lsat-example-using-jags"><i class="fa fa-check"></i><b>11.2.1</b> LSAT Example Using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.3</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.4" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.4</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#peer-interactions-example-using-jags"><i class="fa fa-check"></i><b>11.4.1</b> Peer Interactions Example using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.5</b> Final Notes</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -299,76 +312,136 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb70-67"><a href="stan-model-for-regression-model.html#cb70-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
 <span id="cb70-68"><a href="stan-model-for-regression-model.html#cb70-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
 <span id="cb70-69"><a href="stan-model-for-regression-model.html#cb70-69" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr = TRUE): &#39;-E&#39; not
-## found</code></pre>
+<pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr =
+## TRUE): &#39;-E&#39; not found</code></pre>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="stan-model-for-regression-model.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
 <span id="cb72-2"><a href="stan-model-for-regression-model.html#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
 <pre><code>## Inference for Stan model: 66db47b16bda4d720cafb6a9769da243.
 ## 4 chains, each with iter=5000; warmup=1000; thin=1; 
 ## post-warmup draws per chain=4000, total post-warmup draws=16000.
 ## 
-##             mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat
-## beta[1]    -2.53    0.02 1.92  -6.31  -3.79  -2.51  -1.26   1.23  6902    1
-## beta[2]     0.66    0.00 0.17   0.33   0.55   0.66   0.77   0.99  6171    1
-## beta[3]     0.38    0.00 0.10   0.18   0.31   0.38   0.45   0.59  8164    1
-## tau         0.28    0.00 0.06   0.18   0.24   0.28   0.32   0.41  8776    1
-## sigma       1.91    0.00 0.20   1.57   1.77   1.89   2.03   2.36  8279    1
-## varerror    3.66    0.00 0.16   3.51   3.54   3.61   3.71   4.09  4951    1
-## vary        8.79    0.00 0.00   8.79   8.79   8.79   8.79   8.79     2    1
-## Rsquared    0.58    0.00 0.02   0.53   0.58   0.59   0.60   0.60  4951    1
-## error[1]   -0.25    0.02 1.40  -2.97  -1.16  -0.26   0.66   2.52  7141    1
-## error[2]    1.72    0.01 0.50   0.74   1.38   1.72   2.04   2.70  7445    1
-## error[3]   -1.05    0.01 0.56  -2.15  -1.43  -1.05  -0.67   0.05  6866    1
-## error[4]   -3.20    0.01 0.76  -4.70  -3.70  -3.20  -2.68  -1.72  6827    1
-## error[5]   -2.80    0.01 0.52  -3.82  -3.14  -2.80  -2.45  -1.76  9994    1
-## error[6]    0.44    0.00 0.41  -0.37   0.17   0.44   0.72   1.26  9692    1
-## error[7]   -1.94    0.00 0.39  -2.71  -2.20  -1.94  -1.68  -1.16  9036    1
-## error[8]   -6.22    0.00 0.39  -6.98  -6.47  -6.22  -5.96  -5.45 11261    1
-## error[9]    3.40    0.00 0.34   2.74   3.18   3.40   3.63   4.07 11991    1
-## error[10]   4.02    0.00 0.31   3.41   3.81   4.02   4.23   4.63 11859    1
-## error[11]  -0.75    0.00 0.35  -1.44  -0.98  -0.74  -0.51  -0.05  9382    1
-## error[12]   0.49    0.01 0.49  -0.47   0.16   0.49   0.82   1.44  8248    1
-## error[13]   2.49    0.01 0.49   1.53   2.16   2.49   2.82   3.44  8248    1
-## error[14]  -0.73    0.01 0.70  -2.10  -1.19  -0.74  -0.26   0.67  8894    1
-## error[15]   0.36    0.00 0.30  -0.22   0.16   0.36   0.56   0.95 13643    1
-## error[16]   0.36    0.00 0.30  -0.22   0.16   0.36   0.56   0.95 13643    1
-## error[17]   0.98    0.00 0.27   0.45   0.79   0.98   1.16   1.52 15655    1
-## error[18]   1.98    0.00 0.27   1.45   1.79   1.98   2.16   2.52 15655    1
-## error[19]  -0.40    0.00 0.28  -0.95  -0.59  -0.40  -0.21   0.15 14629    1
-## error[20]   1.60    0.00 0.28   1.05   1.41   1.60   1.79   2.15 14629    1
-## error[21]   1.22    0.00 0.33   0.58   1.00   1.22   1.44   1.84 12204    1
-## error[22]   2.22    0.00 0.33   1.58   2.00   2.22   2.44   2.84 12204    1
-## error[23]   0.83    0.00 0.39   0.06   0.57   0.83   1.09   1.60 10573    1
-## error[24]   0.83    0.00 0.39   0.06   0.57   0.83   1.09   1.60 10573    1
-## error[25]   3.00    0.01 0.90   1.23   2.40   2.99   3.59   4.78  8173    1
-## error[26]  -1.38    0.01 0.80  -2.96  -1.92  -1.39  -0.86   0.21  8234    1
-## error[27]  -0.91    0.00 0.44  -1.78  -1.21  -0.91  -0.62  -0.03  9291    1
-## error[28]   0.09    0.00 0.44  -0.78  -0.21   0.09   0.38   0.97  9291    1
-## error[29]   2.09    0.00 0.44   1.22   1.79   2.09   2.38   2.97  9291    1
-## error[30]  -1.68    0.00 0.32  -2.31  -1.89  -1.68  -1.46  -1.05 11895    1
-## error[31]  -0.68    0.00 0.32  -1.31  -0.89  -0.68  -0.46  -0.05 11895    1
-## error[32]  -0.06    0.00 0.30  -0.64  -0.26  -0.06   0.14   0.52 13836    1
-## error[33]   0.94    0.00 0.30   0.36   0.74   0.94   1.14   1.52 13836    1
-## error[34]   1.94    0.00 0.30   1.36   1.74   1.94   2.14   2.52 13836    1
-## error[35]  -1.44    0.00 0.31  -2.05  -1.65  -1.44  -1.23  -0.84 14248    1
-## error[36]  -0.44    0.00 0.31  -1.05  -0.65  -0.44  -0.23   0.16 14248    1
-## error[37]   1.56    0.00 0.31   0.95   1.35   1.56   1.77   2.16 14248    1
-## error[38]   0.18    0.00 0.35  -0.52  -0.06   0.18   0.41   0.87 12929    1
-## error[39]   1.18    0.00 0.35   0.48   0.94   1.18   1.41   1.87 12929    1
-## error[40]  -0.21    0.00 0.42  -1.03  -0.48  -0.21   0.08   0.61 11551    1
-## error[41]  -1.33    0.00 0.43  -2.18  -1.62  -1.33  -1.04  -0.48  8764    1
-## error[42]   0.90    0.00 0.37   0.16   0.65   0.90   1.15   1.63 10648    1
-## error[43]  -3.48    0.00 0.38  -4.24  -3.74  -3.48  -3.22  -2.73 11458    1
-## error[44]  -2.48    0.00 0.38  -3.24  -2.74  -2.48  -2.22  -1.73 11458    1
-## error[45]  -1.86    0.00 0.42  -2.69  -2.14  -1.86  -1.58  -1.03 11576    1
-## error[46]  -0.86    0.00 0.42  -1.69  -1.14  -0.86  -0.58  -0.03 11576    1
-## error[47]  -0.86    0.00 0.42  -1.69  -1.14  -0.86  -0.58  -0.03 11576    1
-## error[48]   0.14    0.00 0.42  -0.69  -0.14   0.14   0.42   0.97 11576    1
-## error[49]   0.14    0.00 0.42  -0.69  -0.14   0.14   0.42   0.97 11576    1
-## error[50]   0.14    0.00 0.42  -0.69  -0.14   0.14   0.42   0.97 11576    1
-## lp__      -59.45    0.02 1.48 -63.21 -60.18 -59.11 -58.34 -57.62  5192    1
+##             mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff
+## beta[1]    -2.50    0.02 1.94  -6.24  -3.81  -2.51  -1.18   1.31  7938
+## beta[2]     0.65    0.00 0.17   0.33   0.54   0.66   0.76   0.97  7389
+## beta[3]     0.38    0.00 0.10   0.19   0.32   0.38   0.45   0.59  8465
+## tau         0.28    0.00 0.06   0.18   0.24   0.28   0.32   0.41  9068
+## sigma       1.91    0.00 0.20   1.57   1.77   1.89   2.03   2.34  9035
+## varerror    3.65    0.00 0.15   3.51   3.55   3.61   3.71   4.07  5481
+## vary        8.79    0.00 0.00   8.79   8.79   8.79   8.79   8.79     2
+## Rsquared    0.58    0.00 0.02   0.54   0.58   0.59   0.60   0.60  5481
+## error[1]   -0.26    0.02 1.41  -3.04  -1.22  -0.25   0.70   2.46  8023
+## error[2]    1.71    0.01 0.51   0.72   1.37   1.71   2.05   2.70  8555
+## error[3]   -1.06    0.01 0.57  -2.16  -1.44  -1.06  -0.68   0.05  8104
+## error[4]   -3.21    0.01 0.76  -4.69  -3.71  -3.22  -2.71  -1.73  7925
+## error[5]   -2.79    0.01 0.52  -3.82  -3.14  -2.80  -2.44  -1.77  9333
+## error[6]    0.44    0.00 0.42  -0.39   0.16   0.44   0.72   1.25  9732
+## error[7]   -1.95    0.00 0.40  -2.72  -2.21  -1.95  -1.68  -1.17  9812
+## error[8]   -6.22    0.00 0.39  -6.98  -6.47  -6.22  -5.96  -5.46 10494
+## error[9]    3.40    0.00 0.34   2.74   3.18   3.40   3.62   4.06 11553
+## error[10]   4.02    0.00 0.31   3.40   3.81   4.02   4.22   4.63 12213
+## error[11]  -0.75    0.00 0.35  -1.44  -0.99  -0.75  -0.51  -0.06 10525
+## error[12]   0.48    0.01 0.49  -0.47   0.16   0.48   0.81   1.43  9240
+## error[13]   2.48    0.01 0.49   1.53   2.16   2.48   2.81   3.43  9240
+## error[14]  -0.72    0.01 0.69  -2.05  -1.18  -0.72  -0.26   0.63  9071
+## error[15]   0.36    0.00 0.30  -0.23   0.17   0.36   0.56   0.95 14290
+## error[16]   0.36    0.00 0.30  -0.23   0.17   0.36   0.56   0.95 14290
+## error[17]   0.98    0.00 0.27   0.44   0.80   0.98   1.16   1.52 16668
+## error[18]   1.98    0.00 0.27   1.44   1.80   1.98   2.16   2.52 16668
+## error[19]  -0.40    0.00 0.28  -0.95  -0.59  -0.40  -0.22   0.16 15786
+## error[20]   1.60    0.00 0.28   1.05   1.41   1.60   1.78   2.16 15786
+## error[21]   1.21    0.00 0.32   0.58   1.00   1.21   1.43   1.86 13045
+## error[22]   2.21    0.00 0.32   1.58   2.00   2.21   2.43   2.86 13045
+## error[23]   0.83    0.00 0.39   0.07   0.57   0.83   1.09   1.59 11242
+## error[24]   0.83    0.00 0.39   0.07   0.57   0.83   1.09   1.59 11242
+## error[25]   3.01    0.01 0.88   1.31   2.42   3.01   3.60   4.75  8649
+## error[26]  -1.37    0.01 0.78  -2.89  -1.90  -1.37  -0.84   0.18  8741
+## error[27]  -0.91    0.00 0.44  -1.75  -1.20  -0.91  -0.61  -0.05 10068
+## error[28]   0.09    0.00 0.44  -0.75  -0.20   0.09   0.39   0.95 10068
+## error[29]   2.09    0.00 0.44   1.25   1.80   2.09   2.39   2.95 10068
+## error[30]  -1.67    0.00 0.32  -2.29  -1.88  -1.67  -1.46  -1.05 13262
+## error[31]  -0.67    0.00 0.32  -1.29  -0.88  -0.67  -0.46  -0.05 13262
+## error[32]  -0.06    0.00 0.29  -0.63  -0.25  -0.06   0.14   0.53 15416
+## error[33]   0.94    0.00 0.29   0.37   0.75   0.94   1.14   1.53 15416
+## error[34]   1.94    0.00 0.29   1.37   1.75   1.94   2.14   2.53 15416
+## error[35]  -1.44    0.00 0.30  -2.04  -1.64  -1.44  -1.24  -0.83 15538
+## error[36]  -0.44    0.00 0.30  -1.04  -0.64  -0.44  -0.24   0.17 15538
+## error[37]   1.56    0.00 0.30   0.96   1.36   1.56   1.76   2.17 15538
+## error[38]   0.17    0.00 0.35  -0.50  -0.05   0.17   0.40   0.86 13787
+## error[39]   1.17    0.00 0.35   0.50   0.95   1.17   1.40   1.86 13787
+## error[40]  -0.21    0.00 0.41  -1.01  -0.48  -0.21   0.06   0.60 12081
+## error[41]  -1.33    0.00 0.43  -2.15  -1.61  -1.33  -1.04  -0.49 10069
+## error[42]   0.91    0.00 0.37   0.19   0.66   0.90   1.15   1.63 11958
+## error[43]  -3.48    0.00 0.38  -4.22  -3.74  -3.48  -3.23  -2.73 12463
+## error[44]  -2.48    0.00 0.38  -3.22  -2.74  -2.48  -2.23  -1.73 12463
+## error[45]  -1.86    0.00 0.41  -2.68  -2.14  -1.86  -1.59  -1.03 12255
+## error[46]  -0.86    0.00 0.41  -1.68  -1.14  -0.86  -0.59  -0.03 12255
+## error[47]  -0.86    0.00 0.41  -1.68  -1.14  -0.86  -0.59  -0.03 12255
+## error[48]   0.14    0.00 0.41  -0.68  -0.14   0.14   0.41   0.97 12255
+## error[49]   0.14    0.00 0.41  -0.68  -0.14   0.14   0.41   0.97 12255
+## error[50]   0.14    0.00 0.41  -0.68  -0.14   0.14   0.41   0.97 12255
+## lp__      -59.40    0.02 1.44 -63.00 -60.11 -59.07 -58.35 -57.61  5286
+##           Rhat
+## beta[1]      1
+## beta[2]      1
+## beta[3]      1
+## tau          1
+## sigma        1
+## varerror     1
+## vary         1
+## Rsquared     1
+## error[1]     1
+## error[2]     1
+## error[3]     1
+## error[4]     1
+## error[5]     1
+## error[6]     1
+## error[7]     1
+## error[8]     1
+## error[9]     1
+## error[10]    1
+## error[11]    1
+## error[12]    1
+## error[13]    1
+## error[14]    1
+## error[15]    1
+## error[16]    1
+## error[17]    1
+## error[18]    1
+## error[19]    1
+## error[20]    1
+## error[21]    1
+## error[22]    1
+## error[23]    1
+## error[24]    1
+## error[25]    1
+## error[26]    1
+## error[27]    1
+## error[28]    1
+## error[29]    1
+## error[30]    1
+## error[31]    1
+## error[32]    1
+## error[33]    1
+## error[34]    1
+## error[35]    1
+## error[36]    1
+## error[37]    1
+## error[38]    1
+## error[39]    1
+## error[40]    1
+## error[41]    1
+## error[42]    1
+## error[43]    1
+## error[44]    1
+## error[45]    1
+## error[46]    1
+## error[47]    1
+## error[48]    1
+## error[49]    1
+## error[50]    1
+## lp__         1
 ## 
-## Samples were drawn using NUTS(diag_e) at Fri Oct 02 12:01:32 2020.
+## Samples were drawn using NUTS(diag_e) at Mon Apr 05 01:57:59 2021.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -478,10 +551,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb83-62"><a href="stan-model-for-regression-model.html#cb83-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
 <span id="cb83-63"><a href="stan-model-for-regression-model.html#cb83-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb83-64"><a href="stan-model-for-regression-model.html#cb83-64" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3 <span class="sc">+</span> p4 <span class="sc">+</span> p5 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning: Removed 328 rows containing non-finite values (stat_density).</code></pre>
-<pre><code>## Warning: Removed 1399 row(s) containing missing values (geom_path).</code></pre>
-<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_density).</code></pre>
-<pre><code>## Warning: Removed 1399 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 268 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning: Removed 1399 row(s) containing missing values (geom_path).
+
+## Warning: Removed 1399 row(s) containing missing values (geom_path).</code></pre>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-stan-7.png" width="672" /></p>
 </div>
             </section>

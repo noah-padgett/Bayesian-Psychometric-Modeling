@@ -5,3 +5,6 @@
 .rdb
 .rdx
 bookdown-BPM-cache/*
+bookdown-BPM_cache/*
+_bookdown_files/*
+.git/*

@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-02-16" />
+<meta name="date" content="2021-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="stan-model-for-regression-model.html"/>
 <link rel="next" href="canonical-bayesian-psychometric-modeling.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -206,7 +206,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html#lsat-example-using-jags"><i class="fa fa-check"></i><b>11.2.1</b> LSAT Example Using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.3</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.4" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.4</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#peer-interactions-example-using-jags"><i class="fa fa-check"></i><b>11.4.1</b> Peer Interactions Example using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.5</b> Final Notes</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -230,70 +243,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="jags-model-for-regression-model" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> JAGS Model for Regression Model</h2>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="jags-model-for-regression-model.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model code</span></span>
-<span id="cb88-2"><a href="jags-model-for-regression-model.html#cb88-2" aria-hidden="true" tabindex="-1"></a>jags.model <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb88-3"><a href="jags-model-for-regression-model.html#cb88-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
-<span id="cb88-4"><a href="jags-model-for-regression-model.html#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Prior distributions</span></span>
-<span id="cb88-5"><a href="jags-model-for-regression-model.html#cb88-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
-<span id="cb88-6"><a href="jags-model-for-regression-model.html#cb88-6" aria-hidden="true" tabindex="-1"></a>  beta<span class="fl">.0</span> <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">001</span>)   <span class="co"># prior for the intercept</span></span>
-<span id="cb88-7"><a href="jags-model-for-regression-model.html#cb88-7" aria-hidden="true" tabindex="-1"></a>  beta<span class="fl">.1</span> <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">001</span>)   <span class="co"># prior for coefficient 1</span></span>
-<span id="cb88-8"><a href="jags-model-for-regression-model.html#cb88-8" aria-hidden="true" tabindex="-1"></a>  beta<span class="fl">.2</span> <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">001</span>)   <span class="co"># prior for coefficient 2</span></span>
-<span id="cb88-9"><a href="jags-model-for-regression-model.html#cb88-9" aria-hidden="true" tabindex="-1"></a>  tau.e  <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)     <span class="co"># prior for the error precision</span></span>
-<span id="cb88-10"><a href="jags-model-for-regression-model.html#cb88-10" aria-hidden="true" tabindex="-1"></a>  sigma.e <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(tau.e)  <span class="co"># standard deviation of the errors</span></span>
-<span id="cb88-11"><a href="jags-model-for-regression-model.html#cb88-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb88-12"><a href="jags-model-for-regression-model.html#cb88-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb88-13"><a href="jags-model-for-regression-model.html#cb88-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
-<span id="cb88-14"><a href="jags-model-for-regression-model.html#cb88-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Conditional distribution of the data</span></span>
-<span id="cb88-15"><a href="jags-model-for-regression-model.html#cb88-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Via a regression model</span></span>
-<span id="cb88-16"><a href="jags-model-for-regression-model.html#cb88-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
-<span id="cb88-17"><a href="jags-model-for-regression-model.html#cb88-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
-<span id="cb88-18"><a href="jags-model-for-regression-model.html#cb88-18" aria-hidden="true" tabindex="-1"></a>    y.prime[i] <span class="ot">&lt;-</span> beta<span class="fl">.0</span> <span class="sc">+</span> beta<span class="fl">.1</span><span class="sc">*</span>x1[i] <span class="sc">+</span> beta<span class="fl">.2</span><span class="sc">*</span>x2[i]      </span>
-<span id="cb88-19"><a href="jags-model-for-regression-model.html#cb88-19" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="sc">~</span> <span class="fu">dnorm</span>(y.prime[i], tau.e)         </span>
-<span id="cb88-20"><a href="jags-model-for-regression-model.html#cb88-20" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb88-21"><a href="jags-model-for-regression-model.html#cb88-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb88-22"><a href="jags-model-for-regression-model.html#cb88-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb88-23"><a href="jags-model-for-regression-model.html#cb88-23" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
-<span id="cb88-24"><a href="jags-model-for-regression-model.html#cb88-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate R-squared</span></span>
-<span id="cb88-25"><a href="jags-model-for-regression-model.html#cb88-25" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
-<span id="cb88-26"><a href="jags-model-for-regression-model.html#cb88-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
-<span id="cb88-27"><a href="jags-model-for-regression-model.html#cb88-27" aria-hidden="true" tabindex="-1"></a>    error[i] <span class="ot">&lt;-</span> y[i] <span class="sc">-</span> y.prime[i] </span>
-<span id="cb88-28"><a href="jags-model-for-regression-model.html#cb88-28" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb88-29"><a href="jags-model-for-regression-model.html#cb88-29" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb88-30"><a href="jags-model-for-regression-model.html#cb88-30" aria-hidden="true" tabindex="-1"></a>  var.error <span class="ot">&lt;-</span> <span class="fu">sd</span>(error[])<span class="sc">*</span><span class="fu">sd</span>(error[])</span>
-<span id="cb88-31"><a href="jags-model-for-regression-model.html#cb88-31" aria-hidden="true" tabindex="-1"></a>  var.y <span class="ot">&lt;-</span> <span class="fu">sd</span>(y[])<span class="sc">*</span><span class="fu">sd</span>(y[])</span>
-<span id="cb88-32"><a href="jags-model-for-regression-model.html#cb88-32" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb88-33"><a href="jags-model-for-regression-model.html#cb88-33" aria-hidden="true" tabindex="-1"></a>  R.squared <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> (var.error<span class="sc">/</span>var.y)</span>
-<span id="cb88-34"><a href="jags-model-for-regression-model.html#cb88-34" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb88-35"><a href="jags-model-for-regression-model.html#cb88-35" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb88-36"><a href="jags-model-for-regression-model.html#cb88-36" aria-hidden="true" tabindex="-1"></a><span class="co"># data</span></span>
-<span id="cb88-37"><a href="jags-model-for-regression-model.html#cb88-37" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/Chp4_Reg_Chapter_Tests.dat&quot;</span>, <span class="at">header=</span>T)</span>
-<span id="cb88-38"><a href="jags-model-for-regression-model.html#cb88-38" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb88-39"><a href="jags-model-for-regression-model.html#cb88-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">n=</span><span class="fu">nrow</span>(dat), </span>
-<span id="cb88-40"><a href="jags-model-for-regression-model.html#cb88-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1=</span>dat<span class="sc">$</span>Ch1Test,</span>
-<span id="cb88-41"><a href="jags-model-for-regression-model.html#cb88-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2=</span>dat<span class="sc">$</span>Ch2Test,</span>
-<span id="cb88-42"><a href="jags-model-for-regression-model.html#cb88-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span>dat<span class="sc">$</span>Ch3Test</span>
-<span id="cb88-43"><a href="jags-model-for-regression-model.html#cb88-43" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb88-44"><a href="jags-model-for-regression-model.html#cb88-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-45"><a href="jags-model-for-regression-model.html#cb88-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-46"><a href="jags-model-for-regression-model.html#cb88-46" aria-hidden="true" tabindex="-1"></a><span class="co"># starting values</span></span>
-<span id="cb88-47"><a href="jags-model-for-regression-model.html#cb88-47" aria-hidden="true" tabindex="-1"></a>start_values <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb88-48"><a href="jags-model-for-regression-model.html#cb88-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;tau.e&quot;</span><span class="ot">=</span><span class="fl">0.01</span>, <span class="st">&#39;beta.0&#39;</span><span class="ot">=</span><span class="dv">0</span>, <span class="st">&quot;beta.1&quot;</span><span class="ot">=</span><span class="dv">0</span>, <span class="st">&quot;beta.2&quot;</span><span class="ot">=</span><span class="dv">0</span>)</span>
-<span id="cb88-49"><a href="jags-model-for-regression-model.html#cb88-49" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb88-50"><a href="jags-model-for-regression-model.html#cb88-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-51"><a href="jags-model-for-regression-model.html#cb88-51" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of all parameters to save</span></span>
-<span id="cb88-52"><a href="jags-model-for-regression-model.html#cb88-52" aria-hidden="true" tabindex="-1"></a>param_save <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;tau.e&quot;</span>, <span class="st">&quot;beta.0&quot;</span>, <span class="st">&quot;beta.1&quot;</span>, <span class="st">&quot;beta.2&quot;</span>, <span class="st">&quot;R.squared&quot;</span>)</span>
-<span id="cb88-53"><a href="jags-model-for-regression-model.html#cb88-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-54"><a href="jags-model-for-regression-model.html#cb88-54" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
-<span id="cb88-55"><a href="jags-model-for-regression-model.html#cb88-55" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">jags</span>(</span>
-<span id="cb88-56"><a href="jags-model-for-regression-model.html#cb88-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.file=</span>jags.model,</span>
-<span id="cb88-57"><a href="jags-model-for-regression-model.html#cb88-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>mydata,</span>
-<span id="cb88-58"><a href="jags-model-for-regression-model.html#cb88-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits=</span>start_values,</span>
-<span id="cb88-59"><a href="jags-model-for-regression-model.html#cb88-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters.to.save =</span> param_save,</span>
-<span id="cb88-60"><a href="jags-model-for-regression-model.html#cb88-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">4000</span>,</span>
-<span id="cb88-61"><a href="jags-model-for-regression-model.html#cb88-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">1000</span>,</span>
-<span id="cb88-62"><a href="jags-model-for-regression-model.html#cb88-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.chains =</span> <span class="dv">4</span>,</span>
-<span id="cb88-63"><a href="jags-model-for-regression-model.html#cb88-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.thin=</span><span class="dv">1</span>,</span>
-<span id="cb88-64"><a href="jags-model-for-regression-model.html#cb88-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="jags-model-for-regression-model.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model code</span></span>
+<span id="cb86-2"><a href="jags-model-for-regression-model.html#cb86-2" aria-hidden="true" tabindex="-1"></a>jags.model <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb86-3"><a href="jags-model-for-regression-model.html#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
+<span id="cb86-4"><a href="jags-model-for-regression-model.html#cb86-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Prior distributions</span></span>
+<span id="cb86-5"><a href="jags-model-for-regression-model.html#cb86-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
+<span id="cb86-6"><a href="jags-model-for-regression-model.html#cb86-6" aria-hidden="true" tabindex="-1"></a>  beta<span class="fl">.0</span> <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">001</span>)   <span class="co"># prior for the intercept</span></span>
+<span id="cb86-7"><a href="jags-model-for-regression-model.html#cb86-7" aria-hidden="true" tabindex="-1"></a>  beta<span class="fl">.1</span> <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">001</span>)   <span class="co"># prior for coefficient 1</span></span>
+<span id="cb86-8"><a href="jags-model-for-regression-model.html#cb86-8" aria-hidden="true" tabindex="-1"></a>  beta<span class="fl">.2</span> <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">001</span>)   <span class="co"># prior for coefficient 2</span></span>
+<span id="cb86-9"><a href="jags-model-for-regression-model.html#cb86-9" aria-hidden="true" tabindex="-1"></a>  tau.e  <span class="sc">~</span> <span class="fu">dgamma</span>(<span class="dv">1</span>, <span class="dv">1</span>)     <span class="co"># prior for the error precision</span></span>
+<span id="cb86-10"><a href="jags-model-for-regression-model.html#cb86-10" aria-hidden="true" tabindex="-1"></a>  sigma.e <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(tau.e)  <span class="co"># standard deviation of the errors</span></span>
+<span id="cb86-11"><a href="jags-model-for-regression-model.html#cb86-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb86-12"><a href="jags-model-for-regression-model.html#cb86-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb86-13"><a href="jags-model-for-regression-model.html#cb86-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
+<span id="cb86-14"><a href="jags-model-for-regression-model.html#cb86-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Conditional distribution of the data</span></span>
+<span id="cb86-15"><a href="jags-model-for-regression-model.html#cb86-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Via a regression model</span></span>
+<span id="cb86-16"><a href="jags-model-for-regression-model.html#cb86-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
+<span id="cb86-17"><a href="jags-model-for-regression-model.html#cb86-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb86-18"><a href="jags-model-for-regression-model.html#cb86-18" aria-hidden="true" tabindex="-1"></a>    y.prime[i] <span class="ot">&lt;-</span> beta<span class="fl">.0</span> <span class="sc">+</span> beta<span class="fl">.1</span><span class="sc">*</span>x1[i] <span class="sc">+</span> beta<span class="fl">.2</span><span class="sc">*</span>x2[i]      </span>
+<span id="cb86-19"><a href="jags-model-for-regression-model.html#cb86-19" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="sc">~</span> <span class="fu">dnorm</span>(y.prime[i], tau.e)         </span>
+<span id="cb86-20"><a href="jags-model-for-regression-model.html#cb86-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb86-21"><a href="jags-model-for-regression-model.html#cb86-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb86-22"><a href="jags-model-for-regression-model.html#cb86-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb86-23"><a href="jags-model-for-regression-model.html#cb86-23" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
+<span id="cb86-24"><a href="jags-model-for-regression-model.html#cb86-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate R-squared</span></span>
+<span id="cb86-25"><a href="jags-model-for-regression-model.html#cb86-25" aria-hidden="true" tabindex="-1"></a>  <span class="do">############################################</span></span>
+<span id="cb86-26"><a href="jags-model-for-regression-model.html#cb86-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb86-27"><a href="jags-model-for-regression-model.html#cb86-27" aria-hidden="true" tabindex="-1"></a>    error[i] <span class="ot">&lt;-</span> y[i] <span class="sc">-</span> y.prime[i] </span>
+<span id="cb86-28"><a href="jags-model-for-regression-model.html#cb86-28" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb86-29"><a href="jags-model-for-regression-model.html#cb86-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb86-30"><a href="jags-model-for-regression-model.html#cb86-30" aria-hidden="true" tabindex="-1"></a>  var.error <span class="ot">&lt;-</span> <span class="fu">sd</span>(error[])<span class="sc">*</span><span class="fu">sd</span>(error[])</span>
+<span id="cb86-31"><a href="jags-model-for-regression-model.html#cb86-31" aria-hidden="true" tabindex="-1"></a>  var.y <span class="ot">&lt;-</span> <span class="fu">sd</span>(y[])<span class="sc">*</span><span class="fu">sd</span>(y[])</span>
+<span id="cb86-32"><a href="jags-model-for-regression-model.html#cb86-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb86-33"><a href="jags-model-for-regression-model.html#cb86-33" aria-hidden="true" tabindex="-1"></a>  R.squared <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> (var.error<span class="sc">/</span>var.y)</span>
+<span id="cb86-34"><a href="jags-model-for-regression-model.html#cb86-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb86-35"><a href="jags-model-for-regression-model.html#cb86-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb86-36"><a href="jags-model-for-regression-model.html#cb86-36" aria-hidden="true" tabindex="-1"></a><span class="co"># data</span></span>
+<span id="cb86-37"><a href="jags-model-for-regression-model.html#cb86-37" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/Chp4_Reg_Chapter_Tests.dat&quot;</span>, <span class="at">header=</span>T)</span>
+<span id="cb86-38"><a href="jags-model-for-regression-model.html#cb86-38" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb86-39"><a href="jags-model-for-regression-model.html#cb86-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">n=</span><span class="fu">nrow</span>(dat), </span>
+<span id="cb86-40"><a href="jags-model-for-regression-model.html#cb86-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1=</span>dat<span class="sc">$</span>Ch1Test,</span>
+<span id="cb86-41"><a href="jags-model-for-regression-model.html#cb86-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2=</span>dat<span class="sc">$</span>Ch2Test,</span>
+<span id="cb86-42"><a href="jags-model-for-regression-model.html#cb86-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span>dat<span class="sc">$</span>Ch3Test</span>
+<span id="cb86-43"><a href="jags-model-for-regression-model.html#cb86-43" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb86-44"><a href="jags-model-for-regression-model.html#cb86-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-45"><a href="jags-model-for-regression-model.html#cb86-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-46"><a href="jags-model-for-regression-model.html#cb86-46" aria-hidden="true" tabindex="-1"></a><span class="co"># starting values</span></span>
+<span id="cb86-47"><a href="jags-model-for-regression-model.html#cb86-47" aria-hidden="true" tabindex="-1"></a>start_values <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb86-48"><a href="jags-model-for-regression-model.html#cb86-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;tau.e&quot;</span><span class="ot">=</span><span class="fl">0.01</span>, <span class="st">&#39;beta.0&#39;</span><span class="ot">=</span><span class="dv">0</span>, <span class="st">&quot;beta.1&quot;</span><span class="ot">=</span><span class="dv">0</span>, <span class="st">&quot;beta.2&quot;</span><span class="ot">=</span><span class="dv">0</span>)</span>
+<span id="cb86-49"><a href="jags-model-for-regression-model.html#cb86-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb86-50"><a href="jags-model-for-regression-model.html#cb86-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-51"><a href="jags-model-for-regression-model.html#cb86-51" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb86-52"><a href="jags-model-for-regression-model.html#cb86-52" aria-hidden="true" tabindex="-1"></a>param_save <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;tau.e&quot;</span>, <span class="st">&quot;beta.0&quot;</span>, <span class="st">&quot;beta.1&quot;</span>, <span class="st">&quot;beta.2&quot;</span>, <span class="st">&quot;R.squared&quot;</span>)</span>
+<span id="cb86-53"><a href="jags-model-for-regression-model.html#cb86-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-54"><a href="jags-model-for-regression-model.html#cb86-54" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb86-55"><a href="jags-model-for-regression-model.html#cb86-55" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">jags</span>(</span>
+<span id="cb86-56"><a href="jags-model-for-regression-model.html#cb86-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.file=</span>jags.model,</span>
+<span id="cb86-57"><a href="jags-model-for-regression-model.html#cb86-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>mydata,</span>
+<span id="cb86-58"><a href="jags-model-for-regression-model.html#cb86-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits=</span>start_values,</span>
+<span id="cb86-59"><a href="jags-model-for-regression-model.html#cb86-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters.to.save =</span> param_save,</span>
+<span id="cb86-60"><a href="jags-model-for-regression-model.html#cb86-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">4000</span>,</span>
+<span id="cb86-61"><a href="jags-model-for-regression-model.html#cb86-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">1000</span>,</span>
+<span id="cb86-62"><a href="jags-model-for-regression-model.html#cb86-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.chains =</span> <span class="dv">4</span>,</span>
+<span id="cb86-63"><a href="jags-model-for-regression-model.html#cb86-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.thin=</span><span class="dv">1</span>,</span>
+<span id="cb86-64"><a href="jags-model-for-regression-model.html#cb86-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## module glm loaded</code></pre>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -303,120 +317,120 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    Total graph size: 262
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="jags-model-for-regression-model.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpqeqVce/modeleb01a5c9e8.txt&quot;, fit using jags,
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="jags-model-for-regression-model.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/Rtmp6LGnyB/model44a8e65278.txt&quot;, fit using jags,
 ##  4 chains, each with 4000 iterations (first 1000 discarded)
 ##  n.sims = 12000 iterations saved
 ##           mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
-## R.squared   0.584   0.019   0.536   0.578   0.590   0.597   0.601 1.040  4800
-## beta.0     -2.547   1.936  -6.349  -3.824  -2.562  -1.272   1.279 1.001 12000
-## beta.1      0.659   0.166   0.331   0.547   0.660   0.768   0.984 1.001 12000
-## beta.2      0.383   0.103   0.179   0.314   0.382   0.452   0.582 1.001 12000
-## tau.e       0.282   0.057   0.183   0.242   0.278   0.317   0.405 1.001  7600
-## deviance  207.604   2.948 204.099 205.503 206.954 208.969 214.799 1.001  4800
+## R.squared   0.584   0.020   0.538   0.578   0.590   0.596   0.601 1.037  7100
+## beta.0     -2.513   1.908  -6.295  -3.771  -2.506  -1.259   1.249 1.001 12000
+## beta.1      0.656   0.164   0.337   0.543   0.659   0.767   0.983 1.001 12000
+## beta.2      0.382   0.103   0.181   0.313   0.382   0.451   0.583 1.001  7900
+## tau.e       0.282   0.057   0.182   0.243   0.278   0.318   0.404 1.001  9400
+## deviance  207.595   2.887 204.084 205.498 206.954 208.944 214.745 1.001  6200
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ## 
 ## DIC info (using the rule, pD = var(deviance)/2)
-## pD = 4.3 and DIC = 211.9
+## pD = 4.2 and DIC = 211.8
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="jags-model-for-regression-model.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
-<span id="cb92-2"><a href="jags-model-for-regression-model.html#cb92-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>
-<span id="cb92-3"><a href="jags-model-for-regression-model.html#cb92-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-4"><a href="jags-model-for-regression-model.html#cb92-4" aria-hidden="true" tabindex="-1"></a>R2jags<span class="sc">::</span><span class="fu">traceplot</span>(jags.mcmc)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="jags-model-for-regression-model.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb91-2"><a href="jags-model-for-regression-model.html#cb91-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>
+<span id="cb91-3"><a href="jags-model-for-regression-model.html#cb91-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-4"><a href="jags-model-for-regression-model.html#cb91-4" aria-hidden="true" tabindex="-1"></a>R2jags<span class="sc">::</span><span class="fu">traceplot</span>(jags.mcmc)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-1.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-2.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-3.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-4.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-5.png" width="672" /><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-6.png" width="672" /></p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="jags-model-for-regression-model.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gelman-rubin-brook</span></span>
-<span id="cb93-2"><a href="jags-model-for-regression-model.html#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gelman.plot</span>(jags.mcmc)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="jags-model-for-regression-model.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gelman-rubin-brook</span></span>
+<span id="cb92-2"><a href="jags-model-for-regression-model.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gelman.plot</span>(jags.mcmc)</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-7.png" width="672" /></p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="jags-model-for-regression-model.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
-<span id="cb94-2"><a href="jags-model-for-regression-model.html#cb94-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">colnames</span>(<span class="fu">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
-<span id="cb94-3"><a href="jags-model-for-regression-model.html#cb94-3" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as.matrix</span>(jags.mcmc, <span class="at">chains=</span>T, <span class="at">iters =</span> T))</span>
-<span id="cb94-4"><a href="jags-model-for-regression-model.html#cb94-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
-<span id="cb94-5"><a href="jags-model-for-regression-model.html#cb94-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-6"><a href="jags-model-for-regression-model.html#cb94-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-7"><a href="jags-model-for-regression-model.html#cb94-7" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
-<span id="cb94-8"><a href="jags-model-for-regression-model.html#cb94-8" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
-<span id="cb94-9"><a href="jags-model-for-regression-model.html#cb94-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb94-10"><a href="jags-model-for-regression-model.html#cb94-10" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
-<span id="cb94-11"><a href="jags-model-for-regression-model.html#cb94-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;beta.0&quot;</span>, <span class="st">&quot;beta.1&quot;</span>, <span class="st">&quot;beta.2&quot;</span>, <span class="st">&quot;tau.e&quot;</span>),</span>
-<span id="cb94-12"><a href="jags-model-for-regression-model.html#cb94-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
-<span id="cb94-13"><a href="jags-model-for-regression-model.html#cb94-13" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="jags-model-for-regression-model.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
+<span id="cb93-2"><a href="jags-model-for-regression-model.html#cb93-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">colnames</span>(<span class="fu">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
+<span id="cb93-3"><a href="jags-model-for-regression-model.html#cb93-3" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as.matrix</span>(jags.mcmc, <span class="at">chains=</span>T, <span class="at">iters =</span> T))</span>
+<span id="cb93-4"><a href="jags-model-for-regression-model.html#cb93-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
+<span id="cb93-5"><a href="jags-model-for-regression-model.html#cb93-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-6"><a href="jags-model-for-regression-model.html#cb93-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-7"><a href="jags-model-for-regression-model.html#cb93-7" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb93-8"><a href="jags-model-for-regression-model.html#cb93-8" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb93-9"><a href="jags-model-for-regression-model.html#cb93-9" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb93-10"><a href="jags-model-for-regression-model.html#cb93-10" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb93-11"><a href="jags-model-for-regression-model.html#cb93-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;beta.0&quot;</span>, <span class="st">&quot;beta.1&quot;</span>, <span class="st">&quot;beta.2&quot;</span>, <span class="st">&quot;tau.e&quot;</span>),</span>
+<span id="cb93-12"><a href="jags-model-for-regression-model.html#cb93-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
+<span id="cb93-13"><a href="jags-model-for-regression-model.html#cb93-13" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-8.png" width="672" /></p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="jags-model-for-regression-model.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb95-2"><a href="jags-model-for-regression-model.html#cb95-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
-<span id="cb95-3"><a href="jags-model-for-regression-model.html#cb95-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;R.squared&quot;</span>),</span>
-<span id="cb95-4"><a href="jags-model-for-regression-model.html#cb95-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
-<span id="cb95-5"><a href="jags-model-for-regression-model.html#cb95-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="jags-model-for-regression-model.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb94-2"><a href="jags-model-for-regression-model.html#cb94-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb94-3"><a href="jags-model-for-regression-model.html#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">&quot;R.squared&quot;</span>),</span>
+<span id="cb94-4"><a href="jags-model-for-regression-model.html#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
+<span id="cb94-5"><a href="jags-model-for-regression-model.html#cb94-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-9.png" width="672" /></p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="jags-model-for-regression-model.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Expanded Posterior Plot</span></span>
-<span id="cb96-2"><a href="jags-model-for-regression-model.html#cb96-2" aria-hidden="true" tabindex="-1"></a>fit.lm <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">lm</span>(Ch3Test <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Ch1Test <span class="sc">+</span> Ch2Test, <span class="at">data=</span>dat))</span>
-<span id="cb96-3"><a href="jags-model-for-regression-model.html#cb96-3" aria-hidden="true" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> <span class="fu">c</span>(fit.lm<span class="sc">$</span>coefficients[,<span class="dv">1</span>], <span class="dv">1</span><span class="sc">/</span>fit.lm<span class="sc">$</span>sigma<span class="sc">**</span><span class="dv">2</span>, fit.lm<span class="sc">$</span>r.squared)</span>
-<span id="cb96-4"><a href="jags-model-for-regression-model.html#cb96-4" aria-hidden="true" tabindex="-1"></a>prior_beta <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">dnorm</span>(x, <span class="dv">0</span>, <span class="dv">1000</span>)}</span>
-<span id="cb96-5"><a href="jags-model-for-regression-model.html#cb96-5" aria-hidden="true" tabindex="-1"></a>x.beta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="fl">4.99</span>, <span class="fl">0.01</span>)</span>
-<span id="cb96-6"><a href="jags-model-for-regression-model.html#cb96-6" aria-hidden="true" tabindex="-1"></a>prior.beta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">beta=</span>x.beta, <span class="at">dens.beta =</span> <span class="fu">prior_beta</span>(x.beta))</span>
-<span id="cb96-7"><a href="jags-model-for-regression-model.html#cb96-7" aria-hidden="true" tabindex="-1"></a>prior_tau <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">dgamma</span>(x, <span class="dv">1</span>, <span class="dv">1</span>)}</span>
-<span id="cb96-8"><a href="jags-model-for-regression-model.html#cb96-8" aria-hidden="true" tabindex="-1"></a>x.tau <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.50</span>, <span class="fl">0.01</span>)</span>
-<span id="cb96-9"><a href="jags-model-for-regression-model.html#cb96-9" aria-hidden="true" tabindex="-1"></a>prior.tau <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">tau=</span>x.tau, <span class="at">dens.tau =</span> <span class="fu">prior_tau</span>(x.tau))</span>
-<span id="cb96-10"><a href="jags-model-for-regression-model.html#cb96-10" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Posterior&quot;</span><span class="ot">=</span><span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;Prior&quot;</span><span class="ot">=</span><span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;MLE&quot;</span><span class="ot">=</span> <span class="st">&quot;black&quot;</span>)<span class="co">#&quot;#56B4E9&quot;, &quot;#E69F00&quot; &quot;#CC79A7&quot;</span></span>
-<span id="cb96-11"><a href="jags-model-for-regression-model.html#cb96-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-12"><a href="jags-model-for-regression-model.html#cb96-12" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb96-13"><a href="jags-model-for-regression-model.html#cb96-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
-<span id="cb96-14"><a href="jags-model-for-regression-model.html#cb96-14" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>beta<span class="fl">.0</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-15"><a href="jags-model-for-regression-model.html#cb96-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.beta,</span>
-<span id="cb96-16"><a href="jags-model-for-regression-model.html#cb96-16" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>beta, <span class="at">y=</span>dens.beta, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-17"><a href="jags-model-for-regression-model.html#cb96-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">1</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-18"><a href="jags-model-for-regression-model.html#cb96-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb96-19"><a href="jags-model-for-regression-model.html#cb96-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb96-20"><a href="jags-model-for-regression-model.html#cb96-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb96-21"><a href="jags-model-for-regression-model.html#cb96-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-22"><a href="jags-model-for-regression-model.html#cb96-22" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb96-23"><a href="jags-model-for-regression-model.html#cb96-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
-<span id="cb96-24"><a href="jags-model-for-regression-model.html#cb96-24" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>beta<span class="fl">.1</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-25"><a href="jags-model-for-regression-model.html#cb96-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.beta,</span>
-<span id="cb96-26"><a href="jags-model-for-regression-model.html#cb96-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>beta, <span class="at">y=</span>dens.beta, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-27"><a href="jags-model-for-regression-model.html#cb96-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">2</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-28"><a href="jags-model-for-regression-model.html#cb96-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb96-29"><a href="jags-model-for-regression-model.html#cb96-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb96-30"><a href="jags-model-for-regression-model.html#cb96-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb96-31"><a href="jags-model-for-regression-model.html#cb96-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb96-32"><a href="jags-model-for-regression-model.html#cb96-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-33"><a href="jags-model-for-regression-model.html#cb96-33" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb96-34"><a href="jags-model-for-regression-model.html#cb96-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
-<span id="cb96-35"><a href="jags-model-for-regression-model.html#cb96-35" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>beta<span class="fl">.2</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-36"><a href="jags-model-for-regression-model.html#cb96-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.beta,</span>
-<span id="cb96-37"><a href="jags-model-for-regression-model.html#cb96-37" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>beta, <span class="at">y=</span>dens.beta, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-38"><a href="jags-model-for-regression-model.html#cb96-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">3</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-39"><a href="jags-model-for-regression-model.html#cb96-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb96-40"><a href="jags-model-for-regression-model.html#cb96-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb96-41"><a href="jags-model-for-regression-model.html#cb96-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb96-42"><a href="jags-model-for-regression-model.html#cb96-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb96-43"><a href="jags-model-for-regression-model.html#cb96-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-44"><a href="jags-model-for-regression-model.html#cb96-44" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb96-45"><a href="jags-model-for-regression-model.html#cb96-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
-<span id="cb96-46"><a href="jags-model-for-regression-model.html#cb96-46" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>tau.e, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-47"><a href="jags-model-for-regression-model.html#cb96-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.tau,</span>
-<span id="cb96-48"><a href="jags-model-for-regression-model.html#cb96-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>tau, <span class="at">y=</span>dens.tau, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-49"><a href="jags-model-for-regression-model.html#cb96-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">4</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-50"><a href="jags-model-for-regression-model.html#cb96-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb96-51"><a href="jags-model-for-regression-model.html#cb96-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb96-52"><a href="jags-model-for-regression-model.html#cb96-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb96-53"><a href="jags-model-for-regression-model.html#cb96-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-54"><a href="jags-model-for-regression-model.html#cb96-54" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb96-55"><a href="jags-model-for-regression-model.html#cb96-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
-<span id="cb96-56"><a href="jags-model-for-regression-model.html#cb96-56" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>R.squared, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-57"><a href="jags-model-for-regression-model.html#cb96-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">5</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
-<span id="cb96-58"><a href="jags-model-for-regression-model.html#cb96-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb96-59"><a href="jags-model-for-regression-model.html#cb96-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.65</span>))<span class="sc">+</span></span>
-<span id="cb96-60"><a href="jags-model-for-regression-model.html#cb96-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb96-61"><a href="jags-model-for-regression-model.html#cb96-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb96-62"><a href="jags-model-for-regression-model.html#cb96-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-63"><a href="jags-model-for-regression-model.html#cb96-63" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3 <span class="sc">+</span> p4 <span class="sc">+</span> p5 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning: Removed 226 rows containing non-finite values (stat_density).</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="jags-model-for-regression-model.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Expanded Posterior Plot</span></span>
+<span id="cb95-2"><a href="jags-model-for-regression-model.html#cb95-2" aria-hidden="true" tabindex="-1"></a>fit.lm <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">lm</span>(Ch3Test <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> Ch1Test <span class="sc">+</span> Ch2Test, <span class="at">data=</span>dat))</span>
+<span id="cb95-3"><a href="jags-model-for-regression-model.html#cb95-3" aria-hidden="true" tabindex="-1"></a>MLE <span class="ot">&lt;-</span> <span class="fu">c</span>(fit.lm<span class="sc">$</span>coefficients[,<span class="dv">1</span>], <span class="dv">1</span><span class="sc">/</span>fit.lm<span class="sc">$</span>sigma<span class="sc">**</span><span class="dv">2</span>, fit.lm<span class="sc">$</span>r.squared)</span>
+<span id="cb95-4"><a href="jags-model-for-regression-model.html#cb95-4" aria-hidden="true" tabindex="-1"></a>prior_beta <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">dnorm</span>(x, <span class="dv">0</span>, <span class="dv">1000</span>)}</span>
+<span id="cb95-5"><a href="jags-model-for-regression-model.html#cb95-5" aria-hidden="true" tabindex="-1"></a>x.beta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="fl">4.99</span>, <span class="fl">0.01</span>)</span>
+<span id="cb95-6"><a href="jags-model-for-regression-model.html#cb95-6" aria-hidden="true" tabindex="-1"></a>prior.beta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">beta=</span>x.beta, <span class="at">dens.beta =</span> <span class="fu">prior_beta</span>(x.beta))</span>
+<span id="cb95-7"><a href="jags-model-for-regression-model.html#cb95-7" aria-hidden="true" tabindex="-1"></a>prior_tau <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">dgamma</span>(x, <span class="dv">1</span>, <span class="dv">1</span>)}</span>
+<span id="cb95-8"><a href="jags-model-for-regression-model.html#cb95-8" aria-hidden="true" tabindex="-1"></a>x.tau <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.01</span>, <span class="fl">0.50</span>, <span class="fl">0.01</span>)</span>
+<span id="cb95-9"><a href="jags-model-for-regression-model.html#cb95-9" aria-hidden="true" tabindex="-1"></a>prior.tau <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">tau=</span>x.tau, <span class="at">dens.tau =</span> <span class="fu">prior_tau</span>(x.tau))</span>
+<span id="cb95-10"><a href="jags-model-for-regression-model.html#cb95-10" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Posterior&quot;</span><span class="ot">=</span><span class="st">&quot;#0072B2&quot;</span>, <span class="st">&quot;Prior&quot;</span><span class="ot">=</span><span class="st">&quot;#E69F00&quot;</span>, <span class="st">&quot;MLE&quot;</span><span class="ot">=</span> <span class="st">&quot;black&quot;</span>)<span class="co">#&quot;#56B4E9&quot;, &quot;#E69F00&quot; &quot;#CC79A7&quot;</span></span>
+<span id="cb95-11"><a href="jags-model-for-regression-model.html#cb95-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-12"><a href="jags-model-for-regression-model.html#cb95-12" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb95-13"><a href="jags-model-for-regression-model.html#cb95-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
+<span id="cb95-14"><a href="jags-model-for-regression-model.html#cb95-14" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>beta<span class="fl">.0</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-15"><a href="jags-model-for-regression-model.html#cb95-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.beta,</span>
+<span id="cb95-16"><a href="jags-model-for-regression-model.html#cb95-16" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>beta, <span class="at">y=</span>dens.beta, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-17"><a href="jags-model-for-regression-model.html#cb95-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">1</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-18"><a href="jags-model-for-regression-model.html#cb95-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb95-19"><a href="jags-model-for-regression-model.html#cb95-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb95-20"><a href="jags-model-for-regression-model.html#cb95-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb95-21"><a href="jags-model-for-regression-model.html#cb95-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-22"><a href="jags-model-for-regression-model.html#cb95-22" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb95-23"><a href="jags-model-for-regression-model.html#cb95-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
+<span id="cb95-24"><a href="jags-model-for-regression-model.html#cb95-24" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>beta<span class="fl">.1</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-25"><a href="jags-model-for-regression-model.html#cb95-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.beta,</span>
+<span id="cb95-26"><a href="jags-model-for-regression-model.html#cb95-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>beta, <span class="at">y=</span>dens.beta, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-27"><a href="jags-model-for-regression-model.html#cb95-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">2</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-28"><a href="jags-model-for-regression-model.html#cb95-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb95-29"><a href="jags-model-for-regression-model.html#cb95-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb95-30"><a href="jags-model-for-regression-model.html#cb95-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb95-31"><a href="jags-model-for-regression-model.html#cb95-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb95-32"><a href="jags-model-for-regression-model.html#cb95-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-33"><a href="jags-model-for-regression-model.html#cb95-33" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb95-34"><a href="jags-model-for-regression-model.html#cb95-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
+<span id="cb95-35"><a href="jags-model-for-regression-model.html#cb95-35" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>beta<span class="fl">.2</span>, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-36"><a href="jags-model-for-regression-model.html#cb95-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.beta,</span>
+<span id="cb95-37"><a href="jags-model-for-regression-model.html#cb95-37" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>beta, <span class="at">y=</span>dens.beta, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-38"><a href="jags-model-for-regression-model.html#cb95-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">3</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-39"><a href="jags-model-for-regression-model.html#cb95-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb95-40"><a href="jags-model-for-regression-model.html#cb95-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb95-41"><a href="jags-model-for-regression-model.html#cb95-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb95-42"><a href="jags-model-for-regression-model.html#cb95-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb95-43"><a href="jags-model-for-regression-model.html#cb95-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-44"><a href="jags-model-for-regression-model.html#cb95-44" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb95-45"><a href="jags-model-for-regression-model.html#cb95-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
+<span id="cb95-46"><a href="jags-model-for-regression-model.html#cb95-46" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>tau.e, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-47"><a href="jags-model-for-regression-model.html#cb95-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>prior.tau,</span>
+<span id="cb95-48"><a href="jags-model-for-regression-model.html#cb95-48" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>tau, <span class="at">y=</span>dens.tau, <span class="at">color=</span><span class="st">&quot;Prior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-49"><a href="jags-model-for-regression-model.html#cb95-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">4</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-50"><a href="jags-model-for-regression-model.html#cb95-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb95-51"><a href="jags-model-for-regression-model.html#cb95-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb95-52"><a href="jags-model-for-regression-model.html#cb95-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb95-53"><a href="jags-model-for-regression-model.html#cb95-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-54"><a href="jags-model-for-regression-model.html#cb95-54" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb95-55"><a href="jags-model-for-regression-model.html#cb95-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">data=</span>plot.data,</span>
+<span id="cb95-56"><a href="jags-model-for-regression-model.html#cb95-56" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">x=</span>R.squared, <span class="at">color=</span><span class="st">&quot;Posterior&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-57"><a href="jags-model-for-regression-model.html#cb95-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept=</span>MLE[<span class="dv">5</span>], <span class="at">color=</span><span class="st">&quot;MLE&quot;</span>))<span class="sc">+</span></span>
+<span id="cb95-58"><a href="jags-model-for-regression-model.html#cb95-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span>cols, <span class="at">name=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb95-59"><a href="jags-model-for-regression-model.html#cb95-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.65</span>))<span class="sc">+</span></span>
+<span id="cb95-60"><a href="jags-model-for-regression-model.html#cb95-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb95-61"><a href="jags-model-for-regression-model.html#cb95-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb95-62"><a href="jags-model-for-regression-model.html#cb95-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-63"><a href="jags-model-for-regression-model.html#cb95-63" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p3 <span class="sc">+</span> p4 <span class="sc">+</span> p5 <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides=</span><span class="st">&quot;collect&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 235 rows containing non-finite values (stat_density).</code></pre>
 <pre><code>## Warning: Removed 899 row(s) containing missing values (geom_path).</code></pre>
-<pre><code>## Warning: Removed 3 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning: Removed 4 rows containing non-finite values (stat_density).</code></pre>
 <pre><code>## Warning: Removed 899 row(s) containing missing values (geom_path).</code></pre>
-<pre><code>## Warning: Removed 52 rows containing non-finite values (stat_density).</code></pre>
+<pre><code>## Warning: Removed 39 rows containing non-finite values (stat_density).</code></pre>
 <p><img src="bookdown-BPM_files/figure-html/chp6-reg-fit-jags-10.png" width="672" /></p>
 
 </div>

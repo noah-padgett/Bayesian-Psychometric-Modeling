@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-02-16" />
+<meta name="date" content="2021-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="example-2-known-measurement-model-with-multiple-measures.html"/>
 <link rel="next" href="example-2-jags.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -206,7 +206,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html#lsat-example-using-jags"><i class="fa fa-check"></i><b>11.2.1</b> LSAT Example Using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.3</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.4" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.4</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.4.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#peer-interactions-example-using-jags"><i class="fa fa-check"></i><b>11.4.1</b> Peer Interactions Example using JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.5</b> Final Notes</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
@@ -291,8 +304,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb122-59"><a href="example-2-stan.html#cb122-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">cores =</span> <span class="dv">4</span>,              <span class="co"># number of cores (could use one per chain)</span></span>
 <span id="cb122-60"><a href="example-2-stan.html#cb122-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">refresh =</span> <span class="dv">0</span>             <span class="co"># no progress shown</span></span>
 <span id="cb122-61"><a href="example-2-stan.html#cb122-61" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr = TRUE): &#39;-
-## E&#39; not found</code></pre>
+<pre><code>## Warning in system(paste(CXX, ARGS), ignore.stdout = TRUE, ignore.stderr =
+## TRUE): &#39;-E&#39; not found</code></pre>
 <div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="example-2-stan.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first get a basic breakdown of the posteriors</span></span>
 <span id="cb124-2"><a href="example-2-stan.html#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
 <pre><code>## Inference for Stan model: 5eefd59584a6c5be6da9aa620ec6167e.
@@ -300,19 +313,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## post-warmup draws per chain=4000, total post-warmup draws=16000.
 ## 
 ##         mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat
-## T[1]   76.86    0.01 1.70  73.55  75.71  76.86  78.01  80.17 30336    1
-## T[2]   79.08    0.01 1.70  75.70  77.94  79.09  80.23  82.42 32641    1
-## T[3]   82.03    0.01 1.69  78.72  80.90  82.03  83.16  85.37 31404    1
-## T[4]   75.04    0.01 1.70  71.73  73.88  75.04  76.20  78.37 31201    1
-## T[5]   72.66    0.01 1.71  69.33  71.51  72.67  73.82  76.00 33449    1
-## T[6]   88.45    0.01 1.71  85.10  87.30  88.46  89.60  91.81 32116    1
-## T[7]   77.24    0.01 1.70  73.93  76.09  77.26  78.39  80.59 33790    1
-## T[8]   80.54    0.01 1.72  77.18  79.39  80.53  81.71  83.88 34588    1
-## T[9]   80.18    0.01 1.71  76.86  79.03  80.19  81.33  83.51 33476    1
-## T[10]  89.00    0.01 1.73  85.59  87.82  89.00  90.16  92.42 32931    1
-## lp__  -23.43    0.03 2.20 -28.60 -24.70 -23.11 -21.83 -20.09  7336    1
+## T[1]   76.89    0.01 1.72  73.49  75.73  76.90  78.07  80.21 31183    1
+## T[2]   79.09    0.01 1.72  75.71  77.94  79.08  80.25  82.46 30038    1
+## T[3]   82.03    0.01 1.72  78.68  80.87  82.02  83.20  85.41 31248    1
+## T[4]   75.05    0.01 1.71  71.69  73.89  75.05  76.21  78.36 30749    1
+## T[5]   72.64    0.01 1.73  69.28  71.46  72.64  73.83  76.01 31455    1
+## T[6]   88.47    0.01 1.71  85.11  87.31  88.47  89.63  91.84 30882    1
+## T[7]   77.24    0.01 1.70  73.90  76.09  77.25  78.38  80.61 32344    1
+## T[8]   80.55    0.01 1.69  77.27  79.43  80.54  81.67  83.84 29137    1
+## T[9]   80.18    0.01 1.71  76.88  79.02  80.18  81.34  83.60 32971    1
+## T[10]  89.01    0.01 1.71  85.64  87.84  89.00  90.17  92.37 29607    1
+## lp__  -23.47    0.03 2.24 -28.69 -24.74 -23.14 -21.83 -20.11  6988    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Oct 08 22:33:29 2020.
+## Samples were drawn using NUTS(diag_e) at Mon Apr 05 02:34:50 2021.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>

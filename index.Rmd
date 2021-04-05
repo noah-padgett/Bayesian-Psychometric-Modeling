@@ -15,7 +15,10 @@ description: "This online book is meant to serve a computation reference for the
 
 ```{r init-setup, echo=F, warning=F, error=F, message=F}
 
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(
+    cache = TRUE,
+    R.options=list(width=100)
+)
 
 ```
 

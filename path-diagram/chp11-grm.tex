@@ -1,0 +1,56 @@
+\documentclass[margin=1mm]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb, bm}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,positioning,shapes,shapes.gates.logic.US,trees, backgrounds}
+\usetikzlibrary{fit, positioning}
+
+\begin{document}
+\begin{tikzpicture}[auto,scale=3,
+	latent/.style={circle,draw,text badly centered, inner sep=2pt,minimum size=12.5mm},
+	error/.style={circle,draw,text badly centered, inner sep=2pt,minimum size=10mm},
+	manifest/.style={text centered, rectangle,draw,thick,inner sep=3pt,minimum height=8mm, minimum width=8mm, text width= 8 mm},
+	  plate/.style={draw, shape=rectangle,thick, minimum height=4.25cm, minimum width=4.5cm, text width=1cm, align=right, inner sep=10pt, inner ysep=10pt, append after command={node[below right= 3pt of \tikzlastnode.north west] {#1}}},
+	  plate2/.style={draw, shape=rectangle,thick, minimum height=4.5cm, minimum width=7cm, text width=1cm, align=right, inner sep=5pt, inner ysep=8pt, append after command={node[left= 3pt of \tikzlastnode.east] {#1}}},
+	manifestRot/.style={text centered, rectangle, draw, thick,inner sep=3pt, minimum width=7mm, text width= 7mm, minimum height=15},
+	manifestfront/.style={rectangle,draw,thick,inner sep=0pt,minimum size=12mm, fill=white},
+	ghost/.style={rectangle, inner sep=0pt,text centered,    minimum height=0mm, minimum width=5mm, text width= 5 mm},
+	lcorr/.style={<->,>=stealth', bend right=40},
+	rcorr/.style={<->,>=stealth', bend left=40},
+	fcorr/.style={<->,>=stealth', bend left=40},
+	ofcorr/.style={<->,>=stealth', bend right=60},
+	ofcorr2/.style={<->,>=stealth', bend left=60},
+	intercept/.style={regular polygon,
+        regular polygon sides=3,draw,thick,inner sep=0pt,minimum size=10mm},
+	mean/.style={regular polygon,regular polygon sides=3,draw,thick,inner sep=0pt,minimum size=10mm},
+	paths/.style={->, thick, >=stealth'},
+	variance/.style={<->, thick, >=stealth', bend left=270, looseness=2},
+	varianceTop/.style={<->, thick, >=stealth', bend right=270, looseness=2},
+	unique/.style={<->, thick, >=stealth', loop below=270, looseness=8},
+	factvar/.style={<->, thick, >=stealth', loop right=270, looseness=8}
+	] % End Creating Path Model Pieces
+\tikzset{mystyle/.style={->,double=black}}
+
+
+% person model
+\node [latent] at (0,0) (xi) {$\theta$};
+\node [manifest]   [below = 1cm of xi] (x4) {$x_4$};
+\node [manifest]   [left = 0.25cm of x4] (x3) {$x_3$};
+\node [manifest]   [left = 0.25cm of x3] (x2) {$x_2$};
+\node [manifest]   [left = 0.25cm of x2] (x1) {$x_1$};
+\node [manifest]   [right = 0.25cm of x4] (x5) {$x_5$};
+\node [manifest]   [right = 0.25cm of x5] (x6) {$x_6$};
+\node [manifest]   [right = 0.25cm of x6] (x7) {$x_7$};
+% paths
+\draw[paths] (xi)  -- (x1.north);
+\draw[paths] (xi)  -- (x2.north);
+\draw[paths] (xi)  -- (x3.north);
+\draw[paths] (xi)  -- (x4.north);
+\draw[paths] (xi)  -- (x5.north);
+\draw[paths] (xi)  -- (x6.north);
+\draw[paths] (xi)  -- (x7.north);
+
+\end{tikzpicture}
+\end{document}
