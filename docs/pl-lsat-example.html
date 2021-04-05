@@ -345,10 +345,11 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 <span id="cb302-62"><a href="pl-lsat-example.html#cb302-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>mydata,</span>
 <span id="cb302-63"><a href="pl-lsat-example.html#cb302-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits=</span>start_values,</span>
 <span id="cb302-64"><a href="pl-lsat-example.html#cb302-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters.to.save =</span> param_save,</span>
-<span id="cb302-65"><a href="pl-lsat-example.html#cb302-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">2000</span>,</span>
-<span id="cb302-66"><a href="pl-lsat-example.html#cb302-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">1000</span>,</span>
+<span id="cb302-65"><a href="pl-lsat-example.html#cb302-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">20000</span>,</span>
+<span id="cb302-66"><a href="pl-lsat-example.html#cb302-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">6000</span>,</span>
 <span id="cb302-67"><a href="pl-lsat-example.html#cb302-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.chains =</span> <span class="dv">3</span>,</span>
 <span id="cb302-68"><a href="pl-lsat-example.html#cb302-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## module glm loaded</code></pre>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -358,181 +359,181 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 ##    Total graph size: 31027
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="pl-lsat-example.html#cb304-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
-<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpUNZc83/model3bfc26d0e73.txt&quot;, fit using jags,
-##  3 chains, each with 2000 iterations (first 1000 discarded)
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="pl-lsat-example.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmporGNNv/model41c4569b1970.txt&quot;, fit using jags,
+##  3 chains, each with 20000 iterations (first 6000 discarded), n.thin = 14
 ##  n.sims = 3000 iterations saved
 ##              mu.vect sd.vect     2.5%      25%      50%      75%    97.5%  Rhat n.eff
-## a[1]           0.481   0.183    0.185    0.348    0.464    0.585    0.886 1.012   340
-## a[2]           0.567   0.201    0.273    0.434    0.533    0.654    1.087 1.014   170
-## a[3]           1.431   1.005    0.515    0.805    1.079    1.550    4.373 1.644     7
-## a[4]           0.497   0.180    0.230    0.381    0.469    0.579    0.933 1.037   120
-## a[5]           0.429   0.162    0.164    0.317    0.407    0.517    0.814 1.018   160
-## c[1]           0.241   0.090    0.092    0.175    0.233    0.298    0.434 1.001  3000
-## c[2]           0.255   0.091    0.096    0.190    0.246    0.313    0.456 1.009   380
-## c[3]           0.276   0.072    0.132    0.222    0.281    0.330    0.407 1.203    14
-## c[4]           0.252   0.100    0.085    0.180    0.242    0.312    0.466 1.006   440
-## c[5]           0.246   0.090    0.090    0.179    0.238    0.303    0.438 1.006   370
-## d[1]           1.428   0.141    1.180    1.335    1.413    1.508    1.754 1.021   160
-## d[2]           0.296   0.167   -0.127    0.217    0.319    0.411    0.539 1.015  1300
-## d[3]          -0.658   0.607   -2.430   -0.829   -0.463   -0.254   -0.036 1.695     7
-## d[4]           0.513   0.168    0.153    0.439    0.541    0.620    0.745 1.073   170
-## d[5]           1.026   0.118    0.781    0.952    1.030    1.105    1.258 1.009   270
-## theta[1]      -1.636   0.765   -3.267   -2.133   -1.589   -1.115   -0.194 1.001  3000
-## theta[2]      -1.641   0.762   -3.174   -2.157   -1.634   -1.118   -0.173 1.003   850
-## theta[3]      -1.643   0.775   -3.212   -2.152   -1.641   -1.095   -0.191 1.003   850
-## theta[4]      -1.290   0.743   -2.781   -1.773   -1.272   -0.767    0.115 1.001  3000
-## theta[5]      -1.310   0.753   -2.813   -1.810   -1.294   -0.799    0.151 1.001  3000
-## theta[6]      -1.287   0.775   -2.892   -1.792   -1.256   -0.752    0.127 1.001  3000
-## theta[7]      -1.283   0.747   -2.787   -1.783   -1.252   -0.767    0.132 1.001  3000
-## theta[8]      -1.256   0.759   -2.766   -1.749   -1.234   -0.730    0.206 1.001  3000
-## theta[9]      -1.289   0.771   -2.867   -1.815   -1.259   -0.749    0.220 1.002  1200
-## theta[10]     -1.305   0.762   -2.867   -1.813   -1.283   -0.807    0.161 1.002  1500
-## theta[11]     -1.305   0.775   -2.854   -1.820   -1.306   -0.767    0.194 1.001  3000
-## theta[12]     -0.927   0.784   -2.478   -1.442   -0.919   -0.387    0.574 1.003   790
-## theta[13]     -0.924   0.787   -2.549   -1.440   -0.897   -0.370    0.574 1.002  2900
-## theta[14]     -0.966   0.768   -2.502   -1.474   -0.956   -0.448    0.469 1.002  3000
-## theta[15]     -0.959   0.751   -2.509   -1.447   -0.935   -0.447    0.440 1.002  1900
-## theta[16]     -0.976   0.765   -2.471   -1.494   -0.964   -0.446    0.436 1.002  2100
-## theta[17]     -0.906   0.772   -2.486   -1.428   -0.888   -0.345    0.521 1.001  3000
-## theta[18]     -0.947   0.771   -2.550   -1.462   -0.930   -0.410    0.477 1.001  2000
-## theta[19]     -0.926   0.769   -2.454   -1.439   -0.910   -0.390    0.564 1.003  1100
-## theta[20]     -0.937   0.759   -2.457   -1.429   -0.916   -0.421    0.480 1.003   730
-## theta[21]     -0.960   0.766   -2.442   -1.486   -0.946   -0.439    0.462 1.002  1600
-## theta[22]     -0.938   0.784   -2.523   -1.476   -0.906   -0.378    0.495 1.001  3000
-## theta[23]     -1.431   0.839   -3.035   -1.985   -1.446   -0.870    0.264 1.007   320
-## theta[24]     -1.043   0.860   -2.696   -1.617   -1.045   -0.436    0.601 1.002  1000
-## theta[25]     -1.074   0.906   -2.840   -1.679   -1.063   -0.456    0.692 1.005   490
-## theta[26]     -1.058   0.899   -2.844   -1.653   -1.066   -0.447    0.714 1.004   580
-## theta[27]     -1.051   0.913   -2.795   -1.663   -1.038   -0.464    0.781 1.006   840
-## theta[28]     -0.586   0.899   -2.400   -1.215   -0.567    0.062    1.119 1.008   320
-## theta[29]     -0.580   0.882   -2.346   -1.177   -0.575    0.029    1.078 1.008   270
-## theta[30]     -0.571   0.899   -2.360   -1.207   -0.580    0.051    1.164 1.005   880
-## theta[31]     -0.585   0.911   -2.393   -1.194   -0.565    0.060    1.155 1.003  1000
-## theta[32]     -1.314   0.754   -2.865   -1.805   -1.294   -0.785    0.089 1.002  1300
-## theta[33]     -0.940   0.771   -2.505   -1.444   -0.908   -0.404    0.474 1.005   900
-## theta[34]     -0.926   0.775   -2.582   -1.421   -0.893   -0.401    0.500 1.004   570
-## theta[35]     -0.939   0.774   -2.485   -1.451   -0.907   -0.408    0.545 1.001  3000
-## theta[36]     -0.932   0.794   -2.542   -1.438   -0.909   -0.385    0.566 1.002  1400
-## theta[37]     -0.941   0.788   -2.612   -1.436   -0.929   -0.391    0.497 1.006  1900
-## theta[38]     -0.963   0.802   -2.673   -1.486   -0.942   -0.414    0.534 1.003   930
-## theta[39]     -0.972   0.780   -2.546   -1.487   -0.949   -0.427    0.459 1.002  1100
-## theta[40]     -0.971   0.781   -2.541   -1.486   -0.935   -0.450    0.470 1.001  3000
-## theta[41]     -0.589   0.778   -2.125   -1.091   -0.589   -0.081    0.920 1.003  3000
-## theta[42]     -0.597   0.801   -2.187   -1.122   -0.559   -0.058    0.889 1.005   530
-## theta[43]     -0.607   0.803   -2.329   -1.128   -0.570   -0.038    0.857 1.001  3000
-## theta[44]     -0.607   0.777   -2.222   -1.106   -0.576   -0.070    0.827 1.002  1100
-## theta[45]     -0.599   0.795   -2.231   -1.101   -0.576   -0.054    0.892 1.002  2800
-## theta[46]     -0.545   0.769   -2.075   -1.040   -0.523   -0.028    0.921 1.004   570
-## theta[47]     -0.582   0.765   -2.121   -1.093   -0.556   -0.047    0.838 1.003  3000
-## theta[48]     -0.579   0.813   -2.226   -1.109   -0.543   -0.007    0.895 1.002  1100
-## theta[49]     -0.581   0.760   -2.131   -1.069   -0.548   -0.072    0.810 1.003   820
-## theta[50]     -0.553   0.758   -2.180   -1.045   -0.527   -0.017    0.819 1.004  1300
-## theta[51]     -0.588   0.797   -2.182   -1.127   -0.550   -0.046    0.892 1.004   630
-## theta[52]     -0.586   0.778   -2.170   -1.098   -0.552   -0.050    0.874 1.001  3000
-## theta[53]     -0.599   0.774   -2.190   -1.100   -0.569   -0.050    0.785 1.008   250
-## theta[54]     -0.578   0.778   -2.109   -1.109   -0.540   -0.050    0.872 1.005   480
-## theta[55]     -0.563   0.796   -2.207   -1.073   -0.540   -0.029    0.922 1.005   810
-## theta[56]     -0.567   0.775   -2.071   -1.081   -0.572   -0.040    0.904 1.002  1900
-## theta[57]     -0.532   0.939   -2.479   -1.135   -0.505    0.122    1.253 1.006   560
-## theta[58]     -0.545   0.901   -2.328   -1.155   -0.524    0.077    1.203 1.002  1700
-## theta[59]     -0.558   0.917   -2.421   -1.169   -0.538    0.112    1.089 1.007   410
-## theta[60]     -0.605   0.917   -2.385   -1.224   -0.625    0.027    1.282 1.006   350
-## theta[61]     -0.562   0.912   -2.423   -1.166   -0.553    0.068    1.142 1.008   390
-## theta[62]     -0.090   0.929   -1.900   -0.711   -0.071    0.568    1.670 1.003   690
-## theta[63]     -0.047   0.932   -1.942   -0.664   -0.023    0.613    1.696 1.009   410
-## theta[64]     -0.051   0.916   -1.857   -0.658   -0.026    0.590    1.720 1.004   730
-## theta[65]     -0.013   0.889   -1.730   -0.618    0.006    0.590    1.710 1.002  1900
-## theta[66]     -0.023   0.924   -1.810   -0.656   -0.011    0.619    1.754 1.003   940
-## theta[67]     -0.051   0.926   -1.885   -0.669   -0.040    0.566    1.726 1.004   580
-## theta[68]     -0.013   0.910   -1.822   -0.613    0.007    0.610    1.656 1.007   640
-## theta[69]     -0.021   0.903   -1.843   -0.624    0.018    0.614    1.620 1.005   460
-## theta[70]     -0.055   0.911   -1.845   -0.691   -0.031    0.587    1.675 1.007   330
-## theta[71]      0.022   0.907   -1.814   -0.585    0.070    0.649    1.672 1.003  1800
-## theta[72]     -0.059   0.907   -1.900   -0.657   -0.045    0.551    1.655 1.003   880
-## theta[73]     -0.034   0.922   -1.872   -0.659    0.006    0.603    1.726 1.002  1300
-## theta[74]     -0.037   0.933   -2.006   -0.634    0.003    0.626    1.652 1.006   910
-## theta[75]     -0.066   0.929   -1.878   -0.708   -0.050    0.595    1.726 1.006   400
-## theta[76]     -0.027   0.924   -1.875   -0.669    0.000    0.625    1.730 1.001  3000
-## theta[77]     -1.197   0.765   -2.697   -1.716   -1.178   -0.664    0.256 1.001  2800
-## theta[78]     -1.192   0.759   -2.738   -1.682   -1.194   -0.660    0.178 1.003   910
-## theta[79]     -1.165   0.722   -2.631   -1.641   -1.141   -0.669    0.195 1.005   460
-## theta[80]     -1.196   0.761   -2.728   -1.708   -1.186   -0.681    0.239 1.003  1400
-## theta[81]     -1.181   0.781   -2.726   -1.697   -1.186   -0.645    0.331 1.005   740
-## theta[82]     -1.207   0.760   -2.772   -1.700   -1.175   -0.695    0.211 1.005   900
-## theta[83]     -1.227   0.786   -2.797   -1.749   -1.217   -0.667    0.253 1.006   360
-## theta[84]     -1.203   0.754   -2.686   -1.717   -1.185   -0.676    0.262 1.001  3000
-## theta[85]     -1.203   0.761   -2.749   -1.683   -1.176   -0.678    0.231 1.002  2200
-## theta[86]     -1.181   0.769   -2.727   -1.680   -1.165   -0.638    0.274 1.005   410
-## theta[87]     -0.838   0.762   -2.405   -1.343   -0.802   -0.304    0.585 1.003   720
-## theta[88]     -0.825   0.741   -2.307   -1.335   -0.806   -0.315    0.539 1.001  3000
-## theta[89]     -0.835   0.766   -2.433   -1.351   -0.799   -0.297    0.570 1.001  2400
-## theta[90]     -0.872   0.750   -2.385   -1.378   -0.845   -0.342    0.535 1.002  3000
-## theta[91]     -0.843   0.792   -2.430   -1.375   -0.828   -0.294    0.637 1.004   630
-## theta[92]     -0.827   0.764   -2.415   -1.335   -0.804   -0.286    0.568 1.003   890
-## theta[93]     -0.815   0.764   -2.383   -1.312   -0.782   -0.294    0.656 1.006   610
-## theta[94]     -0.824   0.762   -2.372   -1.322   -0.806   -0.291    0.634 1.001  3000
-## theta[95]     -0.814   0.768   -2.368   -1.330   -0.800   -0.277    0.622 1.001  3000
-## theta[96]     -0.839   0.760   -2.364   -1.346   -0.817   -0.315    0.540 1.005   440
+## a[1]           0.471   0.181    0.175    0.346    0.450    0.569    0.881 1.002  1800
+## a[2]           0.584   0.230    0.289    0.431    0.537    0.674    1.161 1.007   300
+## a[3]           1.240   0.719    0.417    0.696    1.039    1.605    3.093 1.004   600
+## a[4]           0.508   0.214    0.234    0.379    0.473    0.589    1.023 1.001  3000
+## a[5]           0.417   0.154    0.154    0.313    0.404    0.505    0.765 1.001  3000
+## c[1]           0.239   0.092    0.086    0.170    0.232    0.298    0.435 1.004   670
+## c[2]           0.254   0.097    0.093    0.184    0.243    0.316    0.461 1.003   990
+## c[3]           0.262   0.080    0.102    0.202    0.266    0.321    0.407 1.006   450
+## c[4]           0.253   0.098    0.092    0.180    0.244    0.313    0.477 1.001  3000
+## c[5]           0.241   0.090    0.087    0.174    0.232    0.300    0.429 1.001  2600
+## d[1]           1.419   0.138    1.171    1.330    1.413    1.500    1.714 1.001  3000
+## d[2]           0.294   0.189   -0.185    0.214    0.329    0.419    0.555 1.009   770
+## d[3]          -0.537   0.455   -1.688   -0.776   -0.414   -0.199    0.032 1.014   210
+## d[4]           0.512   0.160    0.121    0.435    0.538    0.617    0.746 1.001  3000
+## d[5]           1.024   0.117    0.787    0.955    1.030    1.099    1.238 1.002  1100
+## theta[1]      -1.659   0.776   -3.317   -2.159   -1.631   -1.129   -0.190 1.001  3000
+## theta[2]      -1.615   0.785   -3.232   -2.145   -1.602   -1.092   -0.115 1.001  3000
+## theta[3]      -1.643   0.767   -3.199   -2.162   -1.619   -1.102   -0.225 1.001  2100
+## theta[4]      -1.301   0.764   -2.862   -1.833   -1.289   -0.756    0.134 1.001  2800
+## theta[5]      -1.285   0.780   -2.856   -1.790   -1.266   -0.733    0.133 1.002  1600
+## theta[6]      -1.298   0.776   -2.833   -1.809   -1.276   -0.763    0.159 1.002  1300
+## theta[7]      -1.299   0.768   -2.835   -1.799   -1.292   -0.781    0.158 1.002  1600
+## theta[8]      -1.315   0.759   -2.913   -1.812   -1.282   -0.771    0.061 1.002  1900
+## theta[9]      -1.311   0.776   -2.881   -1.838   -1.295   -0.794    0.141 1.001  3000
+## theta[10]     -1.310   0.795   -2.922   -1.834   -1.290   -0.739    0.207 1.003   860
+## theta[11]     -1.299   0.788   -2.898   -1.824   -1.275   -0.741    0.167 1.001  3000
+## theta[12]     -0.921   0.775   -2.465   -1.419   -0.925   -0.385    0.575 1.002  1200
+## theta[13]     -0.971   0.777   -2.592   -1.477   -0.948   -0.448    0.478 1.001  2500
+## theta[14]     -0.939   0.773   -2.493   -1.474   -0.906   -0.398    0.477 1.001  3000
+## theta[15]     -0.935   0.774   -2.495   -1.444   -0.923   -0.392    0.526 1.001  3000
+## theta[16]     -0.954   0.790   -2.490   -1.494   -0.938   -0.405    0.542 1.001  3000
+## theta[17]     -0.935   0.766   -2.449   -1.452   -0.924   -0.415    0.543 1.001  3000
+## theta[18]     -0.937   0.775   -2.477   -1.444   -0.935   -0.407    0.554 1.001  3000
+## theta[19]     -0.951   0.789   -2.576   -1.460   -0.926   -0.406    0.528 1.001  3000
+## theta[20]     -0.950   0.786   -2.499   -1.472   -0.925   -0.395    0.542 1.003   820
+## theta[21]     -0.949   0.774   -2.504   -1.468   -0.949   -0.425    0.496 1.001  3000
+## theta[22]     -0.950   0.762   -2.510   -1.445   -0.925   -0.445    0.481 1.001  3000
+## theta[23]     -1.447   0.868   -3.105   -2.036   -1.448   -0.856    0.257 1.002  1600
+## theta[24]     -0.983   0.877   -2.668   -1.578   -0.999   -0.377    0.694 1.002  1700
+## theta[25]     -1.011   0.867   -2.731   -1.595   -1.021   -0.419    0.683 1.001  3000
+## theta[26]     -1.052   0.914   -2.859   -1.671   -1.034   -0.444    0.711 1.002  1300
+## theta[27]     -1.012   0.894   -2.724   -1.617   -1.009   -0.391    0.718 1.002  1700
+## theta[28]     -0.549   0.881   -2.277   -1.150   -0.559    0.072    1.172 1.001  3000
+## theta[29]     -0.551   0.877   -2.240   -1.147   -0.533    0.051    1.109 1.001  2300
+## theta[30]     -0.541   0.908   -2.325   -1.155   -0.518    0.079    1.182 1.002  1200
+## theta[31]     -0.557   0.873   -2.290   -1.135   -0.557    0.022    1.106 1.001  3000
+## theta[32]     -1.318   0.777   -2.916   -1.813   -1.300   -0.793    0.145 1.001  3000
+## theta[33]     -0.937   0.798   -2.557   -1.445   -0.929   -0.370    0.590 1.001  2100
+## theta[34]     -0.947   0.791   -2.522   -1.495   -0.919   -0.394    0.527 1.002  1900
+## theta[35]     -0.933   0.776   -2.469   -1.451   -0.908   -0.382    0.476 1.001  2000
+## theta[36]     -0.952   0.782   -2.483   -1.469   -0.953   -0.411    0.554 1.002  1400
+## theta[37]     -0.965   0.796   -2.580   -1.493   -0.943   -0.411    0.527 1.001  3000
+## theta[38]     -0.933   0.791   -2.516   -1.456   -0.906   -0.400    0.572 1.002  1300
+## theta[39]     -0.951   0.799   -2.522   -1.482   -0.941   -0.394    0.572 1.001  3000
+## theta[40]     -0.948   0.798   -2.551   -1.479   -0.917   -0.422    0.581 1.001  3000
+## theta[41]     -0.556   0.783   -2.134   -1.064   -0.527   -0.014    0.859 1.001  2900
+## theta[42]     -0.596   0.791   -2.170   -1.118   -0.579   -0.071    0.931 1.001  3000
+## theta[43]     -0.583   0.799   -2.190   -1.121   -0.568   -0.043    0.995 1.002  1400
+## theta[44]     -0.562   0.784   -2.160   -1.063   -0.538   -0.032    0.893 1.001  3000
+## theta[45]     -0.545   0.793   -2.197   -1.058   -0.520   -0.018    0.972 1.002  1900
+## theta[46]     -0.546   0.780   -2.121   -1.052   -0.536   -0.027    0.979 1.002  1500
+## theta[47]     -0.581   0.799   -2.214   -1.083   -0.555   -0.044    0.957 1.001  3000
+## theta[48]     -0.572   0.784   -2.208   -1.068   -0.532   -0.052    0.898 1.001  2400
+## theta[49]     -0.596   0.790   -2.233   -1.108   -0.568   -0.072    0.854 1.001  3000
+## theta[50]     -0.538   0.797   -2.207   -1.067   -0.514    0.005    0.963 1.001  3000
+## theta[51]     -0.572   0.785   -2.189   -1.048   -0.554   -0.064    0.925 1.002  1500
+## theta[52]     -0.564   0.781   -2.135   -1.074   -0.550   -0.028    0.903 1.002  1700
+## theta[53]     -0.581   0.777   -2.216   -1.104   -0.541   -0.052    0.881 1.001  3000
+## theta[54]     -0.555   0.784   -2.121   -1.061   -0.524   -0.001    0.900 1.001  2600
+## theta[55]     -0.534   0.801   -2.176   -1.052   -0.506    0.014    0.942 1.001  3000
+## theta[56]     -0.573   0.794   -2.165   -1.097   -0.550   -0.033    0.896 1.001  3000
+## theta[57]     -0.536   0.889   -2.381   -1.145   -0.527    0.078    1.163 1.001  3000
+## theta[58]     -0.532   0.885   -2.344   -1.126   -0.522    0.075    1.161 1.001  3000
+## theta[59]     -0.534   0.897   -2.333   -1.128   -0.514    0.073    1.204 1.001  3000
+## theta[60]     -0.532   0.916   -2.318   -1.160   -0.531    0.114    1.212 1.001  2500
+## theta[61]     -0.516   0.901   -2.262   -1.147   -0.505    0.102    1.194 1.001  3000
+## theta[62]     -0.035   0.908   -1.810   -0.652   -0.032    0.590    1.710 1.001  3000
+## theta[63]     -0.045   0.905   -1.896   -0.642   -0.025    0.556    1.729 1.001  3000
+## theta[64]     -0.032   0.913   -1.867   -0.665   -0.010    0.602    1.706 1.001  3000
+## theta[65]     -0.031   0.908   -1.850   -0.656   -0.015    0.605    1.684 1.001  3000
+## theta[66]      0.006   0.903   -1.794   -0.573    0.027    0.611    1.707 1.001  3000
+## theta[67]     -0.029   0.894   -1.800   -0.610   -0.011    0.565    1.715 1.003   850
+## theta[68]     -0.035   0.914   -1.893   -0.664   -0.001    0.589    1.708 1.002  1900
+## theta[69]      0.008   0.923   -1.807   -0.620    0.025    0.655    1.716 1.001  3000
+## theta[70]     -0.042   0.891   -1.787   -0.627   -0.027    0.564    1.668 1.001  3000
+## theta[71]     -0.030   0.896   -1.809   -0.627    0.017    0.578    1.693 1.001  3000
+## theta[72]     -0.046   0.914   -1.900   -0.642   -0.025    0.573    1.703 1.001  3000
+## theta[73]     -0.017   0.909   -1.812   -0.629    0.034    0.611    1.647 1.001  3000
+## theta[74]     -0.041   0.923   -1.982   -0.629   -0.018    0.604    1.647 1.001  2700
+## theta[75]     -0.036   0.927   -1.937   -0.653    0.011    0.603    1.687 1.001  3000
+## theta[76]     -0.008   0.912   -1.884   -0.616    0.037    0.600    1.675 1.001  3000
+## theta[77]     -1.206   0.744   -2.692   -1.703   -1.192   -0.687    0.210 1.001  2600
+## theta[78]     -1.202   0.775   -2.741   -1.711   -1.194   -0.673    0.265 1.002  1800
+## theta[79]     -1.206   0.772   -2.758   -1.710   -1.191   -0.661    0.257 1.001  3000
+## theta[80]     -1.186   0.769   -2.753   -1.704   -1.164   -0.657    0.253 1.001  3000
+## theta[81]     -1.205   0.788   -2.817   -1.742   -1.193   -0.651    0.266 1.001  3000
+## theta[82]     -1.187   0.786   -2.797   -1.707   -1.155   -0.637    0.234 1.003   740
+## theta[83]     -1.197   0.757   -2.726   -1.703   -1.182   -0.683    0.269 1.001  3000
+## theta[84]     -1.181   0.751   -2.724   -1.668   -1.155   -0.659    0.207 1.001  3000
+## theta[85]     -1.182   0.780   -2.734   -1.710   -1.168   -0.648    0.313 1.001  3000
+## theta[86]     -1.226   0.766   -2.768   -1.740   -1.185   -0.677    0.179 1.001  2700
+## theta[87]     -0.847   0.752   -2.397   -1.334   -0.846   -0.325    0.585 1.001  3000
+## theta[88]     -0.858   0.750   -2.370   -1.349   -0.846   -0.324    0.552 1.001  3000
+## theta[89]     -0.832   0.757   -2.395   -1.319   -0.805   -0.302    0.558 1.002  1900
+## theta[90]     -0.832   0.753   -2.352   -1.337   -0.793   -0.315    0.576 1.001  3000
+## theta[91]     -0.832   0.752   -2.339   -1.308   -0.814   -0.323    0.582 1.001  3000
+## theta[92]     -0.839   0.758   -2.387   -1.331   -0.836   -0.334    0.632 1.002  1600
+## theta[93]     -0.847   0.772   -2.428   -1.347   -0.833   -0.315    0.595 1.001  3000
+## theta[94]     -0.835   0.765   -2.408   -1.319   -0.825   -0.314    0.629 1.001  3000
+## theta[95]     -0.829   0.762   -2.403   -1.331   -0.805   -0.316    0.604 1.001  2600
+## theta[96]     -0.845   0.746   -2.369   -1.329   -0.839   -0.339    0.529 1.002  2000
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 905 rows ]
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ## 
 ## DIC info (using the rule, pD = var(deviance)/2)
-## pD = 2529.8 and DIC = 7045.2
+## pD = 2749.6 and DIC = 7270.9
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="pl-lsat-example.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[ <span class="sc">!</span><span class="fu">rownames</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary) <span class="sc">%like%</span> <span class="st">&quot;theta&quot;</span>, ], <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="pl-lsat-example.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[ <span class="sc">!</span><span class="fu">rownames</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary) <span class="sc">%like%</span> <span class="st">&quot;theta&quot;</span>, ], <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##              mean     sd     2.5%      25%      50%      75%    97.5%  Rhat n.eff
-## a[1]        0.481  0.183    0.185    0.348    0.464    0.585    0.886 1.012   340
-## a[2]        0.567  0.201    0.273    0.434    0.533    0.654    1.087 1.014   170
-## a[3]        1.431  1.005    0.515    0.805    1.079    1.550    4.373 1.644     7
-## a[4]        0.497  0.180    0.230    0.381    0.469    0.579    0.933 1.037   120
-## a[5]        0.429  0.162    0.164    0.317    0.407    0.517    0.814 1.018   160
-## c[1]        0.241  0.090    0.092    0.175    0.233    0.298    0.434 1.001  3000
-## c[2]        0.255  0.091    0.096    0.190    0.246    0.313    0.456 1.009   380
-## c[3]        0.276  0.072    0.132    0.222    0.281    0.330    0.407 1.203    14
-## c[4]        0.252  0.100    0.085    0.180    0.242    0.312    0.466 1.006   440
-## c[5]        0.246  0.090    0.090    0.179    0.238    0.303    0.438 1.006   370
-## d[1]        1.428  0.141    1.180    1.335    1.413    1.508    1.754 1.021   160
-## d[2]        0.296  0.167   -0.127    0.217    0.319    0.411    0.539 1.015  1300
-## d[3]       -0.658  0.607   -2.430   -0.829   -0.463   -0.254   -0.036 1.695     7
-## d[4]        0.513  0.168    0.153    0.439    0.541    0.620    0.745 1.073   170
-## d[5]        1.026  0.118    0.781    0.952    1.030    1.105    1.258 1.009   270
-## deviance 4515.381 76.491 4342.669 4467.976 4520.417 4569.522 4649.529 1.208    16</code></pre>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="pl-lsat-example.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
-<span id="cb308-2"><a href="pl-lsat-example.html#cb308-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>
-<span id="cb308-3"><a href="pl-lsat-example.html#cb308-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the below two plots are too big to be useful given the 1000 observations.</span></span>
-<span id="cb308-4"><a href="pl-lsat-example.html#cb308-4" aria-hidden="true" tabindex="-1"></a><span class="co">#R2jags::traceplot(jags.mcmc)</span></span>
-<span id="cb308-5"><a href="pl-lsat-example.html#cb308-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb308-6"><a href="pl-lsat-example.html#cb308-6" aria-hidden="true" tabindex="-1"></a><span class="co"># gelman-rubin-brook</span></span>
-<span id="cb308-7"><a href="pl-lsat-example.html#cb308-7" aria-hidden="true" tabindex="-1"></a><span class="co">#gelman.plot(jags.mcmc)</span></span>
-<span id="cb308-8"><a href="pl-lsat-example.html#cb308-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb308-9"><a href="pl-lsat-example.html#cb308-9" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
-<span id="cb308-10"><a href="pl-lsat-example.html#cb308-10" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">colnames</span>(<span class="fu">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
-<span id="cb308-11"><a href="pl-lsat-example.html#cb308-11" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as.matrix</span>(jags.mcmc, <span class="at">chains=</span>T, <span class="at">iters =</span> T))</span>
-<span id="cb308-12"><a href="pl-lsat-example.html#cb308-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
-<span id="cb308-13"><a href="pl-lsat-example.html#cb308-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb308-14"><a href="pl-lsat-example.html#cb308-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb308-15"><a href="pl-lsat-example.html#cb308-15" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
-<span id="cb308-16"><a href="pl-lsat-example.html#cb308-16" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
-<span id="cb308-17"><a href="pl-lsat-example.html#cb308-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb308-18"><a href="pl-lsat-example.html#cb308-18" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
-<span id="cb308-19"><a href="pl-lsat-example.html#cb308-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;d[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
-<span id="cb308-20"><a href="pl-lsat-example.html#cb308-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb308-21"><a href="pl-lsat-example.html#cb308-21" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+## a[1]        0.471  0.181    0.175    0.346    0.450    0.569    0.881 1.002  1800
+## a[2]        0.584  0.230    0.289    0.431    0.537    0.674    1.161 1.007   300
+## a[3]        1.240  0.719    0.417    0.696    1.039    1.605    3.093 1.004   600
+## a[4]        0.508  0.214    0.234    0.379    0.473    0.589    1.023 1.001  3000
+## a[5]        0.417  0.154    0.154    0.313    0.404    0.505    0.765 1.001  3000
+## c[1]        0.239  0.092    0.086    0.170    0.232    0.298    0.435 1.004   670
+## c[2]        0.254  0.097    0.093    0.184    0.243    0.316    0.461 1.003   990
+## c[3]        0.262  0.080    0.102    0.202    0.266    0.321    0.407 1.006   450
+## c[4]        0.253  0.098    0.092    0.180    0.244    0.313    0.477 1.001  3000
+## c[5]        0.241  0.090    0.087    0.174    0.232    0.300    0.429 1.001  2600
+## d[1]        1.419  0.138    1.171    1.330    1.413    1.500    1.714 1.001  3000
+## d[2]        0.294  0.189   -0.185    0.214    0.329    0.419    0.555 1.009   770
+## d[3]       -0.537  0.455   -1.688   -0.776   -0.414   -0.199    0.032 1.014   210
+## d[4]        0.512  0.160    0.121    0.435    0.538    0.617    0.746 1.001  3000
+## d[5]        1.024  0.117    0.787    0.955    1.030    1.099    1.238 1.002  1100
+## deviance 4521.341 74.150 4359.677 4477.858 4525.361 4572.117 4651.660 1.002  3000</code></pre>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="pl-lsat-example.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb309-2"><a href="pl-lsat-example.html#cb309-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>
+<span id="cb309-3"><a href="pl-lsat-example.html#cb309-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the below two plots are too big to be useful given the 1000 observations.</span></span>
+<span id="cb309-4"><a href="pl-lsat-example.html#cb309-4" aria-hidden="true" tabindex="-1"></a><span class="co">#R2jags::traceplot(jags.mcmc)</span></span>
+<span id="cb309-5"><a href="pl-lsat-example.html#cb309-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-6"><a href="pl-lsat-example.html#cb309-6" aria-hidden="true" tabindex="-1"></a><span class="co"># gelman-rubin-brook</span></span>
+<span id="cb309-7"><a href="pl-lsat-example.html#cb309-7" aria-hidden="true" tabindex="-1"></a><span class="co">#gelman.plot(jags.mcmc)</span></span>
+<span id="cb309-8"><a href="pl-lsat-example.html#cb309-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-9"><a href="pl-lsat-example.html#cb309-9" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
+<span id="cb309-10"><a href="pl-lsat-example.html#cb309-10" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">colnames</span>(<span class="fu">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
+<span id="cb309-11"><a href="pl-lsat-example.html#cb309-11" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as.matrix</span>(jags.mcmc, <span class="at">chains=</span>T, <span class="at">iters =</span> T))</span>
+<span id="cb309-12"><a href="pl-lsat-example.html#cb309-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
+<span id="cb309-13"><a href="pl-lsat-example.html#cb309-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-14"><a href="pl-lsat-example.html#cb309-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-15"><a href="pl-lsat-example.html#cb309-15" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb309-16"><a href="pl-lsat-example.html#cb309-16" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb309-17"><a href="pl-lsat-example.html#cb309-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb309-18"><a href="pl-lsat-example.html#cb309-18" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb309-19"><a href="pl-lsat-example.html#cb309-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;d[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb309-20"><a href="pl-lsat-example.html#cb309-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb309-21"><a href="pl-lsat-example.html#cb309-21" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-1.png" width="672" /></p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="pl-lsat-example.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb309-2"><a href="pl-lsat-example.html#cb309-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
-<span id="cb309-3"><a href="pl-lsat-example.html#cb309-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;a[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
-<span id="cb309-4"><a href="pl-lsat-example.html#cb309-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb309-5"><a href="pl-lsat-example.html#cb309-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
-<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-2.png" width="672" /></p>
 <div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="pl-lsat-example.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
 <span id="cb310-2"><a href="pl-lsat-example.html#cb310-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
-<span id="cb310-3"><a href="pl-lsat-example.html#cb310-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;c[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb310-3"><a href="pl-lsat-example.html#cb310-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;a[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
 <span id="cb310-4"><a href="pl-lsat-example.html#cb310-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
 <span id="cb310-5"><a href="pl-lsat-example.html#cb310-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-2.png" width="672" /></p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="pl-lsat-example.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb311-2"><a href="pl-lsat-example.html#cb311-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb311-3"><a href="pl-lsat-example.html#cb311-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;c[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb311-4"><a href="pl-lsat-example.html#cb311-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb311-5"><a href="pl-lsat-example.html#cb311-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-3.png" width="672" /></p>
 <div id="posterior-predicted-distributions" class="section level4" number="11.2.1.1">
 <h4><span class="header-section-number">11.2.1.1</span> Posterior Predicted Distributions</h4>
@@ -541,257 +542,255 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 <p>For (1), the SMBC is
 <span class="math display">\[SMBC_{jj^\prime}=\frac{\frac{1}{n}\sum_{i=1}^n(x_{ij} - E(x_{ij} \mid \theta_i,\boldsymbol{\omega}_j))(x_{ij^\prime} - E(x_{ij^\prime} \mid \theta_i,\boldsymbol{\omega}_j^\prime))}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij} - E(x_{ij} \mid \theta_i,\boldsymbol{\omega}_j))^2}\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij^\prime} - E(x_{ij^\prime} \mid \theta_i,\boldsymbol{\omega}_j^\prime))}}\]</span></p>
 <p>In R, the functions below can be used to compute these qualtities.</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="pl-lsat-example.html#cb311-1" aria-hidden="true" tabindex="-1"></a>calculate.SGDDM <span class="ot">&lt;-</span> <span class="cf">function</span>(data.matrix, expected.value.matrix){</span>
-<span id="cb311-2"><a href="pl-lsat-example.html#cb311-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb311-3"><a href="pl-lsat-example.html#cb311-3" aria-hidden="true" tabindex="-1"></a>    J.local <span class="ot">=</span> <span class="fu">ncol</span>(data.matrix)</span>
-<span id="cb311-4"><a href="pl-lsat-example.html#cb311-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-5"><a href="pl-lsat-example.html#cb311-5" aria-hidden="true" tabindex="-1"></a>    SMBC.matrix <span class="ot">&lt;-</span> <span class="fu">calculate.SMBC.matrix</span>(data.matrix, expected.value.matrix)</span>
-<span id="cb311-6"><a href="pl-lsat-example.html#cb311-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb311-7"><a href="pl-lsat-example.html#cb311-7" aria-hidden="true" tabindex="-1"></a>    SGDDM <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">abs</span>((<span class="fu">lower.tri</span>(SMBC.matrix, <span class="at">diag=</span><span class="cn">FALSE</span>))<span class="sc">*</span>SMBC.matrix))<span class="sc">/</span>((J.local<span class="sc">*</span>(J.local<span class="dv">-1</span>))<span class="sc">/</span><span class="dv">2</span>)</span>
-<span id="cb311-8"><a href="pl-lsat-example.html#cb311-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-9"><a href="pl-lsat-example.html#cb311-9" aria-hidden="true" tabindex="-1"></a>    SGDDM</span>
-<span id="cb311-10"><a href="pl-lsat-example.html#cb311-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-11"><a href="pl-lsat-example.html#cb311-11" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes calculate.SGDDM</span></span>
-<span id="cb311-12"><a href="pl-lsat-example.html#cb311-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-13"><a href="pl-lsat-example.html#cb311-13" aria-hidden="true" tabindex="-1"></a>calculate.SMBC.matrix <span class="ot">&lt;-</span> <span class="cf">function</span>(data.matrix, expected.value.matrix){</span>
-<span id="cb311-14"><a href="pl-lsat-example.html#cb311-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb311-15"><a href="pl-lsat-example.html#cb311-15" aria-hidden="true" tabindex="-1"></a>    N.local <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data.matrix)</span>
-<span id="cb311-16"><a href="pl-lsat-example.html#cb311-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-17"><a href="pl-lsat-example.html#cb311-17" aria-hidden="true" tabindex="-1"></a>    MBC.matrix <span class="ot">&lt;-</span> (<span class="fu">t</span>(data.matrix<span class="sc">-</span>expected.value.matrix) <span class="sc">%*%</span> (data.matrix<span class="sc">-</span>expected.value.matrix))<span class="sc">/</span>N.local</span>
-<span id="cb311-18"><a href="pl-lsat-example.html#cb311-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-19"><a href="pl-lsat-example.html#cb311-19" aria-hidden="true" tabindex="-1"></a>    MBStddevs.matrix <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(MBC.matrix)))</span>
-<span id="cb311-20"><a href="pl-lsat-example.html#cb311-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-21"><a href="pl-lsat-example.html#cb311-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">#SMBC.matrix &lt;- solve(MBStddevs.matrix) %*% MBC.matrix %*% solve(MBStddevs.matrix)</span></span>
-<span id="cb311-22"><a href="pl-lsat-example.html#cb311-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-23"><a href="pl-lsat-example.html#cb311-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-24"><a href="pl-lsat-example.html#cb311-24" aria-hidden="true" tabindex="-1"></a>    J.local <span class="ot">&lt;-</span> <span class="fu">ncol</span>(data.matrix)</span>
-<span id="cb311-25"><a href="pl-lsat-example.html#cb311-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-26"><a href="pl-lsat-example.html#cb311-26" aria-hidden="true" tabindex="-1"></a>    SMBC.matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow=</span>J.local, <span class="at">ncol=</span>J.local)</span>
-<span id="cb311-27"><a href="pl-lsat-example.html#cb311-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-28"><a href="pl-lsat-example.html#cb311-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J.local){</span>
-<span id="cb311-29"><a href="pl-lsat-example.html#cb311-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J.local){</span>
-<span id="cb311-30"><a href="pl-lsat-example.html#cb311-30" aria-hidden="true" tabindex="-1"></a>            SMBC.matrix[j,jj] <span class="ot">&lt;-</span> MBC.matrix[j,jj]<span class="sc">/</span>(MBStddevs.matrix[j,j]<span class="sc">*</span>MBStddevs.matrix[jj,jj])</span>
-<span id="cb311-31"><a href="pl-lsat-example.html#cb311-31" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb311-32"><a href="pl-lsat-example.html#cb311-32" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb311-33"><a href="pl-lsat-example.html#cb311-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-34"><a href="pl-lsat-example.html#cb311-34" aria-hidden="true" tabindex="-1"></a>    SMBC.matrix </span>
-<span id="cb311-35"><a href="pl-lsat-example.html#cb311-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-36"><a href="pl-lsat-example.html#cb311-36" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes calculate.MBC.matrix</span></span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="pl-lsat-example.html#cb312-1" aria-hidden="true" tabindex="-1"></a>calculate.SGDDM <span class="ot">&lt;-</span> <span class="cf">function</span>(data.matrix, expected.value.matrix){</span>
+<span id="cb312-2"><a href="pl-lsat-example.html#cb312-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb312-3"><a href="pl-lsat-example.html#cb312-3" aria-hidden="true" tabindex="-1"></a>    J.local <span class="ot">=</span> <span class="fu">ncol</span>(data.matrix)</span>
+<span id="cb312-4"><a href="pl-lsat-example.html#cb312-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-5"><a href="pl-lsat-example.html#cb312-5" aria-hidden="true" tabindex="-1"></a>    SMBC.matrix <span class="ot">&lt;-</span> <span class="fu">calculate.SMBC.matrix</span>(data.matrix, expected.value.matrix)</span>
+<span id="cb312-6"><a href="pl-lsat-example.html#cb312-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb312-7"><a href="pl-lsat-example.html#cb312-7" aria-hidden="true" tabindex="-1"></a>    SGDDM <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">abs</span>((<span class="fu">lower.tri</span>(SMBC.matrix, <span class="at">diag=</span><span class="cn">FALSE</span>))<span class="sc">*</span>SMBC.matrix))<span class="sc">/</span>((J.local<span class="sc">*</span>(J.local<span class="dv">-1</span>))<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb312-8"><a href="pl-lsat-example.html#cb312-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-9"><a href="pl-lsat-example.html#cb312-9" aria-hidden="true" tabindex="-1"></a>    SGDDM</span>
+<span id="cb312-10"><a href="pl-lsat-example.html#cb312-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-11"><a href="pl-lsat-example.html#cb312-11" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes calculate.SGDDM</span></span>
+<span id="cb312-12"><a href="pl-lsat-example.html#cb312-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-13"><a href="pl-lsat-example.html#cb312-13" aria-hidden="true" tabindex="-1"></a>calculate.SMBC.matrix <span class="ot">&lt;-</span> <span class="cf">function</span>(data.matrix, expected.value.matrix){</span>
+<span id="cb312-14"><a href="pl-lsat-example.html#cb312-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb312-15"><a href="pl-lsat-example.html#cb312-15" aria-hidden="true" tabindex="-1"></a>    N.local <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data.matrix)</span>
+<span id="cb312-16"><a href="pl-lsat-example.html#cb312-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-17"><a href="pl-lsat-example.html#cb312-17" aria-hidden="true" tabindex="-1"></a>    MBC.matrix <span class="ot">&lt;-</span> (<span class="fu">t</span>(data.matrix<span class="sc">-</span>expected.value.matrix) <span class="sc">%*%</span> (data.matrix<span class="sc">-</span>expected.value.matrix))<span class="sc">/</span>N.local</span>
+<span id="cb312-18"><a href="pl-lsat-example.html#cb312-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-19"><a href="pl-lsat-example.html#cb312-19" aria-hidden="true" tabindex="-1"></a>    MBStddevs.matrix <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(MBC.matrix)))</span>
+<span id="cb312-20"><a href="pl-lsat-example.html#cb312-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-21"><a href="pl-lsat-example.html#cb312-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">#SMBC.matrix &lt;- solve(MBStddevs.matrix) %*% MBC.matrix %*% solve(MBStddevs.matrix)</span></span>
+<span id="cb312-22"><a href="pl-lsat-example.html#cb312-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-23"><a href="pl-lsat-example.html#cb312-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-24"><a href="pl-lsat-example.html#cb312-24" aria-hidden="true" tabindex="-1"></a>    J.local <span class="ot">&lt;-</span> <span class="fu">ncol</span>(data.matrix)</span>
+<span id="cb312-25"><a href="pl-lsat-example.html#cb312-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-26"><a href="pl-lsat-example.html#cb312-26" aria-hidden="true" tabindex="-1"></a>    SMBC.matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow=</span>J.local, <span class="at">ncol=</span>J.local)</span>
+<span id="cb312-27"><a href="pl-lsat-example.html#cb312-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-28"><a href="pl-lsat-example.html#cb312-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J.local){</span>
+<span id="cb312-29"><a href="pl-lsat-example.html#cb312-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J.local){</span>
+<span id="cb312-30"><a href="pl-lsat-example.html#cb312-30" aria-hidden="true" tabindex="-1"></a>            SMBC.matrix[j,jj] <span class="ot">&lt;-</span> MBC.matrix[j,jj]<span class="sc">/</span>(MBStddevs.matrix[j,j]<span class="sc">*</span>MBStddevs.matrix[jj,jj])</span>
+<span id="cb312-31"><a href="pl-lsat-example.html#cb312-31" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb312-32"><a href="pl-lsat-example.html#cb312-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb312-33"><a href="pl-lsat-example.html#cb312-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-34"><a href="pl-lsat-example.html#cb312-34" aria-hidden="true" tabindex="-1"></a>    SMBC.matrix </span>
+<span id="cb312-35"><a href="pl-lsat-example.html#cb312-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb312-36"><a href="pl-lsat-example.html#cb312-36" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes calculate.MBC.matrix</span></span></code></pre></div>
 <p>Next, we will use the functions above among other basic data wrangling to construct a full posterior predictive distribution analysis to probe our resulting posterior.</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="pl-lsat-example.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data wrangle the results/posterior draws for use</span></span>
-<span id="cb312-2"><a href="pl-lsat-example.html#cb312-2" aria-hidden="true" tabindex="-1"></a>datv1 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
-<span id="cb312-3"><a href="pl-lsat-example.html#cb312-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb312-4"><a href="pl-lsat-example.html#cb312-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">a[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">a[5]</span><span class="st">`</span>,</span>
-<span id="cb312-5"><a href="pl-lsat-example.html#cb312-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;a&quot;</span>,</span>
-<span id="cb312-6"><a href="pl-lsat-example.html#cb312-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span></span>
-<span id="cb312-7"><a href="pl-lsat-example.html#cb312-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb312-8"><a href="pl-lsat-example.html#cb312-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">3</span>,<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb312-9"><a href="pl-lsat-example.html#cb312-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, item, a)</span>
-<span id="cb312-10"><a href="pl-lsat-example.html#cb312-10" aria-hidden="true" tabindex="-1"></a>datv2 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
-<span id="cb312-11"><a href="pl-lsat-example.html#cb312-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb312-12"><a href="pl-lsat-example.html#cb312-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">c[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">c[5]</span><span class="st">`</span>,</span>
-<span id="cb312-13"><a href="pl-lsat-example.html#cb312-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;c&quot;</span>,</span>
-<span id="cb312-14"><a href="pl-lsat-example.html#cb312-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span></span>
-<span id="cb312-15"><a href="pl-lsat-example.html#cb312-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb312-16"><a href="pl-lsat-example.html#cb312-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">3</span>,<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb312-17"><a href="pl-lsat-example.html#cb312-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, item, c)</span>
-<span id="cb312-18"><a href="pl-lsat-example.html#cb312-18" aria-hidden="true" tabindex="-1"></a>datv3 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
-<span id="cb312-19"><a href="pl-lsat-example.html#cb312-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb312-20"><a href="pl-lsat-example.html#cb312-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">d[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">d[5]</span><span class="st">`</span>,</span>
-<span id="cb312-21"><a href="pl-lsat-example.html#cb312-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;d&quot;</span>,</span>
-<span id="cb312-22"><a href="pl-lsat-example.html#cb312-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span></span>
-<span id="cb312-23"><a href="pl-lsat-example.html#cb312-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb312-24"><a href="pl-lsat-example.html#cb312-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">3</span>,<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb312-25"><a href="pl-lsat-example.html#cb312-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, item, d)</span>
-<span id="cb312-26"><a href="pl-lsat-example.html#cb312-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb312-27"><a href="pl-lsat-example.html#cb312-27" aria-hidden="true" tabindex="-1"></a>datv4 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
-<span id="cb312-28"><a href="pl-lsat-example.html#cb312-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb312-29"><a href="pl-lsat-example.html#cb312-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">theta[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">theta[999]</span><span class="st">`</span>,</span>
-<span id="cb312-30"><a href="pl-lsat-example.html#cb312-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;theta&quot;</span>,</span>
-<span id="cb312-31"><a href="pl-lsat-example.html#cb312-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;person&quot;</span></span>
-<span id="cb312-32"><a href="pl-lsat-example.html#cb312-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb312-33"><a href="pl-lsat-example.html#cb312-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, person, theta)</span>
-<span id="cb312-34"><a href="pl-lsat-example.html#cb312-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb312-35"><a href="pl-lsat-example.html#cb312-35" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">full_join</span>(datv1, datv2)</span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="pl-lsat-example.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data wrangle the results/posterior draws for use</span></span>
+<span id="cb313-2"><a href="pl-lsat-example.html#cb313-2" aria-hidden="true" tabindex="-1"></a>datv1 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
+<span id="cb313-3"><a href="pl-lsat-example.html#cb313-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb313-4"><a href="pl-lsat-example.html#cb313-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">a[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">a[5]</span><span class="st">`</span>,</span>
+<span id="cb313-5"><a href="pl-lsat-example.html#cb313-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;a&quot;</span>,</span>
+<span id="cb313-6"><a href="pl-lsat-example.html#cb313-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb313-7"><a href="pl-lsat-example.html#cb313-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb313-8"><a href="pl-lsat-example.html#cb313-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">3</span>,<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb313-9"><a href="pl-lsat-example.html#cb313-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, item, a)</span>
+<span id="cb313-10"><a href="pl-lsat-example.html#cb313-10" aria-hidden="true" tabindex="-1"></a>datv2 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
+<span id="cb313-11"><a href="pl-lsat-example.html#cb313-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb313-12"><a href="pl-lsat-example.html#cb313-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">c[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">c[5]</span><span class="st">`</span>,</span>
+<span id="cb313-13"><a href="pl-lsat-example.html#cb313-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;c&quot;</span>,</span>
+<span id="cb313-14"><a href="pl-lsat-example.html#cb313-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb313-15"><a href="pl-lsat-example.html#cb313-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb313-16"><a href="pl-lsat-example.html#cb313-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">3</span>,<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb313-17"><a href="pl-lsat-example.html#cb313-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, item, c)</span>
+<span id="cb313-18"><a href="pl-lsat-example.html#cb313-18" aria-hidden="true" tabindex="-1"></a>datv3 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
+<span id="cb313-19"><a href="pl-lsat-example.html#cb313-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb313-20"><a href="pl-lsat-example.html#cb313-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">d[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">d[5]</span><span class="st">`</span>,</span>
+<span id="cb313-21"><a href="pl-lsat-example.html#cb313-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;d&quot;</span>,</span>
+<span id="cb313-22"><a href="pl-lsat-example.html#cb313-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb313-23"><a href="pl-lsat-example.html#cb313-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb313-24"><a href="pl-lsat-example.html#cb313-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">3</span>,<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb313-25"><a href="pl-lsat-example.html#cb313-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, item, d)</span>
+<span id="cb313-26"><a href="pl-lsat-example.html#cb313-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb313-27"><a href="pl-lsat-example.html#cb313-27" aria-hidden="true" tabindex="-1"></a>datv4 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
+<span id="cb313-28"><a href="pl-lsat-example.html#cb313-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb313-29"><a href="pl-lsat-example.html#cb313-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">theta[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">theta[999]</span><span class="st">`</span>,</span>
+<span id="cb313-30"><a href="pl-lsat-example.html#cb313-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;theta&quot;</span>,</span>
+<span id="cb313-31"><a href="pl-lsat-example.html#cb313-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;person&quot;</span></span>
+<span id="cb313-32"><a href="pl-lsat-example.html#cb313-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb313-33"><a href="pl-lsat-example.html#cb313-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, person, theta)</span>
+<span id="cb313-34"><a href="pl-lsat-example.html#cb313-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb313-35"><a href="pl-lsat-example.html#cb313-35" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">full_join</span>(datv1, datv2)</span></code></pre></div>
 <pre><code>## Joining, by = c(&quot;chain&quot;, &quot;iter&quot;, &quot;item&quot;)</code></pre>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="pl-lsat-example.html#cb314-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">full_join</span>(dat_long, datv3)</span></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="pl-lsat-example.html#cb315-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">full_join</span>(dat_long, datv3)</span></code></pre></div>
 <pre><code>## Joining, by = c(&quot;chain&quot;, &quot;iter&quot;, &quot;item&quot;)</code></pre>
-<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="pl-lsat-example.html#cb316-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">full_join</span>(dat_long, datv4)</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="pl-lsat-example.html#cb317-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">full_join</span>(dat_long, datv4)</span></code></pre></div>
 <pre><code>## Joining, by = c(&quot;chain&quot;, &quot;iter&quot;)</code></pre>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="pl-lsat-example.html#cb318-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="ot">&lt;-</span> dat</span>
-<span id="cb318-2"><a href="pl-lsat-example.html#cb318-2" aria-hidden="true" tabindex="-1"></a>dat1<span class="sc">$</span>person <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;theta[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat), <span class="st">&quot;]&quot;</span>)</span>
-<span id="cb318-3"><a href="pl-lsat-example.html#cb318-3" aria-hidden="true" tabindex="-1"></a>datvl <span class="ot">&lt;-</span> dat1 <span class="sc">%&gt;%</span></span>
-<span id="cb318-4"><a href="pl-lsat-example.html#cb318-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb318-5"><a href="pl-lsat-example.html#cb318-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols=</span><span class="fu">contains</span>(<span class="st">&quot;item&quot;</span>),</span>
-<span id="cb318-6"><a href="pl-lsat-example.html#cb318-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span>,</span>
-<span id="cb318-7"><a href="pl-lsat-example.html#cb318-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;x&quot;</span></span>
-<span id="cb318-8"><a href="pl-lsat-example.html#cb318-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb318-9"><a href="pl-lsat-example.html#cb318-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb318-10"><a href="pl-lsat-example.html#cb318-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">6</span>, <span class="dv">100</span>)</span>
-<span id="cb318-11"><a href="pl-lsat-example.html#cb318-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb318-12"><a href="pl-lsat-example.html#cb318-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb318-13"><a href="pl-lsat-example.html#cb318-13" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">left_join</span>(dat_long, datvl)</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="pl-lsat-example.html#cb319-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="ot">&lt;-</span> dat</span>
+<span id="cb319-2"><a href="pl-lsat-example.html#cb319-2" aria-hidden="true" tabindex="-1"></a>dat1<span class="sc">$</span>person <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;theta[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat), <span class="st">&quot;]&quot;</span>)</span>
+<span id="cb319-3"><a href="pl-lsat-example.html#cb319-3" aria-hidden="true" tabindex="-1"></a>datvl <span class="ot">&lt;-</span> dat1 <span class="sc">%&gt;%</span></span>
+<span id="cb319-4"><a href="pl-lsat-example.html#cb319-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb319-5"><a href="pl-lsat-example.html#cb319-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols=</span><span class="fu">contains</span>(<span class="st">&quot;item&quot;</span>),</span>
+<span id="cb319-6"><a href="pl-lsat-example.html#cb319-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span>,</span>
+<span id="cb319-7"><a href="pl-lsat-example.html#cb319-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;x&quot;</span></span>
+<span id="cb319-8"><a href="pl-lsat-example.html#cb319-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb319-9"><a href="pl-lsat-example.html#cb319-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb319-10"><a href="pl-lsat-example.html#cb319-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">6</span>, <span class="dv">100</span>)</span>
+<span id="cb319-11"><a href="pl-lsat-example.html#cb319-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb319-12"><a href="pl-lsat-example.html#cb319-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb319-13"><a href="pl-lsat-example.html#cb319-13" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">left_join</span>(dat_long, datvl)</span></code></pre></div>
 <pre><code>## Joining, by = c(&quot;item&quot;, &quot;person&quot;)</code></pre>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="pl-lsat-example.html#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute expected prob</span></span>
-<span id="cb320-2"><a href="pl-lsat-example.html#cb320-2" aria-hidden="true" tabindex="-1"></a>ilogit <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">exp</span>(x)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(x))}</span>
-<span id="cb320-3"><a href="pl-lsat-example.html#cb320-3" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
-<span id="cb320-4"><a href="pl-lsat-example.html#cb320-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb320-5"><a href="pl-lsat-example.html#cb320-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb320-6"><a href="pl-lsat-example.html#cb320-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x.exp =</span> c <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>c)<span class="sc">*</span><span class="fu">ilogit</span>(a<span class="sc">*</span>(theta <span class="sc">-</span> d)),</span>
-<span id="cb320-7"><a href="pl-lsat-example.html#cb320-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x.dif =</span> x <span class="sc">-</span> x.exp</span>
-<span id="cb320-8"><a href="pl-lsat-example.html#cb320-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb320-9"><a href="pl-lsat-example.html#cb320-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb320-10"><a href="pl-lsat-example.html#cb320-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb320-11"><a href="pl-lsat-example.html#cb320-11" aria-hidden="true" tabindex="-1"></a>dat_long<span class="sc">$</span>x.ppd <span class="ot">&lt;-</span> <span class="fu">apply</span>(</span>
-<span id="cb320-12"><a href="pl-lsat-example.html#cb320-12" aria-hidden="true" tabindex="-1"></a>  dat_long, <span class="dv">1</span>, </span>
-<span id="cb320-13"><a href="pl-lsat-example.html#cb320-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">FUN=</span><span class="cf">function</span>(x){</span>
-<span id="cb320-14"><a href="pl-lsat-example.html#cb320-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbern</span>(<span class="dv">1</span>, <span class="fu">as.numeric</span>(x[<span class="dv">10</span>]))</span>
-<span id="cb320-15"><a href="pl-lsat-example.html#cb320-15" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb320-16"><a href="pl-lsat-example.html#cb320-16" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb320-17"><a href="pl-lsat-example.html#cb320-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb320-18"><a href="pl-lsat-example.html#cb320-18" aria-hidden="true" tabindex="-1"></a><span class="co"># figure 11.4</span></span>
-<span id="cb320-19"><a href="pl-lsat-example.html#cb320-19" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
-<span id="cb320-20"><a href="pl-lsat-example.html#cb320-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, person) <span class="sc">%&gt;%</span></span>
-<span id="cb320-21"><a href="pl-lsat-example.html#cb320-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">raw.score =</span> <span class="fu">sum</span>(x),</span>
-<span id="cb320-22"><a href="pl-lsat-example.html#cb320-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">raw.score.ppd =</span> <span class="fu">sum</span>(x.ppd))</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="pl-lsat-example.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute expected prob</span></span>
+<span id="cb321-2"><a href="pl-lsat-example.html#cb321-2" aria-hidden="true" tabindex="-1"></a>ilogit <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">exp</span>(x)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(x))}</span>
+<span id="cb321-3"><a href="pl-lsat-example.html#cb321-3" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
+<span id="cb321-4"><a href="pl-lsat-example.html#cb321-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb321-5"><a href="pl-lsat-example.html#cb321-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb321-6"><a href="pl-lsat-example.html#cb321-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x.exp =</span> c <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>c)<span class="sc">*</span><span class="fu">ilogit</span>(a<span class="sc">*</span>(theta <span class="sc">-</span> d)),</span>
+<span id="cb321-7"><a href="pl-lsat-example.html#cb321-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x.dif =</span> x <span class="sc">-</span> x.exp</span>
+<span id="cb321-8"><a href="pl-lsat-example.html#cb321-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb321-9"><a href="pl-lsat-example.html#cb321-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-10"><a href="pl-lsat-example.html#cb321-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-11"><a href="pl-lsat-example.html#cb321-11" aria-hidden="true" tabindex="-1"></a>dat_long<span class="sc">$</span>x.ppd <span class="ot">&lt;-</span> <span class="fu">apply</span>(</span>
+<span id="cb321-12"><a href="pl-lsat-example.html#cb321-12" aria-hidden="true" tabindex="-1"></a>  dat_long, <span class="dv">1</span>, </span>
+<span id="cb321-13"><a href="pl-lsat-example.html#cb321-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">FUN=</span><span class="cf">function</span>(x){</span>
+<span id="cb321-14"><a href="pl-lsat-example.html#cb321-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbern</span>(<span class="dv">1</span>, <span class="fu">as.numeric</span>(x[<span class="dv">10</span>]))</span>
+<span id="cb321-15"><a href="pl-lsat-example.html#cb321-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb321-16"><a href="pl-lsat-example.html#cb321-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb321-17"><a href="pl-lsat-example.html#cb321-17" aria-hidden="true" tabindex="-1"></a>itermin <span class="ot">&lt;-</span> <span class="fu">min</span>(dat_long<span class="sc">$</span>iter) <span class="co"># used for subseting</span></span>
+<span id="cb321-18"><a href="pl-lsat-example.html#cb321-18" aria-hidden="true" tabindex="-1"></a><span class="co"># figure 11.4</span></span>
+<span id="cb321-19"><a href="pl-lsat-example.html#cb321-19" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
+<span id="cb321-20"><a href="pl-lsat-example.html#cb321-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, person) <span class="sc">%&gt;%</span></span>
+<span id="cb321-21"><a href="pl-lsat-example.html#cb321-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">raw.score =</span> <span class="fu">sum</span>(x),</span>
+<span id="cb321-22"><a href="pl-lsat-example.html#cb321-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">raw.score.ppd =</span> <span class="fu">sum</span>(x.ppd))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;chain&#39;, &#39;iter&#39;. You can override using the `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="pl-lsat-example.html#cb322-1" aria-hidden="true" tabindex="-1"></a>di <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
-<span id="cb322-2"><a href="pl-lsat-example.html#cb322-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(chain<span class="sc">==</span><span class="dv">1</span>, iter<span class="sc">==</span><span class="dv">1001</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb322-3"><a href="pl-lsat-example.html#cb322-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(raw.score) <span class="sc">%&gt;%</span></span>
-<span id="cb322-4"><a href="pl-lsat-example.html#cb322-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
-<span id="cb322-5"><a href="pl-lsat-example.html#cb322-5" aria-hidden="true" tabindex="-1"></a>dii <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
-<span id="cb322-6"><a href="pl-lsat-example.html#cb322-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, raw.score.ppd)<span class="sc">%&gt;%</span></span>
-<span id="cb322-7"><a href="pl-lsat-example.html#cb322-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">raw.score =</span> <span class="fu">n</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="pl-lsat-example.html#cb323-1" aria-hidden="true" tabindex="-1"></a>di <span class="ot">&lt;-</span> d[ d<span class="sc">$</span>chain <span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> d<span class="sc">$</span>iter <span class="sc">==</span> itermin, ] <span class="sc">%&gt;%</span></span>
+<span id="cb323-2"><a href="pl-lsat-example.html#cb323-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(raw.score) <span class="sc">%&gt;%</span></span>
+<span id="cb323-3"><a href="pl-lsat-example.html#cb323-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb323-4"><a href="pl-lsat-example.html#cb323-4" aria-hidden="true" tabindex="-1"></a>dii <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb323-5"><a href="pl-lsat-example.html#cb323-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, raw.score.ppd)<span class="sc">%&gt;%</span></span>
+<span id="cb323-6"><a href="pl-lsat-example.html#cb323-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">raw.score =</span> <span class="fu">n</span>())</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;chain&#39;, &#39;iter&#39;. You can override using the `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="pl-lsat-example.html#cb324-1" aria-hidden="true" tabindex="-1"></a><span class="co"># overall fit of observed scores</span></span>
-<span id="cb324-2"><a href="pl-lsat-example.html#cb324-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb324-3"><a href="pl-lsat-example.html#cb324-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">data=</span>dii, <span class="fu">aes</span>(<span class="at">y=</span>raw.score, <span class="at">x=</span> raw.score.ppd, <span class="at">group=</span>raw.score.ppd))<span class="sc">+</span></span>
-<span id="cb324-4"><a href="pl-lsat-example.html#cb324-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>di, <span class="fu">aes</span>(<span class="at">x=</span>raw.score, <span class="at">y=</span>count), <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb324-5"><a href="pl-lsat-example.html#cb324-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Raw Score&quot;</span>, <span class="at">y=</span><span class="st">&quot;Number of Examinees&quot;</span>)<span class="sc">+</span></span>
-<span id="cb324-6"><a href="pl-lsat-example.html#cb324-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>)<span class="sc">+</span></span>
-<span id="cb324-7"><a href="pl-lsat-example.html#cb324-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="pl-lsat-example.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="co"># overall fit of observed scores</span></span>
+<span id="cb325-2"><a href="pl-lsat-example.html#cb325-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb325-3"><a href="pl-lsat-example.html#cb325-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">data=</span>dii, <span class="fu">aes</span>(<span class="at">y=</span>raw.score, <span class="at">x=</span> raw.score.ppd, <span class="at">group=</span>raw.score.ppd))<span class="sc">+</span></span>
+<span id="cb325-4"><a href="pl-lsat-example.html#cb325-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>di, <span class="fu">aes</span>(<span class="at">x=</span>raw.score, <span class="at">y=</span>count), <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb325-5"><a href="pl-lsat-example.html#cb325-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Raw Score&quot;</span>, <span class="at">y=</span><span class="st">&quot;Number of Examinees&quot;</span>)<span class="sc">+</span></span>
+<span id="cb325-6"><a href="pl-lsat-example.html#cb325-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb325-7"><a href="pl-lsat-example.html#cb325-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-ppd-1.png" width="672" /></p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="pl-lsat-example.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="co"># by item</span></span>
-<span id="cb325-2"><a href="pl-lsat-example.html#cb325-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
-<span id="cb325-3"><a href="pl-lsat-example.html#cb325-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, person) <span class="sc">%&gt;%</span></span>
-<span id="cb325-4"><a href="pl-lsat-example.html#cb325-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">raw.score =</span> <span class="fu">sum</span>(x),</span>
-<span id="cb325-5"><a href="pl-lsat-example.html#cb325-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">raw.score.ppd =</span> <span class="fu">sum</span>(x.ppd))</span>
-<span id="cb325-6"><a href="pl-lsat-example.html#cb325-6" aria-hidden="true" tabindex="-1"></a>di <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
-<span id="cb325-7"><a href="pl-lsat-example.html#cb325-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(chain<span class="sc">==</span><span class="dv">1</span>, iter<span class="sc">==</span><span class="dv">1001</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb325-8"><a href="pl-lsat-example.html#cb325-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(raw.score, item) <span class="sc">%&gt;%</span></span>
-<span id="cb325-9"><a href="pl-lsat-example.html#cb325-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">p.correct =</span> <span class="fu">mean</span>(x))</span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="pl-lsat-example.html#cb326-1" aria-hidden="true" tabindex="-1"></a><span class="co"># by item</span></span>
+<span id="cb326-2"><a href="pl-lsat-example.html#cb326-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
+<span id="cb326-3"><a href="pl-lsat-example.html#cb326-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, person) <span class="sc">%&gt;%</span></span>
+<span id="cb326-4"><a href="pl-lsat-example.html#cb326-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">raw.score =</span> <span class="fu">sum</span>(x),</span>
+<span id="cb326-5"><a href="pl-lsat-example.html#cb326-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">raw.score.ppd =</span> <span class="fu">sum</span>(x.ppd))</span>
+<span id="cb326-6"><a href="pl-lsat-example.html#cb326-6" aria-hidden="true" tabindex="-1"></a>di <span class="ot">&lt;-</span> d[ d<span class="sc">$</span>chain <span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> d<span class="sc">$</span>iter <span class="sc">==</span> itermin, ] <span class="sc">%&gt;%</span></span>
+<span id="cb326-7"><a href="pl-lsat-example.html#cb326-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(raw.score, item) <span class="sc">%&gt;%</span></span>
+<span id="cb326-8"><a href="pl-lsat-example.html#cb326-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">p.correct =</span> <span class="fu">mean</span>(x))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;raw.score&#39;. You can override using the `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="pl-lsat-example.html#cb327-1" aria-hidden="true" tabindex="-1"></a>dii <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
-<span id="cb327-2"><a href="pl-lsat-example.html#cb327-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, raw.score.ppd, item)<span class="sc">%&gt;%</span></span>
-<span id="cb327-3"><a href="pl-lsat-example.html#cb327-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">p.correct =</span> <span class="fu">mean</span>(x.ppd))</span></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="pl-lsat-example.html#cb328-1" aria-hidden="true" tabindex="-1"></a>dii <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb328-2"><a href="pl-lsat-example.html#cb328-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, raw.score.ppd, item)<span class="sc">%&gt;%</span></span>
+<span id="cb328-3"><a href="pl-lsat-example.html#cb328-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">p.correct =</span> <span class="fu">mean</span>(x.ppd))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;chain&#39;, &#39;iter&#39;, &#39;raw.score.ppd&#39;. You can override using the `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="pl-lsat-example.html#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb329-2"><a href="pl-lsat-example.html#cb329-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">data=</span>dii,</span>
-<span id="cb329-3"><a href="pl-lsat-example.html#cb329-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">y=</span> p.correct,</span>
-<span id="cb329-4"><a href="pl-lsat-example.html#cb329-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">x=</span> raw.score.ppd,</span>
-<span id="cb329-5"><a href="pl-lsat-example.html#cb329-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">group=</span>raw.score.ppd))<span class="sc">+</span></span>
-<span id="cb329-6"><a href="pl-lsat-example.html#cb329-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>di,</span>
-<span id="cb329-7"><a href="pl-lsat-example.html#cb329-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span>raw.score, <span class="at">y=</span>p.correct),</span>
-<span id="cb329-8"><a href="pl-lsat-example.html#cb329-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb329-9"><a href="pl-lsat-example.html#cb329-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>item)<span class="sc">+</span></span>
-<span id="cb329-10"><a href="pl-lsat-example.html#cb329-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Raw Score&quot;</span>, <span class="at">y=</span><span class="st">&quot;Number of Examinees&quot;</span>)<span class="sc">+</span></span>
-<span id="cb329-11"><a href="pl-lsat-example.html#cb329-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="pl-lsat-example.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb330-2"><a href="pl-lsat-example.html#cb330-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">data=</span>dii,</span>
+<span id="cb330-3"><a href="pl-lsat-example.html#cb330-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">y=</span> p.correct,</span>
+<span id="cb330-4"><a href="pl-lsat-example.html#cb330-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">x=</span> raw.score.ppd,</span>
+<span id="cb330-5"><a href="pl-lsat-example.html#cb330-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">group=</span>raw.score.ppd))<span class="sc">+</span></span>
+<span id="cb330-6"><a href="pl-lsat-example.html#cb330-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>di,</span>
+<span id="cb330-7"><a href="pl-lsat-example.html#cb330-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span>raw.score, <span class="at">y=</span>p.correct),</span>
+<span id="cb330-8"><a href="pl-lsat-example.html#cb330-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb330-9"><a href="pl-lsat-example.html#cb330-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>item)<span class="sc">+</span></span>
+<span id="cb330-10"><a href="pl-lsat-example.html#cb330-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Raw Score&quot;</span>, <span class="at">y=</span><span class="st">&quot;Number of Examinees&quot;</span>)<span class="sc">+</span></span>
+<span id="cb330-11"><a href="pl-lsat-example.html#cb330-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-ppd-2.png" width="672" /></p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="pl-lsat-example.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="co"># computing standardized model summary statistics</span></span>
-<span id="cb330-2"><a href="pl-lsat-example.html#cb330-2" aria-hidden="true" tabindex="-1"></a><span class="co"># objects for results</span></span>
-<span id="cb330-3"><a href="pl-lsat-example.html#cb330-3" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb330-4"><a href="pl-lsat-example.html#cb330-4" aria-hidden="true" tabindex="-1"></a>n.chain <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb330-5"><a href="pl-lsat-example.html#cb330-5" aria-hidden="true" tabindex="-1"></a>n.iters <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb330-6"><a href="pl-lsat-example.html#cb330-6" aria-hidden="true" tabindex="-1"></a>n.iters.PPMC <span class="ot">&lt;-</span> n.iters<span class="sc">*</span>n.chain</span>
-<span id="cb330-7"><a href="pl-lsat-example.html#cb330-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb330-8"><a href="pl-lsat-example.html#cb330-8" aria-hidden="true" tabindex="-1"></a>realized.SMBC.array <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC, J, J))</span>
-<span id="cb330-9"><a href="pl-lsat-example.html#cb330-9" aria-hidden="true" tabindex="-1"></a>postpred.SMBC.array <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC, J, J))</span>
-<span id="cb330-10"><a href="pl-lsat-example.html#cb330-10" aria-hidden="true" tabindex="-1"></a>realized.SGDDM.vector <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC))</span>
-<span id="cb330-11"><a href="pl-lsat-example.html#cb330-11" aria-hidden="true" tabindex="-1"></a>postpred.SGDDM.vector <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC))</span>
-<span id="cb330-12"><a href="pl-lsat-example.html#cb330-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb330-13"><a href="pl-lsat-example.html#cb330-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb330-14"><a href="pl-lsat-example.html#cb330-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb330-15"><a href="pl-lsat-example.html#cb330-15" aria-hidden="true" tabindex="-1"></a>ii <span class="ot">&lt;-</span> i <span class="ot">&lt;-</span> c <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb330-16"><a href="pl-lsat-example.html#cb330-16" aria-hidden="true" tabindex="-1"></a><span class="co"># iteration condiitons</span></span>
-<span id="cb330-17"><a href="pl-lsat-example.html#cb330-17" aria-hidden="true" tabindex="-1"></a>iter.cond <span class="ot">&lt;-</span> <span class="fu">unique</span>(dat_long<span class="sc">$</span>iter)</span>
-<span id="cb330-18"><a href="pl-lsat-example.html#cb330-18" aria-hidden="true" tabindex="-1"></a>Xobs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(dat[,<span class="sc">-</span><span class="dv">6</span>])</span>
-<span id="cb330-19"><a href="pl-lsat-example.html#cb330-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb330-20"><a href="pl-lsat-example.html#cb330-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(iter.cond)){</span>
-<span id="cb330-21"><a href="pl-lsat-example.html#cb330-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){</span>
-<span id="cb330-22"><a href="pl-lsat-example.html#cb330-22" aria-hidden="true" tabindex="-1"></a>  cc <span class="ot">&lt;-</span> iter.cond[i]</span>
-<span id="cb330-23"><a href="pl-lsat-example.html#cb330-23" aria-hidden="true" tabindex="-1"></a>  Xexp <span class="ot">&lt;-</span> dat_long[dat_long<span class="sc">$</span>chain<span class="sc">==</span>c <span class="sc">&amp;</span> dat_long<span class="sc">$</span>iter<span class="sc">==</span>cc , ] <span class="sc">%&gt;%</span></span>
-<span id="cb330-24"><a href="pl-lsat-example.html#cb330-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
-<span id="cb330-25"><a href="pl-lsat-example.html#cb330-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">id_cols =</span> person,</span>
-<span id="cb330-26"><a href="pl-lsat-example.html#cb330-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_from =</span> <span class="st">&quot;item&quot;</span>,</span>
-<span id="cb330-27"><a href="pl-lsat-example.html#cb330-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_from =</span> <span class="st">&quot;x.exp&quot;</span>,</span>
-<span id="cb330-28"><a href="pl-lsat-example.html#cb330-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_prefix =</span> <span class="st">&quot;item&quot;</span></span>
-<span id="cb330-29"><a href="pl-lsat-example.html#cb330-29" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb330-30"><a href="pl-lsat-example.html#cb330-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb330-31"><a href="pl-lsat-example.html#cb330-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(item1<span class="sc">:</span>item5)<span class="sc">%&gt;%</span></span>
-<span id="cb330-32"><a href="pl-lsat-example.html#cb330-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()</span>
-<span id="cb330-33"><a href="pl-lsat-example.html#cb330-33" aria-hidden="true" tabindex="-1"></a>  Xppd <span class="ot">&lt;-</span> dat_long[dat_long<span class="sc">$</span>chain<span class="sc">==</span>c <span class="sc">&amp;</span> dat_long<span class="sc">$</span>iter<span class="sc">==</span>cc , ] <span class="sc">%&gt;%</span></span>
-<span id="cb330-34"><a href="pl-lsat-example.html#cb330-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
-<span id="cb330-35"><a href="pl-lsat-example.html#cb330-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">id_cols =</span> person,</span>
-<span id="cb330-36"><a href="pl-lsat-example.html#cb330-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_from =</span> <span class="st">&quot;item&quot;</span>,</span>
-<span id="cb330-37"><a href="pl-lsat-example.html#cb330-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_from =</span> <span class="st">&quot;x.ppd&quot;</span>,</span>
-<span id="cb330-38"><a href="pl-lsat-example.html#cb330-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_prefix =</span> <span class="st">&quot;item&quot;</span></span>
-<span id="cb330-39"><a href="pl-lsat-example.html#cb330-39" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
-<span id="cb330-40"><a href="pl-lsat-example.html#cb330-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb330-41"><a href="pl-lsat-example.html#cb330-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(item1<span class="sc">:</span>item5)<span class="sc">%&gt;%</span></span>
-<span id="cb330-42"><a href="pl-lsat-example.html#cb330-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()</span>
-<span id="cb330-43"><a href="pl-lsat-example.html#cb330-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb330-44"><a href="pl-lsat-example.html#cb330-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute realized values</span></span>
-<span id="cb330-45"><a href="pl-lsat-example.html#cb330-45" aria-hidden="true" tabindex="-1"></a>  realized.SMBC.array[ii, ,] <span class="ot">&lt;-</span> <span class="fu">calculate.SMBC.matrix</span>(Xobs, Xexp)</span>
-<span id="cb330-46"><a href="pl-lsat-example.html#cb330-46" aria-hidden="true" tabindex="-1"></a>  realized.SGDDM.vector[ii] <span class="ot">&lt;-</span>  <span class="fu">calculate.SGDDM</span>(Xobs, Xexp)</span>
-<span id="cb330-47"><a href="pl-lsat-example.html#cb330-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute PPD values</span></span>
-<span id="cb330-48"><a href="pl-lsat-example.html#cb330-48" aria-hidden="true" tabindex="-1"></a>  postpred.SMBC.array[ii, ,] <span class="ot">&lt;-</span> <span class="fu">calculate.SMBC.matrix</span>(Xppd, Xexp)</span>
-<span id="cb330-49"><a href="pl-lsat-example.html#cb330-49" aria-hidden="true" tabindex="-1"></a>  postpred.SGDDM.vector[ii] <span class="ot">&lt;-</span>  <span class="fu">calculate.SGDDM</span>(Xppd, Xexp)</span>
-<span id="cb330-50"><a href="pl-lsat-example.html#cb330-50" aria-hidden="true" tabindex="-1"></a>    ii <span class="ot">&lt;-</span> ii <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb330-51"><a href="pl-lsat-example.html#cb330-51" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb330-52"><a href="pl-lsat-example.html#cb330-52" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="pl-lsat-example.html#cb331-1" aria-hidden="true" tabindex="-1"></a><span class="co"># computing standardized model summary statistics</span></span>
+<span id="cb331-2"><a href="pl-lsat-example.html#cb331-2" aria-hidden="true" tabindex="-1"></a><span class="co"># objects for results</span></span>
+<span id="cb331-3"><a href="pl-lsat-example.html#cb331-3" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb331-4"><a href="pl-lsat-example.html#cb331-4" aria-hidden="true" tabindex="-1"></a>n.chain <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb331-5"><a href="pl-lsat-example.html#cb331-5" aria-hidden="true" tabindex="-1"></a>n.iters <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(dat_long<span class="sc">$</span>iter))</span>
+<span id="cb331-6"><a href="pl-lsat-example.html#cb331-6" aria-hidden="true" tabindex="-1"></a>n.iters.PPMC <span class="ot">&lt;-</span> n.iters<span class="sc">*</span>n.chain</span>
+<span id="cb331-7"><a href="pl-lsat-example.html#cb331-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb331-8"><a href="pl-lsat-example.html#cb331-8" aria-hidden="true" tabindex="-1"></a>realized.SMBC.array <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC, J, J))</span>
+<span id="cb331-9"><a href="pl-lsat-example.html#cb331-9" aria-hidden="true" tabindex="-1"></a>postpred.SMBC.array <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC, J, J))</span>
+<span id="cb331-10"><a href="pl-lsat-example.html#cb331-10" aria-hidden="true" tabindex="-1"></a>realized.SGDDM.vector <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC))</span>
+<span id="cb331-11"><a href="pl-lsat-example.html#cb331-11" aria-hidden="true" tabindex="-1"></a>postpred.SGDDM.vector <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC))</span>
+<span id="cb331-12"><a href="pl-lsat-example.html#cb331-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb331-13"><a href="pl-lsat-example.html#cb331-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb331-14"><a href="pl-lsat-example.html#cb331-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb331-15"><a href="pl-lsat-example.html#cb331-15" aria-hidden="true" tabindex="-1"></a>ii <span class="ot">&lt;-</span> i <span class="ot">&lt;-</span> c <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb331-16"><a href="pl-lsat-example.html#cb331-16" aria-hidden="true" tabindex="-1"></a><span class="co"># iteration condiitons</span></span>
+<span id="cb331-17"><a href="pl-lsat-example.html#cb331-17" aria-hidden="true" tabindex="-1"></a>iter.cond <span class="ot">&lt;-</span> <span class="fu">unique</span>(dat_long<span class="sc">$</span>iter)</span>
+<span id="cb331-18"><a href="pl-lsat-example.html#cb331-18" aria-hidden="true" tabindex="-1"></a>Xobs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(dat[,<span class="sc">-</span><span class="dv">6</span>])</span>
+<span id="cb331-19"><a href="pl-lsat-example.html#cb331-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb331-20"><a href="pl-lsat-example.html#cb331-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(iter.cond)){</span>
+<span id="cb331-21"><a href="pl-lsat-example.html#cb331-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){</span>
+<span id="cb331-22"><a href="pl-lsat-example.html#cb331-22" aria-hidden="true" tabindex="-1"></a>  cc <span class="ot">&lt;-</span> iter.cond[i]</span>
+<span id="cb331-23"><a href="pl-lsat-example.html#cb331-23" aria-hidden="true" tabindex="-1"></a>  Xexp <span class="ot">&lt;-</span> dat_long[dat_long<span class="sc">$</span>chain<span class="sc">==</span>c <span class="sc">&amp;</span> dat_long<span class="sc">$</span>iter<span class="sc">==</span>cc , ] <span class="sc">%&gt;%</span></span>
+<span id="cb331-24"><a href="pl-lsat-example.html#cb331-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
+<span id="cb331-25"><a href="pl-lsat-example.html#cb331-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">id_cols =</span> person,</span>
+<span id="cb331-26"><a href="pl-lsat-example.html#cb331-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_from =</span> <span class="st">&quot;item&quot;</span>,</span>
+<span id="cb331-27"><a href="pl-lsat-example.html#cb331-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_from =</span> <span class="st">&quot;x.exp&quot;</span>,</span>
+<span id="cb331-28"><a href="pl-lsat-example.html#cb331-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_prefix =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb331-29"><a href="pl-lsat-example.html#cb331-29" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb331-30"><a href="pl-lsat-example.html#cb331-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb331-31"><a href="pl-lsat-example.html#cb331-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(item1<span class="sc">:</span>item5)<span class="sc">%&gt;%</span></span>
+<span id="cb331-32"><a href="pl-lsat-example.html#cb331-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()</span>
+<span id="cb331-33"><a href="pl-lsat-example.html#cb331-33" aria-hidden="true" tabindex="-1"></a>  Xppd <span class="ot">&lt;-</span> dat_long[dat_long<span class="sc">$</span>chain<span class="sc">==</span>c <span class="sc">&amp;</span> dat_long<span class="sc">$</span>iter<span class="sc">==</span>cc , ] <span class="sc">%&gt;%</span></span>
+<span id="cb331-34"><a href="pl-lsat-example.html#cb331-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
+<span id="cb331-35"><a href="pl-lsat-example.html#cb331-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">id_cols =</span> person,</span>
+<span id="cb331-36"><a href="pl-lsat-example.html#cb331-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_from =</span> <span class="st">&quot;item&quot;</span>,</span>
+<span id="cb331-37"><a href="pl-lsat-example.html#cb331-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_from =</span> <span class="st">&quot;x.ppd&quot;</span>,</span>
+<span id="cb331-38"><a href="pl-lsat-example.html#cb331-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_prefix =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb331-39"><a href="pl-lsat-example.html#cb331-39" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb331-40"><a href="pl-lsat-example.html#cb331-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb331-41"><a href="pl-lsat-example.html#cb331-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(item1<span class="sc">:</span>item5)<span class="sc">%&gt;%</span></span>
+<span id="cb331-42"><a href="pl-lsat-example.html#cb331-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()</span>
+<span id="cb331-43"><a href="pl-lsat-example.html#cb331-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb331-44"><a href="pl-lsat-example.html#cb331-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute realized values</span></span>
+<span id="cb331-45"><a href="pl-lsat-example.html#cb331-45" aria-hidden="true" tabindex="-1"></a>  realized.SMBC.array[ii, ,] <span class="ot">&lt;-</span> <span class="fu">calculate.SMBC.matrix</span>(Xobs, Xexp)</span>
+<span id="cb331-46"><a href="pl-lsat-example.html#cb331-46" aria-hidden="true" tabindex="-1"></a>  realized.SGDDM.vector[ii] <span class="ot">&lt;-</span>  <span class="fu">calculate.SGDDM</span>(Xobs, Xexp)</span>
+<span id="cb331-47"><a href="pl-lsat-example.html#cb331-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute PPD values</span></span>
+<span id="cb331-48"><a href="pl-lsat-example.html#cb331-48" aria-hidden="true" tabindex="-1"></a>  postpred.SMBC.array[ii, ,] <span class="ot">&lt;-</span> <span class="fu">calculate.SMBC.matrix</span>(Xppd, Xexp)</span>
+<span id="cb331-49"><a href="pl-lsat-example.html#cb331-49" aria-hidden="true" tabindex="-1"></a>  postpred.SGDDM.vector[ii] <span class="ot">&lt;-</span>  <span class="fu">calculate.SGDDM</span>(Xppd, Xexp)</span>
+<span id="cb331-50"><a href="pl-lsat-example.html#cb331-50" aria-hidden="true" tabindex="-1"></a>    ii <span class="ot">&lt;-</span> ii <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb331-51"><a href="pl-lsat-example.html#cb331-51" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb331-52"><a href="pl-lsat-example.html#cb331-52" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Next, generate plots to help summarize and describe the posterior predictor distributions of these statistics.</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="pl-lsat-example.html#cb331-1" aria-hidden="true" tabindex="-1"></a>plot.dat.ppd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb331-2"><a href="pl-lsat-example.html#cb331-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">real =</span> realized.SGDDM.vector,</span>
-<span id="cb331-3"><a href="pl-lsat-example.html#cb331-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ppd =</span> postpred.SGDDM.vector</span>
-<span id="cb331-4"><a href="pl-lsat-example.html#cb331-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb331-5"><a href="pl-lsat-example.html#cb331-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb331-6"><a href="pl-lsat-example.html#cb331-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb331-7"><a href="pl-lsat-example.html#cb331-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot.dat.ppd, <span class="fu">aes</span>(<span class="at">x=</span>real, <span class="at">y=</span>ppd))<span class="sc">+</span></span>
-<span id="cb331-8"><a href="pl-lsat-example.html#cb331-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb331-9"><a href="pl-lsat-example.html#cb331-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb331-10"><a href="pl-lsat-example.html#cb331-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.5</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>))</span></code></pre></div>
-<p><img src="bookdown-BPM_files/figure-html/chp11-ppd-lsat-plots-1.png" width="672" /></p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="pl-lsat-example.html#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transform smbc into plotable format</span></span>
-<span id="cb332-2"><a href="pl-lsat-example.html#cb332-2" aria-hidden="true" tabindex="-1"></a>ddim <span class="ot">&lt;-</span> <span class="fu">dim</span>(postpred.SMBC.array)</span>
-<span id="cb332-3"><a href="pl-lsat-example.html#cb332-3" aria-hidden="true" tabindex="-1"></a>plot.dat.ppd <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow=</span>ddim[<span class="dv">1</span>]<span class="sc">*</span>ddim[<span class="dv">2</span>]<span class="sc">*</span>ddim[<span class="dv">3</span>], <span class="at">ncol=</span><span class="dv">4</span>))</span>
-<span id="cb332-4"><a href="pl-lsat-example.html#cb332-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.dat.ppd) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;itemj&quot;</span>, <span class="st">&quot;itemjj&quot;</span>, <span class="st">&quot;real&quot;</span>, <span class="st">&quot;ppd&quot;</span>)</span>
-<span id="cb332-5"><a href="pl-lsat-example.html#cb332-5" aria-hidden="true" tabindex="-1"></a>ii <span class="ot">&lt;-</span> i <span class="ot">&lt;-</span> j <span class="ot">&lt;-</span> jj <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="pl-lsat-example.html#cb332-1" aria-hidden="true" tabindex="-1"></a>plot.dat.ppd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb332-2"><a href="pl-lsat-example.html#cb332-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">real =</span> realized.SGDDM.vector,</span>
+<span id="cb332-3"><a href="pl-lsat-example.html#cb332-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ppd =</span> postpred.SGDDM.vector</span>
+<span id="cb332-4"><a href="pl-lsat-example.html#cb332-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb332-5"><a href="pl-lsat-example.html#cb332-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb332-6"><a href="pl-lsat-example.html#cb332-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb332-7"><a href="pl-lsat-example.html#cb332-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ddim[<span class="dv">1</span>]){</span>
-<span id="cb332-8"><a href="pl-lsat-example.html#cb332-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ddim[<span class="dv">2</span>]){</span>
-<span id="cb332-9"><a href="pl-lsat-example.html#cb332-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ddim[<span class="dv">3</span>]){</span>
-<span id="cb332-10"><a href="pl-lsat-example.html#cb332-10" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">1</span>] <span class="ot">&lt;-</span> j</span>
-<span id="cb332-11"><a href="pl-lsat-example.html#cb332-11" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">2</span>] <span class="ot">&lt;-</span> jj</span>
-<span id="cb332-12"><a href="pl-lsat-example.html#cb332-12" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">3</span>] <span class="ot">&lt;-</span> realized.SMBC.array[i, j, jj]</span>
-<span id="cb332-13"><a href="pl-lsat-example.html#cb332-13" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">4</span>] <span class="ot">&lt;-</span> postpred.SMBC.array[i, j, jj]</span>
-<span id="cb332-14"><a href="pl-lsat-example.html#cb332-14" aria-hidden="true" tabindex="-1"></a>      ii <span class="ot">&lt;-</span> ii <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb332-15"><a href="pl-lsat-example.html#cb332-15" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb332-16"><a href="pl-lsat-example.html#cb332-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb332-17"><a href="pl-lsat-example.html#cb332-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb332-18"><a href="pl-lsat-example.html#cb332-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb332-19"><a href="pl-lsat-example.html#cb332-19" aria-hidden="true" tabindex="-1"></a>plot.dat.ppd <span class="ot">&lt;-</span> plot.dat.ppd <span class="sc">%&gt;%</span></span>
-<span id="cb332-20"><a href="pl-lsat-example.html#cb332-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(itemj <span class="sc">&lt;</span> itemjj) <span class="sc">%&gt;%</span></span>
-<span id="cb332-21"><a href="pl-lsat-example.html#cb332-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb332-22"><a href="pl-lsat-example.html#cb332-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">cov =</span> <span class="fu">paste0</span>(<span class="st">&quot;cov(&quot;</span>, itemj, <span class="st">&quot;, &quot;</span>, itemjj,<span class="st">&quot;)&quot;</span>)</span>
-<span id="cb332-23"><a href="pl-lsat-example.html#cb332-23" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb332-24"><a href="pl-lsat-example.html#cb332-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb332-25"><a href="pl-lsat-example.html#cb332-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot.dat.ppd, <span class="fu">aes</span>(<span class="at">x=</span>real, <span class="at">y=</span>ppd))<span class="sc">+</span></span>
-<span id="cb332-26"><a href="pl-lsat-example.html#cb332-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.25</span>)<span class="sc">+</span></span>
-<span id="cb332-27"><a href="pl-lsat-example.html#cb332-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density2d</span>(<span class="at">adjust=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb332-28"><a href="pl-lsat-example.html#cb332-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb332-29"><a href="pl-lsat-example.html#cb332-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>cov)<span class="sc">+</span></span>
-<span id="cb332-30"><a href="pl-lsat-example.html#cb332-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb332-31"><a href="pl-lsat-example.html#cb332-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<span id="cb332-7"><a href="pl-lsat-example.html#cb332-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot.dat.ppd, <span class="fu">aes</span>(<span class="at">x=</span>real, <span class="at">y=</span>ppd))<span class="sc">+</span></span>
+<span id="cb332-8"><a href="pl-lsat-example.html#cb332-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb332-9"><a href="pl-lsat-example.html#cb332-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb332-10"><a href="pl-lsat-example.html#cb332-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.5</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-ppd-lsat-plots-1.png" width="672" /></p>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="pl-lsat-example.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transform smbc into plotable format</span></span>
+<span id="cb333-2"><a href="pl-lsat-example.html#cb333-2" aria-hidden="true" tabindex="-1"></a>ddim <span class="ot">&lt;-</span> <span class="fu">dim</span>(postpred.SMBC.array)</span>
+<span id="cb333-3"><a href="pl-lsat-example.html#cb333-3" aria-hidden="true" tabindex="-1"></a>plot.dat.ppd <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow=</span>ddim[<span class="dv">1</span>]<span class="sc">*</span>ddim[<span class="dv">2</span>]<span class="sc">*</span>ddim[<span class="dv">3</span>], <span class="at">ncol=</span><span class="dv">4</span>))</span>
+<span id="cb333-4"><a href="pl-lsat-example.html#cb333-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.dat.ppd) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;itemj&quot;</span>, <span class="st">&quot;itemjj&quot;</span>, <span class="st">&quot;real&quot;</span>, <span class="st">&quot;ppd&quot;</span>)</span>
+<span id="cb333-5"><a href="pl-lsat-example.html#cb333-5" aria-hidden="true" tabindex="-1"></a>ii <span class="ot">&lt;-</span> i <span class="ot">&lt;-</span> j <span class="ot">&lt;-</span> jj <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb333-6"><a href="pl-lsat-example.html#cb333-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb333-7"><a href="pl-lsat-example.html#cb333-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ddim[<span class="dv">1</span>]){</span>
+<span id="cb333-8"><a href="pl-lsat-example.html#cb333-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ddim[<span class="dv">2</span>]){</span>
+<span id="cb333-9"><a href="pl-lsat-example.html#cb333-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ddim[<span class="dv">3</span>]){</span>
+<span id="cb333-10"><a href="pl-lsat-example.html#cb333-10" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">1</span>] <span class="ot">&lt;-</span> j</span>
+<span id="cb333-11"><a href="pl-lsat-example.html#cb333-11" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">2</span>] <span class="ot">&lt;-</span> jj</span>
+<span id="cb333-12"><a href="pl-lsat-example.html#cb333-12" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">3</span>] <span class="ot">&lt;-</span> realized.SMBC.array[i, j, jj]</span>
+<span id="cb333-13"><a href="pl-lsat-example.html#cb333-13" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">4</span>] <span class="ot">&lt;-</span> postpred.SMBC.array[i, j, jj]</span>
+<span id="cb333-14"><a href="pl-lsat-example.html#cb333-14" aria-hidden="true" tabindex="-1"></a>      ii <span class="ot">&lt;-</span> ii <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb333-15"><a href="pl-lsat-example.html#cb333-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb333-16"><a href="pl-lsat-example.html#cb333-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb333-17"><a href="pl-lsat-example.html#cb333-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb333-18"><a href="pl-lsat-example.html#cb333-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb333-19"><a href="pl-lsat-example.html#cb333-19" aria-hidden="true" tabindex="-1"></a>plot.dat.ppd <span class="ot">&lt;-</span> plot.dat.ppd <span class="sc">%&gt;%</span></span>
+<span id="cb333-20"><a href="pl-lsat-example.html#cb333-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(itemj <span class="sc">&lt;</span> itemjj) <span class="sc">%&gt;%</span></span>
+<span id="cb333-21"><a href="pl-lsat-example.html#cb333-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb333-22"><a href="pl-lsat-example.html#cb333-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">cov =</span> <span class="fu">paste0</span>(<span class="st">&quot;cov(&quot;</span>, itemj, <span class="st">&quot;, &quot;</span>, itemjj,<span class="st">&quot;)&quot;</span>)</span>
+<span id="cb333-23"><a href="pl-lsat-example.html#cb333-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb333-24"><a href="pl-lsat-example.html#cb333-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb333-25"><a href="pl-lsat-example.html#cb333-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot.dat.ppd, <span class="fu">aes</span>(<span class="at">x=</span>real, <span class="at">y=</span>ppd))<span class="sc">+</span></span>
+<span id="cb333-26"><a href="pl-lsat-example.html#cb333-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.25</span>)<span class="sc">+</span></span>
+<span id="cb333-27"><a href="pl-lsat-example.html#cb333-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density2d</span>(<span class="at">adjust=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb333-28"><a href="pl-lsat-example.html#cb333-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb333-29"><a href="pl-lsat-example.html#cb333-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>cov)<span class="sc">+</span></span>
+<span id="cb333-30"><a href="pl-lsat-example.html#cb333-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb333-31"><a href="pl-lsat-example.html#cb333-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp11-ppd-lsat-plots-2.png" width="672" /></p>
 </div>
 </div>
