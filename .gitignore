@@ -8,3 +8,5 @@ bookdown-BPM-cache/*
 bookdown-BPM_cache/*
 _bookdown_files/*
 
+*.RData
+*.RData

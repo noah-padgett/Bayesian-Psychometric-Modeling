@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>11.3 LSAT Example - JAGS | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
+  <meta name="description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="11.3 LSAT Example - JAGS | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
+  <meta name="github-repo" content="noah-padgett/Bayesian-Psychometric-Modeling" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="11.3 LSAT Example - JAGS | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  
+  <meta name="twitter:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
+  
+
+<meta name="author" content="R. Noah Padgett" />
+
+
+<meta name="date" content="2021-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="pl-lsat-example.html"/>
+<link rel="next" href="lsat-example-stan.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Bayesian Psychometric Modeling</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Foundations</b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started/Overview Chapter</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i><b>1.1</b> Software</a></li>
+<li class="chapter" data-level="1.2" data-path="overview-of-assessment-and-psychometric-modeling.html"><a href="overview-of-assessment-and-psychometric-modeling.html"><i class="fa fa-check"></i><b>1.2</b> Overview of Assessment and Psychometric Modeling</a></li>
+<li class="chapter" data-level="1.3" data-path="looking-forward.html"><a href="looking-forward.html"><i class="fa fa-check"></i><b>1.3</b> Looking Forward</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="chp2.html"><a href="chp2.html"><i class="fa fa-check"></i><b>2</b> Introduction to Bayesian Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html"><i class="fa fa-check"></i><b>2.1</b> Beta-binomial Example</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-stan"><i class="fa fa-check"></i><b>2.1.1</b> Computation using Stan</a></li>
+<li class="chapter" data-level="2.1.2" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-winbugs-openbugs"><i class="fa fa-check"></i><b>2.1.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
+<li class="chapter" data-level="2.1.3" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-jags-r2jags"><i class="fa fa-check"></i><b>2.1.3</b> Computation using JAGS (R2jags)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html"><i class="fa fa-check"></i><b>2.2</b> Beta-Bernoulli Example</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-stan-1"><i class="fa fa-check"></i><b>2.2.1</b> Computation using Stan</a></li>
+<li class="chapter" data-level="2.2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-winbugs-openbugs-1"><i class="fa fa-check"></i><b>2.2.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
+<li class="chapter" data-level="2.2.3" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-jags-r2jags-1"><i class="fa fa-check"></i><b>2.2.3</b> Computation using JAGS (R2jags)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="conceptual-issues-in-bayesian-inference.html"><a href="conceptual-issues-in-bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Conceptual Issues in Bayesian Inference</a></li>
+<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="stan-model-for-mean-and-variance-unknown.html"><a href="stan-model-for-mean-and-variance-unknown.html"><i class="fa fa-check"></i><b>4.1</b> Stan Model for mean and variance unknown</a></li>
+<li class="chapter" data-level="4.2" data-path="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><a href="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><i class="fa fa-check"></i><b>4.2</b> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="markov-chain-monte-carlo-estimation.html"><a href="markov-chain-monte-carlo-estimation.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo Estimation</a></li>
+<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="stan-model-for-regression-model.html"><a href="stan-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.1</b> Stan Model for Regression Model</a></li>
+<li class="chapter" data-level="6.2" data-path="jags-model-for-regression-model.html"><a href="jags-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.2</b> JAGS Model for Regression Model</a></li>
+</ul></li>
+<li class="part"><span><b>II Psychometrics</b></span></li>
+<li class="chapter" data-level="7" data-path="canonical-bayesian-psychometric-modeling.html"><a href="canonical-bayesian-psychometric-modeling.html"><i class="fa fa-check"></i><b>7</b> Canonical Bayesian Psychometric Modeling</a></li>
+<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="example-1-known-measurement-model-parameters-with-1-measure.html"><a href="example-1-known-measurement-model-parameters-with-1-measure.html"><i class="fa fa-check"></i><b>8.1</b> Example 1 - Known measurement model parameters with 1 measure</a></li>
+<li class="chapter" data-level="8.2" data-path="example-1-stan.html"><a href="example-1-stan.html"><i class="fa fa-check"></i><b>8.2</b> Example 1 - Stan</a></li>
+<li class="chapter" data-level="8.3" data-path="example-1-jags.html"><a href="example-1-jags.html"><i class="fa fa-check"></i><b>8.3</b> Example 1 - JAGS</a></li>
+<li class="chapter" data-level="8.4" data-path="example-2-known-measurement-model-with-multiple-measures.html"><a href="example-2-known-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.4</b> Example 2 - Known Measurement Model with Multiple Measures</a></li>
+<li class="chapter" data-level="8.5" data-path="example-2-stan.html"><a href="example-2-stan.html"><i class="fa fa-check"></i><b>8.5</b> Example 2 - Stan</a></li>
+<li class="chapter" data-level="8.6" data-path="example-2-jags.html"><a href="example-2-jags.html"><i class="fa fa-check"></i><b>8.6</b> Example 2 - JAGS</a></li>
+<li class="chapter" data-level="8.7" data-path="example-3-unknown-measurement-model-with-multiple-measures.html"><a href="example-3-unknown-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.7</b> Example 3 - Unknown Measurement Model with Multiple Measures</a></li>
+<li class="chapter" data-level="8.8" data-path="example-3-stan.html"><a href="example-3-stan.html"><i class="fa fa-check"></i><b>8.8</b> Example 3 - Stan</a></li>
+<li class="chapter" data-level="8.9" data-path="example-3-jags.html"><a href="example-3-jags.html"><i class="fa fa-check"></i><b>8.9</b> Example 3 - JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="confirmatory-factor-analysis.html"><a href="confirmatory-factor-analysis.html"><i class="fa fa-check"></i><b>9</b> Confirmatory Factor Analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="single-latent-variable-model.html"><a href="single-latent-variable-model.html"><i class="fa fa-check"></i><b>9.1</b> Single Latent Variable Model</a></li>
+<li class="chapter" data-level="9.2" data-path="jags-single-latent-variable.html"><a href="jags-single-latent-variable.html"><i class="fa fa-check"></i><b>9.2</b> JAGS - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.3" data-path="stan-single-latent-variable.html"><a href="stan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.3</b> Stan - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.4" data-path="blavaan-single-latent-variable.html"><a href="blavaan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> Blavaan - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.5" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.5</b> JAGS - Two Latent Variable</a></li>
+<li class="chapter" data-level="9.6" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> Stan - Two Latent Variable</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.6.1</b> Inverse-Wishart Prior</a></li>
+<li class="chapter" data-level="9.6.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.6.2</b> LKJ Cholesky Parameterization</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="blavaan-two-latent-variables.html"><a href="blavaan-two-latent-variables.html"><i class="fa fa-check"></i><b>9.7</b> Blavaan - Two Latent Variables</a></li>
+<li class="chapter" data-level="9.8" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.8</b> Indeterminacy in One Factor CFA</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="residual-analysis.html"><a href="residual-analysis.html"><i class="fa fa-check"></i><b>10.1</b> Residual Analysis</a></li>
+<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#example-of-posterior-predictive-distribution-of-correlations"><i class="fa fa-check"></i><b>10.2.1</b> Example of posterior predictive distribution of correlations</a></li>
+<li class="chapter" data-level="10.2.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#ppd-srmr"><i class="fa fa-check"></i><b>10.2.2</b> PPD SRMR</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a></li>
+<li class="chapter" data-level="11.3" data-path="lsat-example-jags.html"><a href="lsat-example-jags.html"><i class="fa fa-check"></i><b>11.3</b> LSAT Example - JAGS</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="lsat-example-jags.html"><a href="lsat-example-jags.html#posterior-predicted-distributions"><i class="fa fa-check"></i><b>11.3.1</b> Posterior Predicted Distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="lsat-example-stan.html"><a href="lsat-example-stan.html"><i class="fa fa-check"></i><b>11.4</b> LSAT Example - Stan</a></li>
+<li class="chapter" data-level="11.5" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.5</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.6" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.6</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.6.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#example-specific-model-specification"><i class="fa fa-check"></i><b>11.6.1</b> Example Specific Model Specification</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="pi-example-jags.html"><a href="pi-example-jags.html"><i class="fa fa-check"></i><b>11.7</b> PI Example - JAGS</a></li>
+<li class="chapter" data-level="11.8" data-path="pi-example-stan.html"><a href="pi-example-stan.html"><i class="fa fa-check"></i><b>11.8</b> PI Example - Stan</a></li>
+<li class="chapter" data-level="11.9" data-path="latent-response-formulation.html"><a href="latent-response-formulation.html"><i class="fa fa-check"></i><b>11.9</b> Latent Response Formulation</a>
+<ul>
+<li class="chapter" data-level="11.9.1" data-path="latent-response-formulation.html"><a href="latent-response-formulation.html#lsat-example-revisted"><i class="fa fa-check"></i><b>11.9.1</b> LSAT Example Revisted</a></li>
+</ul></li>
+<li class="chapter" data-level="11.10" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.10</b> Final Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="missing-data-modeling.html"><a href="missing-data-modeling.html"><i class="fa fa-check"></i><b>12</b> Missing Data Modeling</a></li>
+<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a></li>
+<li class="chapter" data-level="14" data-path="bayesian-networks.html"><a href="bayesian-networks.html"><i class="fa fa-check"></i><b>14</b> Bayesian Networks</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lsat-example---jags" class="section level2" number="11.3">
+<h2><span class="header-section-number">11.3</span> LSAT Example - JAGS</h2>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="lsat-example-jags.html#cb302-1" aria-hidden="true" tabindex="-1"></a>jags.model.lsat <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb302-2"><a href="lsat-example-jags.html#cb302-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-3"><a href="lsat-example-jags.html#cb302-3" aria-hidden="true" tabindex="-1"></a><span class="do">#########################################</span></span>
+<span id="cb302-4"><a href="lsat-example-jags.html#cb302-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the item response measurement model for the observables</span></span>
+<span id="cb302-5"><a href="lsat-example-jags.html#cb302-5" aria-hidden="true" tabindex="-1"></a><span class="do">#########################################</span></span>
+<span id="cb302-6"><a href="lsat-example-jags.html#cb302-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb302-7"><a href="lsat-example-jags.html#cb302-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J){</span>
+<span id="cb302-8"><a href="lsat-example-jags.html#cb302-8" aria-hidden="true" tabindex="-1"></a>    P[i,j] <span class="ot">&lt;-</span> c[j]<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>c[j])<span class="sc">*</span><span class="fu">phi</span>(a[j]<span class="sc">*</span>theta[i]<span class="sc">+</span>d[j])       <span class="co"># 3P-NO expression</span></span>
+<span id="cb302-9"><a href="lsat-example-jags.html#cb302-9" aria-hidden="true" tabindex="-1"></a>    x[i,j] <span class="sc">~</span> <span class="fu">dbern</span>(P[i,j])                  <span class="co"># distribution for each observable</span></span>
+<span id="cb302-10"><a href="lsat-example-jags.html#cb302-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb302-11"><a href="lsat-example-jags.html#cb302-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb302-12"><a href="lsat-example-jags.html#cb302-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-13"><a href="lsat-example-jags.html#cb302-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-14"><a href="lsat-example-jags.html#cb302-14" aria-hidden="true" tabindex="-1"></a><span class="do">##########################################</span></span>
+<span id="cb302-15"><a href="lsat-example-jags.html#cb302-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the (prior) distribution for the latent variables</span></span>
+<span id="cb302-16"><a href="lsat-example-jags.html#cb302-16" aria-hidden="true" tabindex="-1"></a><span class="do">##########################################</span></span>
+<span id="cb302-17"><a href="lsat-example-jags.html#cb302-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb302-18"><a href="lsat-example-jags.html#cb302-18" aria-hidden="true" tabindex="-1"></a>  theta[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># distribution for the latent variables</span></span>
+<span id="cb302-19"><a href="lsat-example-jags.html#cb302-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb302-20"><a href="lsat-example-jags.html#cb302-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-21"><a href="lsat-example-jags.html#cb302-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-22"><a href="lsat-example-jags.html#cb302-22" aria-hidden="true" tabindex="-1"></a><span class="do">##########################################</span></span>
+<span id="cb302-23"><a href="lsat-example-jags.html#cb302-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the prior distribution for the measurement model parameters</span></span>
+<span id="cb302-24"><a href="lsat-example-jags.html#cb302-24" aria-hidden="true" tabindex="-1"></a><span class="do">##########################################</span></span>
+<span id="cb302-25"><a href="lsat-example-jags.html#cb302-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J){</span>
+<span id="cb302-26"><a href="lsat-example-jags.html#cb302-26" aria-hidden="true" tabindex="-1"></a>  d[j] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">5</span>)          <span class="co"># Locations for observables</span></span>
+<span id="cb302-27"><a href="lsat-example-jags.html#cb302-27" aria-hidden="true" tabindex="-1"></a>  a[j] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">1</span>, .<span class="dv">5</span>); <span class="fu">I</span>(<span class="dv">0</span>,)    <span class="co"># Discriminations for observables</span></span>
+<span id="cb302-28"><a href="lsat-example-jags.html#cb302-28" aria-hidden="true" tabindex="-1"></a>  c[j] <span class="sc">~</span> <span class="fu">dbeta</span>(<span class="dv">5</span>,<span class="dv">17</span>)           <span class="co"># Lower asymptotes for observables</span></span>
+<span id="cb302-29"><a href="lsat-example-jags.html#cb302-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb302-30"><a href="lsat-example-jags.html#cb302-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb302-31"><a href="lsat-example-jags.html#cb302-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-32"><a href="lsat-example-jags.html#cb302-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-33"><a href="lsat-example-jags.html#cb302-33" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes the model</span></span>
+<span id="cb302-34"><a href="lsat-example-jags.html#cb302-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-35"><a href="lsat-example-jags.html#cb302-35" aria-hidden="true" tabindex="-1"></a><span class="co"># initial values</span></span>
+<span id="cb302-36"><a href="lsat-example-jags.html#cb302-36" aria-hidden="true" tabindex="-1"></a>start_values <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb302-37"><a href="lsat-example-jags.html#cb302-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>),</span>
+<span id="cb302-38"><a href="lsat-example-jags.html#cb302-38" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>),</span>
+<span id="cb302-39"><a href="lsat-example-jags.html#cb302-39" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>)),</span>
+<span id="cb302-40"><a href="lsat-example-jags.html#cb302-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>),</span>
+<span id="cb302-41"><a href="lsat-example-jags.html#cb302-41" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>),</span>
+<span id="cb302-42"><a href="lsat-example-jags.html#cb302-42" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>)),</span>
+<span id="cb302-43"><a href="lsat-example-jags.html#cb302-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>),</span>
+<span id="cb302-44"><a href="lsat-example-jags.html#cb302-44" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>),</span>
+<span id="cb302-45"><a href="lsat-example-jags.html#cb302-45" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>))</span>
+<span id="cb302-46"><a href="lsat-example-jags.html#cb302-46" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb302-47"><a href="lsat-example-jags.html#cb302-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-48"><a href="lsat-example-jags.html#cb302-48" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb302-49"><a href="lsat-example-jags.html#cb302-49" aria-hidden="true" tabindex="-1"></a>param_save <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;theta&quot;</span>)</span>
+<span id="cb302-50"><a href="lsat-example-jags.html#cb302-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-51"><a href="lsat-example-jags.html#cb302-51" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset</span></span>
+<span id="cb302-52"><a href="lsat-example-jags.html#cb302-52" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/LSAT.dat&quot;</span>, <span class="at">header=</span>T)</span>
+<span id="cb302-53"><a href="lsat-example-jags.html#cb302-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-54"><a href="lsat-example-jags.html#cb302-54" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb302-55"><a href="lsat-example-jags.html#cb302-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">nrow</span>(dat), <span class="at">J =</span> <span class="fu">ncol</span>(dat),</span>
+<span id="cb302-56"><a href="lsat-example-jags.html#cb302-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">as.matrix</span>(dat)</span>
+<span id="cb302-57"><a href="lsat-example-jags.html#cb302-57" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb302-58"><a href="lsat-example-jags.html#cb302-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb302-59"><a href="lsat-example-jags.html#cb302-59" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb302-60"><a href="lsat-example-jags.html#cb302-60" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">jags</span>(</span>
+<span id="cb302-61"><a href="lsat-example-jags.html#cb302-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.file=</span>jags.model.lsat,</span>
+<span id="cb302-62"><a href="lsat-example-jags.html#cb302-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>mydata,</span>
+<span id="cb302-63"><a href="lsat-example-jags.html#cb302-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits=</span>start_values,</span>
+<span id="cb302-64"><a href="lsat-example-jags.html#cb302-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters.to.save =</span> param_save,</span>
+<span id="cb302-65"><a href="lsat-example-jags.html#cb302-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">26000</span>,</span>
+<span id="cb302-66"><a href="lsat-example-jags.html#cb302-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">6000</span>,</span>
+<span id="cb302-67"><a href="lsat-example-jags.html#cb302-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.chains =</span> <span class="dv">3</span>,</span>
+<span id="cb302-68"><a href="lsat-example-jags.html#cb302-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## module glm loaded</code></pre>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 5000
+##    Unobserved stochastic nodes: 1015
+##    Total graph size: 31027
+## 
+## Initializing model</code></pre>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="lsat-example-jags.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpW4ITDP/modelcd040fb7a9e.txt&quot;, fit using jags,
+##  3 chains, each with 26000 iterations (first 6000 discarded), n.thin = 20
+##  n.sims = 3000 iterations saved
+##              mu.vect sd.vect     2.5%      25%      50%      75%    97.5%  Rhat n.eff
+## a[1]           0.476   0.188    0.181    0.347    0.455    0.573    0.922 1.001  3000
+## a[2]           0.595   0.295    0.283    0.435    0.541    0.672    1.275 1.016   190
+## a[3]           1.253   0.734    0.427    0.706    1.025    1.625    3.146 1.006   370
+## a[4]           0.502   0.207    0.229    0.375    0.469    0.578    0.971 1.001  3000
+## a[5]           0.417   0.152    0.166    0.313    0.403    0.503    0.760 1.002  2200
+## c[1]           0.242   0.094    0.090    0.172    0.232    0.303    0.443 1.001  3000
+## c[2]           0.256   0.099    0.092    0.182    0.248    0.320    0.479 1.005   450
+## c[3]           0.262   0.082    0.099    0.201    0.268    0.322    0.406 1.003   770
+## c[4]           0.251   0.098    0.093    0.179    0.240    0.313    0.466 1.001  3000
+## c[5]           0.241   0.091    0.088    0.175    0.235    0.301    0.436 1.002  1800
+## d[1]           1.419   0.147    1.167    1.324    1.410    1.497    1.741 1.004  1500
+## d[2]           0.285   0.221   -0.214    0.202    0.330    0.420    0.552 1.045   250
+## d[3]          -0.544   0.464   -1.698   -0.776   -0.429   -0.195    0.029 1.006   400
+## d[4]           0.515   0.157    0.147    0.438    0.537    0.619    0.746 1.001  2500
+## d[5]           1.024   0.115    0.784    0.954    1.032    1.104    1.234 1.003   780
+## theta[1]      -1.608   0.775   -3.190   -2.101   -1.604   -1.073   -0.145 1.002  1600
+## theta[2]      -1.623   0.778   -3.167   -2.166   -1.600   -1.054   -0.177 1.001  3000
+## theta[3]      -1.625   0.768   -3.156   -2.156   -1.614   -1.083   -0.202 1.001  2100
+## theta[4]      -1.307   0.773   -2.879   -1.810   -1.303   -0.774    0.180 1.001  3000
+## theta[5]      -1.294   0.768   -2.832   -1.807   -1.297   -0.749    0.152 1.001  2300
+## theta[6]      -1.303   0.766   -2.816   -1.811   -1.288   -0.772    0.163 1.003   830
+## theta[7]      -1.287   0.767   -2.777   -1.796   -1.274   -0.770    0.197 1.002  1100
+## theta[8]      -1.296   0.768   -2.877   -1.810   -1.264   -0.771    0.150 1.001  3000
+## theta[9]      -1.315   0.768   -2.846   -1.815   -1.296   -0.791    0.155 1.001  3000
+## theta[10]     -1.323   0.776   -2.911   -1.831   -1.307   -0.799    0.163 1.002  1200
+## theta[11]     -1.295   0.769   -2.879   -1.805   -1.261   -0.762    0.128 1.001  3000
+## theta[12]     -0.933   0.790   -2.530   -1.458   -0.922   -0.389    0.543 1.001  2300
+## theta[13]     -0.948   0.766   -2.474   -1.458   -0.943   -0.433    0.545 1.001  3000
+## theta[14]     -0.933   0.767   -2.442   -1.452   -0.910   -0.401    0.503 1.001  3000
+## theta[15]     -0.962   0.764   -2.542   -1.478   -0.933   -0.409    0.457 1.003   900
+## theta[16]     -0.940   0.774   -2.513   -1.446   -0.902   -0.398    0.497 1.001  3000
+## theta[17]     -0.966   0.757   -2.436   -1.498   -0.968   -0.426    0.483 1.001  3000
+## theta[18]     -0.935   0.778   -2.495   -1.448   -0.893   -0.396    0.505 1.001  3000
+## theta[19]     -0.958   0.793   -2.540   -1.488   -0.932   -0.426    0.554 1.001  2500
+## theta[20]     -0.965   0.761   -2.454   -1.462   -0.952   -0.455    0.503 1.001  2400
+## theta[21]     -0.935   0.792   -2.566   -1.432   -0.900   -0.406    0.557 1.001  3000
+## theta[22]     -0.960   0.775   -2.500   -1.489   -0.938   -0.408    0.470 1.003   910
+## theta[23]     -1.448   0.826   -3.045   -1.990   -1.439   -0.883    0.179 1.001  3000
+## theta[24]     -1.002   0.862   -2.666   -1.606   -1.002   -0.401    0.592 1.001  3000
+## theta[25]     -0.991   0.877   -2.728   -1.579   -0.978   -0.425    0.715 1.001  3000
+## theta[26]     -1.032   0.868   -2.675   -1.616   -1.042   -0.458    0.653 1.001  3000
+## theta[27]     -1.007   0.867   -2.682   -1.598   -1.025   -0.403    0.702 1.001  3000
+## theta[28]     -0.539   0.879   -2.253   -1.123   -0.550    0.037    1.152 1.002  1100
+## theta[29]     -0.548   0.871   -2.265   -1.142   -0.532    0.059    1.085 1.001  3000
+## theta[30]     -0.552   0.888   -2.316   -1.166   -0.537    0.080    1.105 1.001  3000
+## theta[31]     -0.554   0.878   -2.313   -1.145   -0.537    0.049    1.122 1.001  3000
+## theta[32]     -1.314   0.800   -2.967   -1.833   -1.292   -0.776    0.216 1.002  1400
+## theta[33]     -0.927   0.779   -2.521   -1.422   -0.917   -0.404    0.486 1.001  3000
+## theta[34]     -0.956   0.783   -2.591   -1.465   -0.941   -0.400    0.480 1.001  2500
+## theta[35]     -0.947   0.786   -2.565   -1.467   -0.920   -0.383    0.523 1.002  1600
+## theta[36]     -0.944   0.808   -2.539   -1.494   -0.932   -0.373    0.577 1.002  1000
+## theta[37]     -0.943   0.769   -2.513   -1.437   -0.925   -0.421    0.557 1.001  3000
+## theta[38]     -0.937   0.791   -2.543   -1.467   -0.913   -0.387    0.542 1.001  3000
+## theta[39]     -0.956   0.787   -2.564   -1.480   -0.933   -0.413    0.529 1.001  3000
+## theta[40]     -0.943   0.772   -2.525   -1.440   -0.948   -0.411    0.537 1.003   940
+## theta[41]     -0.587   0.780   -2.148   -1.101   -0.579   -0.042    0.886 1.001  2600
+## theta[42]     -0.589   0.794   -2.198   -1.103   -0.548   -0.057    0.874 1.004   630
+## theta[43]     -0.582   0.789   -2.200   -1.098   -0.556   -0.034    0.890 1.001  3000
+## theta[44]     -0.565   0.799   -2.131   -1.108   -0.535   -0.028    0.955 1.001  3000
+## theta[45]     -0.579   0.804   -2.213   -1.113   -0.575   -0.018    0.946 1.001  3000
+## theta[46]     -0.572   0.787   -2.183   -1.081   -0.567   -0.052    0.981 1.001  3000
+## theta[47]     -0.576   0.794   -2.171   -1.114   -0.557   -0.040    0.955 1.002  2000
+## theta[48]     -0.602   0.783   -2.195   -1.106   -0.578   -0.072    0.883 1.001  3000
+## theta[49]     -0.577   0.784   -2.173   -1.122   -0.540   -0.036    0.856 1.001  3000
+## theta[50]     -0.564   0.797   -2.179   -1.100   -0.540   -0.033    0.915 1.001  2600
+## theta[51]     -0.552   0.794   -2.132   -1.079   -0.541   -0.010    0.944 1.001  3000
+## theta[52]     -0.592   0.786   -2.231   -1.095   -0.574   -0.055    0.851 1.001  2300
+## theta[53]     -0.559   0.776   -2.188   -1.046   -0.541   -0.027    0.920 1.001  3000
+## theta[54]     -0.569   0.792   -2.203   -1.081   -0.550   -0.039    0.938 1.002  1100
+## theta[55]     -0.582   0.798   -2.231   -1.105   -0.556   -0.053    0.916 1.001  3000
+## theta[56]     -0.577   0.803   -2.227   -1.117   -0.565   -0.016    0.926 1.001  2500
+## theta[57]     -0.540   0.889   -2.313   -1.138   -0.546    0.051    1.171 1.001  3000
+## theta[58]     -0.516   0.896   -2.276   -1.115   -0.519    0.097    1.164 1.001  3000
+## theta[59]     -0.535   0.908   -2.324   -1.140   -0.538    0.089    1.246 1.001  3000
+## theta[60]     -0.530   0.930   -2.407   -1.149   -0.511    0.108    1.228 1.002  1800
+## theta[61]     -0.555   0.900   -2.313   -1.156   -0.552    0.057    1.169 1.001  3000
+## theta[62]     -0.026   0.914   -1.861   -0.638    0.015    0.604    1.689 1.001  3000
+## theta[63]     -0.037   0.920   -1.886   -0.675   -0.019    0.577    1.703 1.001  3000
+## theta[64]     -0.029   0.908   -1.841   -0.636   -0.013    0.601    1.700 1.001  3000
+## theta[65]     -0.038   0.917   -1.944   -0.652    0.006    0.602    1.675 1.001  2000
+## theta[66]     -0.029   0.900   -1.819   -0.625   -0.010    0.588    1.654 1.001  3000
+## theta[67]     -0.026   0.898   -1.897   -0.608   -0.008    0.595    1.690 1.001  2100
+## theta[68]     -0.029   0.918   -1.872   -0.641   -0.011    0.596    1.729 1.002  1600
+## theta[69]     -0.039   0.929   -1.882   -0.666   -0.018    0.575    1.737 1.001  3000
+## theta[70]     -0.007   0.909   -1.867   -0.608    0.037    0.630    1.650 1.001  3000
+## theta[71]     -0.046   0.917   -1.853   -0.677   -0.021    0.585    1.712 1.001  3000
+## theta[72]     -0.012   0.909   -1.844   -0.627    0.029    0.610    1.668 1.001  3000
+## theta[73]     -0.019   0.902   -1.890   -0.632    0.015    0.610    1.643 1.001  3000
+## theta[74]     -0.034   0.909   -1.888   -0.654   -0.009    0.590    1.707 1.001  3000
+## theta[75]      0.002   0.899   -1.872   -0.584    0.043    0.603    1.715 1.001  3000
+## theta[76]     -0.020   0.915   -1.910   -0.642    0.034    0.607    1.673 1.001  3000
+## theta[77]     -1.203   0.768   -2.773   -1.675   -1.162   -0.703    0.233 1.001  3000
+## theta[78]     -1.195   0.774   -2.720   -1.719   -1.178   -0.661    0.249 1.002  1300
+## theta[79]     -1.234   0.761   -2.720   -1.751   -1.213   -0.703    0.232 1.001  3000
+## theta[80]     -1.217   0.780   -2.791   -1.741   -1.192   -0.680    0.246 1.001  3000
+## theta[81]     -1.187   0.781   -2.775   -1.714   -1.153   -0.656    0.266 1.002  1100
+## theta[82]     -1.200   0.764   -2.717   -1.707   -1.187   -0.666    0.244 1.001  3000
+## theta[83]     -1.207   0.773   -2.802   -1.714   -1.202   -0.651    0.231 1.001  3000
+## theta[84]     -1.193   0.758   -2.744   -1.689   -1.165   -0.660    0.189 1.001  3000
+## theta[85]     -1.180   0.778   -2.750   -1.696   -1.166   -0.630    0.286 1.001  3000
+## theta[86]     -1.184   0.759   -2.713   -1.686   -1.159   -0.657    0.320 1.001  2100
+## theta[87]     -0.836   0.759   -2.348   -1.335   -0.844   -0.307    0.575 1.001  3000
+## theta[88]     -0.833   0.764   -2.353   -1.345   -0.811   -0.318    0.638 1.001  3000
+## theta[89]     -0.839   0.765   -2.368   -1.352   -0.820   -0.310    0.651 1.003   780
+## theta[90]     -0.828   0.763   -2.395   -1.311   -0.808   -0.307    0.589 1.001  3000
+## theta[91]     -0.838   0.756   -2.349   -1.345   -0.808   -0.312    0.597 1.001  3000
+## theta[92]     -0.821   0.747   -2.337   -1.313   -0.802   -0.323    0.578 1.001  3000
+## theta[93]     -0.853   0.765   -2.442   -1.374   -0.844   -0.320    0.539 1.001  3000
+## theta[94]     -0.817   0.742   -2.342   -1.312   -0.793   -0.306    0.561 1.001  3000
+## theta[95]     -0.835   0.763   -2.440   -1.336   -0.808   -0.303    0.574 1.001  3000
+## theta[96]     -0.859   0.763   -2.383   -1.347   -0.839   -0.326    0.569 1.001  3000
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 905 rows ]
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+## 
+## DIC info (using the rule, pD = var(deviance)/2)
+## pD = 2773.5 and DIC = 7292.9
+## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="lsat-example-jags.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[ <span class="sc">!</span><span class="fu">rownames</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary) <span class="sc">%like%</span> <span class="st">&quot;theta&quot;</span>, ], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##              mean     sd     2.5%      25%      50%      75%    97.5%  Rhat n.eff
+## a[1]        0.476  0.188    0.181    0.347    0.455    0.573    0.922 1.001  3000
+## a[2]        0.595  0.295    0.283    0.435    0.541    0.672    1.275 1.016   190
+## a[3]        1.253  0.734    0.427    0.706    1.025    1.625    3.146 1.006   370
+## a[4]        0.502  0.207    0.229    0.375    0.469    0.578    0.971 1.001  3000
+## a[5]        0.417  0.152    0.166    0.313    0.403    0.503    0.760 1.002  2200
+## c[1]        0.242  0.094    0.090    0.172    0.232    0.303    0.443 1.001  3000
+## c[2]        0.256  0.099    0.092    0.182    0.248    0.320    0.479 1.005   450
+## c[3]        0.262  0.082    0.099    0.201    0.268    0.322    0.406 1.003   770
+## c[4]        0.251  0.098    0.093    0.179    0.240    0.313    0.466 1.001  3000
+## c[5]        0.241  0.091    0.088    0.175    0.235    0.301    0.436 1.002  1800
+## d[1]        1.419  0.147    1.167    1.324    1.410    1.497    1.741 1.004  1500
+## d[2]        0.285  0.221   -0.214    0.202    0.330    0.420    0.552 1.045   250
+## d[3]       -0.544  0.464   -1.698   -0.776   -0.429   -0.195    0.029 1.006   400
+## d[4]        0.515  0.157    0.147    0.438    0.537    0.619    0.746 1.001  2500
+## d[5]        1.024  0.115    0.784    0.954    1.032    1.104    1.234 1.003   780
+## deviance 4519.440 74.520 4358.806 4472.146 4522.941 4571.929 4650.166 1.003  1100</code></pre>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="lsat-example-jags.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb309-2"><a href="lsat-example-jags.html#cb309-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>
+<span id="cb309-3"><a href="lsat-example-jags.html#cb309-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the below two plots are too big to be useful given the 1000 observations.</span></span>
+<span id="cb309-4"><a href="lsat-example-jags.html#cb309-4" aria-hidden="true" tabindex="-1"></a><span class="co">#R2jags::traceplot(jags.mcmc)</span></span>
+<span id="cb309-5"><a href="lsat-example-jags.html#cb309-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-6"><a href="lsat-example-jags.html#cb309-6" aria-hidden="true" tabindex="-1"></a><span class="co"># gelman-rubin-brook</span></span>
+<span id="cb309-7"><a href="lsat-example-jags.html#cb309-7" aria-hidden="true" tabindex="-1"></a><span class="co">#gelman.plot(jags.mcmc)</span></span>
+<span id="cb309-8"><a href="lsat-example-jags.html#cb309-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-9"><a href="lsat-example-jags.html#cb309-9" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
+<span id="cb309-10"><a href="lsat-example-jags.html#cb309-10" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">colnames</span>(<span class="fu">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
+<span id="cb309-11"><a href="lsat-example-jags.html#cb309-11" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as.matrix</span>(jags.mcmc, <span class="at">chains=</span>T, <span class="at">iters =</span> T))</span>
+<span id="cb309-12"><a href="lsat-example-jags.html#cb309-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
+<span id="cb309-13"><a href="lsat-example-jags.html#cb309-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-14"><a href="lsat-example-jags.html#cb309-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb309-15"><a href="lsat-example-jags.html#cb309-15" aria-hidden="true" tabindex="-1"></a>bayesplot<span class="sc">::</span><span class="fu">mcmc_acf</span>(plot.data,<span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;d[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)))</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-1.png" width="672" /></p>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="lsat-example-jags.html#cb310-1" aria-hidden="true" tabindex="-1"></a>bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(plot.data,<span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;d[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)))</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-2.png" width="672" /></p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="lsat-example-jags.html#cb311-1" aria-hidden="true" tabindex="-1"></a>ggmcmc<span class="sc">::</span><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(jags.mcmc), <span class="at">family=</span><span class="st">&quot;d&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-3.png" width="672" /></p>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="lsat-example-jags.html#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(plot.data, <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;d[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)), <span class="at">prob =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-4.png" width="672" /></p>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="lsat-example-jags.html#cb313-1" aria-hidden="true" tabindex="-1"></a>bayesplot<span class="sc">::</span><span class="fu">mcmc_acf</span>(plot.data,<span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;a[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)))</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-5.png" width="672" /></p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="lsat-example-jags.html#cb314-1" aria-hidden="true" tabindex="-1"></a>bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(plot.data,<span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;a[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)))</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-6.png" width="672" /></p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="lsat-example-jags.html#cb315-1" aria-hidden="true" tabindex="-1"></a>ggmcmc<span class="sc">::</span><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(jags.mcmc), <span class="at">family=</span><span class="st">&quot;a&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-7.png" width="672" /></p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="lsat-example-jags.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>( plot.data,<span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;a[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)), <span class="at">prob =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-8.png" width="672" /></p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="lsat-example-jags.html#cb317-1" aria-hidden="true" tabindex="-1"></a>bayesplot<span class="sc">::</span><span class="fu">mcmc_acf</span>(plot.data,<span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;c[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)))</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-9.png" width="672" /></p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="lsat-example-jags.html#cb318-1" aria-hidden="true" tabindex="-1"></a>bayesplot<span class="sc">::</span><span class="fu">mcmc_trace</span>(plot.data,<span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;c[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)))</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-10.png" width="672" /></p>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="lsat-example-jags.html#cb319-1" aria-hidden="true" tabindex="-1"></a>ggmcmc<span class="sc">::</span><span class="fu">ggs_grb</span>(<span class="fu">ggs</span>(jags.mcmc), <span class="at">family=</span><span class="st">&quot;c&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-11.png" width="672" /></p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="lsat-example-jags.html#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(plot.data, <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;c[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)), <span class="at">prob =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-12.png" width="672" /></p>
+<div id="posterior-predicted-distributions" class="section level3" number="11.3.1">
+<h3><span class="header-section-number">11.3.1</span> Posterior Predicted Distributions</h3>
+<p>Here, we want to compare the observed and expected posterior predicted distributions.</p>
+<p>Statistical functions of interest are the (1) standardized model-based covariance (SMBC) and (2) the standardized generalized discrepancy measure (SGDDM).</p>
+<p>For (1), the SMBC is
+<span class="math display">\[SMBC_{jj^\prime}=\frac{\frac{1}{n}\sum_{i=1}^n(x_{ij} - E(x_{ij} \mid \theta_i,\boldsymbol{\omega}_j))(x_{ij^\prime} - E(x_{ij^\prime} \mid \theta_i,\boldsymbol{\omega}_j^\prime))}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij} - E(x_{ij} \mid \theta_i,\boldsymbol{\omega}_j))^2}\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij^\prime} - E(x_{ij^\prime} \mid \theta_i,\boldsymbol{\omega}_j^\prime))}}\]</span></p>
+<p>In R, the functions below can be used to compute these qualtities.</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="lsat-example-jags.html#cb321-1" aria-hidden="true" tabindex="-1"></a>calculate.SGDDM <span class="ot">&lt;-</span> <span class="cf">function</span>(data.matrix, expected.value.matrix){</span>
+<span id="cb321-2"><a href="lsat-example-jags.html#cb321-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb321-3"><a href="lsat-example-jags.html#cb321-3" aria-hidden="true" tabindex="-1"></a>    J.local <span class="ot">=</span> <span class="fu">ncol</span>(data.matrix)</span>
+<span id="cb321-4"><a href="lsat-example-jags.html#cb321-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-5"><a href="lsat-example-jags.html#cb321-5" aria-hidden="true" tabindex="-1"></a>    SMBC.matrix <span class="ot">&lt;-</span> <span class="fu">calculate.SMBC.matrix</span>(data.matrix, expected.value.matrix)</span>
+<span id="cb321-6"><a href="lsat-example-jags.html#cb321-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb321-7"><a href="lsat-example-jags.html#cb321-7" aria-hidden="true" tabindex="-1"></a>    SGDDM <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">abs</span>((<span class="fu">lower.tri</span>(SMBC.matrix, <span class="at">diag=</span><span class="cn">FALSE</span>))<span class="sc">*</span>SMBC.matrix))<span class="sc">/</span>((J.local<span class="sc">*</span>(J.local<span class="dv">-1</span>))<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb321-8"><a href="lsat-example-jags.html#cb321-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-9"><a href="lsat-example-jags.html#cb321-9" aria-hidden="true" tabindex="-1"></a>    SGDDM</span>
+<span id="cb321-10"><a href="lsat-example-jags.html#cb321-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-11"><a href="lsat-example-jags.html#cb321-11" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes calculate.SGDDM</span></span>
+<span id="cb321-12"><a href="lsat-example-jags.html#cb321-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-13"><a href="lsat-example-jags.html#cb321-13" aria-hidden="true" tabindex="-1"></a>calculate.SMBC.matrix <span class="ot">&lt;-</span> <span class="cf">function</span>(data.matrix, expected.value.matrix){</span>
+<span id="cb321-14"><a href="lsat-example-jags.html#cb321-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb321-15"><a href="lsat-example-jags.html#cb321-15" aria-hidden="true" tabindex="-1"></a>    N.local <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data.matrix)</span>
+<span id="cb321-16"><a href="lsat-example-jags.html#cb321-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-17"><a href="lsat-example-jags.html#cb321-17" aria-hidden="true" tabindex="-1"></a>    MBC.matrix <span class="ot">&lt;-</span> (<span class="fu">t</span>(data.matrix<span class="sc">-</span>expected.value.matrix) <span class="sc">%*%</span> (data.matrix<span class="sc">-</span>expected.value.matrix))<span class="sc">/</span>N.local</span>
+<span id="cb321-18"><a href="lsat-example-jags.html#cb321-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-19"><a href="lsat-example-jags.html#cb321-19" aria-hidden="true" tabindex="-1"></a>    MBStddevs.matrix <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">sqrt</span>(<span class="fu">diag</span>(MBC.matrix)))</span>
+<span id="cb321-20"><a href="lsat-example-jags.html#cb321-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-21"><a href="lsat-example-jags.html#cb321-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">#SMBC.matrix &lt;- solve(MBStddevs.matrix) %*% MBC.matrix %*% solve(MBStddevs.matrix)</span></span>
+<span id="cb321-22"><a href="lsat-example-jags.html#cb321-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-23"><a href="lsat-example-jags.html#cb321-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-24"><a href="lsat-example-jags.html#cb321-24" aria-hidden="true" tabindex="-1"></a>    J.local <span class="ot">&lt;-</span> <span class="fu">ncol</span>(data.matrix)</span>
+<span id="cb321-25"><a href="lsat-example-jags.html#cb321-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-26"><a href="lsat-example-jags.html#cb321-26" aria-hidden="true" tabindex="-1"></a>    SMBC.matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow=</span>J.local, <span class="at">ncol=</span>J.local)</span>
+<span id="cb321-27"><a href="lsat-example-jags.html#cb321-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-28"><a href="lsat-example-jags.html#cb321-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J.local){</span>
+<span id="cb321-29"><a href="lsat-example-jags.html#cb321-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J.local){</span>
+<span id="cb321-30"><a href="lsat-example-jags.html#cb321-30" aria-hidden="true" tabindex="-1"></a>            SMBC.matrix[j,jj] <span class="ot">&lt;-</span> MBC.matrix[j,jj]<span class="sc">/</span>(MBStddevs.matrix[j,j]<span class="sc">*</span>MBStddevs.matrix[jj,jj])</span>
+<span id="cb321-31"><a href="lsat-example-jags.html#cb321-31" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb321-32"><a href="lsat-example-jags.html#cb321-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb321-33"><a href="lsat-example-jags.html#cb321-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-34"><a href="lsat-example-jags.html#cb321-34" aria-hidden="true" tabindex="-1"></a>    SMBC.matrix </span>
+<span id="cb321-35"><a href="lsat-example-jags.html#cb321-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb321-36"><a href="lsat-example-jags.html#cb321-36" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes calculate.MBC.matrix</span></span></code></pre></div>
+<p>Next, we will use the functions above among other basic data wrangling to construct a full posterior predictive distribution analysis to probe our resulting posterior.</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="lsat-example-jags.html#cb322-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data wrangle the results/posterior draws for use</span></span>
+<span id="cb322-2"><a href="lsat-example-jags.html#cb322-2" aria-hidden="true" tabindex="-1"></a>datv1 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
+<span id="cb322-3"><a href="lsat-example-jags.html#cb322-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb322-4"><a href="lsat-example-jags.html#cb322-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">a[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">a[5]</span><span class="st">`</span>,</span>
+<span id="cb322-5"><a href="lsat-example-jags.html#cb322-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;a&quot;</span>,</span>
+<span id="cb322-6"><a href="lsat-example-jags.html#cb322-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb322-7"><a href="lsat-example-jags.html#cb322-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb322-8"><a href="lsat-example-jags.html#cb322-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">3</span>,<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb322-9"><a href="lsat-example-jags.html#cb322-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, item, a)</span>
+<span id="cb322-10"><a href="lsat-example-jags.html#cb322-10" aria-hidden="true" tabindex="-1"></a>datv2 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
+<span id="cb322-11"><a href="lsat-example-jags.html#cb322-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb322-12"><a href="lsat-example-jags.html#cb322-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">c[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">c[5]</span><span class="st">`</span>,</span>
+<span id="cb322-13"><a href="lsat-example-jags.html#cb322-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;c&quot;</span>,</span>
+<span id="cb322-14"><a href="lsat-example-jags.html#cb322-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb322-15"><a href="lsat-example-jags.html#cb322-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb322-16"><a href="lsat-example-jags.html#cb322-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">3</span>,<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb322-17"><a href="lsat-example-jags.html#cb322-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, item, c)</span>
+<span id="cb322-18"><a href="lsat-example-jags.html#cb322-18" aria-hidden="true" tabindex="-1"></a>datv3 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
+<span id="cb322-19"><a href="lsat-example-jags.html#cb322-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb322-20"><a href="lsat-example-jags.html#cb322-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">d[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">d[5]</span><span class="st">`</span>,</span>
+<span id="cb322-21"><a href="lsat-example-jags.html#cb322-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;d&quot;</span>,</span>
+<span id="cb322-22"><a href="lsat-example-jags.html#cb322-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb322-23"><a href="lsat-example-jags.html#cb322-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb322-24"><a href="lsat-example-jags.html#cb322-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">3</span>,<span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb322-25"><a href="lsat-example-jags.html#cb322-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, item, d)</span>
+<span id="cb322-26"><a href="lsat-example-jags.html#cb322-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-27"><a href="lsat-example-jags.html#cb322-27" aria-hidden="true" tabindex="-1"></a>datv4 <span class="ot">&lt;-</span> plot.data <span class="sc">%&gt;%</span></span>
+<span id="cb322-28"><a href="lsat-example-jags.html#cb322-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb322-29"><a href="lsat-example-jags.html#cb322-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="st">`</span><span class="at">theta[1]</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">theta[999]</span><span class="st">`</span>,</span>
+<span id="cb322-30"><a href="lsat-example-jags.html#cb322-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;theta&quot;</span>,</span>
+<span id="cb322-31"><a href="lsat-example-jags.html#cb322-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;person&quot;</span></span>
+<span id="cb322-32"><a href="lsat-example-jags.html#cb322-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb322-33"><a href="lsat-example-jags.html#cb322-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chain, iter, person, theta)</span>
+<span id="cb322-34"><a href="lsat-example-jags.html#cb322-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb322-35"><a href="lsat-example-jags.html#cb322-35" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">full_join</span>(datv1, datv2)</span></code></pre></div>
+<pre><code>## Joining, by = c(&quot;chain&quot;, &quot;iter&quot;, &quot;item&quot;)</code></pre>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="lsat-example-jags.html#cb324-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">full_join</span>(dat_long, datv3)</span></code></pre></div>
+<pre><code>## Joining, by = c(&quot;chain&quot;, &quot;iter&quot;, &quot;item&quot;)</code></pre>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="lsat-example-jags.html#cb326-1" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">full_join</span>(dat_long, datv4)</span></code></pre></div>
+<pre><code>## Joining, by = c(&quot;chain&quot;, &quot;iter&quot;)</code></pre>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="lsat-example-jags.html#cb328-1" aria-hidden="true" tabindex="-1"></a>dat1 <span class="ot">&lt;-</span> dat</span>
+<span id="cb328-2"><a href="lsat-example-jags.html#cb328-2" aria-hidden="true" tabindex="-1"></a>dat1<span class="sc">$</span>person <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;theta[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat), <span class="st">&quot;]&quot;</span>)</span>
+<span id="cb328-3"><a href="lsat-example-jags.html#cb328-3" aria-hidden="true" tabindex="-1"></a>datvl <span class="ot">&lt;-</span> dat1 <span class="sc">%&gt;%</span></span>
+<span id="cb328-4"><a href="lsat-example-jags.html#cb328-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb328-5"><a href="lsat-example-jags.html#cb328-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols=</span><span class="fu">contains</span>(<span class="st">&quot;item&quot;</span>),</span>
+<span id="cb328-6"><a href="lsat-example-jags.html#cb328-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;item&quot;</span>,</span>
+<span id="cb328-7"><a href="lsat-example-jags.html#cb328-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;x&quot;</span></span>
+<span id="cb328-8"><a href="lsat-example-jags.html#cb328-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb328-9"><a href="lsat-example-jags.html#cb328-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb328-10"><a href="lsat-example-jags.html#cb328-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">item =</span> <span class="fu">substr</span>(item, <span class="dv">6</span>, <span class="dv">100</span>)</span>
+<span id="cb328-11"><a href="lsat-example-jags.html#cb328-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb328-12"><a href="lsat-example-jags.html#cb328-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb328-13"><a href="lsat-example-jags.html#cb328-13" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> <span class="fu">left_join</span>(dat_long, datvl)</span></code></pre></div>
+<pre><code>## Joining, by = c(&quot;item&quot;, &quot;person&quot;)</code></pre>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="lsat-example-jags.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute expected prob</span></span>
+<span id="cb330-2"><a href="lsat-example-jags.html#cb330-2" aria-hidden="true" tabindex="-1"></a>ilogit <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">exp</span>(x)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(x))}</span>
+<span id="cb330-3"><a href="lsat-example-jags.html#cb330-3" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
+<span id="cb330-4"><a href="lsat-example-jags.html#cb330-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb330-5"><a href="lsat-example-jags.html#cb330-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb330-6"><a href="lsat-example-jags.html#cb330-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x.exp =</span> c <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>c)<span class="sc">*</span><span class="fu">ilogit</span>(a<span class="sc">*</span>(theta <span class="sc">-</span> d)),</span>
+<span id="cb330-7"><a href="lsat-example-jags.html#cb330-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x.dif =</span> x <span class="sc">-</span> x.exp</span>
+<span id="cb330-8"><a href="lsat-example-jags.html#cb330-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb330-9"><a href="lsat-example-jags.html#cb330-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb330-10"><a href="lsat-example-jags.html#cb330-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb330-11"><a href="lsat-example-jags.html#cb330-11" aria-hidden="true" tabindex="-1"></a>dat_long<span class="sc">$</span>x.ppd <span class="ot">&lt;-</span> <span class="fu">apply</span>(</span>
+<span id="cb330-12"><a href="lsat-example-jags.html#cb330-12" aria-hidden="true" tabindex="-1"></a>  dat_long, <span class="dv">1</span>, </span>
+<span id="cb330-13"><a href="lsat-example-jags.html#cb330-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">FUN=</span><span class="cf">function</span>(x){</span>
+<span id="cb330-14"><a href="lsat-example-jags.html#cb330-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbern</span>(<span class="dv">1</span>, <span class="fu">as.numeric</span>(x[<span class="dv">10</span>]))</span>
+<span id="cb330-15"><a href="lsat-example-jags.html#cb330-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb330-16"><a href="lsat-example-jags.html#cb330-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb330-17"><a href="lsat-example-jags.html#cb330-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb330-18"><a href="lsat-example-jags.html#cb330-18" aria-hidden="true" tabindex="-1"></a><span class="co"># figure 11.4</span></span>
+<span id="cb330-19"><a href="lsat-example-jags.html#cb330-19" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
+<span id="cb330-20"><a href="lsat-example-jags.html#cb330-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, person) <span class="sc">%&gt;%</span></span>
+<span id="cb330-21"><a href="lsat-example-jags.html#cb330-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">raw.score =</span> <span class="fu">sum</span>(x),</span>
+<span id="cb330-22"><a href="lsat-example-jags.html#cb330-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">raw.score.ppd =</span> <span class="fu">sum</span>(x.ppd))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;chain&#39;, &#39;iter&#39;. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="lsat-example-jags.html#cb332-1" aria-hidden="true" tabindex="-1"></a>di <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb332-2"><a href="lsat-example-jags.html#cb332-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(chain<span class="sc">==</span><span class="dv">1</span>, iter<span class="sc">==</span><span class="dv">6001</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb332-3"><a href="lsat-example-jags.html#cb332-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(raw.score) <span class="sc">%&gt;%</span></span>
+<span id="cb332-4"><a href="lsat-example-jags.html#cb332-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb332-5"><a href="lsat-example-jags.html#cb332-5" aria-hidden="true" tabindex="-1"></a>dii <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb332-6"><a href="lsat-example-jags.html#cb332-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, raw.score.ppd)<span class="sc">%&gt;%</span></span>
+<span id="cb332-7"><a href="lsat-example-jags.html#cb332-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">raw.score =</span> <span class="fu">n</span>())</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;chain&#39;, &#39;iter&#39;. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="lsat-example-jags.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="co"># overall fit of observed scores</span></span>
+<span id="cb334-2"><a href="lsat-example-jags.html#cb334-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb334-3"><a href="lsat-example-jags.html#cb334-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">data=</span>dii, <span class="fu">aes</span>(<span class="at">y=</span>raw.score, <span class="at">x=</span> raw.score.ppd, <span class="at">group=</span>raw.score.ppd))<span class="sc">+</span></span>
+<span id="cb334-4"><a href="lsat-example-jags.html#cb334-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>di, <span class="fu">aes</span>(<span class="at">x=</span>raw.score, <span class="at">y=</span>count), <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb334-5"><a href="lsat-example-jags.html#cb334-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Raw Score&quot;</span>, <span class="at">y=</span><span class="st">&quot;Number of Examinees&quot;</span>)<span class="sc">+</span></span>
+<span id="cb334-6"><a href="lsat-example-jags.html#cb334-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb334-7"><a href="lsat-example-jags.html#cb334-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-ppd-1.png" width="672" /></p>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="lsat-example-jags.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="co"># by item</span></span>
+<span id="cb335-2"><a href="lsat-example-jags.html#cb335-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> dat_long <span class="sc">%&gt;%</span></span>
+<span id="cb335-3"><a href="lsat-example-jags.html#cb335-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, person) <span class="sc">%&gt;%</span></span>
+<span id="cb335-4"><a href="lsat-example-jags.html#cb335-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">raw.score =</span> <span class="fu">sum</span>(x),</span>
+<span id="cb335-5"><a href="lsat-example-jags.html#cb335-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">raw.score.ppd =</span> <span class="fu">sum</span>(x.ppd))</span>
+<span id="cb335-6"><a href="lsat-example-jags.html#cb335-6" aria-hidden="true" tabindex="-1"></a>di <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb335-7"><a href="lsat-example-jags.html#cb335-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(chain<span class="sc">==</span><span class="dv">1</span>, iter<span class="sc">==</span><span class="dv">6001</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb335-8"><a href="lsat-example-jags.html#cb335-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(raw.score, item) <span class="sc">%&gt;%</span></span>
+<span id="cb335-9"><a href="lsat-example-jags.html#cb335-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">p.correct =</span> <span class="fu">mean</span>(x))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;raw.score&#39;. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="lsat-example-jags.html#cb337-1" aria-hidden="true" tabindex="-1"></a>dii <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span></span>
+<span id="cb337-2"><a href="lsat-example-jags.html#cb337-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chain, iter, raw.score.ppd, item)<span class="sc">%&gt;%</span></span>
+<span id="cb337-3"><a href="lsat-example-jags.html#cb337-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">p.correct =</span> <span class="fu">mean</span>(x.ppd))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;chain&#39;, &#39;iter&#39;, &#39;raw.score.ppd&#39;. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="lsat-example-jags.html#cb339-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb339-2"><a href="lsat-example-jags.html#cb339-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">data=</span>dii,</span>
+<span id="cb339-3"><a href="lsat-example-jags.html#cb339-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">y=</span> p.correct,</span>
+<span id="cb339-4"><a href="lsat-example-jags.html#cb339-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">x=</span> raw.score.ppd,</span>
+<span id="cb339-5"><a href="lsat-example-jags.html#cb339-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">group=</span>raw.score.ppd))<span class="sc">+</span></span>
+<span id="cb339-6"><a href="lsat-example-jags.html#cb339-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>di,</span>
+<span id="cb339-7"><a href="lsat-example-jags.html#cb339-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span>raw.score, <span class="at">y=</span>p.correct),</span>
+<span id="cb339-8"><a href="lsat-example-jags.html#cb339-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb339-9"><a href="lsat-example-jags.html#cb339-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>item)<span class="sc">+</span></span>
+<span id="cb339-10"><a href="lsat-example-jags.html#cb339-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Raw Score&quot;</span>, <span class="at">y=</span><span class="st">&quot;Number of Examinees&quot;</span>)<span class="sc">+</span></span>
+<span id="cb339-11"><a href="lsat-example-jags.html#cb339-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lsat-jags-ppd-2.png" width="672" /></p>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="lsat-example-jags.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="co"># computing standardized model summary statistics</span></span>
+<span id="cb340-2"><a href="lsat-example-jags.html#cb340-2" aria-hidden="true" tabindex="-1"></a><span class="co"># objects for results</span></span>
+<span id="cb340-3"><a href="lsat-example-jags.html#cb340-3" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb340-4"><a href="lsat-example-jags.html#cb340-4" aria-hidden="true" tabindex="-1"></a>n.chain <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb340-5"><a href="lsat-example-jags.html#cb340-5" aria-hidden="true" tabindex="-1"></a>n.iters <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(long_dat<span class="sc">$</span>iter))</span></code></pre></div>
+<pre><code>## Error in unique(long_dat$iter): object &#39;long_dat&#39; not found</code></pre>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="lsat-example-jags.html#cb342-1" aria-hidden="true" tabindex="-1"></a>n.iters.PPMC <span class="ot">&lt;-</span> n.iters<span class="sc">*</span>n.chain</span></code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;n.iters&#39; not found</code></pre>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="lsat-example-jags.html#cb344-1" aria-hidden="true" tabindex="-1"></a>realized.SMBC.array <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC, J, J))</span></code></pre></div>
+<pre><code>## Error in array(NA, c(n.iters.PPMC, J, J)): object &#39;n.iters.PPMC&#39; not found</code></pre>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="lsat-example-jags.html#cb346-1" aria-hidden="true" tabindex="-1"></a>postpred.SMBC.array <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC, J, J))</span></code></pre></div>
+<pre><code>## Error in array(NA, c(n.iters.PPMC, J, J)): object &#39;n.iters.PPMC&#39; not found</code></pre>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="lsat-example-jags.html#cb348-1" aria-hidden="true" tabindex="-1"></a>realized.SGDDM.vector <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC))</span></code></pre></div>
+<pre><code>## Error in array(NA, c(n.iters.PPMC)): object &#39;n.iters.PPMC&#39; not found</code></pre>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="lsat-example-jags.html#cb350-1" aria-hidden="true" tabindex="-1"></a>postpred.SGDDM.vector <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="cn">NA</span>, <span class="fu">c</span>(n.iters.PPMC))</span></code></pre></div>
+<pre><code>## Error in array(NA, c(n.iters.PPMC)): object &#39;n.iters.PPMC&#39; not found</code></pre>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="lsat-example-jags.html#cb352-1" aria-hidden="true" tabindex="-1"></a>ii <span class="ot">&lt;-</span> i <span class="ot">&lt;-</span> c <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb352-2"><a href="lsat-example-jags.html#cb352-2" aria-hidden="true" tabindex="-1"></a><span class="co"># iteration condiitons</span></span>
+<span id="cb352-3"><a href="lsat-example-jags.html#cb352-3" aria-hidden="true" tabindex="-1"></a>iter.cond <span class="ot">&lt;-</span> <span class="fu">unique</span>(dat_long<span class="sc">$</span>iter)</span>
+<span id="cb352-4"><a href="lsat-example-jags.html#cb352-4" aria-hidden="true" tabindex="-1"></a>Xobs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(dat[,<span class="sc">-</span><span class="dv">6</span>])</span>
+<span id="cb352-5"><a href="lsat-example-jags.html#cb352-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb352-6"><a href="lsat-example-jags.html#cb352-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(iter.cond)){</span>
+<span id="cb352-7"><a href="lsat-example-jags.html#cb352-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>){</span>
+<span id="cb352-8"><a href="lsat-example-jags.html#cb352-8" aria-hidden="true" tabindex="-1"></a>  cc <span class="ot">&lt;-</span> iter.cond[i]</span>
+<span id="cb352-9"><a href="lsat-example-jags.html#cb352-9" aria-hidden="true" tabindex="-1"></a>  Xexp <span class="ot">&lt;-</span> dat_long[dat_long<span class="sc">$</span>chain<span class="sc">==</span>c <span class="sc">&amp;</span> dat_long<span class="sc">$</span>iter<span class="sc">==</span>cc , ] <span class="sc">%&gt;%</span></span>
+<span id="cb352-10"><a href="lsat-example-jags.html#cb352-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
+<span id="cb352-11"><a href="lsat-example-jags.html#cb352-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">id_cols =</span> person,</span>
+<span id="cb352-12"><a href="lsat-example-jags.html#cb352-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_from =</span> <span class="st">&quot;item&quot;</span>,</span>
+<span id="cb352-13"><a href="lsat-example-jags.html#cb352-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_from =</span> <span class="st">&quot;x.exp&quot;</span>,</span>
+<span id="cb352-14"><a href="lsat-example-jags.html#cb352-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_prefix =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb352-15"><a href="lsat-example-jags.html#cb352-15" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb352-16"><a href="lsat-example-jags.html#cb352-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb352-17"><a href="lsat-example-jags.html#cb352-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(item1<span class="sc">:</span>item5)<span class="sc">%&gt;%</span></span>
+<span id="cb352-18"><a href="lsat-example-jags.html#cb352-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()</span>
+<span id="cb352-19"><a href="lsat-example-jags.html#cb352-19" aria-hidden="true" tabindex="-1"></a>  Xppd <span class="ot">&lt;-</span> dat_long[dat_long<span class="sc">$</span>chain<span class="sc">==</span>c <span class="sc">&amp;</span> dat_long<span class="sc">$</span>iter<span class="sc">==</span>cc , ] <span class="sc">%&gt;%</span></span>
+<span id="cb352-20"><a href="lsat-example-jags.html#cb352-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
+<span id="cb352-21"><a href="lsat-example-jags.html#cb352-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">id_cols =</span> person,</span>
+<span id="cb352-22"><a href="lsat-example-jags.html#cb352-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_from =</span> <span class="st">&quot;item&quot;</span>,</span>
+<span id="cb352-23"><a href="lsat-example-jags.html#cb352-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_from =</span> <span class="st">&quot;x.ppd&quot;</span>,</span>
+<span id="cb352-24"><a href="lsat-example-jags.html#cb352-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_prefix =</span> <span class="st">&quot;item&quot;</span></span>
+<span id="cb352-25"><a href="lsat-example-jags.html#cb352-25" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb352-26"><a href="lsat-example-jags.html#cb352-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb352-27"><a href="lsat-example-jags.html#cb352-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(item1<span class="sc">:</span>item5)<span class="sc">%&gt;%</span></span>
+<span id="cb352-28"><a href="lsat-example-jags.html#cb352-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()</span>
+<span id="cb352-29"><a href="lsat-example-jags.html#cb352-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb352-30"><a href="lsat-example-jags.html#cb352-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute realized values</span></span>
+<span id="cb352-31"><a href="lsat-example-jags.html#cb352-31" aria-hidden="true" tabindex="-1"></a>  realized.SMBC.array[ii, ,] <span class="ot">&lt;-</span> <span class="fu">calculate.SMBC.matrix</span>(Xobs, Xexp)</span>
+<span id="cb352-32"><a href="lsat-example-jags.html#cb352-32" aria-hidden="true" tabindex="-1"></a>  realized.SGDDM.vector[ii] <span class="ot">&lt;-</span>  <span class="fu">calculate.SGDDM</span>(Xobs, Xexp)</span>
+<span id="cb352-33"><a href="lsat-example-jags.html#cb352-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute PPD values</span></span>
+<span id="cb352-34"><a href="lsat-example-jags.html#cb352-34" aria-hidden="true" tabindex="-1"></a>  postpred.SMBC.array[ii, ,] <span class="ot">&lt;-</span> <span class="fu">calculate.SMBC.matrix</span>(Xppd, Xexp)</span>
+<span id="cb352-35"><a href="lsat-example-jags.html#cb352-35" aria-hidden="true" tabindex="-1"></a>  postpred.SGDDM.vector[ii] <span class="ot">&lt;-</span>  <span class="fu">calculate.SGDDM</span>(Xppd, Xexp)</span>
+<span id="cb352-36"><a href="lsat-example-jags.html#cb352-36" aria-hidden="true" tabindex="-1"></a>    ii <span class="ot">&lt;-</span> ii <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb352-37"><a href="lsat-example-jags.html#cb352-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb352-38"><a href="lsat-example-jags.html#cb352-38" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;realized.SMBC.array&#39; not found</code></pre>
+<p>Next, generate plots to help summarize and describe the posterior predictor distributions of these statistics.</p>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="lsat-example-jags.html#cb354-1" aria-hidden="true" tabindex="-1"></a>plot.dat.ppd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb354-2"><a href="lsat-example-jags.html#cb354-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">real =</span> realized.SGDDM.vector,</span>
+<span id="cb354-3"><a href="lsat-example-jags.html#cb354-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ppd =</span> postpred.SGDDM.vector</span>
+<span id="cb354-4"><a href="lsat-example-jags.html#cb354-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb354-5"><a href="lsat-example-jags.html#cb354-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb354-6"><a href="lsat-example-jags.html#cb354-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb354-7"><a href="lsat-example-jags.html#cb354-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot.dat.ppd, <span class="fu">aes</span>(<span class="at">x=</span>real, <span class="at">y=</span>ppd))<span class="sc">+</span></span>
+<span id="cb354-8"><a href="lsat-example-jags.html#cb354-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb354-9"><a href="lsat-example-jags.html#cb354-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb354-10"><a href="lsat-example-jags.html#cb354-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.5</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-ppd-lsat-plots-1.png" width="672" /></p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="lsat-example-jags.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transform smbc into plotable format</span></span>
+<span id="cb355-2"><a href="lsat-example-jags.html#cb355-2" aria-hidden="true" tabindex="-1"></a>ddim <span class="ot">&lt;-</span> <span class="fu">dim</span>(postpred.SMBC.array)</span>
+<span id="cb355-3"><a href="lsat-example-jags.html#cb355-3" aria-hidden="true" tabindex="-1"></a>plot.dat.ppd <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow=</span>ddim[<span class="dv">1</span>]<span class="sc">*</span>ddim[<span class="dv">2</span>]<span class="sc">*</span>ddim[<span class="dv">3</span>], <span class="at">ncol=</span><span class="dv">4</span>))</span>
+<span id="cb355-4"><a href="lsat-example-jags.html#cb355-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.dat.ppd) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;itemj&quot;</span>, <span class="st">&quot;itemjj&quot;</span>, <span class="st">&quot;real&quot;</span>, <span class="st">&quot;ppd&quot;</span>)</span>
+<span id="cb355-5"><a href="lsat-example-jags.html#cb355-5" aria-hidden="true" tabindex="-1"></a>ii <span class="ot">&lt;-</span> i <span class="ot">&lt;-</span> j <span class="ot">&lt;-</span> jj <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb355-6"><a href="lsat-example-jags.html#cb355-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb355-7"><a href="lsat-example-jags.html#cb355-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ddim[<span class="dv">1</span>]){</span>
+<span id="cb355-8"><a href="lsat-example-jags.html#cb355-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ddim[<span class="dv">2</span>]){</span>
+<span id="cb355-9"><a href="lsat-example-jags.html#cb355-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>ddim[<span class="dv">3</span>]){</span>
+<span id="cb355-10"><a href="lsat-example-jags.html#cb355-10" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">1</span>] <span class="ot">&lt;-</span> j</span>
+<span id="cb355-11"><a href="lsat-example-jags.html#cb355-11" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">2</span>] <span class="ot">&lt;-</span> jj</span>
+<span id="cb355-12"><a href="lsat-example-jags.html#cb355-12" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">3</span>] <span class="ot">&lt;-</span> realized.SMBC.array[i, j, jj]</span>
+<span id="cb355-13"><a href="lsat-example-jags.html#cb355-13" aria-hidden="true" tabindex="-1"></a>      plot.dat.ppd[ii, <span class="dv">4</span>] <span class="ot">&lt;-</span> postpred.SMBC.array[i, j, jj]</span>
+<span id="cb355-14"><a href="lsat-example-jags.html#cb355-14" aria-hidden="true" tabindex="-1"></a>      ii <span class="ot">&lt;-</span> ii <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb355-15"><a href="lsat-example-jags.html#cb355-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb355-16"><a href="lsat-example-jags.html#cb355-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb355-17"><a href="lsat-example-jags.html#cb355-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb355-18"><a href="lsat-example-jags.html#cb355-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb355-19"><a href="lsat-example-jags.html#cb355-19" aria-hidden="true" tabindex="-1"></a>plot.dat.ppd <span class="ot">&lt;-</span> plot.dat.ppd <span class="sc">%&gt;%</span></span>
+<span id="cb355-20"><a href="lsat-example-jags.html#cb355-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(itemj <span class="sc">&lt;</span> itemjj) <span class="sc">%&gt;%</span></span>
+<span id="cb355-21"><a href="lsat-example-jags.html#cb355-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb355-22"><a href="lsat-example-jags.html#cb355-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">cov =</span> <span class="fu">paste0</span>(<span class="st">&quot;cov(&quot;</span>, itemj, <span class="st">&quot;, &quot;</span>, itemjj,<span class="st">&quot;)&quot;</span>)</span>
+<span id="cb355-23"><a href="lsat-example-jags.html#cb355-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb355-24"><a href="lsat-example-jags.html#cb355-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb355-25"><a href="lsat-example-jags.html#cb355-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot.dat.ppd, <span class="fu">aes</span>(<span class="at">x=</span>real, <span class="at">y=</span>ppd))<span class="sc">+</span></span>
+<span id="cb355-26"><a href="lsat-example-jags.html#cb355-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.25</span>)<span class="sc">+</span></span>
+<span id="cb355-27"><a href="lsat-example-jags.html#cb355-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density2d</span>(<span class="at">adjust=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb355-28"><a href="lsat-example-jags.html#cb355-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb355-29"><a href="lsat-example-jags.html#cb355-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>cov)<span class="sc">+</span></span>
+<span id="cb355-30"><a href="lsat-example-jags.html#cb355-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="at">y=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb355-31"><a href="lsat-example-jags.html#cb355-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-ppd-lsat-plots-2.png" width="672" /></p>
+<!-- ## LSAT Example - OpenBUGS -->
+<!-- ```{r chp11-lsat-openbugs, warnings=T, message=T, error=T, cache=TRUE} -->
+<!-- # model code -->
+<!-- model.file <- paste0(w.d,"/code/IRT-for-Dichotomous-Observables/WinBUGS/3PNO.bug") -->
+<!-- cat(model.file) -->
+<!-- # get data file -->
+<!-- data.file <- paste0(w.d,"/code/IRT-for-Dichotomous-Observables/WinBUGS/data.txt") -->
+<!-- # initial values -->
+<!-- start_values <- list( -->
+<!--   list("d"=c(1.00, 1.00, 1.00, 1.00, 1.00), -->
+<!--        "a"=c(1.00, 1.00, 1.00, 1.00, 1.00), -->
+<!--        "c"=c(0.20, 0.20, 0.20, 0.20, 0.20)), -->
+<!--   list("d"=c(-3.00, -3.00, -3.00, -3.00, -3.00), -->
+<!--        "a"=c(3.00, 3.00, 3.00, 3.00, 3.00), -->
+<!--        "c"=c(0.50, 0.50, 0.50, 0.50, 0.50)), -->
+<!--   list("d"=c(3.00, 3.00, 3.00, 3.00, 3.00), -->
+<!--        "a"=c(0.1, 0.1, 0.1, 0.1, 0.1), -->
+<!--        "c"=c(0.05, 0.05, 0.05, 0.05, 0.05)) -->
+<!-- ) -->
+<!-- # vector of all parameters to save -->
+<!-- param_save <- c("a", "c", "d", "theta") -->
+<!-- # fit model -->
+<!-- fit <- openbugs( -->
+<!--   data= data.file,  -->
+<!--   model.file = model.file, # R grabs the file and runs it in openBUGS -->
+<!--   parameters.to.save = param_save, -->
+<!--   #inits=start_values, -->
+<!--   n.chains = 1, -->
+<!--   n.iter = 2000, -->
+<!--   n.burnin = 1000 -->
+<!-- ) -->
+<!-- print(fit) -->
+<!-- ``` -->
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="pl-lsat-example.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lsat-example-stan.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/11-irt.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-BPM.pdf", "bookdown-BPM.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

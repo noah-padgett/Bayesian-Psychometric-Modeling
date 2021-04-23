@@ -115,7 +115,7 @@ knitr::include_graphics(paste0(w.d,'/model-spec/chp11-irt1.png'),
                         auto_pdf = TRUE)
 ```
 
-### LSAT Example Using JAGS
+## LSAT Example - JAGS
 
 ```{r chp11-lsat-jags, warnings=T, message=T, error=T, cache=TRUE}
 
@@ -183,7 +183,11 @@ fit <- jags(
   data=mydata,
   inits=start_values,
   parameters.to.save = param_save,
+<<<<<<< Updated upstream
   n.iter=20000,
+=======
+  n.iter=26000,
+>>>>>>> Stashed changes
   n.burnin = 6000,
   n.chains = 3,
   progress.bar = "none")
@@ -205,30 +209,24 @@ plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
 colnames(plot.data) <- c("chain", "iter", a)
 
 
-plot_title <- ggtitle("Posterior distributions",
-                      "with medians and 80% intervals")
-mcmc_areas(
-  plot.data,
-  pars = c(paste0("d[",1:5,"]")),
-  prob = 0.8) +
-  plot_title
+bayesplot::mcmc_acf(plot.data,pars = c(paste0("d[", 1:5, "]")))
+bayesplot::mcmc_trace(plot.data,pars = c(paste0("d[", 1:5, "]")))
+ggmcmc::ggs_grb(ggs(jags.mcmc), family="d")
+mcmc_areas(plot.data, pars = c(paste0("d[",1:5,"]")), prob = 0.8)
 
-mcmc_areas(
-  plot.data,
-  pars = c(paste0("a[", 1:5, "]")),
-  prob = 0.8) +
-  plot_title
+bayesplot::mcmc_acf(plot.data,pars = c(paste0("a[", 1:5, "]")))
+bayesplot::mcmc_trace(plot.data,pars = c(paste0("a[", 1:5, "]")))
+ggmcmc::ggs_grb(ggs(jags.mcmc), family="a")
+mcmc_areas( plot.data,pars = c(paste0("a[", 1:5, "]")), prob = 0.8)
 
-mcmc_areas(
-  plot.data,
-  pars = c(paste0("c[", 1:5, "]")),
-  prob = 0.8) +
-  plot_title
-
+bayesplot::mcmc_acf(plot.data,pars = c(paste0("c[", 1:5, "]")))
+bayesplot::mcmc_trace(plot.data,pars = c(paste0("c[", 1:5, "]")))
+ggmcmc::ggs_grb(ggs(jags.mcmc), family="c")
+mcmc_areas(plot.data, pars = c(paste0("c[", 1:5, "]")), prob = 0.8)
 
 ```
 
-#### Posterior Predicted Distributions
+### Posterior Predicted Distributions
 
 Here, we want to compare the observed and expected posterior predicted distributions.
 
@@ -358,7 +356,12 @@ d <- dat_long %>%
   summarise(raw.score = sum(x),
             raw.score.ppd = sum(x.ppd))
 
+<<<<<<< Updated upstream
 di <- d[ d$chain ==1 & d$iter == itermin, ] %>%
+=======
+di <- d %>%
+  filter(chain==1, iter==6001) %>%
+>>>>>>> Stashed changes
   group_by(raw.score) %>%
   summarise(count = n())
 dii <- d %>%
@@ -377,7 +380,12 @@ d <- dat_long %>%
   group_by(chain, iter, person) %>%
   mutate(raw.score = sum(x),
          raw.score.ppd = sum(x.ppd))
+<<<<<<< Updated upstream
 di <- d[ d$chain ==1 & d$iter == itermin, ] %>%
+=======
+di <- d %>%
+  filter(chain==1, iter==6001) %>%
+>>>>>>> Stashed changes
   group_by(raw.score, item) %>%
   summarise(p.correct = mean(x))
 dii <- d %>%
@@ -404,7 +412,11 @@ ggplot()+
 # objects for results
 J <- 5
 n.chain <- 3
+<<<<<<< Updated upstream
 n.iters <- length(unique(dat_long$iter))
+=======
+n.iters <- length(unique(long_dat$iter))
+>>>>>>> Stashed changes
 n.iters.PPMC <- n.iters*n.chain
 
 realized.SMBC.array <- array(NA, c(n.iters.PPMC, J, J))
@@ -507,6 +519,48 @@ ggplot(plot.dat.ppd, aes(x=real, y=ppd))+
 
 ```
 
+<!-- ## LSAT Example - OpenBUGS -->
+
+<!-- ```{r chp11-lsat-openbugs, warnings=T, message=T, error=T, cache=TRUE} -->
+<!-- # model code -->
+<!-- model.file <- paste0(w.d,"/code/IRT-for-Dichotomous-Observables/WinBUGS/3PNO.bug") -->
+<!-- cat(model.file) -->
+<!-- # get data file -->
+<!-- data.file <- paste0(w.d,"/code/IRT-for-Dichotomous-Observables/WinBUGS/data.txt") -->
+
+<!-- # initial values -->
+<!-- start_values <- list( -->
+<!--   list("d"=c(1.00, 1.00, 1.00, 1.00, 1.00), -->
+<!--        "a"=c(1.00, 1.00, 1.00, 1.00, 1.00), -->
+<!--        "c"=c(0.20, 0.20, 0.20, 0.20, 0.20)), -->
+<!--   list("d"=c(-3.00, -3.00, -3.00, -3.00, -3.00), -->
+<!--        "a"=c(3.00, 3.00, 3.00, 3.00, 3.00), -->
+<!--        "c"=c(0.50, 0.50, 0.50, 0.50, 0.50)), -->
+<!--   list("d"=c(3.00, 3.00, 3.00, 3.00, 3.00), -->
+<!--        "a"=c(0.1, 0.1, 0.1, 0.1, 0.1), -->
+<!--        "c"=c(0.05, 0.05, 0.05, 0.05, 0.05)) -->
+<!-- ) -->
+
+<!-- # vector of all parameters to save -->
+<!-- param_save <- c("a", "c", "d", "theta") -->
+
+
+<!-- # fit model -->
+<!-- fit <- openbugs( -->
+<!--   data= data.file,  -->
+<!--   model.file = model.file, # R grabs the file and runs it in openBUGS -->
+<!--   parameters.to.save = param_save, -->
+<!--   #inits=start_values, -->
+<!--   n.chains = 1, -->
+<!--   n.iter = 2000, -->
+<!--   n.burnin = 1000 -->
+<!-- ) -->
+<!-- print(fit) -->
+<!-- ``` -->
+
+## LSAT Example - Stan
+
+TO-DO
 
 ## IRT Models for Polytomous Data
 
@@ -590,16 +644,385 @@ knitr::include_graphics(paste0(w.d,'/model-spec/chp11-grm.png'),
                         auto_pdf = TRUE)
 ```
 
-### Peer Interactions Example using JAGS
+### Example Specific Model Specification
+
+In fitting the GRM to the Peer Interactions data, we can be more precise about the prior and likelihood structure. 
+Below is a breakdown of the model specific to this example.
+Everything is structurally identical to the previous page but specific values are chosen for the hyperparameters.
+
+\[p(\boldsymbol{\theta}, \boldsymbol{d}, \boldsymbol{a}\mid \mathbf{x}) \propto \prod_{i=1}^n\prod_{j=1}^Jp(\theta_i\mid\theta_i, \boldsymbol{d}_j, a_j)p(\theta_i)p(a_j)\prod_{k=2}^{K_j}p(d_{jk}),\]
+where
+\begin{align*}
+x_{ij}\mid\theta_i\mid\theta_i, \boldsymbol{d}_j, a_j) &\sim \mathrm{Categorical}(\boldsymbol{P}(x_{ij}\mid\theta_i, \boldsymbol{\omega}_j)),\ \mathrm{for}\ i=1, \cdots, 500,\ j = 1, \cdots, 7;\\
+\mathbf{P}(x_{ij}\mid\theta_i, \boldsymbol{d}_j, a_j) &= \left(P(x_{ij}=1\mid\theta_i, \boldsymbol{d}_j, a_j), \cdots, P(x_{ij}=5\mid\theta_i, \boldsymbol{d}_j, a_j)\right),\ \mathrm{for}\ i=1, \cdots, 500,\ j = 1, \cdots, 7;\\
+P(x_{ij}=k\mid\theta_i, \boldsymbol{d}_j, a_j) &= P(x_{ij}\geq k\mid\theta_i,d_{jk}, a_j) - P(x_{ij}\geq k+1\mid\theta_i, d_{j(k+1)}, a_j),\ \mathrm{for}\ i=1, \cdots, 500,\ j = 1, \cdots, 7,\ k = 1,\cdots,4;\\
+P(x_{ij}=5\mid\theta_i, \boldsymbol{d}_j, a_j) &= P(x_{ij}\geq 5\mid\theta_i,d_{j5}, a_j),\ \mathrm{for}\ i=1, \cdots, 500,\ j = 1, \cdots, 7;\\
+P(x_{ij}\geq k\mid\theta_i, d_{jk}, a_j) &= F(a_j\theta_j + d_{jk}) = \frac{\exp\left(a_j\theta_i +d_{jk}\right)}{1+\exp\left(a_j\theta_i +d_{jk}\right)},\ \mathrm{for}\ i=1, \cdots, 500,\ j = 1, \cdots, 7,\ k=2,\cdots,5;\\
+P(x_{ij}\geq 1\mid\theta_i, d_{j1}, a_j) &= 1,\ \mathrm{for}\ i=1, \cdots, 500,\ j = 1, \cdots, 7;\\
+\theta_i \mid \mu_{\theta}, \sigma^2_{\theta} &\sim \mathrm{Normal}(0, 1),\ \mathrm{for}\ i = 1, \cdots, 500;\\
+a_j \mid \mu_{a}, \sigma^2_{a} &\sim \mathrm{Normal}^{+}(0,2),\ \mathrm{for}\ j=1, \cdots, 7;\\
+d_{j2}\mid\mu_{d_{j2}}, \sigma^2_{d_{j2}} &\sim \mathrm{Normal}(2,2),\ \mathrm{for}\ j=1, \cdots, 7;\\
+d_{j3}\mid\mu_{d_{j3}},\sigma^2_{d_{j3}} &\sim \mathrm{Normal}^{>d_{j2}}(1, 2),\ \mathrm{for}\ j=1, \cdots, 7;\\
+d_{j4}\mid\mu_{d_{j4}},\sigma^2_{d_{j4}} &\sim \mathrm{Normal}^{>d_{j3}}(-1, 2),\ \mathrm{for}\ j=1, \cdots, 7; \mathrm{and}\\
+d_{j5}\mid\mu_{d_{j5}},\sigma^2_{d_{j5}} &\sim \mathrm{Normal}^{>d_{j4}}(-2, 2),\ \mathrm{for}\ j=1, \cdots, 7.
+\end{align*}
 
 
+## PI Example - JAGS
+
+In the below implementation, I had to change ` d[j,3] ~ dnorm(1, .5)I(d[j,4],d[j,2])` to ` d[j,3] ~ dnorm(1, .5);I(,d[j,2])` because (1) R is dumb and doesn't realize that ` I` is a JAGS function; and (2) JAGS does not allow for a ` directed cycle`.
+The directed cycle in the DAG is when the range of values for ` d[j,3]` is fixed to be within ` I(d[j,4],d[j,2])` and is not permissible. We need to simply constrain the thresholds to be decreasing or smaller than the previous threshold.
+I'm not sure of the underlying technical reason for this error, but I found that adding the semi-colon fixes the issue when defining the model as an R function.
+
+```{r chp11-peer-int-jags, warnings=T, message=T, error=T, cache=TRUE}
+
+jags.model.peer.int <- function(){
+
+  #######################################
+  # Specify the item response measurement model for the observables
+  #######################################
+  for (i in 1:n){
+    for(j in 1:J){
+  
+      ###################################
+      # Specify the probabilities of a value being greater than or equal to each category
+      ###################################
+      for(k in 2:(K[j])){
+        # P(greater than or equal to category k > 1)
+        logit(P.gte[i,j,k]) <- a[j]*theta[i]+d[j,k]
+      }
+      # P(greater than or equal to category 1)
+      P.gte[i,j,1] <- 1
+  
+  
+      ###################################
+      # Specify the probabilities of a value being equal to each category
+      ###################################
+      for(k in 1:(K[j]-1)){
+        # P(greater equal to category k < K)
+        P[i,j,k] <- P.gte[i,j,k]-P.gte[i,j,k+1]
+      }
+      # P(greater equal to category K)
+      P[i,j,K[j]] <- P.gte[i,j,K[j]]
+      
+      ###################################
+      # Specify the distribution for each observable
+      ###################################
+      x[i,j] ~ dcat(P[i,j,1:K[j]])
+    }
+  }
+  
+  
+  #######################################
+  # Specify the (prior) distribution for the latent variables
+  #######################################
+  for (i in 1:n){
+    theta[i] ~ dnorm(0, 1)  # distribution for the latent variables
+  }
+  
+  
+  #######################################
+  # Specify the prior distribution for the measurement model parameters
+  #######################################
+  for(j in 1:J){
+    
+    d[j,2] ~ dnorm(2, .5)                   # Locations for k = 2
+    d[j,3] ~ dnorm(1, .5);I(,d[j,2])   # Locations for k = 3
+    d[j,4] ~ dnorm(-1, .5);I(,d[j,3])  # Locations for k = 4
+    d[j,5] ~ dnorm(-2, .5);I(,d[j,4])        # Locations for k = 5
+    a[j] ~ dnorm(1, .5); I(0,)    # Discriminations for observables
+  
+  }
+
+} # closes the model
+
+# initial values
+start_values <- list(
+  list(
+    d= matrix(c(NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00,
+               NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00,
+               NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00,
+               NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00,
+               NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00,
+               NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00,
+               NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00),
+      ncol=5, nrow=7, byrow=T),
+    a=c(1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01)),
+  list(
+    d= matrix(c(NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00,
+               NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00,
+               NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00,
+               NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00,
+               NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00,
+               NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00,
+               NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00),
+      ncol=5, nrow=7, byrow=T),
+    a=c(3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00)),
+  list(
+    d= matrix(c(NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00,
+               NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00,
+               NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00,
+               NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00,
+               NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00,
+               NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00,
+               NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00),
+              ncol=5, nrow=7, byrow=T),
+    a=c(1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00))
+)
+
+# vector of all parameters to save
+param_save <- c("a", "d", "theta")
+
+# dataset
+dat <- read.table("data/PI.dat", header=T)
+
+mydata <- list(
+  n = nrow(dat), J = ncol(dat),
+  K = rep(5, ncol(dat)),
+  x = as.matrix(dat)
+)
+
+# fit model
+fit <- jags(
+  model.file=jags.model.peer.int,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=2000,
+  n.burnin = 1000,
+  n.chains = 3)
+
+print(fit)
+round(fit$BUGSoutput$summary[ !rownames(fit$BUGSoutput$summary) %like% "theta", ], 3)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions","with medians and 80% intervals")
+bayesplot::mcmc_areas(plot.data, regex_pars = "d", prob = 0.8) +  plot_title + lims(x=c(-10, 10))
+
+bayesplot::mcmc_areas(
+  plot.data,
+  pars = c(paste0("a[", 1:7, "]")),
+  prob = 0.8) +
+  plot_title
+
+bayesplot::mcmc_acf(plot.data,pars = c(paste0("a[", 1:7, "]")))
+
+bayesplot::mcmc_trace(plot.data,pars = c(paste0("a[", 1:7, "]")))
+
+ggmcmc::ggs_grb(ggs(jags.mcmc), family="d")
+ggmcmc::ggs_grb(ggs(jags.mcmc), family="a")
+
+ggmcmc::ggs_autocorrelation(ggs(jags.mcmc), family="d")
+```
+
+<!-- ## PI Example - OpenBUGS -->
+
+<!-- I ran into issues using the BUGs code provided in text using JAGS so I figured I would replicate the model using OpenBUGS directly to test whether the model can be run as is without any modifications. -->
+
+<!-- ```{r chp11-peer-int-openbugs, warnings=T, message=T, error=T, cache=TRUE} -->
+<!-- # model code -->
+<!-- model.file <- paste0(w.d,"/code/IRT-for-Polytomous-Observables/IRT for Polytomous Observables/WinBUGS/L-GRM (Normal with Bounds, Truncated-Normal).bug") -->
+<!-- cat(model.file) -->
+<!-- # get data file -->
+<!-- data.file <- paste0(w.d,"/code/IRT-for-Polytomous-Observables/IRT for Polytomous Observables/WinBUGS/data.txt") -->
+
+<!-- # initial values -->
+<!-- start_values <- list( -->
+<!--   list( -->
+<!--     d= matrix(c(NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00, -->
+<!--                NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00, -->
+<!--                NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00, -->
+<!--                NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00, -->
+<!--                NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00, -->
+<!--                NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00, -->
+<!--                NA, 3.00E+00, 1.00E+00, 0.00E+00, -1.00E+00), -->
+<!--       ncol=5, nrow=7, byrow=T), -->
+<!--     a=c(1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01)), -->
+<!--   list( -->
+<!--     d= matrix(c(NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00, -->
+<!--                NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00, -->
+<!--                NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00, -->
+<!--                NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00, -->
+<!--                NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00, -->
+<!--                NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00, -->
+<!--                NA, 2.00E+00, 0.00E+00, -1.00E+00, -2.00E+00), -->
+<!--       ncol=5, nrow=7, byrow=T), -->
+<!--     a=c(3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00)), -->
+<!--   list( -->
+<!--     d= matrix(c(NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00, -->
+<!--                NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00, -->
+<!--                NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00, -->
+<!--                NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00, -->
+<!--                NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00, -->
+<!--                NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00, -->
+<!--                NA, 1.00E+00, -1.00E+00, -2.00E+00, -3.00E+00), -->
+<!--               ncol=5, nrow=7, byrow=T), -->
+<!--     a=c(1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00)) -->
+<!-- ) -->
+
+
+<!-- # vector of all parameters to save -->
+<!-- param_save <- c("a", "d", "theta") -->
+
+<!-- # fit model -->
+<!-- fit <- openbugs( -->
+<!--   data= data.file,  -->
+<!--   model.file = model.file, # R grabs the file and runs it in openBUGS -->
+<!--   parameters.to.save = param_save, -->
+<!--   inits=start_values, -->
+<!--   n.chains = 3, -->
+<!--   n.iter = 2000, -->
+<!--   n.burnin = 1000, -->
+<!--   n.thin = 1 -->
+<!-- ) -->
+<!-- print(fit) -->
+<!-- ``` -->
+
+## PI Example - Stan
+
+TO-DO
+
+```{r chp11-peer-int-stan, warnings=T, message=T, error=T, cache=TRUE}
+
+
+```
+
+## Latent Response Formulation
+
+Connecting IRT models to a factor analytic perspective can be helpful from a modeling standpoint.
+Especially when one's model is multidimensional leading into structural equation models.
+A useful connection can be made by introducing extra variable(s) into the model to represent the *latent response variable* underlying the *observed categorical response variable*.
+We can think of this latent response variables as 
+
+* a latent continuous variable hypothesized to underlie the observed categorical variable that discretized due to data collection or difficulty in measurement; or
+
+* when this natural interpretation is not appropriate, we can think of the latent response variable as a propensity measure for the given response. Although this is not a perfect interpretation, the use of a latent response formulation eases some of the computational machinery and allows for a nice connection between IRT and CFA models.
+
+Next, the latent response formulation is shown for a set of dichotomous outcomes.
+This model is conceptually a 2-PL/2-PNO (2 parameter normal ogive) model and is essentially a probit model.
+The model can be defined as
+
+\[x^{\ast}_{ij} = a_j\theta_i+d_j+\varepsilon_{ij},\]
+
+where, for each $j$, $\varepsilon_{ij} \sim \mathrm{Normal}(0, \sigma^2_{\varepsilon_j})$. And can jointly be expressed as
+
+\[x^{\ast}_{ij} \sim \mathrm{Normal}(a_j\theta_i+d_j, \sigma^2_{\varepsilon_j}).\]
+
+The probability of an observed response is then modeled as probability of the latent response variable for person $i$ on item $j$ being greater than or equal to some threshold $\gamma_j$.
+
+### LSAT Example Revisted
+
+```{r chp11-lrv-lsat-jags, warnings=T, message=T, error=T, cache=TRUE}
+
+jags.model.lsat <- function(){
+
+for (i in 1:n){
+  for(j in 1:J){
+    # latent response variable
+    xstar[i,j] ~ dnorm(a[j]*theta[i]+d[j], 1)
+    P[i,j] <- c[j]+(1-c[j])*phi(xstar[i,j]) # 3P-NO expression
+    x[i,j] ~ dbern(P[i,j])                  # distribution for each observable
+  }
+}
+
+for (i in 1:n){
+  theta[i] ~ dnorm(0, 1)  # distribution for the latent variables
+}
+
+for(j in 1:J){
+  d[j] ~ dnorm(0, .5)          # Locations for observables
+  a[j] ~ dnorm(1, .5); I(0,)    # Discriminations for observables
+  c[j] ~ dbeta(5,17)           # Lower asymptotes for observables
+  
+}
+
+
+} # closes the model
+
+# initial values
+start_values <- list(
+  list("d"=c(1.00, 1.00, 1.00, 1.00, 1.00),
+       "a"=c(1.00, 1.00, 1.00, 1.00, 1.00),
+       "c"=c(0.20, 0.20, 0.20, 0.20, 0.20)),
+  list("d"=c(-3.00, -3.00, -3.00, -3.00, -3.00),
+       "a"=c(3.00, 3.00, 3.00, 3.00, 3.00),
+       "c"=c(0.50, 0.50, 0.50, 0.50, 0.50)),
+  list("d"=c(3.00, 3.00, 3.00, 3.00, 3.00),
+       "a"=c(0.1, 0.1, 0.1, 0.1, 0.1),
+       "c"=c(0.05, 0.05, 0.05, 0.05, 0.05))
+)
+
+# vector of all parameters to save
+param_save <- c("a", "d", "c", "theta")
+
+# dataset
+dat <- read.table("data/LSAT.dat", header=T)
+
+mydata <- list(
+  n = nrow(dat),
+  J = ncol(dat),
+  x = as.matrix(dat)
+)
+
+# fit model
+fit <- jags(
+  model.file=jags.model.lsat,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=26000,
+  n.burnin = 6000,
+  n.chains = 3,
+  progress.bar = "none")
+
+print(fit)
+round(fit$BUGSoutput$summary[ !rownames(fit$BUGSoutput$summary) %like% "theta", ], 3)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+# the below two plots are too big to be useful given the 1000 observations.
+#R2jags::traceplot(jags.mcmc)
+
+# gelman-rubin-brook
+#gelman.plot(jags.mcmc)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("d[",1:5,"]")),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("a[", 1:5, "]")),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("c[", 1:5, "]")),
+  prob = 0.8) +
+  plot_title
+
+
+```
 
 ## Final Notes
 
 * A fully Bayesian approach to psychometric modeling helps highlight the major similarities between factor analytic frameworks and the item response theory perspective.
-
-```{r}
-
-rm(list=ls())
-
-```

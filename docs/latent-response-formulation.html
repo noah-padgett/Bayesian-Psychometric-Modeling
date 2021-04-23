@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>11.9 Latent Response Formulation | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
+  <meta name="description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="11.9 Latent Response Formulation | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
+  <meta name="github-repo" content="noah-padgett/Bayesian-Psychometric-Modeling" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="11.9 Latent Response Formulation | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  
+  <meta name="twitter:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
+  
+
+<meta name="author" content="R. Noah Padgett" />
+
+
+<meta name="date" content="2021-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="pi-example-stan.html"/>
+<link rel="next" href="final-notes.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Bayesian Psychometric Modeling</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Foundations</b></span></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started/Overview Chapter</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i><b>1.1</b> Software</a></li>
+<li class="chapter" data-level="1.2" data-path="overview-of-assessment-and-psychometric-modeling.html"><a href="overview-of-assessment-and-psychometric-modeling.html"><i class="fa fa-check"></i><b>1.2</b> Overview of Assessment and Psychometric Modeling</a></li>
+<li class="chapter" data-level="1.3" data-path="looking-forward.html"><a href="looking-forward.html"><i class="fa fa-check"></i><b>1.3</b> Looking Forward</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="chp2.html"><a href="chp2.html"><i class="fa fa-check"></i><b>2</b> Introduction to Bayesian Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html"><i class="fa fa-check"></i><b>2.1</b> Beta-binomial Example</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-stan"><i class="fa fa-check"></i><b>2.1.1</b> Computation using Stan</a></li>
+<li class="chapter" data-level="2.1.2" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-winbugs-openbugs"><i class="fa fa-check"></i><b>2.1.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
+<li class="chapter" data-level="2.1.3" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-jags-r2jags"><i class="fa fa-check"></i><b>2.1.3</b> Computation using JAGS (R2jags)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html"><i class="fa fa-check"></i><b>2.2</b> Beta-Bernoulli Example</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-stan-1"><i class="fa fa-check"></i><b>2.2.1</b> Computation using Stan</a></li>
+<li class="chapter" data-level="2.2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-winbugs-openbugs-1"><i class="fa fa-check"></i><b>2.2.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
+<li class="chapter" data-level="2.2.3" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-jags-r2jags-1"><i class="fa fa-check"></i><b>2.2.3</b> Computation using JAGS (R2jags)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="conceptual-issues-in-bayesian-inference.html"><a href="conceptual-issues-in-bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Conceptual Issues in Bayesian Inference</a></li>
+<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="stan-model-for-mean-and-variance-unknown.html"><a href="stan-model-for-mean-and-variance-unknown.html"><i class="fa fa-check"></i><b>4.1</b> Stan Model for mean and variance unknown</a></li>
+<li class="chapter" data-level="4.2" data-path="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><a href="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><i class="fa fa-check"></i><b>4.2</b> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="markov-chain-monte-carlo-estimation.html"><a href="markov-chain-monte-carlo-estimation.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo Estimation</a></li>
+<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="stan-model-for-regression-model.html"><a href="stan-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.1</b> Stan Model for Regression Model</a></li>
+<li class="chapter" data-level="6.2" data-path="jags-model-for-regression-model.html"><a href="jags-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.2</b> JAGS Model for Regression Model</a></li>
+</ul></li>
+<li class="part"><span><b>II Psychometrics</b></span></li>
+<li class="chapter" data-level="7" data-path="canonical-bayesian-psychometric-modeling.html"><a href="canonical-bayesian-psychometric-modeling.html"><i class="fa fa-check"></i><b>7</b> Canonical Bayesian Psychometric Modeling</a></li>
+<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="example-1-known-measurement-model-parameters-with-1-measure.html"><a href="example-1-known-measurement-model-parameters-with-1-measure.html"><i class="fa fa-check"></i><b>8.1</b> Example 1 - Known measurement model parameters with 1 measure</a></li>
+<li class="chapter" data-level="8.2" data-path="example-1-stan.html"><a href="example-1-stan.html"><i class="fa fa-check"></i><b>8.2</b> Example 1 - Stan</a></li>
+<li class="chapter" data-level="8.3" data-path="example-1-jags.html"><a href="example-1-jags.html"><i class="fa fa-check"></i><b>8.3</b> Example 1 - JAGS</a></li>
+<li class="chapter" data-level="8.4" data-path="example-2-known-measurement-model-with-multiple-measures.html"><a href="example-2-known-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.4</b> Example 2 - Known Measurement Model with Multiple Measures</a></li>
+<li class="chapter" data-level="8.5" data-path="example-2-stan.html"><a href="example-2-stan.html"><i class="fa fa-check"></i><b>8.5</b> Example 2 - Stan</a></li>
+<li class="chapter" data-level="8.6" data-path="example-2-jags.html"><a href="example-2-jags.html"><i class="fa fa-check"></i><b>8.6</b> Example 2 - JAGS</a></li>
+<li class="chapter" data-level="8.7" data-path="example-3-unknown-measurement-model-with-multiple-measures.html"><a href="example-3-unknown-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.7</b> Example 3 - Unknown Measurement Model with Multiple Measures</a></li>
+<li class="chapter" data-level="8.8" data-path="example-3-stan.html"><a href="example-3-stan.html"><i class="fa fa-check"></i><b>8.8</b> Example 3 - Stan</a></li>
+<li class="chapter" data-level="8.9" data-path="example-3-jags.html"><a href="example-3-jags.html"><i class="fa fa-check"></i><b>8.9</b> Example 3 - JAGS</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="confirmatory-factor-analysis.html"><a href="confirmatory-factor-analysis.html"><i class="fa fa-check"></i><b>9</b> Confirmatory Factor Analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="single-latent-variable-model.html"><a href="single-latent-variable-model.html"><i class="fa fa-check"></i><b>9.1</b> Single Latent Variable Model</a></li>
+<li class="chapter" data-level="9.2" data-path="jags-single-latent-variable.html"><a href="jags-single-latent-variable.html"><i class="fa fa-check"></i><b>9.2</b> JAGS - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.3" data-path="stan-single-latent-variable.html"><a href="stan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.3</b> Stan - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.4" data-path="blavaan-single-latent-variable.html"><a href="blavaan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> Blavaan - Single Latent Variable</a></li>
+<li class="chapter" data-level="9.5" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.5</b> JAGS - Two Latent Variable</a></li>
+<li class="chapter" data-level="9.6" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> Stan - Two Latent Variable</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.6.1</b> Inverse-Wishart Prior</a></li>
+<li class="chapter" data-level="9.6.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.6.2</b> LKJ Cholesky Parameterization</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="blavaan-two-latent-variables.html"><a href="blavaan-two-latent-variables.html"><i class="fa fa-check"></i><b>9.7</b> Blavaan - Two Latent Variables</a></li>
+<li class="chapter" data-level="9.8" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.8</b> Indeterminacy in One Factor CFA</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="residual-analysis.html"><a href="residual-analysis.html"><i class="fa fa-check"></i><b>10.1</b> Residual Analysis</a></li>
+<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#example-of-posterior-predictive-distribution-of-correlations"><i class="fa fa-check"></i><b>10.2.1</b> Example of posterior predictive distribution of correlations</a></li>
+<li class="chapter" data-level="10.2.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#ppd-srmr"><i class="fa fa-check"></i><b>10.2.2</b> PPD SRMR</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
+<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a></li>
+<li class="chapter" data-level="11.3" data-path="lsat-example-jags.html"><a href="lsat-example-jags.html"><i class="fa fa-check"></i><b>11.3</b> LSAT Example - JAGS</a>
+<ul>
+<li class="chapter" data-level="11.3.1" data-path="lsat-example-jags.html"><a href="lsat-example-jags.html#posterior-predicted-distributions"><i class="fa fa-check"></i><b>11.3.1</b> Posterior Predicted Distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="lsat-example-stan.html"><a href="lsat-example-stan.html"><i class="fa fa-check"></i><b>11.4</b> LSAT Example - Stan</a></li>
+<li class="chapter" data-level="11.5" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.5</b> IRT Models for Polytomous Data</a></li>
+<li class="chapter" data-level="11.6" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.6</b> GRM Peer Interactions Example</a>
+<ul>
+<li class="chapter" data-level="11.6.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#example-specific-model-specification"><i class="fa fa-check"></i><b>11.6.1</b> Example Specific Model Specification</a></li>
+</ul></li>
+<li class="chapter" data-level="11.7" data-path="pi-example-jags.html"><a href="pi-example-jags.html"><i class="fa fa-check"></i><b>11.7</b> PI Example - JAGS</a></li>
+<li class="chapter" data-level="11.8" data-path="pi-example-stan.html"><a href="pi-example-stan.html"><i class="fa fa-check"></i><b>11.8</b> PI Example - Stan</a></li>
+<li class="chapter" data-level="11.9" data-path="latent-response-formulation.html"><a href="latent-response-formulation.html"><i class="fa fa-check"></i><b>11.9</b> Latent Response Formulation</a>
+<ul>
+<li class="chapter" data-level="11.9.1" data-path="latent-response-formulation.html"><a href="latent-response-formulation.html#lsat-example-revisted"><i class="fa fa-check"></i><b>11.9.1</b> LSAT Example Revisted</a></li>
+</ul></li>
+<li class="chapter" data-level="11.10" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.10</b> Final Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="missing-data-modeling.html"><a href="missing-data-modeling.html"><i class="fa fa-check"></i><b>12</b> Missing Data Modeling</a></li>
+<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a></li>
+<li class="chapter" data-level="14" data-path="bayesian-networks.html"><a href="bayesian-networks.html"><i class="fa fa-check"></i><b>14</b> Bayesian Networks</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="latent-response-formulation" class="section level2" number="11.9">
+<h2><span class="header-section-number">11.9</span> Latent Response Formulation</h2>
+<p>Connecting IRT models to a factor analytic perspective can be helpful from a modeling standpoint.
+Especially when one’s model is multidimensional leading into structural equation models.
+A useful connection can be made by introducing extra variable(s) into the model to represent the <em>latent response variable</em> underlying the <em>observed categorical response variable</em>.
+We can think of this latent response variables as</p>
+<ul>
+<li><p>a latent continuous variable hypothesized to underlie the observed categorical variable that discretized due to data collection or difficulty in measurement; or</p></li>
+<li><p>when this natural interpretation is not appropriate, we can think of the latent response variable as a propensity measure for the given response. Although this is not a perfect interpretation, the use of a latent response formulation eases some of the computational machinery and allows for a nice connection between IRT and CFA models.</p></li>
+</ul>
+<p>Next, the latent response formulation is shown for a set of dichotomous outcomes.
+This model is conceptually a 2-PL/2-PNO (2 parameter normal ogive) model and is essentially a probit model.
+The model can be defined as</p>
+<p><span class="math display">\[x^{\ast}_{ij} = a_j\theta_i+d_j+\varepsilon_{ij},\]</span></p>
+<p>where, for each <span class="math inline">\(j\)</span>, <span class="math inline">\(\varepsilon_{ij} \sim \mathrm{Normal}(0, \sigma^2_{\varepsilon_j})\)</span>. And can jointly be expressed as</p>
+<p><span class="math display">\[x^{\ast}_{ij} \sim \mathrm{Normal}(a_j\theta_i+d_j, \sigma^2_{\varepsilon_j}).\]</span></p>
+<p>The probability of an observed response is then modeled as probability of the latent response variable for person <span class="math inline">\(i\)</span> on item <span class="math inline">\(j\)</span> being greater than or equal to some threshold <span class="math inline">\(\gamma_j\)</span>.</p>
+<div id="lsat-example-revisted" class="section level3" number="11.9.1">
+<h3><span class="header-section-number">11.9.1</span> LSAT Example Revisted</h3>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="latent-response-formulation.html#cb371-1" aria-hidden="true" tabindex="-1"></a>jags.model.lsat <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb371-2"><a href="latent-response-formulation.html#cb371-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-3"><a href="latent-response-formulation.html#cb371-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb371-4"><a href="latent-response-formulation.html#cb371-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J){</span>
+<span id="cb371-5"><a href="latent-response-formulation.html#cb371-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># latent response variable</span></span>
+<span id="cb371-6"><a href="latent-response-formulation.html#cb371-6" aria-hidden="true" tabindex="-1"></a>    xstar[i,j] <span class="sc">~</span> <span class="fu">dnorm</span>(a[j]<span class="sc">*</span>theta[i]<span class="sc">+</span>d[j], <span class="dv">1</span>)</span>
+<span id="cb371-7"><a href="latent-response-formulation.html#cb371-7" aria-hidden="true" tabindex="-1"></a>    P[i,j] <span class="ot">&lt;-</span> c[j]<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>c[j])<span class="sc">*</span><span class="fu">phi</span>(xstar[i,j]) <span class="co"># 3P-NO expression</span></span>
+<span id="cb371-8"><a href="latent-response-formulation.html#cb371-8" aria-hidden="true" tabindex="-1"></a>    x[i,j] <span class="sc">~</span> <span class="fu">dbern</span>(P[i,j])                  <span class="co"># distribution for each observable</span></span>
+<span id="cb371-9"><a href="latent-response-formulation.html#cb371-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb371-10"><a href="latent-response-formulation.html#cb371-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb371-11"><a href="latent-response-formulation.html#cb371-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-12"><a href="latent-response-formulation.html#cb371-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb371-13"><a href="latent-response-formulation.html#cb371-13" aria-hidden="true" tabindex="-1"></a>  theta[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># distribution for the latent variables</span></span>
+<span id="cb371-14"><a href="latent-response-formulation.html#cb371-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb371-15"><a href="latent-response-formulation.html#cb371-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-16"><a href="latent-response-formulation.html#cb371-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J){</span>
+<span id="cb371-17"><a href="latent-response-formulation.html#cb371-17" aria-hidden="true" tabindex="-1"></a>  d[j] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">5</span>)          <span class="co"># Locations for observables</span></span>
+<span id="cb371-18"><a href="latent-response-formulation.html#cb371-18" aria-hidden="true" tabindex="-1"></a>  a[j] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">1</span>, .<span class="dv">5</span>); <span class="fu">I</span>(<span class="dv">0</span>,)    <span class="co"># Discriminations for observables</span></span>
+<span id="cb371-19"><a href="latent-response-formulation.html#cb371-19" aria-hidden="true" tabindex="-1"></a>  c[j] <span class="sc">~</span> <span class="fu">dbeta</span>(<span class="dv">5</span>,<span class="dv">17</span>)           <span class="co"># Lower asymptotes for observables</span></span>
+<span id="cb371-20"><a href="latent-response-formulation.html#cb371-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb371-21"><a href="latent-response-formulation.html#cb371-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb371-22"><a href="latent-response-formulation.html#cb371-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-23"><a href="latent-response-formulation.html#cb371-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-24"><a href="latent-response-formulation.html#cb371-24" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes the model</span></span>
+<span id="cb371-25"><a href="latent-response-formulation.html#cb371-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-26"><a href="latent-response-formulation.html#cb371-26" aria-hidden="true" tabindex="-1"></a><span class="co"># initial values</span></span>
+<span id="cb371-27"><a href="latent-response-formulation.html#cb371-27" aria-hidden="true" tabindex="-1"></a>start_values <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb371-28"><a href="latent-response-formulation.html#cb371-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>),</span>
+<span id="cb371-29"><a href="latent-response-formulation.html#cb371-29" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>),</span>
+<span id="cb371-30"><a href="latent-response-formulation.html#cb371-30" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>)),</span>
+<span id="cb371-31"><a href="latent-response-formulation.html#cb371-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>),</span>
+<span id="cb371-32"><a href="latent-response-formulation.html#cb371-32" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>),</span>
+<span id="cb371-33"><a href="latent-response-formulation.html#cb371-33" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>)),</span>
+<span id="cb371-34"><a href="latent-response-formulation.html#cb371-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>),</span>
+<span id="cb371-35"><a href="latent-response-formulation.html#cb371-35" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>),</span>
+<span id="cb371-36"><a href="latent-response-formulation.html#cb371-36" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>))</span>
+<span id="cb371-37"><a href="latent-response-formulation.html#cb371-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb371-38"><a href="latent-response-formulation.html#cb371-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-39"><a href="latent-response-formulation.html#cb371-39" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb371-40"><a href="latent-response-formulation.html#cb371-40" aria-hidden="true" tabindex="-1"></a>param_save <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;theta&quot;</span>)</span>
+<span id="cb371-41"><a href="latent-response-formulation.html#cb371-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-42"><a href="latent-response-formulation.html#cb371-42" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset</span></span>
+<span id="cb371-43"><a href="latent-response-formulation.html#cb371-43" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/LSAT.dat&quot;</span>, <span class="at">header=</span>T)</span>
+<span id="cb371-44"><a href="latent-response-formulation.html#cb371-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-45"><a href="latent-response-formulation.html#cb371-45" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb371-46"><a href="latent-response-formulation.html#cb371-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">nrow</span>(dat),</span>
+<span id="cb371-47"><a href="latent-response-formulation.html#cb371-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">J =</span> <span class="fu">ncol</span>(dat),</span>
+<span id="cb371-48"><a href="latent-response-formulation.html#cb371-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">as.matrix</span>(dat)</span>
+<span id="cb371-49"><a href="latent-response-formulation.html#cb371-49" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb371-50"><a href="latent-response-formulation.html#cb371-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb371-51"><a href="latent-response-formulation.html#cb371-51" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb371-52"><a href="latent-response-formulation.html#cb371-52" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">jags</span>(</span>
+<span id="cb371-53"><a href="latent-response-formulation.html#cb371-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.file=</span>jags.model.lsat,</span>
+<span id="cb371-54"><a href="latent-response-formulation.html#cb371-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>mydata,</span>
+<span id="cb371-55"><a href="latent-response-formulation.html#cb371-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits=</span>start_values,</span>
+<span id="cb371-56"><a href="latent-response-formulation.html#cb371-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters.to.save =</span> param_save,</span>
+<span id="cb371-57"><a href="latent-response-formulation.html#cb371-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">26000</span>,</span>
+<span id="cb371-58"><a href="latent-response-formulation.html#cb371-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">6000</span>,</span>
+<span id="cb371-59"><a href="latent-response-formulation.html#cb371-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.chains =</span> <span class="dv">3</span>,</span>
+<span id="cb371-60"><a href="latent-response-formulation.html#cb371-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 5000
+##    Unobserved stochastic nodes: 6015
+##    Total graph size: 36027
+## 
+## Initializing model</code></pre>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="latent-response-formulation.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
+<pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpW4ITDP/modelcd01affc14.txt&quot;, fit using jags,
+##  3 chains, each with 26000 iterations (first 6000 discarded), n.thin = 20
+##  n.sims = 3000 iterations saved
+##              mu.vect sd.vect     2.5%      25%      50%      75%    97.5%  Rhat n.eff
+## a[1]           0.629   0.244    0.238    0.460    0.599    0.765    1.187 1.010   270
+## a[2]           0.809   0.264    0.400    0.619    0.768    0.970    1.395 1.005   480
+## a[3]           1.440   0.581    0.605    0.993    1.321    1.808    2.773 1.007   420
+## a[4]           0.714   0.223    0.356    0.559    0.683    0.842    1.240 1.010   440
+## a[5]           0.622   0.261    0.245    0.460    0.591    0.741    1.197 1.027    90
+## c[1]           0.249   0.096    0.091    0.178    0.241    0.311    0.454 1.002  1300
+## c[2]           0.260   0.097    0.095    0.186    0.252    0.324    0.459 1.003  1100
+## c[3]           0.249   0.072    0.105    0.197    0.253    0.304    0.376 1.011   220
+## c[4]           0.251   0.097    0.088    0.182    0.244    0.310    0.466 1.005  1000
+## c[5]           0.247   0.097    0.088    0.178    0.237    0.305    0.479 1.002  2900
+## d[1]           1.969   0.200    1.595    1.844    1.959    2.079    2.420 1.004  3000
+## d[2]           0.402   0.254   -0.198    0.270    0.455    0.582    0.781 1.004   690
+## d[3]          -0.559   0.382   -1.419   -0.806   -0.505   -0.266    0.027 1.014   190
+## d[4]           0.730   0.219    0.205    0.620    0.762    0.875    1.064 1.021   520
+## d[5]           1.447   0.174    1.067    1.348    1.458    1.559    1.773 1.006   420
+## theta[1]      -1.624   0.767   -3.169   -2.132   -1.592   -1.088   -0.206 1.001  2300
+## theta[2]      -1.618   0.784   -3.230   -2.121   -1.592   -1.053   -0.172 1.001  3000
+## theta[3]      -1.631   0.786   -3.286   -2.143   -1.594   -1.102   -0.117 1.001  3000
+## theta[4]      -1.285   0.778   -2.876   -1.798   -1.254   -0.737    0.187 1.001  2200
+## theta[5]      -1.281   0.778   -2.821   -1.806   -1.248   -0.734    0.212 1.001  2800
+## theta[6]      -1.255   0.783   -2.755   -1.781   -1.231   -0.709    0.224 1.001  3000
+## theta[7]      -1.273   0.766   -2.811   -1.783   -1.243   -0.751    0.140 1.001  3000
+## theta[8]      -1.269   0.781   -2.833   -1.782   -1.264   -0.738    0.211 1.003   950
+## theta[9]      -1.292   0.766   -2.844   -1.799   -1.256   -0.779    0.134 1.001  3000
+## theta[10]     -1.328   0.790   -2.933   -1.848   -1.315   -0.777    0.135 1.001  3000
+## theta[11]     -1.292   0.786   -2.877   -1.792   -1.272   -0.764    0.226 1.002  1000
+## theta[12]     -0.914   0.806   -2.577   -1.451   -0.888   -0.360    0.556 1.001  2100
+## theta[13]     -0.909   0.788   -2.491   -1.438   -0.869   -0.357    0.538 1.005   480
+## theta[14]     -0.921   0.784   -2.515   -1.441   -0.915   -0.393    0.579 1.001  3000
+## theta[15]     -0.926   0.772   -2.497   -1.439   -0.909   -0.387    0.508 1.001  3000
+## theta[16]     -0.902   0.794   -2.547   -1.425   -0.891   -0.357    0.629 1.001  3000
+## theta[17]     -0.928   0.757   -2.484   -1.414   -0.908   -0.431    0.473 1.001  2900
+## theta[18]     -0.917   0.788   -2.455   -1.463   -0.913   -0.371    0.567 1.001  3000
+## theta[19]     -0.884   0.767   -2.425   -1.383   -0.871   -0.375    0.565 1.002  2000
+## theta[20]     -0.928   0.779   -2.517   -1.458   -0.912   -0.392    0.571 1.001  2800
+## theta[21]     -0.926   0.783   -2.454   -1.426   -0.913   -0.385    0.534 1.003   800
+## theta[22]     -0.919   0.804   -2.560   -1.454   -0.875   -0.358    0.587 1.002  1300
+## theta[23]     -1.383   0.837   -3.056   -1.953   -1.373   -0.798    0.194 1.004   620
+## theta[24]     -0.954   0.860   -2.693   -1.526   -0.930   -0.348    0.677 1.001  2300
+## theta[25]     -0.987   0.879   -2.721   -1.574   -0.999   -0.376    0.694 1.002  1800
+## theta[26]     -1.021   0.864   -2.707   -1.608   -1.026   -0.430    0.688 1.007   320
+## theta[27]     -1.002   0.871   -2.800   -1.580   -0.983   -0.408    0.631 1.003   740
+## theta[28]     -0.510   0.875   -2.206   -1.085   -0.501    0.074    1.200 1.002  1900
+## theta[29]     -0.486   0.878   -2.239   -1.071   -0.455    0.124    1.215 1.001  2700
+## theta[30]     -0.485   0.875   -2.244   -1.072   -0.461    0.111    1.142 1.002  1500
+## theta[31]     -0.534   0.887   -2.314   -1.111   -0.528    0.058    1.196 1.003   740
+## theta[32]     -1.318   0.769   -2.855   -1.830   -1.305   -0.782    0.148 1.001  2700
+## theta[33]     -0.940   0.780   -2.518   -1.426   -0.916   -0.409    0.521 1.002  1100
+## theta[34]     -0.968   0.786   -2.557   -1.494   -0.945   -0.429    0.509 1.001  3000
+## theta[35]     -0.939   0.788   -2.552   -1.456   -0.899   -0.391    0.534 1.005   500
+## theta[36]     -0.938   0.797   -2.520   -1.477   -0.921   -0.384    0.587 1.001  2300
+## theta[37]     -0.920   0.802   -2.553   -1.471   -0.884   -0.360    0.597 1.002  1700
+## theta[38]     -0.932   0.791   -2.487   -1.448   -0.890   -0.398    0.551 1.001  3000
+## theta[39]     -0.920   0.779   -2.487   -1.445   -0.932   -0.373    0.596 1.002  1700
+## theta[40]     -0.931   0.784   -2.557   -1.446   -0.917   -0.378    0.523 1.001  3000
+## theta[41]     -0.545   0.783   -2.057   -1.076   -0.519   -0.027    0.967 1.003   790
+## theta[42]     -0.534   0.792   -2.097   -1.056   -0.510   -0.008    1.044 1.001  2700
+## theta[43]     -0.573   0.779   -2.180   -1.052   -0.560   -0.042    0.923 1.001  3000
+## theta[44]     -0.543   0.809   -2.180   -1.075   -0.529    0.008    1.034 1.001  3000
+## theta[45]     -0.548   0.803   -2.131   -1.088   -0.524   -0.022    1.022 1.001  3000
+## theta[46]     -0.559   0.788   -2.122   -1.094   -0.536   -0.033    0.992 1.001  3000
+## theta[47]     -0.517   0.808   -2.203   -1.017   -0.496    0.019    1.013 1.005   480
+## theta[48]     -0.547   0.793   -2.081   -1.069   -0.524   -0.027    0.973 1.006   380
+## theta[49]     -0.541   0.797   -2.139   -1.078   -0.521    0.007    0.919 1.001  2400
+## theta[50]     -0.555   0.787   -2.101   -1.064   -0.550   -0.010    0.937 1.003   710
+## theta[51]     -0.542   0.790   -2.141   -1.057   -0.534   -0.005    0.955 1.006   350
+## theta[52]     -0.531   0.795   -2.189   -1.022   -0.511   -0.023    0.959 1.002  2700
+## theta[53]     -0.554   0.797   -2.206   -1.061   -0.529   -0.027    0.928 1.001  3000
+## theta[54]     -0.549   0.797   -2.140   -1.076   -0.530   -0.009    0.976 1.004   610
+## theta[55]     -0.562   0.792   -2.124   -1.081   -0.544   -0.029    0.993 1.000  3000
+## theta[56]     -0.532   0.787   -2.099   -1.051   -0.525   -0.004    1.011 1.003   900
+## theta[57]     -0.461   0.892   -2.229   -1.046   -0.435    0.148    1.238 1.001  2400
+## theta[58]     -0.512   0.912   -2.341   -1.144   -0.495    0.124    1.234 1.001  2700
+## theta[59]     -0.529   0.897   -2.326   -1.121   -0.517    0.103    1.155 1.001  3000
+## theta[60]     -0.523   0.886   -2.319   -1.091   -0.510    0.084    1.140 1.001  3000
+## theta[61]     -0.529   0.913   -2.412   -1.138   -0.525    0.101    1.195 1.002  2800
+## theta[62]      0.017   0.905   -1.724   -0.621    0.036    0.652    1.784 1.001  3000
+## theta[63]      0.024   0.903   -1.764   -0.591    0.038    0.651    1.707 1.005   430
+## theta[64]      0.002   0.885   -1.840   -0.583    0.029    0.615    1.669 1.001  3000
+## theta[65]      0.031   0.889   -1.777   -0.544    0.039    0.622    1.747 1.001  2900
+## theta[66]      0.045   0.902   -1.747   -0.567    0.050    0.679    1.720 1.001  3000
+## theta[67]      0.048   0.899   -1.846   -0.539    0.092    0.649    1.762 1.001  3000
+## theta[68]      0.029   0.902   -1.812   -0.561    0.034    0.653    1.754 1.002  1400
+## theta[69]     -0.005   0.917   -1.879   -0.614    0.034    0.629    1.706 1.003   790
+## theta[70]     -0.012   0.909   -1.851   -0.594    0.006    0.605    1.700 1.001  3000
+## theta[71]      0.045   0.896   -1.771   -0.553    0.068    0.658    1.739 1.001  3000
+## theta[72]      0.030   0.891   -1.783   -0.566    0.060    0.644    1.671 1.004   610
+## theta[73]      0.013   0.895   -1.821   -0.569    0.030    0.629    1.734 1.001  3000
+## theta[74]      0.018   0.875   -1.752   -0.545    0.024    0.592    1.714 1.002  1600
+## theta[75]      0.023   0.879   -1.790   -0.538    0.015    0.627    1.688 1.001  3000
+## theta[76]      0.029   0.895   -1.784   -0.551    0.061    0.621    1.701 1.001  3000
+## theta[77]     -1.201   0.786   -2.807   -1.709   -1.185   -0.671    0.270 1.001  2800
+## theta[78]     -1.227   0.770   -2.787   -1.724   -1.217   -0.702    0.223 1.001  2700
+## theta[79]     -1.238   0.759   -2.783   -1.752   -1.223   -0.708    0.169 1.001  3000
+## theta[80]     -1.201   0.760   -2.742   -1.706   -1.184   -0.697    0.206 1.001  3000
+## theta[81]     -1.229   0.749   -2.749   -1.729   -1.216   -0.711    0.173 1.002  2100
+## theta[82]     -1.208   0.776   -2.793   -1.718   -1.189   -0.685    0.318 1.001  3000
+## theta[83]     -1.219   0.765   -2.781   -1.717   -1.198   -0.694    0.271 1.001  3000
+## theta[84]     -1.216   0.776   -2.808   -1.730   -1.194   -0.659    0.193 1.001  3000
+## theta[85]     -1.239   0.753   -2.780   -1.738   -1.233   -0.727    0.195 1.004   630
+## theta[86]     -1.237   0.761   -2.794   -1.759   -1.195   -0.719    0.217 1.001  2500
+## theta[87]     -0.834   0.749   -2.354   -1.342   -0.810   -0.318    0.582 1.001  2600
+## theta[88]     -0.876   0.760   -2.401   -1.385   -0.851   -0.347    0.575 1.001  2400
+## theta[89]     -0.841   0.760   -2.418   -1.320   -0.833   -0.330    0.612 1.004   600
+## theta[90]     -0.854   0.760   -2.348   -1.368   -0.812   -0.347    0.575 1.005   420
+## theta[91]     -0.830   0.769   -2.352   -1.339   -0.834   -0.309    0.636 1.001  3000
+## theta[92]     -0.849   0.757   -2.392   -1.348   -0.843   -0.324    0.591 1.001  3000
+## theta[93]     -0.874   0.777   -2.461   -1.372   -0.867   -0.342    0.618 1.001  3000
+## theta[94]     -0.845   0.760   -2.476   -1.347   -0.805   -0.336    0.561 1.002  1400
+## theta[95]     -0.861   0.757   -2.380   -1.377   -0.845   -0.328    0.537 1.001  2400
+## theta[96]     -0.873   0.749   -2.369   -1.377   -0.866   -0.342    0.516 1.002  1000
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 905 rows ]
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+## 
+## DIC info (using the rule, pD = var(deviance)/2)
+## pD = 5378.3 and DIC = 9070.2
+## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="latent-response-formulation.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[ <span class="sc">!</span><span class="fu">rownames</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary) <span class="sc">%like%</span> <span class="st">&quot;theta&quot;</span>, ], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##              mean      sd     2.5%      25%      50%      75%    97.5%  Rhat n.eff
+## a[1]        0.629   0.244    0.238    0.460    0.599    0.765    1.187 1.010   270
+## a[2]        0.809   0.264    0.400    0.619    0.768    0.970    1.395 1.005   480
+## a[3]        1.440   0.581    0.605    0.993    1.321    1.808    2.773 1.007   420
+## a[4]        0.714   0.223    0.356    0.559    0.683    0.842    1.240 1.010   440
+## a[5]        0.622   0.261    0.245    0.460    0.591    0.741    1.197 1.027    90
+## c[1]        0.249   0.096    0.091    0.178    0.241    0.311    0.454 1.002  1300
+## c[2]        0.260   0.097    0.095    0.186    0.252    0.324    0.459 1.003  1100
+## c[3]        0.249   0.072    0.105    0.197    0.253    0.304    0.376 1.011   220
+## c[4]        0.251   0.097    0.088    0.182    0.244    0.310    0.466 1.005  1000
+## c[5]        0.247   0.097    0.088    0.178    0.237    0.305    0.479 1.002  2900
+## d[1]        1.969   0.200    1.595    1.844    1.959    2.079    2.420 1.004  3000
+## d[2]        0.402   0.254   -0.198    0.270    0.455    0.582    0.781 1.004   690
+## d[3]       -0.559   0.382   -1.419   -0.806   -0.505   -0.266    0.027 1.014   190
+## d[4]        0.730   0.219    0.205    0.620    0.762    0.875    1.064 1.021   520
+## d[5]        1.447   0.174    1.067    1.348    1.458    1.559    1.773 1.006   420
+## deviance 3691.893 103.981 3489.316 3621.852 3691.282 3760.804 3901.424 1.008   340</code></pre>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="latent-response-formulation.html#cb377-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb377-2"><a href="latent-response-formulation.html#cb377-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>
+<span id="cb377-3"><a href="latent-response-formulation.html#cb377-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the below two plots are too big to be useful given the 1000 observations.</span></span>
+<span id="cb377-4"><a href="latent-response-formulation.html#cb377-4" aria-hidden="true" tabindex="-1"></a><span class="co">#R2jags::traceplot(jags.mcmc)</span></span>
+<span id="cb377-5"><a href="latent-response-formulation.html#cb377-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb377-6"><a href="latent-response-formulation.html#cb377-6" aria-hidden="true" tabindex="-1"></a><span class="co"># gelman-rubin-brook</span></span>
+<span id="cb377-7"><a href="latent-response-formulation.html#cb377-7" aria-hidden="true" tabindex="-1"></a><span class="co">#gelman.plot(jags.mcmc)</span></span>
+<span id="cb377-8"><a href="latent-response-formulation.html#cb377-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb377-9"><a href="latent-response-formulation.html#cb377-9" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
+<span id="cb377-10"><a href="latent-response-formulation.html#cb377-10" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">colnames</span>(<span class="fu">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
+<span id="cb377-11"><a href="latent-response-formulation.html#cb377-11" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as.matrix</span>(jags.mcmc, <span class="at">chains=</span>T, <span class="at">iters =</span> T))</span>
+<span id="cb377-12"><a href="latent-response-formulation.html#cb377-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
+<span id="cb377-13"><a href="latent-response-formulation.html#cb377-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb377-14"><a href="latent-response-formulation.html#cb377-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb377-15"><a href="latent-response-formulation.html#cb377-15" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb377-16"><a href="latent-response-formulation.html#cb377-16" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb377-17"><a href="latent-response-formulation.html#cb377-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb377-18"><a href="latent-response-formulation.html#cb377-18" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb377-19"><a href="latent-response-formulation.html#cb377-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;d[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb377-20"><a href="latent-response-formulation.html#cb377-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb377-21"><a href="latent-response-formulation.html#cb377-21" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-1.png" width="672" /></p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="latent-response-formulation.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb378-2"><a href="latent-response-formulation.html#cb378-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb378-3"><a href="latent-response-formulation.html#cb378-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;a[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb378-4"><a href="latent-response-formulation.html#cb378-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb378-5"><a href="latent-response-formulation.html#cb378-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-2.png" width="672" /></p>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="latent-response-formulation.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb379-2"><a href="latent-response-formulation.html#cb379-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb379-3"><a href="latent-response-formulation.html#cb379-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;c[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb379-4"><a href="latent-response-formulation.html#cb379-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb379-5"><a href="latent-response-formulation.html#cb379-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-3.png" width="672" /></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="pi-example-stan.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="final-notes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/11-irt.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-BPM.pdf", "bookdown-BPM.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
