@@ -98,4 +98,8 @@ lsat-example-revisted
 final-notes
 missing-data-modeling
 latent-class-analysis
+lca-model-specification
+lca-model-indeterminacy
+model-likelihood
+extending-lca
 bayesian-networks

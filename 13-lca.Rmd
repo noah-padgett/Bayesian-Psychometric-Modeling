@@ -1,4 +1,73 @@
 # Latent Class Analysis
 
-TO-DO
+Latent class analysis (LCA) takes a different approach to modeling latent variables than has been discussed in the previous chapters (especially CFA or IRT).
+The major distinguishing aspect of LCA is that the latent variable is hypothesized to be a discrete random variable as opposed to a continuous random variable.
+This shift in perspective is beneficial to researchers/analysts wishing to think categorically and discuss groups of observations/people/units as opposed to a dimension of possible differences.
+
+LCA is often used in an exploratory nature to try to identify the number of "latent classes" or unobserved groups.
+However, in the text, Levy and Mislevy discuss what they describe as a more "confirmatory" approach to LCA.
+The major distinction is that they specify the number of classes to be known, and treat this chapter as a resource for how to estimate the model within a Bayesian framework.
+
+To extend their work, we have added a section on model selection and provided resources for the interested reader.
+But, in general, the topic of model selection in Bayesian LCA (and SEM more generally) is still an ongoing area of research.
+Many views exist on how to conduct model selection (if at all) and we will try to present an array of options that have been proposed.
+
+## LCA Model Specification
+
+LCA is a _finite mixture model_.
+A mixture model is generally any statistical model that combines distributions to describe different subsets or aspects of the data.
+For example, LCA is a mixture model that posits class specific item/indicator response probabilities.
+Different classes have a different distribution or expected response on average.
+Each unit of observation (e.g., person) is assumed to belong to 1 and only 1 class.
+Because individuals can only belong to one class, the different classes of observations make up different subsets of the data used in the analysis.
+One result of an LCA model is the ability to identify the likelihood that an individual belongs to a particular class which is sometimes called probabilistic clustering.
+
+
+Let $x_{ij}$ be the observed value from respondent $i=1, \ldots, N$ on observable (item) $j=1, \ldots, J$.
+Because $x$ is binary, the observed value can be $0$ or $1$. 
+The latent class variable commonly denoted with a $C$ to represent the total number of latent classes.
+Let $\theta_i$ represent the class for individual $i$, where $\theta_i \in \lbrace 1, \ldots, C\rbrace$.
+Similar to IRT, LCA models the probability of the observed response.
+However, LCA we estimate this value more directly because the value only depends on latent class membership instead of the value being indirectly estimated through item difficulties and discrimination parameters.
+The model for the observed response being 1 is
+\[p(x_{ij} = 1) = \sum_{c=1}^Cp(x_{ij}=1\mid\theta_i=c,\pi_j)\gamma_c,\]
+where,
+
+* $p(x_{ij}=1\mid\theta_i=c,\pi_i)$ is class specific conditional response probability to item $i$,
+* $\pi_j$ represents the item parameters, in this case it is simply the conditional probability, but can be expanded to be a set of item parameters (e.g., IRT-like),
+* $\gamma_c$ represents the class _mixing weight_ or the class size parameter. The size of each class helps to identify how likely an individual in to be in any of the $C$ classes if we had no other information.
+* Additionally, the class mixing weights always sums to $1$, that is
+
+\[\sum_{c=1}^C\gamma_c = \sum_{c=1}^Cp(\theta_i=c) = 1.\]
+
+Another way of interpreting the mixing weight is as a class proportion.
+This framing can sometimes make it easier to see that the indicator response probability is a weighted average of response probabilities over the $C$ classes. 
+The larger the class the more that class influences the expected response probabilities.
+
+### LCA Model Indeterminacy
+
+One common aspect of LCA than can be a bit of a headache at times if not careful is an issue known as label switching.
+LCA models discrete latent variables which do not have any inherent labels, as CFA/IRT model continuous latent variables that do not have any inherent scale/metric.
+
+### Model Likelihood
+
+The likelihood function for LCA follows a similar development as the likelihood function from CFA and IRT.
+We assume that the individuals are independent ($i$'s are exchangeable).
+We assume that the responses to each item are conditionally (locally) independent ($j$'s are exchangeable).
+The joint probability conditional on the latent variable $C$ is
+
+\[p(\bm{x}_i \vert \bm\theta, \bm\pi) = \prod_{i=1}^Np(\bm{x}_i \vert \theta_i=c, \bm\pi) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]
+
+The marginal probability when the observed data when we sum over the possible latent classes becomes
+
+\begin{align*}
+p(\bm{x}_i \vert \bm\pi, \bm\gamma) &= \prod_{i=1}^N\sum_{c=1}^C p(\bm{x}_i \vert \theta_i=c, \bm\pi)p(\theta_i = c \vert \gamma)\\
+&= \prod_{i=1}^N\left(\sum_{c=1}^C \left(\prod_{j=1}^J p(x_{ij} \vert \theta_i=c, \pi_j)\right)p(\theta_i = c \vert \gamma)\right)
+\end{align*}
+
+
+## Extending LCA
+
+In LCA, the mixing of distributions can be generalized to include more complex components such as factor models to model the response process within class.
+For example, we can have factor mixture models where different CFA models hold for different subsets of the population.
 

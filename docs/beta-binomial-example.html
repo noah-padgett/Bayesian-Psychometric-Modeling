@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-04-22" />
+<meta name="date" content="2021-10-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -229,7 +229,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.10" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.10</b> Final Notes</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="missing-data-modeling.html"><a href="missing-data-modeling.html"><i class="fa fa-check"></i><b>12</b> Missing Data Modeling</a></li>
-<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a></li>
+<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html"><i class="fa fa-check"></i><b>13.1</b> LCA Model Specification</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html#lca-model-indeterminacy"><i class="fa fa-check"></i><b>13.1.1</b> LCA Model Indeterminacy</a></li>
+<li class="chapter" data-level="13.1.2" data-path="lca-model-specification.html"><a href="lca-model-specification.html#model-likelihood"><i class="fa fa-check"></i><b>13.1.2</b> Model Likelihood</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="extending-lca.html"><a href="extending-lca.html"><i class="fa fa-check"></i><b>13.2</b> Extending LCA</a></li>
+</ul></li>
 <li class="chapter" data-level="14" data-path="bayesian-networks.html"><a href="bayesian-networks.html"><i class="fa fa-check"></i><b>14</b> Bayesian Networks</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -276,7 +284,7 @@ The directed nature of the diagram highlights how observed variables (e.g., <spa
 All observed or explicitly defined variables/values are in rectangles while any latent variable or model parameter are in circles.
 DAG representation of model for the beta-binomal model is</p>
 <div class="figure" style="text-align: center"><span id="fig:chp2-dag-1"></span>
-<img src="dag/chp2-beta-binomial.png" alt="Directed Acyclic Graph (DAG) for the beta-binomial model" width="98" />
+<img src="C:/Users/noahp/Box/Research/Morgan-Padgett/Bayesian-Psychometric-Modeling/dag/chp2-beta-binomial.png" alt="Directed Acyclic Graph (DAG) for the beta-binomial model" width="98" />
 <p class="caption">
 Figure 2.1: Directed Acyclic Graph (DAG) for the beta-binomial model
 </p>
@@ -285,7 +293,7 @@ Figure 2.1: Directed Acyclic Graph (DAG) for the beta-binomial model
 In terms of a DAG, I prefer this representation as all the assumed model components are made explicit.
 However, in more complex models this approach will likely lead to very dense and possible unuseful representations.</p>
 <div class="figure" style="text-align: center"><span id="fig:chp2-dag-2"></span>
-<img src="dag/chp2-beta-binomial-full.png" alt="DAG with explicit representation for all beta-binomial model components" width="276" />
+<img src="C:/Users/noahp/Box/Research/Morgan-Padgett/Bayesian-Psychometric-Modeling/dag/chp2-beta-binomial-full.png" alt="DAG with explicit representation for all beta-binomial model components" width="276" />
 <p class="caption">
 Figure 2.2: DAG with explicit representation for all beta-binomial model components
 </p>
@@ -293,7 +301,7 @@ Figure 2.2: DAG with explicit representation for all beta-binomial model compone
 <p>Yet another alternative representation is what I call a model specification chart.
 This takes on a similar feel as a DAG in that the flow of model parameters can be shown, but with the major difference that I use the distributional notation explicitly.</p>
 <div class="figure" style="text-align: center"><span id="fig:chp2-spec-1"></span>
-<img src="model-spec/chp2-beta-binomial.png" alt="Model specification diagram for beta-binomial model" width="361" />
+<img src="C:/Users/noahp/Box/Research/Morgan-Padgett/Bayesian-Psychometric-Modeling/model-spec/chp2-beta-binomial.png" alt="Model specification diagram for beta-binomial model" width="361" />
 <p class="caption">
 Figure 2.3: Model specification diagram for beta-binomial model
 </p>

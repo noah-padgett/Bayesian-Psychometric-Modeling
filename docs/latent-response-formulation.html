@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-04-22" />
+<meta name="date" content="2021-10-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -229,7 +229,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.10" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.10</b> Final Notes</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="missing-data-modeling.html"><a href="missing-data-modeling.html"><i class="fa fa-check"></i><b>12</b> Missing Data Modeling</a></li>
-<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a></li>
+<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html"><i class="fa fa-check"></i><b>13.1</b> LCA Model Specification</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html#lca-model-indeterminacy"><i class="fa fa-check"></i><b>13.1.1</b> LCA Model Indeterminacy</a></li>
+<li class="chapter" data-level="13.1.2" data-path="lca-model-specification.html"><a href="lca-model-specification.html#model-likelihood"><i class="fa fa-check"></i><b>13.1.2</b> Model Likelihood</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="extending-lca.html"><a href="extending-lca.html"><i class="fa fa-check"></i><b>13.2</b> Extending LCA</a></li>
+</ul></li>
 <li class="chapter" data-level="14" data-path="bayesian-networks.html"><a href="bayesian-networks.html"><i class="fa fa-check"></i><b>14</b> Bayesian Networks</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -271,66 +279,66 @@ The model can be defined as</p>
 <p>The probability of an observed response is then modeled as probability of the latent response variable for person <span class="math inline">\(i\)</span> on item <span class="math inline">\(j\)</span> being greater than or equal to some threshold <span class="math inline">\(\gamma_j\)</span>.</p>
 <div id="lsat-example-revisted" class="section level3" number="11.9.1">
 <h3><span class="header-section-number">11.9.1</span> LSAT Example Revisted</h3>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="latent-response-formulation.html#cb371-1" aria-hidden="true" tabindex="-1"></a>jags.model.lsat <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb371-2"><a href="latent-response-formulation.html#cb371-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-3"><a href="latent-response-formulation.html#cb371-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
-<span id="cb371-4"><a href="latent-response-formulation.html#cb371-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J){</span>
-<span id="cb371-5"><a href="latent-response-formulation.html#cb371-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># latent response variable</span></span>
-<span id="cb371-6"><a href="latent-response-formulation.html#cb371-6" aria-hidden="true" tabindex="-1"></a>    xstar[i,j] <span class="sc">~</span> <span class="fu">dnorm</span>(a[j]<span class="sc">*</span>theta[i]<span class="sc">+</span>d[j], <span class="dv">1</span>)</span>
-<span id="cb371-7"><a href="latent-response-formulation.html#cb371-7" aria-hidden="true" tabindex="-1"></a>    P[i,j] <span class="ot">&lt;-</span> c[j]<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>c[j])<span class="sc">*</span><span class="fu">phi</span>(xstar[i,j]) <span class="co"># 3P-NO expression</span></span>
-<span id="cb371-8"><a href="latent-response-formulation.html#cb371-8" aria-hidden="true" tabindex="-1"></a>    x[i,j] <span class="sc">~</span> <span class="fu">dbern</span>(P[i,j])                  <span class="co"># distribution for each observable</span></span>
-<span id="cb371-9"><a href="latent-response-formulation.html#cb371-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb371-10"><a href="latent-response-formulation.html#cb371-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb371-11"><a href="latent-response-formulation.html#cb371-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-12"><a href="latent-response-formulation.html#cb371-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
-<span id="cb371-13"><a href="latent-response-formulation.html#cb371-13" aria-hidden="true" tabindex="-1"></a>  theta[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># distribution for the latent variables</span></span>
-<span id="cb371-14"><a href="latent-response-formulation.html#cb371-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb371-15"><a href="latent-response-formulation.html#cb371-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-16"><a href="latent-response-formulation.html#cb371-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J){</span>
-<span id="cb371-17"><a href="latent-response-formulation.html#cb371-17" aria-hidden="true" tabindex="-1"></a>  d[j] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">5</span>)          <span class="co"># Locations for observables</span></span>
-<span id="cb371-18"><a href="latent-response-formulation.html#cb371-18" aria-hidden="true" tabindex="-1"></a>  a[j] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">1</span>, .<span class="dv">5</span>); <span class="fu">I</span>(<span class="dv">0</span>,)    <span class="co"># Discriminations for observables</span></span>
-<span id="cb371-19"><a href="latent-response-formulation.html#cb371-19" aria-hidden="true" tabindex="-1"></a>  c[j] <span class="sc">~</span> <span class="fu">dbeta</span>(<span class="dv">5</span>,<span class="dv">17</span>)           <span class="co"># Lower asymptotes for observables</span></span>
-<span id="cb371-20"><a href="latent-response-formulation.html#cb371-20" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb371-21"><a href="latent-response-formulation.html#cb371-21" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb371-22"><a href="latent-response-formulation.html#cb371-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-23"><a href="latent-response-formulation.html#cb371-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-24"><a href="latent-response-formulation.html#cb371-24" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes the model</span></span>
-<span id="cb371-25"><a href="latent-response-formulation.html#cb371-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-26"><a href="latent-response-formulation.html#cb371-26" aria-hidden="true" tabindex="-1"></a><span class="co"># initial values</span></span>
-<span id="cb371-27"><a href="latent-response-formulation.html#cb371-27" aria-hidden="true" tabindex="-1"></a>start_values <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb371-28"><a href="latent-response-formulation.html#cb371-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>),</span>
-<span id="cb371-29"><a href="latent-response-formulation.html#cb371-29" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>),</span>
-<span id="cb371-30"><a href="latent-response-formulation.html#cb371-30" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>)),</span>
-<span id="cb371-31"><a href="latent-response-formulation.html#cb371-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>),</span>
-<span id="cb371-32"><a href="latent-response-formulation.html#cb371-32" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>),</span>
-<span id="cb371-33"><a href="latent-response-formulation.html#cb371-33" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>)),</span>
-<span id="cb371-34"><a href="latent-response-formulation.html#cb371-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>),</span>
-<span id="cb371-35"><a href="latent-response-formulation.html#cb371-35" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>),</span>
-<span id="cb371-36"><a href="latent-response-formulation.html#cb371-36" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>))</span>
-<span id="cb371-37"><a href="latent-response-formulation.html#cb371-37" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb371-38"><a href="latent-response-formulation.html#cb371-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-39"><a href="latent-response-formulation.html#cb371-39" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of all parameters to save</span></span>
-<span id="cb371-40"><a href="latent-response-formulation.html#cb371-40" aria-hidden="true" tabindex="-1"></a>param_save <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;theta&quot;</span>)</span>
-<span id="cb371-41"><a href="latent-response-formulation.html#cb371-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-42"><a href="latent-response-formulation.html#cb371-42" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset</span></span>
-<span id="cb371-43"><a href="latent-response-formulation.html#cb371-43" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/LSAT.dat&quot;</span>, <span class="at">header=</span>T)</span>
-<span id="cb371-44"><a href="latent-response-formulation.html#cb371-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-45"><a href="latent-response-formulation.html#cb371-45" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb371-46"><a href="latent-response-formulation.html#cb371-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">nrow</span>(dat),</span>
-<span id="cb371-47"><a href="latent-response-formulation.html#cb371-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">J =</span> <span class="fu">ncol</span>(dat),</span>
-<span id="cb371-48"><a href="latent-response-formulation.html#cb371-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">as.matrix</span>(dat)</span>
-<span id="cb371-49"><a href="latent-response-formulation.html#cb371-49" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb371-50"><a href="latent-response-formulation.html#cb371-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb371-51"><a href="latent-response-formulation.html#cb371-51" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
-<span id="cb371-52"><a href="latent-response-formulation.html#cb371-52" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">jags</span>(</span>
-<span id="cb371-53"><a href="latent-response-formulation.html#cb371-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.file=</span>jags.model.lsat,</span>
-<span id="cb371-54"><a href="latent-response-formulation.html#cb371-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>mydata,</span>
-<span id="cb371-55"><a href="latent-response-formulation.html#cb371-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits=</span>start_values,</span>
-<span id="cb371-56"><a href="latent-response-formulation.html#cb371-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters.to.save =</span> param_save,</span>
-<span id="cb371-57"><a href="latent-response-formulation.html#cb371-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">26000</span>,</span>
-<span id="cb371-58"><a href="latent-response-formulation.html#cb371-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">6000</span>,</span>
-<span id="cb371-59"><a href="latent-response-formulation.html#cb371-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.chains =</span> <span class="dv">3</span>,</span>
-<span id="cb371-60"><a href="latent-response-formulation.html#cb371-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="latent-response-formulation.html#cb414-1" aria-hidden="true" tabindex="-1"></a>jags.model.lsat <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb414-2"><a href="latent-response-formulation.html#cb414-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-3"><a href="latent-response-formulation.html#cb414-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb414-4"><a href="latent-response-formulation.html#cb414-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J){</span>
+<span id="cb414-5"><a href="latent-response-formulation.html#cb414-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># latent response variable</span></span>
+<span id="cb414-6"><a href="latent-response-formulation.html#cb414-6" aria-hidden="true" tabindex="-1"></a>    xstar[i,j] <span class="sc">~</span> <span class="fu">dnorm</span>(a[j]<span class="sc">*</span>theta[i]<span class="sc">+</span>d[j], <span class="dv">1</span>)</span>
+<span id="cb414-7"><a href="latent-response-formulation.html#cb414-7" aria-hidden="true" tabindex="-1"></a>    P[i,j] <span class="ot">&lt;-</span> c[j]<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>c[j])<span class="sc">*</span><span class="fu">phi</span>(xstar[i,j]) <span class="co"># 3P-NO expression</span></span>
+<span id="cb414-8"><a href="latent-response-formulation.html#cb414-8" aria-hidden="true" tabindex="-1"></a>    x[i,j] <span class="sc">~</span> <span class="fu">dbern</span>(P[i,j])                  <span class="co"># distribution for each observable</span></span>
+<span id="cb414-9"><a href="latent-response-formulation.html#cb414-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb414-10"><a href="latent-response-formulation.html#cb414-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb414-11"><a href="latent-response-formulation.html#cb414-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-12"><a href="latent-response-formulation.html#cb414-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){</span>
+<span id="cb414-13"><a href="latent-response-formulation.html#cb414-13" aria-hidden="true" tabindex="-1"></a>  theta[i] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># distribution for the latent variables</span></span>
+<span id="cb414-14"><a href="latent-response-formulation.html#cb414-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb414-15"><a href="latent-response-formulation.html#cb414-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-16"><a href="latent-response-formulation.html#cb414-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>J){</span>
+<span id="cb414-17"><a href="latent-response-formulation.html#cb414-17" aria-hidden="true" tabindex="-1"></a>  d[j] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">0</span>, .<span class="dv">5</span>)          <span class="co"># Locations for observables</span></span>
+<span id="cb414-18"><a href="latent-response-formulation.html#cb414-18" aria-hidden="true" tabindex="-1"></a>  a[j] <span class="sc">~</span> <span class="fu">dnorm</span>(<span class="dv">1</span>, .<span class="dv">5</span>); <span class="fu">I</span>(<span class="dv">0</span>,)    <span class="co"># Discriminations for observables</span></span>
+<span id="cb414-19"><a href="latent-response-formulation.html#cb414-19" aria-hidden="true" tabindex="-1"></a>  c[j] <span class="sc">~</span> <span class="fu">dbeta</span>(<span class="dv">5</span>,<span class="dv">17</span>)           <span class="co"># Lower asymptotes for observables</span></span>
+<span id="cb414-20"><a href="latent-response-formulation.html#cb414-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb414-21"><a href="latent-response-formulation.html#cb414-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb414-22"><a href="latent-response-formulation.html#cb414-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-23"><a href="latent-response-formulation.html#cb414-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-24"><a href="latent-response-formulation.html#cb414-24" aria-hidden="true" tabindex="-1"></a>} <span class="co"># closes the model</span></span>
+<span id="cb414-25"><a href="latent-response-formulation.html#cb414-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-26"><a href="latent-response-formulation.html#cb414-26" aria-hidden="true" tabindex="-1"></a><span class="co"># initial values</span></span>
+<span id="cb414-27"><a href="latent-response-formulation.html#cb414-27" aria-hidden="true" tabindex="-1"></a>start_values <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb414-28"><a href="latent-response-formulation.html#cb414-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>),</span>
+<span id="cb414-29"><a href="latent-response-formulation.html#cb414-29" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>),</span>
+<span id="cb414-30"><a href="latent-response-formulation.html#cb414-30" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>)),</span>
+<span id="cb414-31"><a href="latent-response-formulation.html#cb414-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>, <span class="sc">-</span><span class="fl">3.00</span>),</span>
+<span id="cb414-32"><a href="latent-response-formulation.html#cb414-32" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>),</span>
+<span id="cb414-33"><a href="latent-response-formulation.html#cb414-33" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>)),</span>
+<span id="cb414-34"><a href="latent-response-formulation.html#cb414-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">&quot;d&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>),</span>
+<span id="cb414-35"><a href="latent-response-formulation.html#cb414-35" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;a&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>),</span>
+<span id="cb414-36"><a href="latent-response-formulation.html#cb414-36" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;c&quot;</span><span class="ot">=</span><span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>))</span>
+<span id="cb414-37"><a href="latent-response-formulation.html#cb414-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb414-38"><a href="latent-response-formulation.html#cb414-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-39"><a href="latent-response-formulation.html#cb414-39" aria-hidden="true" tabindex="-1"></a><span class="co"># vector of all parameters to save</span></span>
+<span id="cb414-40"><a href="latent-response-formulation.html#cb414-40" aria-hidden="true" tabindex="-1"></a>param_save <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;theta&quot;</span>)</span>
+<span id="cb414-41"><a href="latent-response-formulation.html#cb414-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-42"><a href="latent-response-formulation.html#cb414-42" aria-hidden="true" tabindex="-1"></a><span class="co"># dataset</span></span>
+<span id="cb414-43"><a href="latent-response-formulation.html#cb414-43" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/LSAT.dat&quot;</span>, <span class="at">header=</span>T)</span>
+<span id="cb414-44"><a href="latent-response-formulation.html#cb414-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-45"><a href="latent-response-formulation.html#cb414-45" aria-hidden="true" tabindex="-1"></a>mydata <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb414-46"><a href="latent-response-formulation.html#cb414-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">nrow</span>(dat),</span>
+<span id="cb414-47"><a href="latent-response-formulation.html#cb414-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">J =</span> <span class="fu">ncol</span>(dat),</span>
+<span id="cb414-48"><a href="latent-response-formulation.html#cb414-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">as.matrix</span>(dat)</span>
+<span id="cb414-49"><a href="latent-response-formulation.html#cb414-49" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb414-50"><a href="latent-response-formulation.html#cb414-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-51"><a href="latent-response-formulation.html#cb414-51" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb414-52"><a href="latent-response-formulation.html#cb414-52" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">jags</span>(</span>
+<span id="cb414-53"><a href="latent-response-formulation.html#cb414-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">model.file=</span>jags.model.lsat,</span>
+<span id="cb414-54"><a href="latent-response-formulation.html#cb414-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">data=</span>mydata,</span>
+<span id="cb414-55"><a href="latent-response-formulation.html#cb414-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">inits=</span>start_values,</span>
+<span id="cb414-56"><a href="latent-response-formulation.html#cb414-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters.to.save =</span> param_save,</span>
+<span id="cb414-57"><a href="latent-response-formulation.html#cb414-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter=</span><span class="dv">26000</span>,</span>
+<span id="cb414-58"><a href="latent-response-formulation.html#cb414-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.burnin =</span> <span class="dv">6000</span>,</span>
+<span id="cb414-59"><a href="latent-response-formulation.html#cb414-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.chains =</span> <span class="dv">3</span>,</span>
+<span id="cb414-60"><a href="latent-response-formulation.html#cb414-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress.bar =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -340,7 +348,7 @@ The model can be defined as</p>
 ##    Total graph size: 36027
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="latent-response-formulation.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="latent-response-formulation.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit)</span></code></pre></div>
 <pre><code>## Inference for Bugs model at &quot;C:/Users/noahp/AppData/Local/Temp/RtmpW4ITDP/modelcd01affc14.txt&quot;, fit using jags,
 ##  3 chains, each with 26000 iterations (first 6000 discarded), n.thin = 20
 ##  n.sims = 3000 iterations saved
@@ -464,7 +472,7 @@ The model can be defined as</p>
 ## DIC info (using the rule, pD = var(deviance)/2)
 ## pD = 5378.3 and DIC = 9070.2
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="latent-response-formulation.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[ <span class="sc">!</span><span class="fu">rownames</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary) <span class="sc">%like%</span> <span class="st">&quot;theta&quot;</span>, ], <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="latent-response-formulation.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary[ <span class="sc">!</span><span class="fu">rownames</span>(fit<span class="sc">$</span>BUGSoutput<span class="sc">$</span>summary) <span class="sc">%like%</span> <span class="st">&quot;theta&quot;</span>, ], <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##              mean      sd     2.5%      25%      50%      75%    97.5%  Rhat n.eff
 ## a[1]        0.629   0.244    0.238    0.460    0.599    0.765    1.187 1.010   270
 ## a[2]        0.809   0.264    0.400    0.619    0.768    0.970    1.395 1.005   480
@@ -482,39 +490,39 @@ The model can be defined as</p>
 ## d[4]        0.730   0.219    0.205    0.620    0.762    0.875    1.064 1.021   520
 ## d[5]        1.447   0.174    1.067    1.348    1.458    1.559    1.773 1.006   420
 ## deviance 3691.893 103.981 3489.316 3621.852 3691.282 3760.804 3901.424 1.008   340</code></pre>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="latent-response-formulation.html#cb377-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
-<span id="cb377-2"><a href="latent-response-formulation.html#cb377-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>
-<span id="cb377-3"><a href="latent-response-formulation.html#cb377-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the below two plots are too big to be useful given the 1000 observations.</span></span>
-<span id="cb377-4"><a href="latent-response-formulation.html#cb377-4" aria-hidden="true" tabindex="-1"></a><span class="co">#R2jags::traceplot(jags.mcmc)</span></span>
-<span id="cb377-5"><a href="latent-response-formulation.html#cb377-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb377-6"><a href="latent-response-formulation.html#cb377-6" aria-hidden="true" tabindex="-1"></a><span class="co"># gelman-rubin-brook</span></span>
-<span id="cb377-7"><a href="latent-response-formulation.html#cb377-7" aria-hidden="true" tabindex="-1"></a><span class="co">#gelman.plot(jags.mcmc)</span></span>
-<span id="cb377-8"><a href="latent-response-formulation.html#cb377-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb377-9"><a href="latent-response-formulation.html#cb377-9" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
-<span id="cb377-10"><a href="latent-response-formulation.html#cb377-10" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">colnames</span>(<span class="fu">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
-<span id="cb377-11"><a href="latent-response-formulation.html#cb377-11" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as.matrix</span>(jags.mcmc, <span class="at">chains=</span>T, <span class="at">iters =</span> T))</span>
-<span id="cb377-12"><a href="latent-response-formulation.html#cb377-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
-<span id="cb377-13"><a href="latent-response-formulation.html#cb377-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb377-14"><a href="latent-response-formulation.html#cb377-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb377-15"><a href="latent-response-formulation.html#cb377-15" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
-<span id="cb377-16"><a href="latent-response-formulation.html#cb377-16" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
-<span id="cb377-17"><a href="latent-response-formulation.html#cb377-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb377-18"><a href="latent-response-formulation.html#cb377-18" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
-<span id="cb377-19"><a href="latent-response-formulation.html#cb377-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;d[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
-<span id="cb377-20"><a href="latent-response-formulation.html#cb377-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb377-21"><a href="latent-response-formulation.html#cb377-21" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="latent-response-formulation.html#cb420-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract posteriors for all chains</span></span>
+<span id="cb420-2"><a href="latent-response-formulation.html#cb420-2" aria-hidden="true" tabindex="-1"></a>jags.mcmc <span class="ot">&lt;-</span> <span class="fu">as.mcmc</span>(fit)</span>
+<span id="cb420-3"><a href="latent-response-formulation.html#cb420-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the below two plots are too big to be useful given the 1000 observations.</span></span>
+<span id="cb420-4"><a href="latent-response-formulation.html#cb420-4" aria-hidden="true" tabindex="-1"></a><span class="co">#R2jags::traceplot(jags.mcmc)</span></span>
+<span id="cb420-5"><a href="latent-response-formulation.html#cb420-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb420-6"><a href="latent-response-formulation.html#cb420-6" aria-hidden="true" tabindex="-1"></a><span class="co"># gelman-rubin-brook</span></span>
+<span id="cb420-7"><a href="latent-response-formulation.html#cb420-7" aria-hidden="true" tabindex="-1"></a><span class="co">#gelman.plot(jags.mcmc)</span></span>
+<span id="cb420-8"><a href="latent-response-formulation.html#cb420-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb420-9"><a href="latent-response-formulation.html#cb420-9" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to single data.frame for density plot</span></span>
+<span id="cb420-10"><a href="latent-response-formulation.html#cb420-10" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">colnames</span>(<span class="fu">as.data.frame</span>(jags.mcmc[[<span class="dv">1</span>]]))</span>
+<span id="cb420-11"><a href="latent-response-formulation.html#cb420-11" aria-hidden="true" tabindex="-1"></a>plot.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">as.matrix</span>(jags.mcmc, <span class="at">chains=</span>T, <span class="at">iters =</span> T))</span>
+<span id="cb420-12"><a href="latent-response-formulation.html#cb420-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;chain&quot;</span>, <span class="st">&quot;iter&quot;</span>, a)</span>
+<span id="cb420-13"><a href="latent-response-formulation.html#cb420-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb420-14"><a href="latent-response-formulation.html#cb420-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb420-15"><a href="latent-response-formulation.html#cb420-15" aria-hidden="true" tabindex="-1"></a>plot_title <span class="ot">&lt;-</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Posterior distributions&quot;</span>,</span>
+<span id="cb420-16"><a href="latent-response-formulation.html#cb420-16" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;with medians and 80% intervals&quot;</span>)</span>
+<span id="cb420-17"><a href="latent-response-formulation.html#cb420-17" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb420-18"><a href="latent-response-formulation.html#cb420-18" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb420-19"><a href="latent-response-formulation.html#cb420-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;d[&quot;</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb420-20"><a href="latent-response-formulation.html#cb420-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb420-21"><a href="latent-response-formulation.html#cb420-21" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-1.png" width="672" /></p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="latent-response-formulation.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb378-2"><a href="latent-response-formulation.html#cb378-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
-<span id="cb378-3"><a href="latent-response-formulation.html#cb378-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;a[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
-<span id="cb378-4"><a href="latent-response-formulation.html#cb378-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb378-5"><a href="latent-response-formulation.html#cb378-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="latent-response-formulation.html#cb421-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb421-2"><a href="latent-response-formulation.html#cb421-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb421-3"><a href="latent-response-formulation.html#cb421-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;a[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb421-4"><a href="latent-response-formulation.html#cb421-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb421-5"><a href="latent-response-formulation.html#cb421-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-2.png" width="672" /></p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="latent-response-formulation.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
-<span id="cb379-2"><a href="latent-response-formulation.html#cb379-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
-<span id="cb379-3"><a href="latent-response-formulation.html#cb379-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;c[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
-<span id="cb379-4"><a href="latent-response-formulation.html#cb379-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb379-5"><a href="latent-response-formulation.html#cb379-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="latent-response-formulation.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mcmc_areas</span>(</span>
+<span id="cb422-2"><a href="latent-response-formulation.html#cb422-2" aria-hidden="true" tabindex="-1"></a>  plot.data,</span>
+<span id="cb422-3"><a href="latent-response-formulation.html#cb422-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">pars =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">&quot;c[&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;]&quot;</span>)),</span>
+<span id="cb422-4"><a href="latent-response-formulation.html#cb422-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb422-5"><a href="latent-response-formulation.html#cb422-5" aria-hidden="true" tabindex="-1"></a>  plot_title</span></code></pre></div>
 <p><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-3.png" width="672" /></p>
 </div>
 </div>

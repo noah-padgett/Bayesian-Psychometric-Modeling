@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 11 Item Response Theory | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
+  <title>13.1 LCA Model Specification | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
   <meta name="description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 11 Item Response Theory | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  <meta property="og:title" content="13.1 LCA Model Specification | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="noah-padgett/Bayesian-Psychometric-Modeling" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 11 Item Response Theory | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
+  <meta name="twitter:title" content="13.1 LCA Model Specification | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
   
   <meta name="twitter:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="model-comparison.html"/>
-<link rel="next" href="irt-models-for-dichotomous-data.html"/>
+<link rel="prev" href="latent-class-analysis.html"/>
+<link rel="next" href="extending-lca.html"/>
 <script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -260,21 +260,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="item-response-theory" class="section level1" number="11">
-<h1><span class="header-section-number">Chapter 11</span> Item Response Theory</h1>
-<p>Item response theory (IRT) builds models for item (stimuli that the measures collected) based on two broad classes of models</p>
-<ol style="list-style-type: decimal">
-<li>Models for dichotomous (binary, 0/1) items and</li>
-<li>Models for polytomous (multi-category) items.</li>
-</ol>
+<div id="lca-model-specification" class="section level2" number="13.1">
+<h2><span class="header-section-number">13.1</span> LCA Model Specification</h2>
+<p>LCA is a <em>finite mixture model</em>.
+A mixture model is generally any statistical model that combines distributions to describe different subsets or aspects of the data.
+For example, LCA is a mixture model that posits class specific item/indicator response probabilities.
+Different classes have a different distribution or expected response on average.
+Each unit of observation (e.g., person) is assumed to belong to 1 and only 1 class.
+Because individuals can only belong to one class, the different classes of observations make up different subsets of the data used in the analysis.
+One result of an LCA model is the ability to identify the likelihood that an individual belongs to a particular class which is sometimes called probabilistic clustering.</p>
+<p>Let <span class="math inline">\(x_{ij}\)</span> be the observed value from respondent <span class="math inline">\(i=1, \ldots, N\)</span> on observable (item) <span class="math inline">\(j=1, \ldots, J\)</span>.
+Because <span class="math inline">\(x\)</span> is binary, the observed value can be <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>.
+The latent class variable commonly denoted with a <span class="math inline">\(C\)</span> to represent the total number of latent classes.
+Let <span class="math inline">\(\theta_i\)</span> represent the class for individual <span class="math inline">\(i\)</span>, where <span class="math inline">\(\theta_i \in \lbrace 1, \ldots, C\rbrace\)</span>.
+Similar to IRT, LCA models the probability of the observed response.
+However, LCA we estimate this value more directly because the value only depends on latent class membership instead of the value being indirectly estimated through item difficulties and discrimination parameters.
+The model for the observed response being 1 is
+<span class="math display">\[p(x_{ij} = 1) = \sum_{c=1}^Cp(x_{ij}=1\mid\theta_i=c,\pi_j)\gamma_c,\]</span>
+where,</p>
+<ul>
+<li><span class="math inline">\(p(x_{ij}=1\mid\theta_i=c,\pi_i)\)</span> is class specific conditional response probability to item <span class="math inline">\(i\)</span>,</li>
+<li><span class="math inline">\(\pi_j\)</span> represents the item parameters, in this case it is simply the conditional probability, but can be expanded to be a set of item parameters (e.g., IRT-like),</li>
+<li><span class="math inline">\(\gamma_c\)</span> represents the class <em>mixing weight</em> or the class size parameter. The size of each class helps to identify how likely an individual in to be in any of the <span class="math inline">\(C\)</span> classes if we had no other information.</li>
+<li>Additionally, the class mixing weights always sums to <span class="math inline">\(1\)</span>, that is</li>
+</ul>
+<p><span class="math display">\[\sum_{c=1}^C\gamma_c = \sum_{c=1}^Cp(\theta_i=c) = 1.\]</span></p>
+<p>Another way of interpreting the mixing weight is as a class proportion.
+This framing can sometimes make it easier to see that the indicator response probability is a weighted average of response probabilities over the <span class="math inline">\(C\)</span> classes.
+The larger the class the more that class influences the expected response probabilities.</p>
+<div id="lca-model-indeterminacy" class="section level3" number="13.1.1">
+<h3><span class="header-section-number">13.1.1</span> LCA Model Indeterminacy</h3>
+<p>One common aspect of LCA than can be a bit of a headache at times if not careful is an issue known as label switching.
+LCA models discrete latent variables which do not have any inherent labels, as CFA/IRT model continuous latent variables that do not have any inherent scale/metric.</p>
+</div>
+<div id="model-likelihood" class="section level3" number="13.1.2">
+<h3><span class="header-section-number">13.1.2</span> Model Likelihood</h3>
+<p>The likelihood function for LCA follows a similar development as the likelihood function from CFA and IRT.
+We assume that the individuals are independent (<span class="math inline">\(i\)</span>’s are exchangeable).
+We assume that the responses to each item are conditionally (locally) independent (<span class="math inline">\(j\)</span>’s are exchangeable).
+The joint probability conditional on the latent variable <span class="math inline">\(C\)</span> is</p>
+<p><span class="math display">\[p(\bm{x}_i \vert \bm\theta, \bm\pi) = \prod_{i=1}^Np(\bm{x}_i \vert \theta_i=c, \bm\pi) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]</span></p>
+<p>The marginal probability when the observed data when we sum over the possible latent classes becomes</p>
+<p><span class="math display">\[\begin{align*}
+p(\bm{x}_i \vert \bm\pi, \bm\gamma) &amp;= \prod_{i=1}^N\sum_{c=1}^C p(\bm{x}_i \vert \theta_i=c, \bm\pi)p(\theta_i = c \vert \gamma)\\
+&amp;= \prod_{i=1}^N\left(\sum_{c=1}^C \left(\prod_{j=1}^J p(x_{ij} \vert \theta_i=c, \pi_j)\right)p(\theta_i = c \vert \gamma)\right)
+\end{align*}\]</span></p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="model-comparison.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="irt-models-for-dichotomous-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="latent-class-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="extending-lca.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -305,7 +344,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/11-irt.Rmd",
+"link": "https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/13-lca.Rmd",
 "text": "Edit"
 },
 "history": {

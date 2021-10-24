@@ -24,7 +24,7 @@
 <meta name="author" content="R. Noah Padgett" />
 
 
-<meta name="date" content="2021-04-22" />
+<meta name="date" content="2021-10-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="missing-data-modeling.html"/>
-<link rel="next" href="bayesian-networks.html"/>
+<link rel="next" href="lca-model-specification.html"/>
 <script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -229,7 +229,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.10" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.10</b> Final Notes</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="missing-data-modeling.html"><a href="missing-data-modeling.html"><i class="fa fa-check"></i><b>12</b> Missing Data Modeling</a></li>
-<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a></li>
+<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html"><i class="fa fa-check"></i><b>13.1</b> LCA Model Specification</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html#lca-model-indeterminacy"><i class="fa fa-check"></i><b>13.1.1</b> LCA Model Indeterminacy</a></li>
+<li class="chapter" data-level="13.1.2" data-path="lca-model-specification.html"><a href="lca-model-specification.html#model-likelihood"><i class="fa fa-check"></i><b>13.1.2</b> Model Likelihood</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="extending-lca.html"><a href="extending-lca.html"><i class="fa fa-check"></i><b>13.2</b> Extending LCA</a></li>
+</ul></li>
 <li class="chapter" data-level="14" data-path="bayesian-networks.html"><a href="bayesian-networks.html"><i class="fa fa-check"></i><b>14</b> Bayesian Networks</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -254,8 +262,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="latent-class-analysis" class="section level1" number="13">
 <h1><span class="header-section-number">Chapter 13</span> Latent Class Analysis</h1>
-<p>TO-DO</p>
-
+<p>Latent class analysis (LCA) takes a different approach to modeling latent variables than has been discussed in the previous chapters (especially CFA or IRT).
+The major distinguishing aspect of LCA is that the latent variable is hypothesized to be a discrete random variable as opposed to a continuous random variable.
+This shift in perspective is beneficial to researchers/analysts wishing to think categorically and discuss groups of observations/people/units as opposed to a dimension of possible differences.</p>
+<p>LCA is often used in an exploratory nature to try to identify the number of “latent classes” or unobserved groups.
+However, in the text, Levy and Mislevy discuss what they describe as a more “confirmatory” approach to LCA.
+The major distinction is that they specify the number of classes to be known, and treat this chapter as a resource for how to estimate the model within a Bayesian framework.</p>
+<p>To extend their work, we have added a section on model selection and provided resources for the interested reader.
+But, in general, the topic of model selection in Bayesian LCA (and SEM more generally) is still an ongoing area of research.
+Many views exist on how to conduct model selection (if at all) and we will try to present an array of options that have been proposed.</p>
 </div>
             </section>
 
@@ -263,7 +278,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="missing-data-modeling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="bayesian-networks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="lca-model-specification.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
