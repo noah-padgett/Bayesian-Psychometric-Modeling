@@ -103,3 +103,6 @@ lca-model-indeterminacy
 model-likelihood
 extending-lca
 bayesian-networks
+two-latent-variable-model
+bayesian-lca-model-specification
+distribution-of-observed-indicators

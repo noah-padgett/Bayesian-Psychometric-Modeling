@@ -56,14 +56,30 @@ We assume that the individuals are independent ($i$'s are exchangeable).
 We assume that the responses to each item are conditionally (locally) independent ($j$'s are exchangeable).
 The joint probability conditional on the latent variable $C$ is
 
-\[p(\bm{x}_i \vert \bm\theta, \bm\pi) = \prod_{i=1}^Np(\bm{x}_i \vert \theta_i=c, \bm\pi) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]
+\[p(\mathbf{x}_i \vert \mathbf{\theta}, \mathbf{\pi}) = \prod_{i=1}^Np(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]
 
 The marginal probability when the observed data when we sum over the possible latent classes becomes
 
 \begin{align*}
-p(\bm{x}_i \vert \bm\pi, \bm\gamma) &= \prod_{i=1}^N\sum_{c=1}^C p(\bm{x}_i \vert \theta_i=c, \bm\pi)p(\theta_i = c \vert \gamma)\\
+p(\mathbf{x}_i \vert \mathbf{\pi}, \mathbf{\gamma}) &= \prod_{i=1}^N\sum_{c=1}^C p(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi})p(\theta_i = c \vert \gamma)\\
 &= \prod_{i=1}^N\left(\sum_{c=1}^C \left(\prod_{j=1}^J p(x_{ij} \vert \theta_i=c, \pi_j)\right)p(\theta_i = c \vert \gamma)\right)
 \end{align*}
+
+## Bayesian LCA Model Specification
+
+For the Bayesian formulation of the LCA model, the construction will be carried out in pieces similar to previous chapters.
+
+### Distribution of Observed Indicators
+
+First, the distribution of the observed variables is specified as a product of independent probabilities.
+That is, the observed data distribution is _categorical(.)_.
+Or
+
+\begin{align*}
+x_{ij} &\sim \mathrm{Categorical}(\pi_{cj})\\
+p(\mathbf{x}\vert \mathbf{\theta}, \mathbf{\pi}) &= \prod_{i=1}^N p(\mathbf{x}_i\vert \theta_i, \mathbf{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j)
+\end{align*}
+
 
 
 ## Extending LCA
