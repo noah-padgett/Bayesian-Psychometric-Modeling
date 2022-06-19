@@ -229,7 +229,7 @@ Next, we want to use the above model.
 Using OpensBUGS through R can be a little clunky as I had to create objects with the filepaths of the data and model code then get R to read those in through the function ` openbugs`.
 Otherwise, the code is similar to style to the code used for calling Stan.
 
-```{r chp2-beta-bin-fit-bugs, warnings=F, message=F,error=F, cache=TRUE}
+```{r chp2-beta-bin-fit-bugs, eval=FALSE, warnings=F, message=F,error=F, cache=TRUE}
 
 # model code
 model.file <- paste0(w.d,"/code/Binomial/Binomial Model.bug")
@@ -542,7 +542,7 @@ list(J=10, y=c(1,0,1,0,1,1,1,1,0,1), alpha=6, beta=6)
 The code is similar to style to the code used for calling Stan.
 However you'll notice a difference in how a probability distribution is referenced.
 
-```{r chp2-beta-bern-fit-bugs, warnings=F, message=F,error=F, cache=TRUE}
+```{r chp2-beta-bern-fit-bugs, eval = FALSE, warnings=F, message=F,error=F, cache=TRUE}
 
 # model code
 model.file <- paste0(w.d,"/code/Bernoulli/Bernoulli Model.bug")

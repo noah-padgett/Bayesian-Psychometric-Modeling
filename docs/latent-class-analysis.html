@@ -1,209 +1,97 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 13 Latent Class Analysis | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
-  <meta name="description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Chapter 13 Latent Class Analysis | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
-  <meta name="github-repo" content="noah-padgett/Bayesian-Psychometric-Modeling" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 13 Latent Class Analysis | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
-  
-  <meta name="twitter:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
-  
-
-<meta name="author" content="R. Noah Padgett" />
-
-
-<meta name="date" content="2021-10-30" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="missing-data-modeling.html"/>
-<link rel="next" href="lca-model-specification.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="style.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 13 Latent Class Analysis | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
+<meta name="author" content="R. Noah Padgett">
+<meta name="description" content="Latent class analysis (LCA) takes a different approach to modeling latent variables than has been discussed in the previous chapters (especially CFA or IRT). The major distinguishing aspect of LCA...">
+<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta property="og:title" content="Chapter 13 Latent Class Analysis | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Latent class analysis (LCA) takes a different approach to modeling latent variables than has been discussed in the previous chapters (especially CFA or IRT). The major distinguishing aspect of LCA...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 13 Latent Class Analysis | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy">
+<meta name="twitter:description" content="Latent class analysis (LCA) takes a different approach to modeling latent variables than has been discussed in the previous chapters (especially CFA or IRT). The major distinguishing aspect of LCA...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
-
-
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Bayesian Psychometric Modeling</a></li>
-
-<li class="divider"></li>
-<li class="part"><span><b>I Foundations</b></span></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started/Overview Chapter</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i><b>1.1</b> Software</a></li>
-<li class="chapter" data-level="1.2" data-path="overview-of-assessment-and-psychometric-modeling.html"><a href="overview-of-assessment-and-psychometric-modeling.html"><i class="fa fa-check"></i><b>1.2</b> Overview of Assessment and Psychometric Modeling</a></li>
-<li class="chapter" data-level="1.3" data-path="looking-forward.html"><a href="looking-forward.html"><i class="fa fa-check"></i><b>1.3</b> Looking Forward</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="chp2.html"><a href="chp2.html"><i class="fa fa-check"></i><b>2</b> Introduction to Bayesian Inference</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html"><i class="fa fa-check"></i><b>2.1</b> Beta-binomial Example</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-stan"><i class="fa fa-check"></i><b>2.1.1</b> Computation using Stan</a></li>
-<li class="chapter" data-level="2.1.2" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-winbugs-openbugs"><i class="fa fa-check"></i><b>2.1.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
-<li class="chapter" data-level="2.1.3" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-jags-r2jags"><i class="fa fa-check"></i><b>2.1.3</b> Computation using JAGS (R2jags)</a></li>
-</ul></li>
-<li class="chapter" data-level="2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html"><i class="fa fa-check"></i><b>2.2</b> Beta-Bernoulli Example</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-stan-1"><i class="fa fa-check"></i><b>2.2.1</b> Computation using Stan</a></li>
-<li class="chapter" data-level="2.2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-winbugs-openbugs-1"><i class="fa fa-check"></i><b>2.2.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
-<li class="chapter" data-level="2.2.3" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-jags-r2jags-1"><i class="fa fa-check"></i><b>2.2.3</b> Computation using JAGS (R2jags)</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="conceptual-issues-in-bayesian-inference.html"><a href="conceptual-issues-in-bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Conceptual Issues in Bayesian Inference</a></li>
-<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="stan-model-for-mean-and-variance-unknown.html"><a href="stan-model-for-mean-and-variance-unknown.html"><i class="fa fa-check"></i><b>4.1</b> Stan Model for mean and variance unknown</a></li>
-<li class="chapter" data-level="4.2" data-path="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><a href="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><i class="fa fa-check"></i><b>4.2</b> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="markov-chain-monte-carlo-estimation.html"><a href="markov-chain-monte-carlo-estimation.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo Estimation</a></li>
-<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="stan-model-for-regression-model.html"><a href="stan-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.1</b> Stan Model for Regression Model</a></li>
-<li class="chapter" data-level="6.2" data-path="jags-model-for-regression-model.html"><a href="jags-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.2</b> JAGS Model for Regression Model</a></li>
-</ul></li>
-<li class="part"><span><b>II Psychometrics</b></span></li>
-<li class="chapter" data-level="7" data-path="canonical-bayesian-psychometric-modeling.html"><a href="canonical-bayesian-psychometric-modeling.html"><i class="fa fa-check"></i><b>7</b> Canonical Bayesian Psychometric Modeling</a></li>
-<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="example-1-known-measurement-model-parameters-with-1-measure.html"><a href="example-1-known-measurement-model-parameters-with-1-measure.html"><i class="fa fa-check"></i><b>8.1</b> Example 1 - Known measurement model parameters with 1 measure</a></li>
-<li class="chapter" data-level="8.2" data-path="example-1-stan.html"><a href="example-1-stan.html"><i class="fa fa-check"></i><b>8.2</b> Example 1 - Stan</a></li>
-<li class="chapter" data-level="8.3" data-path="example-1-jags.html"><a href="example-1-jags.html"><i class="fa fa-check"></i><b>8.3</b> Example 1 - JAGS</a></li>
-<li class="chapter" data-level="8.4" data-path="example-2-known-measurement-model-with-multiple-measures.html"><a href="example-2-known-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.4</b> Example 2 - Known Measurement Model with Multiple Measures</a></li>
-<li class="chapter" data-level="8.5" data-path="example-2-stan.html"><a href="example-2-stan.html"><i class="fa fa-check"></i><b>8.5</b> Example 2 - Stan</a></li>
-<li class="chapter" data-level="8.6" data-path="example-2-jags.html"><a href="example-2-jags.html"><i class="fa fa-check"></i><b>8.6</b> Example 2 - JAGS</a></li>
-<li class="chapter" data-level="8.7" data-path="example-3-unknown-measurement-model-with-multiple-measures.html"><a href="example-3-unknown-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.7</b> Example 3 - Unknown Measurement Model with Multiple Measures</a></li>
-<li class="chapter" data-level="8.8" data-path="example-3-stan.html"><a href="example-3-stan.html"><i class="fa fa-check"></i><b>8.8</b> Example 3 - Stan</a></li>
-<li class="chapter" data-level="8.9" data-path="example-3-jags.html"><a href="example-3-jags.html"><i class="fa fa-check"></i><b>8.9</b> Example 3 - JAGS</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="confirmatory-factor-analysis.html"><a href="confirmatory-factor-analysis.html"><i class="fa fa-check"></i><b>9</b> Confirmatory Factor Analysis</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="single-latent-variable-model.html"><a href="single-latent-variable-model.html"><i class="fa fa-check"></i><b>9.1</b> Single Latent Variable Model</a></li>
-<li class="chapter" data-level="9.2" data-path="jags-single-latent-variable.html"><a href="jags-single-latent-variable.html"><i class="fa fa-check"></i><b>9.2</b> JAGS - Single Latent Variable</a></li>
-<li class="chapter" data-level="9.3" data-path="stan-single-latent-variable.html"><a href="stan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.3</b> Stan - Single Latent Variable</a></li>
-<li class="chapter" data-level="9.4" data-path="blavaan-single-latent-variable.html"><a href="blavaan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> Blavaan - Single Latent Variable</a></li>
-<li class="chapter" data-level="9.5" data-path="two-latent-variable-model.html"><a href="two-latent-variable-model.html"><i class="fa fa-check"></i><b>9.5</b> Two Latent Variable Model</a></li>
-<li class="chapter" data-level="9.6" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> JAGS - Two Latent Variable</a></li>
-<li class="chapter" data-level="9.7" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.7</b> Stan - Two Latent Variable</a>
-<ul>
-<li class="chapter" data-level="9.7.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.7.1</b> Inverse-Wishart Prior</a></li>
-<li class="chapter" data-level="9.7.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.7.2</b> LKJ Cholesky Parameterization</a></li>
-</ul></li>
-<li class="chapter" data-level="9.8" data-path="blavaan-two-latent-variables.html"><a href="blavaan-two-latent-variables.html"><i class="fa fa-check"></i><b>9.8</b> Blavaan - Two Latent Variables</a></li>
-<li class="chapter" data-level="9.9" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.9</b> Indeterminacy in One Factor CFA</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="residual-analysis.html"><a href="residual-analysis.html"><i class="fa fa-check"></i><b>10.1</b> Residual Analysis</a></li>
-<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a>
-<ul>
-<li class="chapter" data-level="10.2.1" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#example-of-posterior-predictive-distribution-of-correlations"><i class="fa fa-check"></i><b>10.2.1</b> Example of posterior predictive distribution of correlations</a></li>
-<li class="chapter" data-level="10.2.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#ppd-srmr"><i class="fa fa-check"></i><b>10.2.2</b> PPD SRMR</a></li>
-</ul></li>
-<li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
-<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a></li>
-<li class="chapter" data-level="11.3" data-path="lsat-example-jags.html"><a href="lsat-example-jags.html"><i class="fa fa-check"></i><b>11.3</b> LSAT Example - JAGS</a>
-<ul>
-<li class="chapter" data-level="11.3.1" data-path="lsat-example-jags.html"><a href="lsat-example-jags.html#posterior-predicted-distributions"><i class="fa fa-check"></i><b>11.3.1</b> Posterior Predicted Distributions</a></li>
-</ul></li>
-<li class="chapter" data-level="11.4" data-path="lsat-example-stan.html"><a href="lsat-example-stan.html"><i class="fa fa-check"></i><b>11.4</b> LSAT Example - Stan</a></li>
-<li class="chapter" data-level="11.5" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.5</b> IRT Models for Polytomous Data</a></li>
-<li class="chapter" data-level="11.6" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.6</b> GRM Peer Interactions Example</a>
-<ul>
-<li class="chapter" data-level="11.6.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#example-specific-model-specification"><i class="fa fa-check"></i><b>11.6.1</b> Example Specific Model Specification</a></li>
-</ul></li>
-<li class="chapter" data-level="11.7" data-path="pi-example-jags.html"><a href="pi-example-jags.html"><i class="fa fa-check"></i><b>11.7</b> PI Example - JAGS</a></li>
-<li class="chapter" data-level="11.8" data-path="pi-example-stan.html"><a href="pi-example-stan.html"><i class="fa fa-check"></i><b>11.8</b> PI Example - Stan</a></li>
-<li class="chapter" data-level="11.9" data-path="latent-response-formulation.html"><a href="latent-response-formulation.html"><i class="fa fa-check"></i><b>11.9</b> Latent Response Formulation</a>
-<ul>
-<li class="chapter" data-level="11.9.1" data-path="latent-response-formulation.html"><a href="latent-response-formulation.html#lsat-example-revisted"><i class="fa fa-check"></i><b>11.9.1</b> LSAT Example Revisted</a></li>
-</ul></li>
-<li class="chapter" data-level="11.10" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.10</b> Final Notes</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="missing-data-modeling.html"><a href="missing-data-modeling.html"><i class="fa fa-check"></i><b>12</b> Missing Data Modeling</a></li>
-<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html"><i class="fa fa-check"></i><b>13.1</b> LCA Model Specification</a>
-<ul>
-<li class="chapter" data-level="13.1.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html#lca-model-indeterminacy"><i class="fa fa-check"></i><b>13.1.1</b> LCA Model Indeterminacy</a></li>
-<li class="chapter" data-level="13.1.2" data-path="lca-model-specification.html"><a href="lca-model-specification.html#model-likelihood"><i class="fa fa-check"></i><b>13.1.2</b> Model Likelihood</a></li>
-</ul></li>
-<li class="chapter" data-level="13.2" data-path="bayesian-lca-model-specification.html"><a href="bayesian-lca-model-specification.html"><i class="fa fa-check"></i><b>13.2</b> Bayesian LCA Model Specification</a>
-<ul>
-<li class="chapter" data-level="13.2.1" data-path="bayesian-lca-model-specification.html"><a href="bayesian-lca-model-specification.html#distribution-of-observed-indicators"><i class="fa fa-check"></i><b>13.2.1</b> Distribution of Observed Indicators</a></li>
-</ul></li>
-<li class="chapter" data-level="13.3" data-path="extending-lca.html"><a href="extending-lca.html"><i class="fa fa-check"></i><b>13.3</b> Extending LCA</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="bayesian-networks.html"><a href="bayesian-networks.html"><i class="fa fa-check"></i><b>14</b> Bayesian Networks</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="divider"></li>
-<li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
-
-</ul>
-
-      </nav>
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
     </div>
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</a>
-          </h1>
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li class="book-part">Foundations</li>
+<li><a class="" href="overview.html"><span class="header-section-number">1</span> Overview</a></li>
+<li><a class="" href="chp2.html"><span class="header-section-number">2</span> Introduction to Bayesian Inference</a></li>
+<li><a class="" href="conceptual-issues-in-bayesian-inference.html"><span class="header-section-number">3</span> Conceptual Issues in Bayesian Inference</a></li>
+<li><a class="" href="normal-distribution-models.html"><span class="header-section-number">4</span> Normal Distribution Models</a></li>
+<li><a class="" href="markov-chain-monte-carlo-estimation.html"><span class="header-section-number">5</span> Markov Chain Monte Carlo Estimation</a></li>
+<li><a class="" href="regression.html"><span class="header-section-number">6</span> Regression</a></li>
+<li class="book-part">Psychometrics</li>
+<li><a class="" href="canonical-bayesian-psychometric-modeling.html"><span class="header-section-number">7</span> Canonical Bayesian Psychometric Modeling</a></li>
+<li><a class="" href="classical-test-theory.html"><span class="header-section-number">8</span> Classical Test Theory</a></li>
+<li><a class="" href="confirmatory-factor-analysis.html"><span class="header-section-number">9</span> Confirmatory Factor Analysis</a></li>
+<li><a class="" href="model-evaluation.html"><span class="header-section-number">10</span> Model Evaluation</a></li>
+<li><a class="" href="item-response-theory.html"><span class="header-section-number">11</span> Item Response Theory</a></li>
+<li><a class="" href="missing-data-modeling.html"><span class="header-section-number">12</span> Missing Data Modeling</a></li>
+<li><a class="active" href="latent-class-analysis.html"><span class="header-section-number">13</span> Latent Class Analysis</a></li>
+<li><a class="" href="bayesian-networks.html"><span class="header-section-number">14</span> Bayesian Networks</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling">View book source <i class="fab fa-github"></i></a></p>
         </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="latent-class-analysis" class="section level1" number="13">
-<h1><span class="header-section-number">Chapter 13</span> Latent Class Analysis</h1>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="latent-class-analysis" class="section level1" number="13">
+<h1>
+<span class="header-section-number">13</span> Latent Class Analysis<a class="anchor" aria-label="anchor" href="#latent-class-analysis"><i class="fas fa-link"></i></a>
+</h1>
 <p>Latent class analysis (LCA) takes a different approach to modeling latent variables than has been discussed in the previous chapters (especially CFA or IRT).
 The major distinguishing aspect of LCA is that the latent variable is hypothesized to be a discrete random variable as opposed to a continuous random variable.
 This shift in perspective is beneficial to researchers/analysts wishing to think categorically and discuss groups of observations/people/units as opposed to a dimension of possible differences.</p>
@@ -211,67 +99,193 @@ This shift in perspective is beneficial to researchers/analysts wishing to think
 However, in the text, Levy and Mislevy discuss what they describe as a more “confirmatory” approach to LCA.
 The major distinction is that they specify the number of classes to be known, and treat this chapter as a resource for how to estimate the model within a Bayesian framework.</p>
 <p>To extend their work, we have added a section on model selection and provided resources for the interested reader.
-But, in general, the topic of model selection in Bayesian LCA (and SEM more generally) is still an ongoing area of research.
+But, in general, the topic of model selection in Bayesian LCA (and Bayesian SEM more generally) is still an ongoing area of research.
 Many views exist on how to conduct model selection (if at all) and we will try to present an array of options that have been proposed.</p>
+<div id="lca-model-specification" class="section level2" number="13.1">
+<h2>
+<span class="header-section-number">13.1</span> LCA Model Specification<a class="anchor" aria-label="anchor" href="#lca-model-specification"><i class="fas fa-link"></i></a>
+</h2>
+<p>LCA is a <em>finite mixture model</em>.
+A mixture model is generally any statistical model that combines distributions to describe different subsets or aspects of the data.
+For example, LCA is a mixture model that posits class specific item/indicator response probabilities.
+Different classes have a different distribution or expected response on average.
+Each unit of observation (e.g., person) is assumed to belong to 1 and only 1 class.
+Because individuals can only belong to one class, the different classes of observations make up different subsets of the data used in the analysis.
+One result of an LCA model is the ability to identify the likelihood that an individual belongs to a particular class which is sometimes called probabilistic clustering.</p>
+<p>Let <span class="math inline">\(x_{ij}\)</span> be the observed value from respondent <span class="math inline">\(i=1, \ldots, N\)</span> on observable (item) <span class="math inline">\(j=1, \ldots, J\)</span>.
+Because <span class="math inline">\(x\)</span> is binary, the observed value can be <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>.
+The latent class variable commonly denoted with a <span class="math inline">\(C\)</span> to represent the total number of latent classes.
+Let <span class="math inline">\(\theta_i\)</span> represent the class for individual <span class="math inline">\(i\)</span>, where <span class="math inline">\(\theta_i \in \lbrace 1, \ldots, C\rbrace\)</span>.
+Similar to IRT, LCA models the probability of the observed response.
+However, LCA we estimate this value more directly because the value only depends on latent class membership instead of the value being indirectly estimated through item difficulties and discrimination parameters.
+The model for the observed response being 1 is
+<span class="math display">\[p(x_{ij} = 1) = \sum_{c=1}^Cp(x_{ij}=1\mid\theta_i=c,\pi_j)\gamma_c,\]</span>
+where,</p>
+<ul>
+<li>
+<span class="math inline">\(p(x_{ij}=1\mid\theta_i=c,\pi_i)\)</span> is class specific conditional response probability to item <span class="math inline">\(i\)</span>,</li>
+<li>
+<span class="math inline">\(\pi_j\)</span> represents the item parameters, in this case it is simply the conditional probability, but can be expanded to be a set of item parameters (e.g., IRT-like),</li>
+<li>
+<span class="math inline">\(\gamma_c\)</span> represents the class <em>mixing weight</em> or the class size parameter. The size of each class helps to identify how likely an individual in to be in any of the <span class="math inline">\(C\)</span> classes if we had no other information.</li>
+<li>Additionally, the class mixing weights always sums to <span class="math inline">\(1\)</span>, that is</li>
+</ul>
+<p><span class="math display">\[\sum_{c=1}^C\gamma_c = \sum_{c=1}^Cp(\theta_i=c) = 1.\]</span></p>
+<p>Another way of interpreting the mixing weight is as a class proportion.
+This framing can sometimes make it easier to see that the indicator response probability is a weighted average of response probabilities over the <span class="math inline">\(C\)</span> classes.
+The larger the class the more that class influences the expected response probabilities.</p>
+<div id="lca-model-indeterminacy" class="section level3" number="13.1.1">
+<h3>
+<span class="header-section-number">13.1.1</span> LCA Model Indeterminacy<a class="anchor" aria-label="anchor" href="#lca-model-indeterminacy"><i class="fas fa-link"></i></a>
+</h3>
+<p>One common aspect of LCA than can be a bit of a headache at times if not carefully considered is an issue known as label switching.
+LCA models discrete latent variables which do not have any inherent labels, as CFA/IRT model continuous latent variables that do not have any inherent scale/metric.</p>
 </div>
-            </section>
+<div id="model-likelihood" class="section level3" number="13.1.2">
+<h3>
+<span class="header-section-number">13.1.2</span> Model Likelihood<a class="anchor" aria-label="anchor" href="#model-likelihood"><i class="fas fa-link"></i></a>
+</h3>
+<p>The likelihood function for LCA follows a similar development as the likelihood function from CFA and IRT.
+We assume that the individuals are independent (<span class="math inline">\(i\)</span>’s are exchangeable).
+We assume that the responses to each item are conditionally (locally) independent (<span class="math inline">\(j\)</span>’s are exchangeable).
+The joint probability conditional on the latent variable <span class="math inline">\(C\)</span> is</p>
+<p><span class="math display">\[p(\bm{x}_i \vert \bm{\theta}, \bm{\pi}) = \prod_{i=1}^Np(\bm{x}_i \vert \theta_i=c, \bm{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]</span></p>
+<p>The marginal probability when the observed data when we sum over the possible latent classes becomes</p>
+<p><span class="math display">\[\begin{align*}
+p(\bm{x}_i \vert \bm{\pi}, \bm{\gamma}) &amp;= \prod_{i=1}^N\sum_{c=1}^C p(\bm{x}_i \vert \theta_i=c, \bm{\pi})p(\theta_i = c \vert \gamma)\\
+&amp;= \prod_{i=1}^N\left(\sum_{c=1}^C \left(\prod_{j=1}^J p(x_{ij} \vert \theta_i=c, \pi_j)\right)p(\theta_i = c \vert \gamma)\right)
+\end{align*}
+\]</span></p>
+</div>
+</div>
+<div id="bayesian-lca-model-specification" class="section level2" number="13.2">
+<h2>
+<span class="header-section-number">13.2</span> Bayesian LCA Model Specification<a class="anchor" aria-label="anchor" href="#bayesian-lca-model-specification"><i class="fas fa-link"></i></a>
+</h2>
+<p>For the Bayesian formulation of the LCA model, the construction will be carried out in pieces similar to previous chapters.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:chp13-dag-1"></span>
+<img src="dag/chp13-lca1.png" alt="DAG for a general latent class analysis model" width="90%" height="90%"><p class="caption">
+Figure 13.1: DAG for a general latent class analysis model
+</p>
+</div>
+<div id="distribution-of-observed-indicators" class="section level3" number="13.2.1">
+<h3>
+<span class="header-section-number">13.2.1</span> Distribution of Observed Indicators<a class="anchor" aria-label="anchor" href="#distribution-of-observed-indicators"><i class="fas fa-link"></i></a>
+</h3>
+<p>First, the distribution of the observed variables is specified as a product of independent probabilities.
+That is, the observed data distribution is <em>categorical(.)</em>.
+Or</p>
+<p><span class="math display">\[\begin{align*}
+p(\bm{x}\vert \bm{\theta}, \bm{\pi})&amp;= \prod_{i=1}^N p(\bm{x}_i\vert \theta_i, \bm{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \bm{\pi}_j),\\
+x_{ij} &amp;\sim \mathrm{Categorical}(\pi_{cj})\\
+\end{align*}\]</span>
+where the model holds for observables taking values coded as <span class="math inline">\(1,...,K\)</span> with the categorical indicators.
+One of the major changes from an IRT model is that the latent variables are categorical, resulting in a different distribution for the latent variable.
+The <em>Dirichlet</em> distribution is commonly used as the prior for the categorical latent variables.
+The Dirichlet distribution is a generalization of the Beta distribution to more than two district outcomes.
+The distribution models the categorical data as the likelihood or propensity to be one of the categoricals.</p>
+</div>
+<div id="prior-distributions" class="section level3" number="13.2.2">
+<h3>
+<span class="header-section-number">13.2.2</span> Prior Distributions<a class="anchor" aria-label="anchor" href="#prior-distributions"><i class="fas fa-link"></i></a>
+</h3>
+<p>The LCA model, as described here, contains two major types of parameters.
+That is, (1) the latent class status for each respondent and (2) the class specific category proportions.
+These two parameter types are vectors over respondents and items, respectively.
+The joint prior distribution can be generally described as
+<span class="math display">\[p(\theta, \pi) = p(\theta)p(\pi),\]</span>
+due to assuming independence between these two types of parameters.
+Independence is a logical assumption and aligns with the IRT and CFA traditions that latent variable values are independent of the measurement model parameters.</p>
+<p>The prior for the latent variables is represents the prior for the discrete groups respondents are assumed to belong to.
+A common prior is placed over all respondents
+<span class="math display">\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\bm{\theta}_p),\]</span>
+where <span class="math inline">\(\bm\theta_p\)</span> represents the hyperpriors defining the conditions of the categorical latent variables.
+The vector of parameters <span class="math inline">\(\bm\theta_p = \bm\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)\)</span>, where <span class="math inline">\(C\)</span> is the number of latent groups.
+Stated in another way,
+<span class="math display">\[\theta_i | \bm\gamma \sim \mathrm{Categorical}(\bm\gamma).\]</span></p>
+<p>The hyperprior for the categorical latent variable is also commonly given a prior distribution.
+The <span class="math inline">\(\bm\gamma\)</span> parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
+The prior is
+<span class="math display">\[\bm\gamma \sim \mathrm{Dirichlet}(\bm\alpha_\gamma),\]</span>
+where <span class="math inline">\(\bm\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).\)</span>
+The Dirichlet distribution is a generalization of the Beta distribution to more than two categories.
+This allows for a useful representation of the probabilities with well known statistical and sampling properties.</p>
+<p>The priors for the measurement model parameters (<span class="math inline">\(\bm\pi\)</span>) are commonly defined at the item level instead of jointly over all items:
+<span class="math display">\[p(\bm\pi) = \prod_{j=1}^Jp(\bm\pi_j\vert\bm\alpha_\pi),\]</span>
+where <span class="math inline">\(\bm\alpha_\pi\)</span> defines the hyperpriors for the measurement model parameters.
+The measurement model commonly utilizes either dichotomous or categorical indicators which leads to the use of either the Beta distribution or Dirichlet distribution for the priors.</p>
+</div>
+<div id="full-model-specification" class="section level3" number="13.2.3">
+<h3>
+<span class="header-section-number">13.2.3</span> Full Model Specification<a class="anchor" aria-label="anchor" href="#full-model-specification"><i class="fas fa-link"></i></a>
+</h3>
+<p>The full model specification can be shown as follows:</p>
+<p><span class="math display">\[
+\begin{align*}
+p(\bm\theta, \bm\gamma, \bm\pi) &amp;\propto p(\mathbf{x} \vert \bm\theta, \bm\gamma, \bm\pi) p(\bm\theta, \bm\gamma, \bm\pi)\\
+&amp;= p(\mathbf{x} \vert \bm\theta, \bm\gamma, \bm\pi) p(\bm\theta) p(\bm\gamma) p(\bm\pi)\\
+&amp;= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \bm{\pi}_j)p(\theta_i \vert \bm\gamma)p(\bm\gamma) \prod_{c=1}^Cp(\bm\pi_{cj})
+\end{align*}
+\]</span></p>
+</div>
+</div>
+<div id="extending-lca" class="section level2" number="13.3">
+<h2>
+<span class="header-section-number">13.3</span> Extending LCA<a class="anchor" aria-label="anchor" href="#extending-lca"><i class="fas fa-link"></i></a>
+</h2>
+<p>In LCA, the mixing of distributions can be generalized to include more complex components such as factor models to model the response process within class.
+For example, we can have factor mixture models where different CFA models hold for different subsets of the population.</p>
 
-          </div>
-        </div>
-      </div>
-<a href="missing-data-modeling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="lca-model-specification.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="missing-data-modeling.html"><span class="header-section-number">12</span> Missing Data Modeling</a></div>
+<div class="next"><a href="bayesian-networks.html"><span class="header-section-number">14</span> Bayesian Networks</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#latent-class-analysis"><span class="header-section-number">13</span> Latent Class Analysis</a></li>
+<li>
+<a class="nav-link" href="#lca-model-specification"><span class="header-section-number">13.1</span> LCA Model Specification</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lca-model-indeterminacy"><span class="header-section-number">13.1.1</span> LCA Model Indeterminacy</a></li>
+<li><a class="nav-link" href="#model-likelihood"><span class="header-section-number">13.1.2</span> Model Likelihood</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#bayesian-lca-model-specification"><span class="header-section-number">13.2</span> Bayesian LCA Model Specification</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#distribution-of-observed-indicators"><span class="header-section-number">13.2.1</span> Distribution of Observed Indicators</a></li>
+<li><a class="nav-link" href="#prior-distributions"><span class="header-section-number">13.2.2</span> Prior Distributions</a></li>
+<li><a class="nav-link" href="#full-model-specification"><span class="header-section-number">13.2.3</span> Full Model Specification</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#extending-lca"><span class="header-section-number">13.3</span> Extending LCA</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/blob/master/13-lca.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/13-lca.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-06-19.</p>
   </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/13-lca.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["bookdown-BPM.pdf", "bookdown-BPM.epub"],
-"toc": {
-"collapse": "section"
-}
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -283,7 +297,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>

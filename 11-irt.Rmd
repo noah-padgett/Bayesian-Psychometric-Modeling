@@ -95,7 +95,7 @@ c_j &\sim \mathrm{Beta}(5, 17),\ \mathrm{for}\ j=1, \cdots, 5.
 
 The above model can illustrated in a DAG as shown below.
 
-```{r chp11-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for 3-PL IRT model for LSAT Example'}
+```{r chp11-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for 3-PL IRT model for LSAT Example', out.width="90%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp11-irt1.png'),
                         auto_pdf = TRUE)
 ```
@@ -103,14 +103,14 @@ knitr::include_graphics(paste0(w.d,'/dag/chp11-irt1.png'),
 The path diagram for an IRT is essentially identical to the path diagram for a CFA model.
 This fact highlights an important feature of IRT/CFA in that the major conceptual difference between these approaches to is how we define the link between the latent variable the observed items.
 
-```{r chp11-pathdiag-1, echo=FALSE,fig.align='center',fig.cap='Path diagram for 3-PL IRT model'}
+```{r chp11-pathdiag-1, echo=FALSE,fig.align='center',fig.cap='Path diagram for 3-PL IRT model', out.width="90%"}
 knitr::include_graphics(paste0(w.d,'/path-diagram/chp11-irt1.png'),
                         auto_pdf = TRUE)
 ```
 
 For completeness, I have included the model specification diagram that more concretely connects the DAG and path diagram to the assumed distributions and priors.
 
-```{r chp11-spec-1, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the 3-PL IRT model'}
+```{r chp11-spec-1, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the 3-PL IRT model', out.width="90%"}
 knitr::include_graphics(paste0(w.d,'/model-spec/chp11-irt1.png'),
                         auto_pdf = TRUE)
 ```
@@ -612,7 +612,7 @@ d_{jk}\mid\mu_{d_{jk}},\sigma^2_{d_{jk}} &\sim \mathrm{Normal}^{>d_{j(k-1)}}(\mu
 The book uses an example of Peer Interactions from 500 responses to seven items. All the responses are coded from 1 to 5 on an agreement Likert-type scale.
 A DAG for the GRM corresponding to these data is shown below.
 
-```{r chp11-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG for the for Peer Interactions GRM analysis'}
+```{r chp11-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG for the for Peer Interactions GRM analysis', out.width="90%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp11-grm.png'),
                         auto_pdf = TRUE)
 ```
@@ -620,14 +620,14 @@ knitr::include_graphics(paste0(w.d,'/dag/chp11-grm.png'),
 The path diagram version is substantially simpler and identical to the path diagram for the 3-PL and factor analysis diagrams.
 Highlighting the similarity in *substantive* modeling of polytomous items to dichotomous items.
 
-```{r chp11-pathdiag-2, echo=FALSE,fig.align='center',fig.cap='Path diagram for the Peer Interactions GRM analysis'}
+```{r chp11-pathdiag-2, echo=FALSE,fig.align='center',fig.cap='Path diagram for the Peer Interactions GRM analysis', out.width="90%"}
 knitr::include_graphics(paste0(w.d,'/path-diagram/chp11-grm.png'),
                         auto_pdf = TRUE)
 ```
 
 For completeness, I have included the model specification diagram that more concretely connects the DAG and path diagram to the assumed distributions and priors.
 
-```{r chp11-spec-2, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for the Peer Interactions GRM analysis'}
+```{r chp11-spec-2, echo=FALSE,fig.align='center', out.width="90%",fig.cap='Model specification diagram for the Peer Interactions GRM analysis'}
 knitr::include_graphics(paste0(w.d,'/model-spec/chp11-grm.png'),
                         auto_pdf = TRUE)
 ```
@@ -966,8 +966,8 @@ fit <- jags(
   data=mydata,
   inits=start_values,
   parameters.to.save = param_save,
-  n.iter=26000,
-  n.burnin = 6000,
+  n.iter=500,
+  n.burnin = 200,
   n.chains = 3,
   progress.bar = "none")
 

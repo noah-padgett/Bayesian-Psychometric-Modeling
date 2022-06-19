@@ -33,7 +33,8 @@ fig:chp11-spec-1
 fig:chp11-dag-2
 fig:chp11-pathdiag-2
 fig:chp11-spec-2
-getting-startedoverview-chapter
+fig:chp13-dag-1
+overview
 software
 overview-of-assessment-and-psychometric-modeling
 looking-forward
@@ -101,8 +102,9 @@ latent-class-analysis
 lca-model-specification
 lca-model-indeterminacy
 model-likelihood
-extending-lca
-bayesian-networks
-two-latent-variable-model
 bayesian-lca-model-specification
 distribution-of-observed-indicators
+prior-distributions
+full-model-specification
+extending-lca
+bayesian-networks

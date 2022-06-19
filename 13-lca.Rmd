@@ -9,7 +9,7 @@ However, in the text, Levy and Mislevy discuss what they describe as a more "con
 The major distinction is that they specify the number of classes to be known, and treat this chapter as a resource for how to estimate the model within a Bayesian framework.
 
 To extend their work, we have added a section on model selection and provided resources for the interested reader.
-But, in general, the topic of model selection in Bayesian LCA (and SEM more generally) is still an ongoing area of research.
+But, in general, the topic of model selection in Bayesian LCA (and Bayesian SEM more generally) is still an ongoing area of research.
 Many views exist on how to conduct model selection (if at all) and we will try to present an array of options that have been proposed.
 
 ## LCA Model Specification
@@ -46,7 +46,7 @@ The larger the class the more that class influences the expected response probab
 
 ### LCA Model Indeterminacy
 
-One common aspect of LCA than can be a bit of a headache at times if not careful is an issue known as label switching.
+One common aspect of LCA than can be a bit of a headache at times if not carefully considered is an issue known as label switching.
 LCA models discrete latent variables which do not have any inherent labels, as CFA/IRT model continuous latent variables that do not have any inherent scale/metric.
 
 ### Model Likelihood
@@ -56,18 +56,24 @@ We assume that the individuals are independent ($i$'s are exchangeable).
 We assume that the responses to each item are conditionally (locally) independent ($j$'s are exchangeable).
 The joint probability conditional on the latent variable $C$ is
 
-\[p(\mathbf{x}_i \vert \mathbf{\theta}, \mathbf{\pi}) = \prod_{i=1}^Np(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]
+\[p(\bm{x}_i \vert \bm{\theta}, \bm{\pi}) = \prod_{i=1}^Np(\bm{x}_i \vert \theta_i=c, \bm{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]
 
 The marginal probability when the observed data when we sum over the possible latent classes becomes
 
-\begin{align*}
-p(\mathbf{x}_i \vert \mathbf{\pi}, \mathbf{\gamma}) &= \prod_{i=1}^N\sum_{c=1}^C p(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi})p(\theta_i = c \vert \gamma)\\
+\[\begin{align*}
+p(\bm{x}_i \vert \bm{\pi}, \bm{\gamma}) &= \prod_{i=1}^N\sum_{c=1}^C p(\bm{x}_i \vert \theta_i=c, \bm{\pi})p(\theta_i = c \vert \gamma)\\
 &= \prod_{i=1}^N\left(\sum_{c=1}^C \left(\prod_{j=1}^J p(x_{ij} \vert \theta_i=c, \pi_j)\right)p(\theta_i = c \vert \gamma)\right)
 \end{align*}
+\]
 
 ## Bayesian LCA Model Specification
 
 For the Bayesian formulation of the LCA model, the construction will be carried out in pieces similar to previous chapters.
+
+```{r chp13-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for a general latent class analysis model', out.width="90%"}
+knitr::include_graphics(paste0(w.d,'/dag/chp13-lca1.png'),
+                        auto_pdf = TRUE)
+```
 
 ### Distribution of Observed Indicators
 
@@ -75,12 +81,58 @@ First, the distribution of the observed variables is specified as a product of i
 That is, the observed data distribution is _categorical(.)_.
 Or
 
-\begin{align*}
+\[\begin{align*}
+p(\bm{x}\vert \bm{\theta}, \bm{\pi})&= \prod_{i=1}^N p(\bm{x}_i\vert \theta_i, \bm{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \bm{\pi}_j),\\
 x_{ij} &\sim \mathrm{Categorical}(\pi_{cj})\\
-p(\mathbf{x}\vert \mathbf{\theta}, \mathbf{\pi}) &= \prod_{i=1}^N p(\mathbf{x}_i\vert \theta_i, \mathbf{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j)
+\end{align*}\]
+where the model holds for observables taking values coded as $1,...,K$ with the categorical indicators.
+One of the major changes from an IRT model is that the latent variables are categorical, resulting in a different distribution for the latent variable.
+The _Dirichlet_ distribution is commonly used as the prior for the categorical latent variables.
+The Dirichlet distribution is a generalization of the Beta distribution to more than two district outcomes.
+The distribution models the categorical data as the likelihood or propensity to be one of the categoricals.
+
+### Prior Distributions
+
+The LCA model, as described here, contains two major types of parameters. 
+That is, (1) the latent class status for each respondent and (2) the class specific category proportions.
+These two parameter types are vectors over respondents and items, respectively.
+The joint prior distribution can be generally described as
+\[p(\theta, \pi) = p(\theta)p(\pi),\]
+due to assuming independence between these two types of parameters.
+Independence is a logical assumption and aligns with the IRT and CFA traditions that latent variable values are independent of the measurement model parameters.
+
+The prior for the latent variables is represents the prior for the discrete groups respondents are assumed to belong to.
+A common prior is placed over all respondents
+\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\bm{\theta}_p),\]
+where $\bm\theta_p$ represents the hyperpriors defining the conditions of the categorical latent variables.
+The vector of parameters $\bm\theta_p = \bm\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)$, where $C$ is the number of latent groups.
+Stated in another way,
+\[\theta_i | \bm\gamma \sim \mathrm{Categorical}(\bm\gamma).\]
+
+The hyperprior for the categorical latent variable is also commonly given a prior distribution.
+The $\bm\gamma$ parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
+The prior is
+\[\bm\gamma \sim \mathrm{Dirichlet}(\bm\alpha_\gamma),\]
+where $\bm\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).$
+The Dirichlet distribution is a generalization of the Beta distribution to more than two categories.
+This allows for a useful representation of the probabilities with well known statistical and sampling properties.
+
+The priors for the measurement model parameters ($\bm\pi$) are commonly defined at the item level instead of jointly over all items:
+\[p(\bm\pi) = \prod_{j=1}^Jp(\bm\pi_j\vert\bm\alpha_\pi),\]
+where $\bm\alpha_\pi$ defines the hyperpriors for the measurement model parameters.
+The measurement model commonly utilizes either dichotomous or categorical indicators which leads to the use of either the Beta distribution or Dirichlet distribution for the priors.
+
+### Full Model Specification
+
+The full model specification can be shown as follows:
+
+\[
+\begin{align*}
+p(\bm\theta, \bm\gamma, \bm\pi) &\propto p(\mathbf{x} \vert \bm\theta, \bm\gamma, \bm\pi) p(\bm\theta, \bm\gamma, \bm\pi)\\
+ &= p(\mathbf{x} \vert \bm\theta, \bm\gamma, \bm\pi) p(\bm\theta) p(\bm\gamma) p(\bm\pi)\\
+ &= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \bm{\pi}_j)p(\theta_i \vert \bm\gamma)p(\bm\gamma) \prod_{c=1}^Cp(\bm\pi_{cj})
 \end{align*}
-
-
+\]
 
 ## Extending LCA
 

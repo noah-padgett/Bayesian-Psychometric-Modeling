@@ -809,12 +809,6 @@ fit <- stan(
   model_code = model_cfa_2factor, # model code to be compiled
   data = mydata,          # my data
   init = start_values,    # starting values
-  chains = 3,             # number of Markov chains
-  #warmup = 1000,          # number of warm up iterations per chain
-  iter = 10000,            # total number of iterations per chain
-  cores = 3,              # number of cores (could use one per chain)
-  control = list(adapt_delta = 0.9,
-                 max_treedepth = 12),
   refresh = 0             # no progress shown
 )
 # first get a basic breakdown of the posteriors
@@ -875,7 +869,7 @@ Some helpful pages that I used to help get this to work.
 * [Michael DeWitt - Confirmatory Factor Analysis in Stan](https://michaeldewittjr.com/resources/stan_cfa.html#bayesian_version)
 * [Rick Farouni - Fitting a Bayesian Factor Analysis Model in Stan](https://rfarouni.github.io/assets/projects/BayesianFactorAnalysis/BayesianFactorAnalysis.html)
 
-```{r chp9-cfa-fit-stan-3, warnings=T, message=T,error=T, cache=TRUE}
+```{r chp9-cfa-fit-stan-3, warnings=T, message=T,error=T, cache=TRUE, eval=F}
 
 
 model_cfa2 <- "
@@ -955,10 +949,6 @@ fit <- stan(
   model_code = model_cfa2, # model code to be compiled
   data = mydata,          # my data
   #init = init_fun, #start_values,    # starting values
-  chains = 3,             # number of Markov chains
-  #warmup = 1000,          # number of warm up iterations per chain
-  iter = 10000,            # total number of iterations per chain
-  cores = 3,              # number of cores (could use one per chain)
   refresh = 0             # no progress shown
 )
 
@@ -1054,7 +1044,7 @@ plot(fit)
 
 ## Indeterminacy in One Factor CFA
 
-```{r chp9-cfa-fit-jags-FID, warnings=T, message=T,error=T, cache=TRUE}
+```{r chp9-cfa-fit-jags-FID, warnings=T, message=T,error=T, cache=TRUE, eval=F}
 
 
 # model code

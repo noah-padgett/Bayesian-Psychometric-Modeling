@@ -1,327 +1,484 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+<html lang="en">
 <head>
-
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Normal Distribution Models | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
-  <meta name="description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
-
-  <meta property="og:title" content="Chapter 4 Normal Distribution Models | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
-  <meta name="github-repo" content="noah-padgett/Bayesian-Psychometric-Modeling" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Normal Distribution Models | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy" />
-  
-  <meta name="twitter:description" content="This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy. We hope that having a detailed computatin guide using Stan is of interest to someone." />
-  
-
-<meta name="author" content="R. Noah Padgett" />
-
-
-<meta name="date" content="2021-10-30" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-<link rel="prev" href="conceptual-issues-in-bayesian-inference.html"/>
-<link rel="next" href="stan-model-for-mean-and-variance-unknown.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-
-
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 4 Normal Distribution Models | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</title>
+<meta name="author" content="R. Noah Padgett">
+<meta name="description" content="This chapter was mainly analytic derivations, but there was one section that did code so I show that in JAGS and Stan.  4.1 Stan Model for mean and variance unknown The model for mean and variance...">
+<meta name="generator" content="bookdown 0.26 with bs4_book()">
+<meta property="og:title" content="Chapter 4 Normal Distribution Models | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy">
+<meta property="og:type" content="book">
+<meta property="og:description" content="This chapter was mainly analytic derivations, but there was one section that did code so I show that in JAGS and Stan.  4.1 Stan Model for mean and variance unknown The model for mean and variance...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 4 Normal Distribution Models | Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy">
+<meta name="twitter:description" content="This chapter was mainly analytic derivations, but there was one section that did code so I show that in JAGS and Stan.  4.1 Stan Model for mean and variance unknown The model for mean and variance...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
 <style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
-
-<link rel="stylesheet" href="style.css" type="text/css" />
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
 </head>
+<body data-spy="scroll" data-target="#toc">
 
-<body>
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
 
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
 
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
-
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Bayesian Psychometric Modeling</a></li>
-
-<li class="divider"></li>
-<li class="part"><span><b>I Foundations</b></span></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started/Overview Chapter</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="software.html"><a href="software.html"><i class="fa fa-check"></i><b>1.1</b> Software</a></li>
-<li class="chapter" data-level="1.2" data-path="overview-of-assessment-and-psychometric-modeling.html"><a href="overview-of-assessment-and-psychometric-modeling.html"><i class="fa fa-check"></i><b>1.2</b> Overview of Assessment and Psychometric Modeling</a></li>
-<li class="chapter" data-level="1.3" data-path="looking-forward.html"><a href="looking-forward.html"><i class="fa fa-check"></i><b>1.3</b> Looking Forward</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="chp2.html"><a href="chp2.html"><i class="fa fa-check"></i><b>2</b> Introduction to Bayesian Inference</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html"><i class="fa fa-check"></i><b>2.1</b> Beta-binomial Example</a>
-<ul>
-<li class="chapter" data-level="2.1.1" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-stan"><i class="fa fa-check"></i><b>2.1.1</b> Computation using Stan</a></li>
-<li class="chapter" data-level="2.1.2" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-winbugs-openbugs"><i class="fa fa-check"></i><b>2.1.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
-<li class="chapter" data-level="2.1.3" data-path="beta-binomial-example.html"><a href="beta-binomial-example.html#computation-using-jags-r2jags"><i class="fa fa-check"></i><b>2.1.3</b> Computation using JAGS (R2jags)</a></li>
-</ul></li>
-<li class="chapter" data-level="2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html"><i class="fa fa-check"></i><b>2.2</b> Beta-Bernoulli Example</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-stan-1"><i class="fa fa-check"></i><b>2.2.1</b> Computation using Stan</a></li>
-<li class="chapter" data-level="2.2.2" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-winbugs-openbugs-1"><i class="fa fa-check"></i><b>2.2.2</b> Computation using WinBUGS (OpenBUGS)</a></li>
-<li class="chapter" data-level="2.2.3" data-path="beta-bernoulli-example.html"><a href="beta-bernoulli-example.html#computation-using-jags-r2jags-1"><i class="fa fa-check"></i><b>2.2.3</b> Computation using JAGS (R2jags)</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="conceptual-issues-in-bayesian-inference.html"><a href="conceptual-issues-in-bayesian-inference.html"><i class="fa fa-check"></i><b>3</b> Conceptual Issues in Bayesian Inference</a></li>
-<li class="chapter" data-level="4" data-path="normal-distribution-models.html"><a href="normal-distribution-models.html"><i class="fa fa-check"></i><b>4</b> Normal Distribution Models</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="stan-model-for-mean-and-variance-unknown.html"><a href="stan-model-for-mean-and-variance-unknown.html"><i class="fa fa-check"></i><b>4.1</b> Stan Model for mean and variance unknown</a></li>
-<li class="chapter" data-level="4.2" data-path="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><a href="jags-model-for-mean-and-variance-unknown-precision-parameterization.html"><i class="fa fa-check"></i><b>4.2</b> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="markov-chain-monte-carlo-estimation.html"><a href="markov-chain-monte-carlo-estimation.html"><i class="fa fa-check"></i><b>5</b> Markov Chain Monte Carlo Estimation</a></li>
-<li class="chapter" data-level="6" data-path="regression.html"><a href="regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a>
-<ul>
-<li class="chapter" data-level="6.1" data-path="stan-model-for-regression-model.html"><a href="stan-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.1</b> Stan Model for Regression Model</a></li>
-<li class="chapter" data-level="6.2" data-path="jags-model-for-regression-model.html"><a href="jags-model-for-regression-model.html"><i class="fa fa-check"></i><b>6.2</b> JAGS Model for Regression Model</a></li>
-</ul></li>
-<li class="part"><span><b>II Psychometrics</b></span></li>
-<li class="chapter" data-level="7" data-path="canonical-bayesian-psychometric-modeling.html"><a href="canonical-bayesian-psychometric-modeling.html"><i class="fa fa-check"></i><b>7</b> Canonical Bayesian Psychometric Modeling</a></li>
-<li class="chapter" data-level="8" data-path="classical-test-theory.html"><a href="classical-test-theory.html"><i class="fa fa-check"></i><b>8</b> Classical Test Theory</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="example-1-known-measurement-model-parameters-with-1-measure.html"><a href="example-1-known-measurement-model-parameters-with-1-measure.html"><i class="fa fa-check"></i><b>8.1</b> Example 1 - Known measurement model parameters with 1 measure</a></li>
-<li class="chapter" data-level="8.2" data-path="example-1-stan.html"><a href="example-1-stan.html"><i class="fa fa-check"></i><b>8.2</b> Example 1 - Stan</a></li>
-<li class="chapter" data-level="8.3" data-path="example-1-jags.html"><a href="example-1-jags.html"><i class="fa fa-check"></i><b>8.3</b> Example 1 - JAGS</a></li>
-<li class="chapter" data-level="8.4" data-path="example-2-known-measurement-model-with-multiple-measures.html"><a href="example-2-known-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.4</b> Example 2 - Known Measurement Model with Multiple Measures</a></li>
-<li class="chapter" data-level="8.5" data-path="example-2-stan.html"><a href="example-2-stan.html"><i class="fa fa-check"></i><b>8.5</b> Example 2 - Stan</a></li>
-<li class="chapter" data-level="8.6" data-path="example-2-jags.html"><a href="example-2-jags.html"><i class="fa fa-check"></i><b>8.6</b> Example 2 - JAGS</a></li>
-<li class="chapter" data-level="8.7" data-path="example-3-unknown-measurement-model-with-multiple-measures.html"><a href="example-3-unknown-measurement-model-with-multiple-measures.html"><i class="fa fa-check"></i><b>8.7</b> Example 3 - Unknown Measurement Model with Multiple Measures</a></li>
-<li class="chapter" data-level="8.8" data-path="example-3-stan.html"><a href="example-3-stan.html"><i class="fa fa-check"></i><b>8.8</b> Example 3 - Stan</a></li>
-<li class="chapter" data-level="8.9" data-path="example-3-jags.html"><a href="example-3-jags.html"><i class="fa fa-check"></i><b>8.9</b> Example 3 - JAGS</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="confirmatory-factor-analysis.html"><a href="confirmatory-factor-analysis.html"><i class="fa fa-check"></i><b>9</b> Confirmatory Factor Analysis</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="single-latent-variable-model.html"><a href="single-latent-variable-model.html"><i class="fa fa-check"></i><b>9.1</b> Single Latent Variable Model</a></li>
-<li class="chapter" data-level="9.2" data-path="jags-single-latent-variable.html"><a href="jags-single-latent-variable.html"><i class="fa fa-check"></i><b>9.2</b> JAGS - Single Latent Variable</a></li>
-<li class="chapter" data-level="9.3" data-path="stan-single-latent-variable.html"><a href="stan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.3</b> Stan - Single Latent Variable</a></li>
-<li class="chapter" data-level="9.4" data-path="blavaan-single-latent-variable.html"><a href="blavaan-single-latent-variable.html"><i class="fa fa-check"></i><b>9.4</b> Blavaan - Single Latent Variable</a></li>
-<li class="chapter" data-level="9.5" data-path="jags-two-latent-variable.html"><a href="jags-two-latent-variable.html"><i class="fa fa-check"></i><b>9.5</b> JAGS - Two Latent Variable</a></li>
-<li class="chapter" data-level="9.6" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html"><i class="fa fa-check"></i><b>9.6</b> Stan - Two Latent Variable</a>
-<ul>
-<li class="chapter" data-level="9.6.1" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#inverse-wishart-prior"><i class="fa fa-check"></i><b>9.6.1</b> Inverse-Wishart Prior</a></li>
-<li class="chapter" data-level="9.6.2" data-path="stan-two-latent-variable.html"><a href="stan-two-latent-variable.html#lkj-cholesky-parameterization"><i class="fa fa-check"></i><b>9.6.2</b> LKJ Cholesky Parameterization</a></li>
-</ul></li>
-<li class="chapter" data-level="9.7" data-path="blavaan-two-latent-variables.html"><a href="blavaan-two-latent-variables.html"><i class="fa fa-check"></i><b>9.7</b> Blavaan - Two Latent Variables</a></li>
-<li class="chapter" data-level="9.8" data-path="indeterminacy-in-one-factor-cfa.html"><a href="indeterminacy-in-one-factor-cfa.html"><i class="fa fa-check"></i><b>9.8</b> Indeterminacy in One Factor CFA</a></li>
-</ul></li>
-<li class="chapter" data-level="10" data-path="model-evaluation.html"><a href="model-evaluation.html"><i class="fa fa-check"></i><b>10</b> Model Evaluation</a>
-<ul>
-<li class="chapter" data-level="10.1" data-path="residual-analysis.html"><a href="residual-analysis.html"><i class="fa fa-check"></i><b>10.1</b> Residual Analysis</a></li>
-<li class="chapter" data-level="10.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html"><i class="fa fa-check"></i><b>10.2</b> Posterior Predictive Distributions</a>
-<ul>
-<li class="chapter" data-level="10.2.1" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#example-of-posterior-predictive-distribution-of-correlations"><i class="fa fa-check"></i><b>10.2.1</b> Example of posterior predictive distribution of correlations</a></li>
-<li class="chapter" data-level="10.2.2" data-path="posterior-predictive-distributions.html"><a href="posterior-predictive-distributions.html#ppd-srmr"><i class="fa fa-check"></i><b>10.2.2</b> PPD SRMR</a></li>
-</ul></li>
-<li class="chapter" data-level="10.3" data-path="model-comparison.html"><a href="model-comparison.html"><i class="fa fa-check"></i><b>10.3</b> Model Comparison</a></li>
-</ul></li>
-<li class="chapter" data-level="11" data-path="item-response-theory.html"><a href="item-response-theory.html"><i class="fa fa-check"></i><b>11</b> Item Response Theory</a>
-<ul>
-<li class="chapter" data-level="11.1" data-path="irt-models-for-dichotomous-data.html"><a href="irt-models-for-dichotomous-data.html"><i class="fa fa-check"></i><b>11.1</b> IRT Models for Dichotomous Data</a></li>
-<li class="chapter" data-level="11.2" data-path="pl-lsat-example.html"><a href="pl-lsat-example.html"><i class="fa fa-check"></i><b>11.2</b> 3-PL LSAT Example</a></li>
-<li class="chapter" data-level="11.3" data-path="lsat-example-jags.html"><a href="lsat-example-jags.html"><i class="fa fa-check"></i><b>11.3</b> LSAT Example - JAGS</a>
-<ul>
-<li class="chapter" data-level="11.3.1" data-path="lsat-example-jags.html"><a href="lsat-example-jags.html#posterior-predicted-distributions"><i class="fa fa-check"></i><b>11.3.1</b> Posterior Predicted Distributions</a></li>
-</ul></li>
-<li class="chapter" data-level="11.4" data-path="lsat-example-stan.html"><a href="lsat-example-stan.html"><i class="fa fa-check"></i><b>11.4</b> LSAT Example - Stan</a></li>
-<li class="chapter" data-level="11.5" data-path="irt-models-for-polytomous-data.html"><a href="irt-models-for-polytomous-data.html"><i class="fa fa-check"></i><b>11.5</b> IRT Models for Polytomous Data</a></li>
-<li class="chapter" data-level="11.6" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html"><i class="fa fa-check"></i><b>11.6</b> GRM Peer Interactions Example</a>
-<ul>
-<li class="chapter" data-level="11.6.1" data-path="grm-peer-interactions-example.html"><a href="grm-peer-interactions-example.html#example-specific-model-specification"><i class="fa fa-check"></i><b>11.6.1</b> Example Specific Model Specification</a></li>
-</ul></li>
-<li class="chapter" data-level="11.7" data-path="pi-example-jags.html"><a href="pi-example-jags.html"><i class="fa fa-check"></i><b>11.7</b> PI Example - JAGS</a></li>
-<li class="chapter" data-level="11.8" data-path="pi-example-stan.html"><a href="pi-example-stan.html"><i class="fa fa-check"></i><b>11.8</b> PI Example - Stan</a></li>
-<li class="chapter" data-level="11.9" data-path="latent-response-formulation.html"><a href="latent-response-formulation.html"><i class="fa fa-check"></i><b>11.9</b> Latent Response Formulation</a>
-<ul>
-<li class="chapter" data-level="11.9.1" data-path="latent-response-formulation.html"><a href="latent-response-formulation.html#lsat-example-revisted"><i class="fa fa-check"></i><b>11.9.1</b> LSAT Example Revisted</a></li>
-</ul></li>
-<li class="chapter" data-level="11.10" data-path="final-notes.html"><a href="final-notes.html"><i class="fa fa-check"></i><b>11.10</b> Final Notes</a></li>
-</ul></li>
-<li class="chapter" data-level="12" data-path="missing-data-modeling.html"><a href="missing-data-modeling.html"><i class="fa fa-check"></i><b>12</b> Missing Data Modeling</a></li>
-<li class="chapter" data-level="13" data-path="latent-class-analysis.html"><a href="latent-class-analysis.html"><i class="fa fa-check"></i><b>13</b> Latent Class Analysis</a>
-<ul>
-<li class="chapter" data-level="13.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html"><i class="fa fa-check"></i><b>13.1</b> LCA Model Specification</a>
-<ul>
-<li class="chapter" data-level="13.1.1" data-path="lca-model-specification.html"><a href="lca-model-specification.html#lca-model-indeterminacy"><i class="fa fa-check"></i><b>13.1.1</b> LCA Model Indeterminacy</a></li>
-<li class="chapter" data-level="13.1.2" data-path="lca-model-specification.html"><a href="lca-model-specification.html#model-likelihood"><i class="fa fa-check"></i><b>13.1.2</b> Model Likelihood</a></li>
-</ul></li>
-<li class="chapter" data-level="13.2" data-path="extending-lca.html"><a href="extending-lca.html"><i class="fa fa-check"></i><b>13.2</b> Extending LCA</a></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="bayesian-networks.html"><a href="bayesian-networks.html"><i class="fa fa-check"></i><b>14</b> Bayesian Networks</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="divider"></li>
-<li><a href="https://github.com/noah-padgett" target="blank">Published with bookdown</a></li>
-
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li class="book-part">Foundations</li>
+<li><a class="" href="overview.html"><span class="header-section-number">1</span> Overview</a></li>
+<li><a class="" href="chp2.html"><span class="header-section-number">2</span> Introduction to Bayesian Inference</a></li>
+<li><a class="" href="conceptual-issues-in-bayesian-inference.html"><span class="header-section-number">3</span> Conceptual Issues in Bayesian Inference</a></li>
+<li><a class="active" href="normal-distribution-models.html"><span class="header-section-number">4</span> Normal Distribution Models</a></li>
+<li><a class="" href="markov-chain-monte-carlo-estimation.html"><span class="header-section-number">5</span> Markov Chain Monte Carlo Estimation</a></li>
+<li><a class="" href="regression.html"><span class="header-section-number">6</span> Regression</a></li>
+<li class="book-part">Psychometrics</li>
+<li><a class="" href="canonical-bayesian-psychometric-modeling.html"><span class="header-section-number">7</span> Canonical Bayesian Psychometric Modeling</a></li>
+<li><a class="" href="classical-test-theory.html"><span class="header-section-number">8</span> Classical Test Theory</a></li>
+<li><a class="" href="confirmatory-factor-analysis.html"><span class="header-section-number">9</span> Confirmatory Factor Analysis</a></li>
+<li><a class="" href="model-evaluation.html"><span class="header-section-number">10</span> Model Evaluation</a></li>
+<li><a class="" href="item-response-theory.html"><span class="header-section-number">11</span> Item Response Theory</a></li>
+<li><a class="" href="missing-data-modeling.html"><span class="header-section-number">12</span> Missing Data Modeling</a></li>
+<li><a class="" href="latent-class-analysis.html"><span class="header-section-number">13</span> Latent Class Analysis</a></li>
+<li><a class="" href="bayesian-networks.html"><span class="header-section-number">14</span> Bayesian Networks</a></li>
+<li><a class="" href="references.html">References</a></li>
 </ul>
 
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling">View book source <i class="fab fa-github"></i></a></p>
+        </div>
       </nav>
-    </div>
-
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</a>
-          </h1>
-        </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="normal-distribution-models" class="section level1" number="4">
-<h1><span class="header-section-number">Chapter 4</span> Normal Distribution Models</h1>
-<p>This chapter was mainly analytic derivations, but there was one section that did code so I show that in JAGS and Stan.</p>
 </div>
-            </section>
-
-          </div>
-        </div>
-      </div>
-<a href="conceptual-issues-in-bayesian-inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="stan-model-for-mean-and-variance-unknown.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
-  </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/04-normal-models.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["bookdown-BPM.pdf", "bookdown-BPM.epub"],
-"toc": {
-"collapse": "section"
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="normal-distribution-models" class="section level1" number="4">
+<h1>
+<span class="header-section-number">4</span> Normal Distribution Models<a class="anchor" aria-label="anchor" href="#normal-distribution-models"><i class="fas fa-link"></i></a>
+</h1>
+<p>This chapter was mainly analytic derivations, but there was one section that did code so I show that in JAGS and Stan.</p>
+<div id="stan-model-for-mean-and-variance-unknown" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> Stan Model for mean and variance unknown<a class="anchor" aria-label="anchor" href="#stan-model-for-mean-and-variance-unknown"><i class="fas fa-link"></i></a>
+</h2>
+<p>The model for mean and variance unknown for normal sampling.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:chp4-dag-1"></span>
+<img src="dag/chp4-normal.png" alt="DAG with for mean and variance unknown: Variance parameterization" width="90%" height="90%"><p class="caption">
+Figure 4.1: DAG with for mean and variance unknown: Variance parameterization
+</p>
+</div>
+<p>Or, alternatively,</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:chp4-spec-1"></span>
+<img src="model-spec/chp4-normal.png" alt="Model specification diagram for normal model" width="90%" height="90%"><p class="caption">
+Figure 4.2: Model specification diagram for normal model
+</p>
+</div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_normal</span> <span class="op">&lt;-</span> <span class="st">'
+data {
+  int  N;
+  real x[N];
+  real mu0;
+  real sigma0;
+  real alpha0;
+  real beta0;
 }
-});
-});
-</script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+parameters {
+  real mu;
+  real&lt;lower=0&gt; sigma;
+}
+
+model {
+  x ~ normal(mu, sigma);
+  mu ~ normal(mu0, sigma0);
+  sigma ~ inv_gamma(alpha0, beta0);
+}
+
+
+'</span>
+<span class="co"># data must be in a list</span>
+<span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  N <span class="op">=</span> <span class="fl">10</span>,
+  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">91</span>, <span class="fl">85</span>, <span class="fl">72</span>, <span class="fl">87</span>, <span class="fl">71</span>, <span class="fl">77</span>, <span class="fl">88</span>, <span class="fl">94</span>, <span class="fl">84</span>, <span class="fl">92</span><span class="op">)</span>,
+  mu0 <span class="op">=</span> <span class="fl">75</span>,
+  sigma0 <span class="op">=</span> <span class="fl">50</span>,
+  alpha0 <span class="op">=</span> <span class="fl">5</span>,
+  beta0 <span class="op">=</span> <span class="fl">150</span>
+<span class="op">)</span>
+
+<span class="co"># start values </span>
+<span class="va">start_values</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mu<span class="op">=</span><span class="fl">50</span>, sigma<span class="op">=</span><span class="fl">5</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="co"># Next, need to fit the model</span>
+<span class="co">#   I have explicited outlined some common parameters</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">stan</span><span class="op">(</span>
+  model_code <span class="op">=</span> <span class="va">model_normal</span>, <span class="co"># model code to be compiled</span>
+  data <span class="op">=</span> <span class="va">mydata</span>,          <span class="co"># my data</span>
+  init <span class="op">=</span> <span class="va">start_values</span>,    <span class="co"># starting values</span>
+  chains <span class="op">=</span> <span class="fl">4</span>,             <span class="co"># number of Markov chains</span>
+  warmup <span class="op">=</span> <span class="fl">1000</span>,          <span class="co"># number of warm up iterations per chain</span>
+  iter <span class="op">=</span> <span class="fl">5000</span>,            <span class="co"># total number of iterations per chain</span>
+  cores <span class="op">=</span> <span class="fl">2</span>,              <span class="co"># number of cores (could use one per chain)</span>
+  refresh <span class="op">=</span> <span class="fl">0</span>             <span class="co"># no progress shown</span>
+<span class="op">)</span>
+
+<span class="co"># first get a basic breakdown of the posteriors</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
+<pre><code>## Inference for Stan model: anon_model.
+## 4 chains, each with iter=5000; warmup=1000; thin=1; 
+## post-warmup draws per chain=4000, total post-warmup draws=16000.
+## 
+##         mean se_mean   sd   2.5%    25%    50%    75%  97.5% n_eff Rhat
+## mu     84.04    0.05 4.69  74.66  81.10  84.02  86.97  93.53  8115    1
+## sigma  14.79    0.05 3.90   9.19  12.03  14.14  16.80  24.39  7202    1
+## lp__  -52.86    0.01 1.05 -55.75 -53.27 -52.54 -52.11 -51.83  5704    1
+## 
+## Samples were drawn using NUTS(diag_e) at Sun Jun 19 17:29:35 2022.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot the posterior in a</span>
+<span class="co">#  95% probability interval</span>
+<span class="co">#  and 80% to contrast the dispersion</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
+<pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
+<pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-fit-1.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># traceplots</span>
+<span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mu"</span>, <span class="st">"sigma"</span><span class="op">)</span>, inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-fit-2.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
+<span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-fit-3.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># autocorrelation</span>
+<span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-fit-4.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot the posterior density</span>
+<span class="va">posterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
+
+<span class="va">plot_title</span> <span class="op">&lt;-</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Posterior distributions"</span>,
+                      <span class="st">"with medians and 80% intervals"</span><span class="op">)</span>
+<span class="fu">mcmc_areas</span><span class="op">(</span>
+  <span class="va">posterior</span>,
+  pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mu"</span>, <span class="st">"sigma"</span><span class="op">)</span>,
+  prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="va">plot_title</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-fit-5.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># bivariate plot</span>
+<span class="va">posterior</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">posterior</span><span class="op">)</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">posterior</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">mu</span>, y<span class="op">=</span><span class="va">sigma</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="va">p</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-fit-6.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># I prefer a posterior plot that includes prior and MLE</span>
+<span class="va">MLE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">$</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
+<span class="va">prior_mu</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">75</span>, <span class="fl">50</span><span class="op">)</span><span class="op">}</span>
+<span class="va">x.mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">60.01</span>, <span class="fl">120</span>, <span class="fl">0.01</span><span class="op">)</span>
+<span class="va">prior.mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>mu<span class="op">=</span><span class="va">x.mu</span>, dens.mu <span class="op">=</span> <span class="fu">prior_mu</span><span class="op">(</span><span class="va">x.mu</span><span class="op">)</span><span class="op">)</span>
+<span class="va">prior_sig</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu">extraDistr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/InvGamma.html">dinvgamma</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">5</span>, <span class="fl">150</span><span class="op">)</span><span class="op">}</span>
+<span class="va">x.sig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">60</span>, <span class="fl">0.01</span><span class="op">)</span>
+<span class="va">prior.sig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>sigma<span class="op">=</span><span class="va">x.sig</span>, dens.sig <span class="op">=</span> <span class="fu">prior_sig</span><span class="op">(</span><span class="va">x.sig</span><span class="op">)</span><span class="op">)</span>
+<span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Posterior"</span><span class="op">=</span><span class="st">"#0072B2"</span>, <span class="st">"Prior"</span><span class="op">=</span><span class="st">"#E69F00"</span>, <span class="st">"MLE"</span><span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="co">#"#56B4E9", "#E69F00" "#CC79A7"</span>
+
+<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_density</span><span class="op">(</span>data<span class="op">=</span><span class="va">posterior</span>,
+               <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">mu</span>, color<span class="op">=</span><span class="st">"Posterior"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span>data<span class="op">=</span><span class="va">prior.mu</span>,
+            <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">x.mu</span>, y<span class="op">=</span><span class="va">dens.mu</span>, color<span class="op">=</span><span class="st">"Prior"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept<span class="op">=</span><span class="va">MLE</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, color<span class="op">=</span><span class="st">"MLE"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values<span class="op">=</span><span class="va">cols</span>, name<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_density</span><span class="op">(</span>data<span class="op">=</span><span class="va">posterior</span>,
+               <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">sigma</span>, color<span class="op">=</span><span class="st">"Posterior"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span>data<span class="op">=</span><span class="va">prior.sig</span>,
+            <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">sigma</span>, y<span class="op">=</span><span class="va">dens.sig</span>, color<span class="op">=</span><span class="st">"Prior"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept<span class="op">=</span><span class="va">MLE</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, color<span class="op">=</span><span class="st">"MLE"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values<span class="op">=</span><span class="va">cols</span>, name<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>guides<span class="op">=</span><span class="st">"collect"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-fit-7.png" width="90%" height="90%"></div>
+</div>
+<div id="jags-model-for-mean-and-variance-unknown-precision-parameterization" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> JAGS Model for mean and variance unknown (precision parameterization)<a class="anchor" aria-label="anchor" href="#jags-model-for-mean-and-variance-unknown-precision-parameterization"><i class="fas fa-link"></i></a>
+</h2>
+<p>The model for mean and variance unknown for normal sampling.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:chp4-dag-2"></span>
+<img src="dag/chp4-normal-precision.png" alt="DAG with for mean and variance unknown: Precision parameterization" width="90%" height="90%"><p class="caption">
+Figure 4.3: DAG with for mean and variance unknown: Precision parameterization
+</p>
+</div>
+<p>Or, alternatively,</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:chp4-spec-2"></span>
+<img src="model-spec/chp4-normal-precision.png" alt="Model specification diagram for normal model with precision parameterization" width="90%" height="90%"><p class="caption">
+Figure 4.4: Model specification diagram for normal model with precision parameterization
+</p>
+</div>
+<p>Now for the computation using JAGS</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># model code</span>
+<span class="va">jags.model</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
+  <span class="co">#############################################</span>
+  <span class="co"># Conditional distribution for the data</span>
+  <span class="co">#############################################</span>
+  
+  <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">x</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">mu</span>, <span class="va">tau</span><span class="op">)</span>        <span class="co"># conditional distribution of the data</span>
+  <span class="op">}</span> <span class="co"># closes loop over subjects</span>
+  
+  
+  <span class="co">#############################################</span>
+  <span class="co"># Define the prior distributions for the unknown parameters</span>
+  <span class="co"># The mean of the data (mu)</span>
+  <span class="co"># The variance (sigma.squared) and precision (tau) of the data</span>
+  <span class="co">#############################################</span>
+  
+  <span class="va">mu</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">mu.mu</span>, <span class="va">tau.mu</span><span class="op">)</span>      <span class="co"># prior distribution for mu</span>
+  
+  <span class="va">mu.mu</span> <span class="op">&lt;-</span> <span class="fl">75</span>                          <span class="co"># mean of the prior for mu </span>
+  <span class="va">sigma.squared.mu</span> <span class="op">&lt;-</span> <span class="fl">50</span>             <span class="co"># variance of the prior for mu</span>
+  <span class="va">tau.mu</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="va">sigma.squared.mu</span>   <span class="co"># precision of the prior for mu</span>
+  
+  
+  <span class="va">tau</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span>        <span class="co"># precision of the data</span>
+  <span class="va">sigma.squared</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="va">tau</span>             <span class="co"># variance of the data</span>
+  <span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fu">pow</span><span class="op">(</span><span class="va">sigma.squared</span>, <span class="fl">0.5</span><span class="op">)</span> <span class="co"># taking square root</span>
+  
+  <span class="va">nu.0</span> <span class="op">&lt;-</span> <span class="fl">10</span>                           <span class="co"># hyperparameter for prior for tau</span>
+  <span class="va">sigma.squared.0</span> <span class="op">&lt;-</span> <span class="fl">30</span>            <span class="co"># hyperparameter for prior for tau</span>
+  
+  <span class="va">alpha</span> <span class="op">&lt;-</span> <span class="va">nu.0</span><span class="op">/</span><span class="fl">2</span>                    <span class="co"># hyperparameter for prior for tau</span>
+  <span class="va">beta</span> <span class="op">&lt;-</span> <span class="va">nu.0</span><span class="op">*</span><span class="va">sigma.squared.0</span><span class="op">/</span><span class="fl">2</span> <span class="co"># hyperparameter for prior for tau</span>
+    
+<span class="op">}</span>
+<span class="co"># data</span>
+<span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  n<span class="op">=</span><span class="fl">10</span>, 
+  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">91</span>, <span class="fl">85</span>, <span class="fl">72</span>, <span class="fl">87</span>, <span class="fl">71</span>, <span class="fl">77</span>, <span class="fl">88</span>, <span class="fl">94</span>, <span class="fl">84</span>, <span class="fl">92</span><span class="op">)</span><span class="op">)</span>
+
+
+<span class="co"># starting values</span>
+<span class="va">start_values</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"mu"</span><span class="op">=</span><span class="fl">75</span>, <span class="st">"tau"</span><span class="op">=</span><span class="fl">0.1</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="co"># vector of all parameters to save</span>
+<span class="va">param_save</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mu"</span>, <span class="st">"tau"</span>, <span class="st">"sigma"</span><span class="op">)</span>
+
+<span class="co"># fit model</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">jags</span><span class="op">(</span>
+  model.file<span class="op">=</span><span class="va">jags.model</span>,
+  data<span class="op">=</span><span class="va">mydata</span>,
+  inits<span class="op">=</span><span class="va">start_values</span>,
+  parameters.to.save <span class="op">=</span> <span class="va">param_save</span>,
+  n.iter<span class="op">=</span><span class="fl">4000</span>,
+  n.burnin <span class="op">=</span> <span class="fl">1000</span>,
+  n.chains <span class="op">=</span> <span class="fl">4</span>,
+  n.thin<span class="op">=</span><span class="fl">1</span>,
+  progress.bar <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 10
+##    Unobserved stochastic nodes: 2
+##    Total graph size: 26
+## 
+## Initializing model</code></pre>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
+<pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpQR8sbs/model4544158a4038.txt", fit using jags,
+##  4 chains, each with 4000 iterations (first 1000 discarded)
+##  n.sims = 12000 iterations saved
+##          mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+## mu        83.268   2.204 78.845 81.869 83.282 84.725 87.471 1.001 12000
+## sigma      7.176   1.238  5.251  6.288  7.007  7.903 10.050 1.001  4000
+## tau        0.021   0.007  0.010  0.016  0.020  0.025  0.036 1.001  4000
+## deviance  71.212   1.835 69.393 69.897 70.659 71.952 76.128 1.001 12000
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+## 
+## DIC info (using the rule, pD = var(deviance)/2)
+## pD = 1.7 and DIC = 72.9
+## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
+<span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
+
+<span class="fu">R2jags</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/R2jags/man/traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span></code></pre></div>
+<p><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-1.png" width="90%" height="90%"><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-2.png" width="90%" height="90%"><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-3.png" width="90%" height="90%"><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-4.png" width="90%" height="90%"></p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># gelman-rubin-brook</span>
+<span class="fu">gelman.plot</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-5.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># convert to single data.frame for density plot</span>
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
+<span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">jags.mcmc</span>, chains<span class="op">=</span><span class="cn">T</span>, iters <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plot.data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chain"</span>, <span class="st">"iter"</span>, <span class="va">a</span><span class="op">)</span>
+
+
+<span class="va">plot_title</span> <span class="op">&lt;-</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Posterior distributions"</span>,
+                      <span class="st">"with medians and 80% intervals"</span><span class="op">)</span>
+<span class="fu">mcmc_areas</span><span class="op">(</span>
+  <span class="va">plot.data</span>,
+  pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"mu"</span><span class="op">)</span>,
+  prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="va">plot_title</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-6.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
+  <span class="va">plot.data</span>,
+  pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"tau"</span><span class="op">)</span>,
+  prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="va">plot_title</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-7.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
+  <span class="va">plot.data</span>,
+  pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sigma"</span><span class="op">)</span>,
+  prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="va">plot_title</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-8.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># bivariate plot</span>
+<span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">plot.data</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">mu</span>, y<span class="op">=</span><span class="va">tau</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="va">p</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-9.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># I prefer a posterior plot that includes prior and MLE</span>
+<span class="va">MLE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, <span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">$</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
+<span class="va">prior_mu</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">75</span>, <span class="fl">50</span><span class="op">)</span><span class="op">}</span>
+<span class="va">x.mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">70.01</span>, <span class="fl">100</span>, <span class="fl">0.01</span><span class="op">)</span>
+<span class="va">prior.mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>mu<span class="op">=</span><span class="va">x.mu</span>, dens.mu <span class="op">=</span> <span class="fu">prior_mu</span><span class="op">(</span><span class="va">x.mu</span><span class="op">)</span><span class="op">)</span>
+<span class="va">prior_tau</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">dgamma</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">5</span>, <span class="fl">150</span><span class="op">)</span><span class="op">}</span>
+<span class="va">x.tau</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.0001</span>, <span class="fl">0.06</span>, <span class="fl">0.0001</span><span class="op">)</span>
+<span class="va">prior.tau</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>tau<span class="op">=</span><span class="va">x.tau</span>, dens.tau <span class="op">=</span> <span class="fu">prior_tau</span><span class="op">(</span><span class="va">x.tau</span><span class="op">)</span><span class="op">)</span>
+<span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Posterior"</span><span class="op">=</span><span class="st">"#0072B2"</span>, <span class="st">"Prior"</span><span class="op">=</span><span class="st">"#E69F00"</span>, <span class="st">"MLE"</span><span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="co">#"#56B4E9", "#E69F00" "#CC79A7"</span>
+
+<span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_density</span><span class="op">(</span>data<span class="op">=</span><span class="va">plot.data</span>,
+               <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">mu</span>, color<span class="op">=</span><span class="st">"Posterior"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span>data<span class="op">=</span><span class="va">prior.mu</span>,
+            <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">x.mu</span>, y<span class="op">=</span><span class="va">dens.mu</span>, color<span class="op">=</span><span class="st">"Prior"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept<span class="op">=</span><span class="va">MLE</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, color<span class="op">=</span><span class="st">"MLE"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values<span class="op">=</span><span class="va">cols</span>, name<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_density</span><span class="op">(</span>data<span class="op">=</span><span class="va">plot.data</span>,
+               <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">tau</span>, color<span class="op">=</span><span class="st">"Posterior"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span>data<span class="op">=</span><span class="va">prior.tau</span>,
+            <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">tau</span>, y<span class="op">=</span><span class="va">dens.tau</span>, color<span class="op">=</span><span class="st">"Prior"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">geom_vline</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>xintercept<span class="op">=</span><span class="va">MLE</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, color<span class="op">=</span><span class="st">"MLE"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">scale_color_manual</span><span class="op">(</span>values<span class="op">=</span><span class="va">cols</span>, name<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>guides<span class="op">=</span><span class="st">"collect"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp4-normal-jags-10.png" width="90%" height="90%"></div>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="conceptual-issues-in-bayesian-inference.html"><span class="header-section-number">3</span> Conceptual Issues in Bayesian Inference</a></div>
+<div class="next"><a href="markov-chain-monte-carlo-estimation.html"><span class="header-section-number">5</span> Markov Chain Monte Carlo Estimation</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#normal-distribution-models"><span class="header-section-number">4</span> Normal Distribution Models</a></li>
+<li><a class="nav-link" href="#stan-model-for-mean-and-variance-unknown"><span class="header-section-number">4.1</span> Stan Model for mean and variance unknown</a></li>
+<li><a class="nav-link" href="#jags-model-for-mean-and-variance-unknown-precision-parameterization"><span class="header-section-number">4.2</span> JAGS Model for mean and variance unknown (precision parameterization)</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/blob/master/04-normal-models.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/04-normal-models.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-06-19.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -333,7 +490,22 @@ gitbook.start({
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
 </script>
 </body>
-
 </html>
