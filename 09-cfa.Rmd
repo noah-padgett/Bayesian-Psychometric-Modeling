@@ -766,6 +766,8 @@ model {
 
 "
 
+print(model_cfa_2factor)
+
 # data must be in a list
 dat <- as.matrix(read.table("code/CFA-Two-Latent-Variables/Data/IIS.dat", header=T))
 
@@ -935,6 +937,8 @@ generated quantities {
 }
 
 "
+
+print(model_cfa2)
 
 # data must be in a list
 dat <- as.matrix(read.table("code/CFA-Two-Latent-Variables/Data/IIS.dat", header=T))
