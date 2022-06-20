@@ -34,7 +34,7 @@ fig:chp11-dag-2
 fig:chp11-pathdiag-2
 fig:chp11-spec-2
 fig:chp13-dag-1
-overview
+index
 software
 overview-of-assessment-and-psychometric-modeling
 looking-forward
@@ -109,4 +109,3 @@ prior-distributions
 full-model-specification
 extending-lca
 bayesian-networks
-output-bookdownbs4_book
