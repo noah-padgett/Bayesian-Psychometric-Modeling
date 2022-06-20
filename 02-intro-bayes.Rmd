@@ -70,7 +70,7 @@ The directed nature of the diagram highlights how observed variables (e.g., $y$)
 All observed or explicitly defined variables/values are in rectangles while any latent variable or model parameter are in circles.
 DAG representation of model for the beta-binomal model is
 
-```{r chp2-dag-1, echo=FALSE,fig.align='center',fig.cap='Directed Acyclic Graph (DAG) for the beta-binomial model'}
+```{r chp2-dag-1, echo=FALSE,fig.align='center',fig.cap='Directed Acyclic Graph (DAG) for the beta-binomial model', out.width = "50%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp2-beta-binomial.png'),
                         auto_pdf = TRUE)
 ```
@@ -79,7 +79,7 @@ I have given an alternative DAG representation that includes all relevant detail
 In terms of a DAG, I prefer this representation as all the assumed model components are made explicit.
 However, in more complex models this approach will likely lead to very dense and possible unuseful representations.
 
-```{r chp2-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG with explicit representation for all beta-binomial model components'}
+```{r chp2-dag-2, echo=FALSE,fig.align='center',fig.cap='DAG with explicit representation for all beta-binomial model components', out.width = "75%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp2-beta-binomial-full.png'),
                         auto_pdf = TRUE)
 ```
@@ -388,18 +388,18 @@ We express this by saying that the observations depend on the index ($j=1, 2, ..
 Two DAG representations similar to the previous examples are shown below.
 The major difference in these representations from the previous example is the inclusion of a _plate_ that represents the observations depend on the index $j$.
 
-```{r chp2-dag-3, echo=FALSE,fig.align='center',fig.cap='DAG for the beta-bernoulli model'}
+```{r chp2-dag-3, echo=FALSE,fig.align='center',fig.cap='DAG for the beta-bernoulli model', out.width = "75%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp2-beta-bernoulli-plate.png'),
                         auto_pdf = TRUE)
 ```
 
 
-```{r chp2-dag-4, echo=FALSE,fig.align='center',fig.cap='DAG with explicit representation for all beta-bernoulli model components'}
+```{r chp2-dag-4, echo=FALSE,fig.align='center',fig.cap='DAG with explicit representation for all beta-bernoulli model components', out.width = "75%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp2-beta-bernoulli-plate-full.png'),
                         auto_pdf = TRUE)
 ```
 
-In my favor representation, this model can be expressed as
+In my flavor of representation, this model can be expressed as
 
 ```{r chp2-spec-2, echo=FALSE,fig.align='center',fig.cap='Model specification diagram for beta-bernoulli model'}
 knitr::include_graphics(paste0(w.d,'/model-spec/chp2-beta-bernoulli.png'),

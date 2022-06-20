@@ -43,7 +43,7 @@ We would nearly always need to estimate these quantities to provide an informed 
 This example using 3 observations (individuals) with 1 measure per individual.
 The DAG for this model is shown below.
 
-```{r chp8-dag-1, echo=FALSE,fig.align='center',fig.cap='Simple CTT model with 1 measure and known measurement parameters'}
+```{r chp8-dag-1, echo=FALSE,fig.align='center',fig.cap='Simple CTT model with 1 measure and known measurement parameters', out.width = "75%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp8-ctt1.png'),
                         auto_pdf = TRUE)
 ```
@@ -307,7 +307,7 @@ Here, the only thing that changes from the first example is that now we have mul
 We can think of this as if we could administer a test (or parallel tests) repeatedly without learning occuring.
 The DAG and model-specification change to:
 
-```{r chp8-dag-2, echo=FALSE,fig.align='center',fig.cap='Simple CTT model with known measurement parameters and multiple measures'}
+```{r chp8-dag-2, echo=FALSE,fig.align='center',fig.cap='Simple CTT model with known measurement parameters and multiple measures', out.width = "75%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp8-ctt2.png'),
                         auto_pdf = TRUE)
 ```

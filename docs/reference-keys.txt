@@ -71,6 +71,7 @@ single-latent-variable-model
 jags---single-latent-variable
 stan---single-latent-variable
 blavaan---single-latent-variable
+two-latent-variable-model
 jags---two-latent-variable
 stan---two-latent-variable
 inverse-wishart-prior

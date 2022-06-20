@@ -95,7 +95,7 @@ c_j &\sim \mathrm{Beta}(5, 17),\ \mathrm{for}\ j=1, \cdots, 5.
 
 The above model can illustrated in a DAG as shown below.
 
-```{r chp11-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for 3-PL IRT model for LSAT Example', out.width="90%"}
+```{r chp11-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for 3-PL IRT model for LSAT Example', out.width="75%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp11-irt1.png'),
                         auto_pdf = TRUE)
 ```

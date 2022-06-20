@@ -157,7 +157,7 @@ With the hyperparameters that are supplied by the analyst being defined as</p>
 The graphical representation of these factor models get pretty complex pretty quickly, but for this example I have reproduced a version of Figure 9.3b, shown below.</p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:chp9-dag-1"></span>
-<img src="dag/chp9-cfa1.png" alt="DAG for CFA model with 1 latent variable" width="90%" height="90%"><p class="caption">
+<img src="dag/chp9-cfa1.png" alt="DAG for CFA model with 1 latent variable" width="75%" height="90%"><p class="caption">
 Figure 9.1: DAG for CFA model with 1 latent variable
 </p>
 </div>
@@ -713,8 +713,8 @@ model {
 <pre><code>## 
 ## SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.001 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+## Chain 1: Gradient evaluation took 0 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -731,9 +731,9 @@ model {
 ## Chain 1: Iteration: 1400 / 1500 [ 93%]  (Sampling)
 ## Chain 1: Iteration: 1500 / 1500 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 3.044 seconds (Warm-up)
-## Chain 1:                5.864 seconds (Sampling)
-## Chain 1:                8.908 seconds (Total)
+## Chain 1:  Elapsed Time: 2.76 seconds (Warm-up)
+## Chain 1:                5.266 seconds (Sampling)
+## Chain 1:                8.026 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 2).
@@ -756,9 +756,9 @@ model {
 ## Chain 2: Iteration: 1400 / 1500 [ 93%]  (Sampling)
 ## Chain 2: Iteration: 1500 / 1500 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 3.115 seconds (Warm-up)
-## Chain 2:                5.845 seconds (Sampling)
-## Chain 2:                8.96 seconds (Total)
+## Chain 2:  Elapsed Time: 2.882 seconds (Warm-up)
+## Chain 2:                5.3 seconds (Sampling)
+## Chain 2:                8.182 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 3).
@@ -781,9 +781,9 @@ model {
 ## Chain 3: Iteration: 1400 / 1500 [ 93%]  (Sampling)
 ## Chain 3: Iteration: 1500 / 1500 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 3.138 seconds (Warm-up)
-## Chain 3:                5.72 seconds (Sampling)
-## Chain 3:                8.858 seconds (Total)
+## Chain 3:  Elapsed Time: 2.792 seconds (Warm-up)
+## Chain 3:                5.302 seconds (Sampling)
+## Chain 3:                8.094 seconds (Total)
 ## Chain 3: 
 ## Computing posterior predictives...</code></pre>
 <div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
@@ -825,9 +825,12 @@ model {
 ##     f1                0.337    0.041    0.259    0.423    1.002 gamma(1,.5)[sd]</code></pre>
 <div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure">
-<img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-blavaan-1-1.png" width="90%" height="90%">
-## Two Latent Variable Model</div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-blavaan-1-1.png" width="90%" height="90%"></div>
+</div>
+<div id="two-latent-variable-model" class="section level2" number="9.5">
+<h2>
+<span class="header-section-number">9.5</span> Two Latent Variable Model<a class="anchor" aria-label="anchor" href="#two-latent-variable-model"><i class="fas fa-link"></i></a>
+</h2>
 <p>Here we consider the model in section 9.4 which is a CFA model with 2 latent variables and 5 observed indicators.
 The graphical representation of these factor models get pretty complex pretty quickly, but for this example I have reproduced a version of Figure 9.4, shown below.</p>
 <div class="figure" style="text-align: center">
@@ -851,9 +854,9 @@ Figure 9.6: Model specification diagram for the CFA model with 2 latent factors
 </p>
 </div>
 </div>
-<div id="jags---two-latent-variable" class="section level2" number="9.5">
+<div id="jags---two-latent-variable" class="section level2" number="9.6">
 <h2>
-<span class="header-section-number">9.5</span> JAGS - Two Latent Variable<a class="anchor" aria-label="anchor" href="#jags---two-latent-variable"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.6</span> JAGS - Two Latent Variable<a class="anchor" aria-label="anchor" href="#jags---two-latent-variable"><i class="fas fa-link"></i></a>
 </h2>
 <div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># model code</span>
@@ -1064,13 +1067,13 @@ Figure 9.6: Model specification diagram for the CFA model with 2 latent factors
 <pre><code>## Error in `select_parameters()`:
 ## ! Some 'pars' don't match parameter names: phi FALSE</code></pre>
 </div>
-<div id="stan---two-latent-variable" class="section level2" number="9.6">
+<div id="stan---two-latent-variable" class="section level2" number="9.7">
 <h2>
-<span class="header-section-number">9.6</span> Stan - Two Latent Variable<a class="anchor" aria-label="anchor" href="#stan---two-latent-variable"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.7</span> Stan - Two Latent Variable<a class="anchor" aria-label="anchor" href="#stan---two-latent-variable"><i class="fas fa-link"></i></a>
 </h2>
-<div id="inverse-wishart-prior" class="section level3" number="9.6.1">
+<div id="inverse-wishart-prior" class="section level3" number="9.7.1">
 <h3>
-<span class="header-section-number">9.6.1</span> Inverse-Wishart Prior<a class="anchor" aria-label="anchor" href="#inverse-wishart-prior"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.7.1</span> Inverse-Wishart Prior<a class="anchor" aria-label="anchor" href="#inverse-wishart-prior"><i class="fas fa-link"></i></a>
 </h3>
 <p>Using Stan based on a nearly identical model structure presented in the text.</p>
 <div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
@@ -1188,9 +1191,9 @@ Figure 9.6: Model specification diagram for the CFA model with 2 latent factors
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in 1:nChains: argument of length 0</code></pre>
 </div>
-<div id="lkj-cholesky-parameterization" class="section level3" number="9.6.2">
+<div id="lkj-cholesky-parameterization" class="section level3" number="9.7.2">
 <h3>
-<span class="header-section-number">9.6.2</span> LKJ Cholesky Parameterization<a class="anchor" aria-label="anchor" href="#lkj-cholesky-parameterization"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.7.2</span> LKJ Cholesky Parameterization<a class="anchor" aria-label="anchor" href="#lkj-cholesky-parameterization"><i class="fas fa-link"></i></a>
 </h3>
 <p>Because I had such massive problems with the above, I search for how people estimate CFA models in Stan.
 I found that most people use the LKJ Cholesky parameterization.</p>
@@ -1287,9 +1290,9 @@ I found that most people use the LKJ Cholesky parameterization.</p>
   <span class="va">plot_title</span></code></pre></div>
 </div>
 </div>
-<div id="blavaan---two-latent-variables" class="section level2" number="9.7">
+<div id="blavaan---two-latent-variables" class="section level2" number="9.8">
 <h2>
-<span class="header-section-number">9.7</span> Blavaan - Two Latent Variables<a class="anchor" aria-label="anchor" href="#blavaan---two-latent-variables"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.8</span> Blavaan - Two Latent Variables<a class="anchor" aria-label="anchor" href="#blavaan---two-latent-variables"><i class="fas fa-link"></i></a>
 </h2>
 <div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># model</span>
@@ -1427,9 +1430,9 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-blavaan-2-1.png" width="90%" height="90%"></div>
 </div>
-<div id="indeterminacy-in-one-factor-cfa" class="section level2" number="9.8">
+<div id="indeterminacy-in-one-factor-cfa" class="section level2" number="9.9">
 <h2>
-<span class="header-section-number">9.8</span> Indeterminacy in One Factor CFA<a class="anchor" aria-label="anchor" href="#indeterminacy-in-one-factor-cfa"><i class="fas fa-link"></i></a>
+<span class="header-section-number">9.9</span> Indeterminacy in One Factor CFA<a class="anchor" aria-label="anchor" href="#indeterminacy-in-one-factor-cfa"><i class="fas fa-link"></i></a>
 </h2>
 <div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># model code</span>
@@ -1531,15 +1534,16 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 <li><a class="nav-link" href="#jags---single-latent-variable"><span class="header-section-number">9.2</span> JAGS - Single Latent Variable</a></li>
 <li><a class="nav-link" href="#stan---single-latent-variable"><span class="header-section-number">9.3</span> Stan - Single Latent Variable</a></li>
 <li><a class="nav-link" href="#blavaan---single-latent-variable"><span class="header-section-number">9.4</span> Blavaan - Single Latent Variable</a></li>
-<li><a class="nav-link" href="#jags---two-latent-variable"><span class="header-section-number">9.5</span> JAGS - Two Latent Variable</a></li>
+<li><a class="nav-link" href="#two-latent-variable-model"><span class="header-section-number">9.5</span> Two Latent Variable Model</a></li>
+<li><a class="nav-link" href="#jags---two-latent-variable"><span class="header-section-number">9.6</span> JAGS - Two Latent Variable</a></li>
 <li>
-<a class="nav-link" href="#stan---two-latent-variable"><span class="header-section-number">9.6</span> Stan - Two Latent Variable</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#inverse-wishart-prior"><span class="header-section-number">9.6.1</span> Inverse-Wishart Prior</a></li>
-<li><a class="nav-link" href="#lkj-cholesky-parameterization"><span class="header-section-number">9.6.2</span> LKJ Cholesky Parameterization</a></li>
+<a class="nav-link" href="#stan---two-latent-variable"><span class="header-section-number">9.7</span> Stan - Two Latent Variable</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#inverse-wishart-prior"><span class="header-section-number">9.7.1</span> Inverse-Wishart Prior</a></li>
+<li><a class="nav-link" href="#lkj-cholesky-parameterization"><span class="header-section-number">9.7.2</span> LKJ Cholesky Parameterization</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#blavaan---two-latent-variables"><span class="header-section-number">9.7</span> Blavaan - Two Latent Variables</a></li>
-<li><a class="nav-link" href="#indeterminacy-in-one-factor-cfa"><span class="header-section-number">9.8</span> Indeterminacy in One Factor CFA</a></li>
+<li><a class="nav-link" href="#blavaan---two-latent-variables"><span class="header-section-number">9.8</span> Blavaan - Two Latent Variables</a></li>
+<li><a class="nav-link" href="#indeterminacy-in-one-factor-cfa"><span class="header-section-number">9.9</span> Indeterminacy in One Factor CFA</a></li>
 </ul>
 
       <div class="book-extra">

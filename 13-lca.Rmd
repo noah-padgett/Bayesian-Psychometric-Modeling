@@ -70,7 +70,7 @@ p(\bm{x}_i \vert \bm{\pi}, \bm{\gamma}) &= \prod_{i=1}^N\sum_{c=1}^C p(\bm{x}_i 
 
 For the Bayesian formulation of the LCA model, the construction will be carried out in pieces similar to previous chapters.
 
-```{r chp13-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for a general latent class analysis model', out.width="90%"}
+```{r chp13-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for a general latent class analysis model', out.width="50%"}
 knitr::include_graphics(paste0(w.d,'/dag/chp13-lca1.png'),
                         auto_pdf = TRUE)
 ```

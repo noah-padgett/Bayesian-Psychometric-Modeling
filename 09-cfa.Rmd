@@ -52,7 +52,7 @@ With the hyperparameters that are supplied by the analyst being defined as
 Here we consider the model in section 9.3 which is a CFA model with 1 latent variable and 5 observed indicators.
 The graphical representation of these factor models get pretty complex pretty quickly, but for this example I have reproduced a version of Figure 9.3b, shown below.
 
-```{r chp9-dag-1, echo=FALSE,fig.align='center',fig.cap='DAG for CFA model with 1 latent variable'}
+```{r chp9-dag-1, echo=FALSE,fig.align='center', out.width = "75%",fig.cap='DAG for CFA model with 1 latent variable'}
 knitr::include_graphics(paste0(w.d,'/dag/chp9-cfa1.png'),
                         auto_pdf = TRUE)
 ```
@@ -513,8 +513,9 @@ fit <- blavaan::bcfa(model_cfa_blavaan, data=dat)
 summary(fit)
 plot(fit)
 
-
 ```
+
+
 ## Two Latent Variable Model
 
 Here we consider the model in section 9.4 which is a CFA model with 2 latent variables and 5 observed indicators.
