@@ -142,7 +142,7 @@ This means we can use the residuals correlations instead.</p>
 <span class="header-section-number">10.2.1</span> Example of posterior predictive distribution of correlations<a class="anchor" aria-label="anchor" href="#example-of-posterior-predictive-distribution-of-correlations"><i class="fas fa-link"></i></a>
 </h3>
 <p>In this example, we use the correlations of the observed variable as the function of interest.</p>
-<div class="sourceCode" id="cb258"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb259"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># model code</span>
 <span class="va">jags.model.cfa</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
 
@@ -224,7 +224,7 @@ This means we can use the residuals correlations instead.</p>
 ##    Total graph size: 8029
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb260"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb261"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpQR8sbs/model4544238f163c.txt", fit using jags,
 ##  1 chains, each with 15000 iterations (first 5000 discarded)
@@ -251,10 +251,10 @@ This means we can use the residuals correlations instead.</p>
 ## DIC info (using the rule, pD = var(deviance)/2)
 ## pD = 914.8 and DIC = 4294.7
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb262"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb263"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp10-corr-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb263"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb264"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
@@ -272,21 +272,21 @@ This means we can use the residuals correlations instead.</p>
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp10-corr-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb264"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb265"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"lambda["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp10-corr-3.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb265"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb266"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"psi["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span>, <span class="st">"phi"</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp10-corr-4.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb266"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb267"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># compute model implied covariance/correlations</span>
 <span class="co"># for each iterations</span>
 <span class="va">out.mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">10</span>,nrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">plot.data</span><span class="op">)</span><span class="op">)</span>
@@ -391,7 +391,7 @@ KLMNO
 <h3>
 <span class="header-section-number">10.2.2</span> PPD SRMR<a class="anchor" aria-label="anchor" href="#ppd-srmr"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb267"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb268"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># model code</span>
 <span class="va">jags.model.cfa</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
 
@@ -478,7 +478,7 @@ KLMNO
 ##    Total graph size: 8029
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb269"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb270"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpQR8sbs/model4544704352f.txt", fit using jags,
 ##  1 chains, each with 10000 iterations (first 5000 discarded)
@@ -505,7 +505,7 @@ KLMNO
 ## DIC info (using the rule, pD = var(deviance)/2)
 ## pD = 881.4 and DIC = 4262.4
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb271"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb272"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 
