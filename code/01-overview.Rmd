@@ -1,3 +1,4 @@
+# (PART) Foundations {-}
 # Overview 
 
 This online book is meant to serve a computation reference for the text Bayesian Psychometric Modeling by Roy Levy and Robert Mislevy.

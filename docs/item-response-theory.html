@@ -211,7 +211,7 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 <h2>
 <span class="header-section-number">11.3</span> LSAT Example - JAGS<a class="anchor" aria-label="anchor" href="#lsat-example---jags"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb268"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb272"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jags.model.lsat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
 
 <span class="co">#########################################</span>
@@ -282,17 +282,17 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
   n.chains <span class="op">=</span> <span class="fl">3</span>,
   progress.bar <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in jags(model.file = jags.model.lsat, data = mydata, inits = start_values, : formal argument "n.iter" matched by multiple actual arguments</code></pre>
-<div class="sourceCode" id="cb270"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb274"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in print(fit): object 'fit' not found</code></pre>
-<div class="sourceCode" id="cb272"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb276"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span> <span class="op">%like%</span> <span class="st">"theta"</span>, <span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object 'fit' not found</code></pre>
-<div class="sourceCode" id="cb274"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb278"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in as.mcmc(fit): object 'fit' not found</code></pre>
-<div class="sourceCode" id="cb276"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb280"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># the below two plots are too big to be useful given the 1000 observations.</span>
 <span class="co">#R2jags::traceplot(jags.mcmc)</span>
 
@@ -302,46 +302,46 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 <span class="co"># convert to single data.frame for density plot</span>
 <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in as.data.frame(jags.mcmc[[1]]): object 'jags.mcmc' not found</code></pre>
-<div class="sourceCode" id="cb278"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">jags.mcmc</span>, chains<span class="op">=</span><span class="cn">T</span>, iters <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in as.matrix(jags.mcmc, chains = T, iters = T): object 'jags.mcmc' not found</code></pre>
-<div class="sourceCode" id="cb280"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plot.data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chain"</span>, <span class="st">"iter"</span>, <span class="va">a</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object 'a' not found</code></pre>
-<div class="sourceCode" id="cb282"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-diagnostics.html">mcmc_acf</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in posterior::is_draws(x): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb284"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-traces.html">mcmc_trace</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in posterior::is_draws(x): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb286"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in ggs(jags.mcmc): object 'jags.mcmc' not found</code></pre>
-<div class="sourceCode" id="cb288"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in posterior::is_draws(x): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb290"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-diagnostics.html">mcmc_acf</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in posterior::is_draws(x): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb292"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-traces.html">mcmc_trace</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in posterior::is_draws(x): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb294"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"a"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in ggs(jags.mcmc): object 'jags.mcmc' not found</code></pre>
-<div class="sourceCode" id="cb296"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span> <span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in posterior::is_draws(x): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb302"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-diagnostics.html">mcmc_acf</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"c["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in posterior::is_draws(x): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb300"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-traces.html">mcmc_trace</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"c["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in posterior::is_draws(x): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb302"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"c"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in ggs(jags.mcmc): object 'jags.mcmc' not found</code></pre>
-<div class="sourceCode" id="cb304"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb308"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"c["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in posterior::is_draws(x): object 'plot.data' not found</code></pre>
 <div id="posterior-predicted-distributions" class="section level3" number="11.3.1">
@@ -353,7 +353,7 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 <p>For (1), the SMBC is
 <span class="math display">\[SMBC_{jj^\prime}=\frac{\frac{1}{n}\sum_{i=1}^n(x_{ij} - E(x_{ij} \mid \theta_i,\boldsymbol{\omega}_j))(x_{ij^\prime} - E(x_{ij^\prime} \mid \theta_i,\boldsymbol{\omega}_j^\prime))}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij} - E(x_{ij} \mid \theta_i,\boldsymbol{\omega}_j))^2}\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij^\prime} - E(x_{ij^\prime} \mid \theta_i,\boldsymbol{\omega}_j^\prime))}}\]</span></p>
 <p>In R, the functions below can be used to compute these qualtities.</p>
-<div class="sourceCode" id="cb306"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb310"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">calculate.SGDDM</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data.matrix</span>, <span class="va">expected.value.matrix</span><span class="op">)</span><span class="op">{</span>
     
     <span class="va">J.local</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">data.matrix</span><span class="op">)</span>
@@ -391,7 +391,7 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 
 <span class="op">}</span> <span class="co"># closes calculate.MBC.matrix</span></code></pre></div>
 <p>Next, we will use the functions above among other basic data wrangling to construct a full posterior predictive distribution analysis to probe our resulting posterior.</p>
-<div class="sourceCode" id="cb307"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb311"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Data wrangle the results/posterior draws for use</span>
 <span class="va">datv1</span> <span class="op">&lt;-</span> <span class="va">plot.data</span> <span class="op">%&gt;%</span>
   <span class="fu">pivot_longer</span><span class="op">(</span>
@@ -402,7 +402,7 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
   <span class="fu">mutate</span><span class="op">(</span>item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">item</span>, <span class="fl">3</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">select</span><span class="op">(</span><span class="va">chain</span>, <span class="va">iter</span>, <span class="va">item</span>, <span class="va">a</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in pivot_longer(., cols = `a[1]`:`a[5]`, values_to = "a", names_to = "item"): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb309"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb313"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datv2</span> <span class="op">&lt;-</span> <span class="va">plot.data</span> <span class="op">%&gt;%</span>
   <span class="fu">pivot_longer</span><span class="op">(</span>
     cols <span class="op">=</span> <span class="va">`c[1]`</span><span class="op">:</span><span class="va">`c[5]`</span>,
@@ -412,7 +412,7 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
   <span class="fu">mutate</span><span class="op">(</span>item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">item</span>, <span class="fl">3</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">select</span><span class="op">(</span><span class="va">chain</span>, <span class="va">iter</span>, <span class="va">item</span>, <span class="va">c</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in pivot_longer(., cols = `c[1]`:`c[5]`, values_to = "c", names_to = "item"): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb311"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datv3</span> <span class="op">&lt;-</span> <span class="va">plot.data</span> <span class="op">%&gt;%</span>
   <span class="fu">pivot_longer</span><span class="op">(</span>
     cols <span class="op">=</span> <span class="va">`d[1]`</span><span class="op">:</span><span class="va">`d[5]`</span>,
@@ -422,7 +422,7 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
   <span class="fu">mutate</span><span class="op">(</span>item <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="va">item</span>, <span class="fl">3</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">select</span><span class="op">(</span><span class="va">chain</span>, <span class="va">iter</span>, <span class="va">item</span>, <span class="va">d</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in pivot_longer(., cols = `d[1]`:`d[5]`, values_to = "d", names_to = "item"): object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb313"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb317"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">datv4</span> <span class="op">&lt;-</span> <span class="va">plot.data</span> <span class="op">%&gt;%</span>
   <span class="fu">pivot_longer</span><span class="op">(</span>
     cols <span class="op">=</span> <span class="va">`theta[1]`</span><span class="op">:</span><span class="va">`theta[999]`</span>,
@@ -431,16 +431,16 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
   <span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">select</span><span class="op">(</span><span class="va">chain</span>, <span class="va">iter</span>, <span class="va">person</span>, <span class="va">theta</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in pivot_longer(., cols = `theta[1]`:`theta[999]`, values_to = "theta", : object 'plot.data' not found</code></pre>
-<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb319"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu">full_join</span><span class="op">(</span><span class="va">datv1</span>, <span class="va">datv2</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in full_join(datv1, datv2): object 'datv1' not found</code></pre>
-<div class="sourceCode" id="cb317"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu">full_join</span><span class="op">(</span><span class="va">dat_long</span>, <span class="va">datv3</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in full_join(dat_long, datv3): object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb319"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu">full_join</span><span class="op">(</span><span class="va">dat_long</span>, <span class="va">datv4</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in full_join(dat_long, datv4): object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb325"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dat1</span> <span class="op">&lt;-</span> <span class="va">dat</span>
 <span class="va">dat1</span><span class="op">$</span><span class="va">person</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"theta["</span>,<span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, <span class="st">"]"</span><span class="op">)</span>
 <span class="va">datvl</span> <span class="op">&lt;-</span> <span class="va">dat1</span> <span class="op">%&gt;%</span>
@@ -455,7 +455,7 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 
 <span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu">left_join</span><span class="op">(</span><span class="va">dat_long</span>, <span class="va">datvl</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in left_join(dat_long, datvl): object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># compute expected prob</span>
 <span class="va">ilogit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>
 <span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="va">dat_long</span> <span class="op">%&gt;%</span>
@@ -465,7 +465,7 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
     x.dif <span class="op">=</span> <span class="va">x</span> <span class="op">-</span> <span class="va">x.exp</span>
   <span class="op">)</span></code></pre></div>
 <pre><code>## Error in as_tibble(.): object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb325"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dat_long</span><span class="op">$</span><span class="va">x.ppd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span>
   <span class="va">dat_long</span>, <span class="fl">1</span>, 
   FUN<span class="op">=</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
@@ -473,29 +473,29 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
   <span class="op">}</span>
   <span class="op">)</span></code></pre></div>
 <pre><code>## Error in apply(dat_long, 1, FUN = function(x) {: object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">itermin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">dat_long</span><span class="op">$</span><span class="va">iter</span><span class="op">)</span> <span class="co"># used for subseting</span></code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># figure 11.4</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="va">dat_long</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">chain</span>, <span class="va">iter</span>, <span class="va">person</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>raw.score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,
             raw.score.ppd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x.ppd</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in group_by(., chain, iter, person): object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb331"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">di</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">[</span> <span class="va">d</span><span class="op">$</span><span class="va">chain</span> <span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">d</span><span class="op">$</span><span class="va">iter</span> <span class="op">==</span> <span class="va">itermin</span>, <span class="op">]</span> <span class="op">%&gt;%</span>
 <span class="va">di</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">chain</span><span class="op">==</span><span class="fl">1</span>, <span class="va">iter</span><span class="op">==</span><span class="fl">6001</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">raw.score</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>count <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in filter(., chain == 1, iter == 6001): object 'd' not found</code></pre>
-<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dii</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">chain</span>, <span class="va">iter</span>, <span class="va">raw.score.ppd</span><span class="op">)</span><span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>raw.score <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in group_by(., chain, iter, raw.score.ppd): object 'd' not found</code></pre>
-<div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># overall fit of observed scores</span>
 <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">geom_boxplot</span><span class="op">(</span>data<span class="op">=</span><span class="va">dii</span>, <span class="fu">aes</span><span class="op">(</span>y<span class="op">=</span><span class="va">raw.score</span>, x<span class="op">=</span> <span class="va">raw.score.ppd</span>, group<span class="op">=</span><span class="va">raw.score.ppd</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
@@ -504,26 +504,26 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
   <span class="fu">scale_x_continuous</span><span class="op">(</span>breaks<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in fortify(data): object 'dii' not found</code></pre>
-<div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># by item</span>
 <span class="va">d</span> <span class="op">&lt;-</span> <span class="va">dat_long</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">chain</span>, <span class="va">iter</span>, <span class="va">person</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">mutate</span><span class="op">(</span>raw.score <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,
          raw.score.ppd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x.ppd</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in group_by(., chain, iter, person): object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">di</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">[</span> <span class="va">d</span><span class="op">$</span><span class="va">chain</span> <span class="op">==</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">d</span><span class="op">$</span><span class="va">iter</span> <span class="op">==</span> <span class="va">itermin</span>, <span class="op">]</span> <span class="op">%&gt;%</span>
 <span class="va">di</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">chain</span><span class="op">==</span><span class="fl">1</span>, <span class="va">iter</span><span class="op">==</span><span class="fl">6001</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">raw.score</span>, <span class="va">item</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>p.correct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in filter(., chain == 1, iter == 6001): object 'd' not found</code></pre>
-<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb345"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dii</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">chain</span>, <span class="va">iter</span>, <span class="va">raw.score.ppd</span>, <span class="va">item</span><span class="op">)</span><span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>p.correct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x.ppd</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in group_by(., chain, iter, raw.score.ppd, item): object 'd' not found</code></pre>
-<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">geom_boxplot</span><span class="op">(</span>data<span class="op">=</span><span class="va">dii</span>,
                <span class="fu">aes</span><span class="op">(</span>y<span class="op">=</span> <span class="va">p.correct</span>,
@@ -536,37 +536,37 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">"Raw Score"</span>, y<span class="op">=</span><span class="st">"Number of Examinees"</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in fortify(data): object 'dii' not found</code></pre>
-<div class="sourceCode" id="cb345"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># computing standardized model summary statistics</span>
 <span class="co"># objects for results</span>
 <span class="va">J</span> <span class="op">&lt;-</span> <span class="fl">5</span>
 <span class="va">n.chain</span> <span class="op">&lt;-</span> <span class="fl">3</span>
 <span class="va">n.iters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">dat_long</span><span class="op">$</span><span class="va">iter</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in unique(dat_long$iter): object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">n.iters</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">long_dat</span><span class="op">$</span><span class="va">iter</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in unique(long_dat$iter): object 'long_dat' not found</code></pre>
-<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">n.iters.PPMC</span> <span class="op">&lt;-</span> <span class="va">n.iters</span><span class="op">*</span><span class="va">n.chain</span></code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object 'n.iters' not found</code></pre>
-<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">realized.SMBC.array</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">n.iters.PPMC</span>, <span class="va">J</span>, <span class="va">J</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in array(NA, c(n.iters.PPMC, J, J)): object 'n.iters.PPMC' not found</code></pre>
-<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb357"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">postpred.SMBC.array</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">n.iters.PPMC</span>, <span class="va">J</span>, <span class="va">J</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in array(NA, c(n.iters.PPMC, J, J)): object 'n.iters.PPMC' not found</code></pre>
-<div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">realized.SGDDM.vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">n.iters.PPMC</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in array(NA, c(n.iters.PPMC)): object 'n.iters.PPMC' not found</code></pre>
-<div class="sourceCode" id="cb357"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">postpred.SGDDM.vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">n.iters.PPMC</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in array(NA, c(n.iters.PPMC)): object 'n.iters.PPMC' not found</code></pre>
-<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ii</span> <span class="op">&lt;-</span> <span class="va">i</span> <span class="op">&lt;-</span> <span class="va">c</span> <span class="op">&lt;-</span> <span class="fl">1</span>
 <span class="co"># iteration condiitons</span>
 <span class="va">iter.cond</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">dat_long</span><span class="op">$</span><span class="va">iter</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in unique(dat_long$iter): object 'dat_long' not found</code></pre>
-<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Xobs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[</span>,<span class="op">-</span><span class="fl">6</span><span class="op">]</span><span class="op">)</span>
 
 <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">iter.cond</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
@@ -604,29 +604,29 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 <span class="op">}</span></code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object 'iter.cond' not found</code></pre>
 <p>Next, generate plots to help summarize and describe the posterior predictor distributions of these statistics.</p>
-<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plot.dat.ppd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   real <span class="op">=</span> <span class="va">realized.SGDDM.vector</span>,
   ppd <span class="op">=</span> <span class="va">postpred.SGDDM.vector</span>
 <span class="op">)</span></code></pre></div>
 <pre><code>## Error in data.frame(real = realized.SGDDM.vector, ppd = postpred.SGDDM.vector): object 'realized.SGDDM.vector' not found</code></pre>
-<div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">plot.dat.ppd</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">real</span>, y<span class="op">=</span><span class="va">ppd</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">geom_abline</span><span class="op">(</span>intercept <span class="op">=</span> <span class="fl">0</span>, slope<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">lims</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, y<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in ggplot(plot.dat.ppd, aes(x = real, y = ppd)): object 'plot.dat.ppd' not found</code></pre>
-<div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb371"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># transform smbc into plotable format</span>
 <span class="va">ddim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">postpred.SMBC.array</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object 'postpred.SMBC.array' not found</code></pre>
-<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plot.dat.ppd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">0</span>, nrow<span class="op">=</span><span class="va">ddim</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">*</span><span class="va">ddim</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">*</span><span class="va">ddim</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, ncol<span class="op">=</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in matrix(0, nrow = ddim[1] * ddim[2] * ddim[3], ncol = 4): object 'ddim' not found</code></pre>
-<div class="sourceCode" id="cb371"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plot.dat.ppd</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"itemj"</span>, <span class="st">"itemjj"</span>, <span class="st">"real"</span>, <span class="st">"ppd"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Error in colnames(plot.dat.ppd) &lt;- c("itemj", "itemjj", "real", "ppd"): object 'plot.dat.ppd' not found</code></pre>
-<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb377"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ii</span> <span class="op">&lt;-</span> <span class="va">i</span> <span class="op">&lt;-</span> <span class="va">j</span> <span class="op">&lt;-</span> <span class="va">jj</span> <span class="op">&lt;-</span> <span class="fl">1</span>
 
 <span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">ddim</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">{</span>
@@ -641,14 +641,14 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
   <span class="op">}</span>
 <span class="op">}</span></code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object 'ddim' not found</code></pre>
-<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb379"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plot.dat.ppd</span> <span class="op">&lt;-</span> <span class="va">plot.dat.ppd</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">itemj</span> <span class="op">&lt;</span> <span class="va">itemjj</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">mutate</span><span class="op">(</span>
     cov <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"cov("</span>, <span class="va">itemj</span>, <span class="st">", "</span>, <span class="va">itemjj</span>,<span class="st">")"</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
 <pre><code>## Error in filter(., itemj &lt; itemjj): object 'plot.dat.ppd' not found</code></pre>
-<div class="sourceCode" id="cb377"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">plot.dat.ppd</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">real</span>, y<span class="op">=</span><span class="va">ppd</span><span class="op">)</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">geom_point</span><span class="op">(</span>alpha<span class="op">=</span><span class="fl">0.25</span><span class="op">)</span><span class="op">+</span>
   <span class="fu">geom_density2d</span><span class="op">(</span>adjust<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">+</span>
@@ -809,7 +809,7 @@ d_{j5}\mid\mu_{d_{j5}},\sigma^2_{d_{j5}} &amp;\sim \mathrm{Normal}^{&gt;d_{j4}}(
 <p>In the below implementation, I had to change <code>d[j,3] ~ dnorm(1, .5)I(d[j,4],d[j,2])</code> to <code>d[j,3] ~ dnorm(1, .5);I(,d[j,2])</code> because (1) R is dumb and doesn’t realize that <code>I</code> is a JAGS function; and (2) JAGS does not allow for a <code>directed cycle</code>.
 The directed cycle in the DAG is when the range of values for <code>d[j,3]</code> is fixed to be within <code>I(d[j,4],d[j,2])</code> and is not permissible. We need to simply constrain the thresholds to be decreasing or smaller than the previous threshold.
 I’m not sure of the underlying technical reason for this error, but I found that adding the semi-colon fixes the issue when defining the model as an R function.</p>
-<div class="sourceCode" id="cb379"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jags.model.peer.int</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
 
   <span class="co">#######################################</span>
@@ -1041,7 +1041,7 @@ I’m not sure of the underlying technical reason for this error, but I found th
   |************************************************  |  96%
   |                                                        
   |**************************************************| 100%</code></pre>
-<div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpQR8sbs/model454427434e8.txt", fit using jags,
 ##  3 chains, each with 2000 iterations (first 1000 discarded)
@@ -1166,7 +1166,7 @@ I’m not sure of the underlying technical reason for this error, but I found th
 ## DIC info (using the rule, pD = var(deviance)/2)
 ## pD = 692.5 and DIC = 7012.1
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb387"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span> <span class="op">%like%</span> <span class="st">"theta"</span>, <span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>##              mean     sd     2.5%      25%      50%      75%    97.5%  Rhat n.eff
 ## a[1]        2.136  0.164    1.845    2.024    2.126    2.239    2.481 1.006   670
@@ -1205,7 +1205,7 @@ I’m not sure of the underlying technical reason for this error, but I found th
 ## d[6,5]     -3.210  0.214   -3.631   -3.355   -3.205   -3.061   -2.806 1.009   530
 ## d[7,5]     -2.748  0.179   -3.112   -2.865   -2.740   -2.625   -2.413 1.004   650
 ## deviance 6319.569 37.286 6251.475 6293.382 6318.824 6344.230 6396.701 1.005   460</code></pre>
-<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
@@ -1221,26 +1221,26 @@ I’m not sure of the underlying technical reason for this error, but I found th
 ## scale.</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb388"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-intervals.html">mcmc_areas</a></span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-diagnostics.html">mcmc_acf</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-3.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb390"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-traces.html">mcmc_trace</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-4.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb395"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-5.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb396"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"a"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-6.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb397"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_autocorrelation.html">ggs_autocorrelation</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-7.png" width="90%" height="90%"></div>
 <!-- ## PI Example - OpenBUGS -->
@@ -1329,7 +1329,7 @@ The model can be defined as</p>
 <h3>
 <span class="header-section-number">11.9.1</span> LSAT Example Revisted<a class="anchor" aria-label="anchor" href="#lsat-example-revisted"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jags.model.lsat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span>
@@ -1399,7 +1399,7 @@ The model can be defined as</p>
 ##    Total graph size: 36027
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb396"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpQR8sbs/model454417575fb3.txt", fit using jags,
 ##  3 chains, each with 500 iterations (first 200 discarded)
@@ -1524,7 +1524,7 @@ The model can be defined as</p>
 ## DIC info (using the rule, pD = var(deviance)/2)
 ## pD = 5736.9 and DIC = 9694.9
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span> <span class="op">%like%</span> <span class="st">"theta"</span>, <span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>##              mean      sd     2.5%      25%      50%      75%    97.5%   Rhat n.eff
 ## a[1]        0.577   0.198    0.285    0.436    0.544    0.678    1.045  1.652     6
@@ -1543,7 +1543,7 @@ The model can be defined as</p>
 ## d[4]       -0.230   1.388   -2.375   -2.069    0.648    0.824    1.000 15.453     3
 ## d[5]        0.028   2.055   -3.286   -2.602    1.392    1.514    1.643 13.313     3
 ## deviance 3957.959 550.269 3380.214 3542.102 3666.316 4645.067 4825.453  8.457     3</code></pre>
-<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 <span class="co"># the below two plots are too big to be useful given the 1000 observations.</span>
@@ -1566,14 +1566,14 @@ The model can be defined as</p>
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb401"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb405"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"c["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>,
@@ -1631,7 +1631,7 @@ The model can be defined as</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-06-19.</p>
+    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-06-20.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
