@@ -21,28 +21,6 @@
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<style type="text/css">
-    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-    div.csl-bib-body { }
-    div.csl-entry {
-      clear: both;
-        }
-    .hanging div.csl-entry {
-      margin-left:2em;
-      text-indent:-2em;
-    }
-    div.csl-left-margin {
-      min-width:2em;
-      float:left;
-    }
-    div.csl-right-inline {
-      margin-left:2em;
-      padding-left:1em;
-    }
-    div.csl-indent {
-      margin-left: 2em;
-    }
-  </style>
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -63,25 +41,7 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li class="book-part">Foundations</li>
-<li><a class="" href="overview.html"><span class="header-section-number">1</span> Overview</a></li>
-<li><a class="" href="chp2.html"><span class="header-section-number">2</span> Introduction to Bayesian Inference</a></li>
-<li><a class="" href="conceptual-issues-in-bayesian-inference.html"><span class="header-section-number">3</span> Conceptual Issues in Bayesian Inference</a></li>
-<li><a class="" href="normal-distribution-models.html"><span class="header-section-number">4</span> Normal Distribution Models</a></li>
-<li><a class="" href="markov-chain-monte-carlo-estimation.html"><span class="header-section-number">5</span> Markov Chain Monte Carlo Estimation</a></li>
-<li><a class="" href="regression.html"><span class="header-section-number">6</span> Regression</a></li>
-<li class="book-part">Psychometrics</li>
-<li><a class="" href="canonical-bayesian-psychometric-modeling.html"><span class="header-section-number">7</span> Canonical Bayesian Psychometric Modeling</a></li>
-<li><a class="" href="classical-test-theory.html"><span class="header-section-number">8</span> Classical Test Theory</a></li>
-<li><a class="" href="confirmatory-factor-analysis.html"><span class="header-section-number">9</span> Confirmatory Factor Analysis</a></li>
-<li><a class="" href="model-evaluation.html"><span class="header-section-number">10</span> Model Evaluation</a></li>
-<li><a class="" href="item-response-theory.html"><span class="header-section-number">11</span> Item Response Theory</a></li>
-<li><a class="" href="missing-data-modeling.html"><span class="header-section-number">12</span> Missing Data Modeling</a></li>
-<li><a class="active" href="latent-class-analysis.html"><span class="header-section-number">13</span> Latent Class Analysis</a></li>
-<li><a class="" href="bayesian-networks.html"><span class="header-section-number">14</span> Bayesian Networks</a></li>
-<li><a class="" href="references.html">References</a></li>
-</ul>
+        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Chapter 13</span> Latent Class Analysis</a></li></ul>
 
         <div class="book-extra">
           <p><a id="book-repo" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling">View book source <i class="fab fa-github"></i></a></p>
@@ -149,10 +109,10 @@ LCA models discrete latent variables which do not have any inherent labels, as C
 We assume that the individuals are independent (<span class="math inline">\(i\)</span>’s are exchangeable).
 We assume that the responses to each item are conditionally (locally) independent (<span class="math inline">\(j\)</span>’s are exchangeable).
 The joint probability conditional on the latent variable <span class="math inline">\(C\)</span> is</p>
-<p><span class="math display">\[p(\bm{x}_i \vert \bm{\theta}, \bm{\pi}) = \prod_{i=1}^Np(\bm{x}_i \vert \theta_i=c, \bm{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]</span></p>
+<p><span class="math display">\[p(\mathbf{x}_i \vert \mathbf{\theta}, \mathbf{\pi}) = \prod_{i=1}^Np(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]</span></p>
 <p>The marginal probability when the observed data when we sum over the possible latent classes becomes</p>
 <p><span class="math display">\[\begin{align*}
-p(\bm{x}_i \vert \bm{\pi}, \bm{\gamma}) &amp;= \prod_{i=1}^N\sum_{c=1}^C p(\bm{x}_i \vert \theta_i=c, \bm{\pi})p(\theta_i = c \vert \gamma)\\
+p(\mathbf{x}_i \vert \mathbf{\pi}, \mathbf{\gamma}) &amp;= \prod_{i=1}^N\sum_{c=1}^C p(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi})p(\theta_i = c \vert \gamma)\\
 &amp;= \prod_{i=1}^N\left(\sum_{c=1}^C \left(\prod_{j=1}^J p(x_{ij} \vert \theta_i=c, \pi_j)\right)p(\theta_i = c \vert \gamma)\right)
 \end{align*}
 \]</span></p>
@@ -177,7 +137,7 @@ Figure 13.1: DAG for a general latent class analysis model
 That is, the observed data distribution is <em>categorical(.)</em>.
 Or</p>
 <p><span class="math display">\[\begin{align*}
-p(\bm{x}\vert \bm{\theta}, \bm{\pi})&amp;= \prod_{i=1}^N p(\bm{x}_i\vert \theta_i, \bm{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \bm{\pi}_j),\\
+p(\mathbf{x}\vert \mathbf{\theta}, \mathbf{\pi})&amp;= \prod_{i=1}^N p(\mathbf{x}_i\vert \theta_i, \mathbf{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j),\\
 x_{ij} &amp;\sim \mathrm{Categorical}(\pi_{cj})\\
 \end{align*}\]</span>
 where the model holds for observables taking values coded as <span class="math inline">\(1,...,K\)</span> with the categorical indicators.
@@ -199,21 +159,21 @@ due to assuming independence between these two types of parameters.
 Independence is a logical assumption and aligns with the IRT and CFA traditions that latent variable values are independent of the measurement model parameters.</p>
 <p>The prior for the latent variables is represents the prior for the discrete groups respondents are assumed to belong to.
 A common prior is placed over all respondents
-<span class="math display">\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\bm{\theta}_p),\]</span>
-where <span class="math inline">\(\bm\theta_p\)</span> represents the hyperpriors defining the conditions of the categorical latent variables.
-The vector of parameters <span class="math inline">\(\bm\theta_p = \bm\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)\)</span>, where <span class="math inline">\(C\)</span> is the number of latent groups.
+<span class="math display">\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\mathbf{\theta}_p),\]</span>
+where <span class="math inline">\(\mathbf\theta_p\)</span> represents the hyperpriors defining the conditions of the categorical latent variables.
+The vector of parameters <span class="math inline">\(\mathbf\theta_p = \mathbf\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)\)</span>, where <span class="math inline">\(C\)</span> is the number of latent groups.
 Stated in another way,
-<span class="math display">\[\theta_i | \bm\gamma \sim \mathrm{Categorical}(\bm\gamma).\]</span></p>
+<span class="math display">\[\theta_i | \mathbf\gamma \sim \mathrm{Categorical}(\mathbf\gamma).\]</span></p>
 <p>The hyperprior for the categorical latent variable is also commonly given a prior distribution.
-The <span class="math inline">\(\bm\gamma\)</span> parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
+The <span class="math inline">\(\mathbf\gamma\)</span> parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
 The prior is
-<span class="math display">\[\bm\gamma \sim \mathrm{Dirichlet}(\bm\alpha_\gamma),\]</span>
-where <span class="math inline">\(\bm\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).\)</span>
+<span class="math display">\[\mathbf\gamma \sim \mathrm{Dirichlet}(\mathbf\alpha_\gamma),\]</span>
+where <span class="math inline">\(\mathbf\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).\)</span>
 The Dirichlet distribution is a generalization of the Beta distribution to more than two categories.
 This allows for a useful representation of the probabilities with well known statistical and sampling properties.</p>
-<p>The priors for the measurement model parameters (<span class="math inline">\(\bm\pi\)</span>) are commonly defined at the item level instead of jointly over all items:
-<span class="math display">\[p(\bm\pi) = \prod_{j=1}^Jp(\bm\pi_j\vert\bm\alpha_\pi),\]</span>
-where <span class="math inline">\(\bm\alpha_\pi\)</span> defines the hyperpriors for the measurement model parameters.
+<p>The priors for the measurement model parameters (<span class="math inline">\(\mathbf\pi\)</span>) are commonly defined at the item level instead of jointly over all items:
+<span class="math display">\[p(\mathbf\pi) = \prod_{j=1}^Jp(\mathbf\pi_j\vert\mathbf\alpha_\pi),\]</span>
+where <span class="math inline">\(\mathbf\alpha_\pi\)</span> defines the hyperpriors for the measurement model parameters.
 The measurement model commonly utilizes either dichotomous or categorical indicators which leads to the use of either the Beta distribution or Dirichlet distribution for the priors.</p>
 </div>
 <div id="full-model-specification" class="section level3" number="13.2.3">
@@ -223,9 +183,9 @@ The measurement model commonly utilizes either dichotomous or categorical indica
 <p>The full model specification can be shown as follows:</p>
 <p><span class="math display">\[
 \begin{align*}
-p(\bm\theta, \bm\gamma, \bm\pi) &amp;\propto p(\mathbf{x} \vert \bm\theta, \bm\gamma, \bm\pi) p(\bm\theta, \bm\gamma, \bm\pi)\\
-&amp;= p(\mathbf{x} \vert \bm\theta, \bm\gamma, \bm\pi) p(\bm\theta) p(\bm\gamma) p(\bm\pi)\\
-&amp;= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \bm{\pi}_j)p(\theta_i \vert \bm\gamma)p(\bm\gamma) \prod_{c=1}^Cp(\bm\pi_{cj})
+p(\mathbf\theta, \mathbf\gamma, \mathbf\pi) &amp;\propto p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta, \mathbf\gamma, \mathbf\pi)\\
+&amp;= p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta) p(\mathbf\gamma) p(\mathbf\pi)\\
+&amp;= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j)p(\theta_i \vert \mathbf\gamma)p(\mathbf\gamma) \prod_{c=1}^Cp(\mathbf\pi_{cj})
 \end{align*}
 \]</span></p>
 </div>
@@ -240,32 +200,15 @@ For example, we can have factor mixture models where different CFA models hold f
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="missing-data-modeling.html"><span class="header-section-number">12</span> Missing Data Modeling</a></div>
-<div class="next"><a href="bayesian-networks.html"><span class="header-section-number">14</span> Bayesian Networks</a></div>
+<div class="empty"></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#latent-class-analysis"><span class="header-section-number">13</span> Latent Class Analysis</a></li>
-<li>
-<a class="nav-link" href="#lca-model-specification"><span class="header-section-number">13.1</span> LCA Model Specification</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#lca-model-indeterminacy"><span class="header-section-number">13.1.1</span> LCA Model Indeterminacy</a></li>
-<li><a class="nav-link" href="#model-likelihood"><span class="header-section-number">13.1.2</span> Model Likelihood</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-link" href="#bayesian-lca-model-specification"><span class="header-section-number">13.2</span> Bayesian LCA Model Specification</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#distribution-of-observed-indicators"><span class="header-section-number">13.2.1</span> Distribution of Observed Indicators</a></li>
-<li><a class="nav-link" href="#prior-distributions"><span class="header-section-number">13.2.2</span> Prior Distributions</a></li>
-<li><a class="nav-link" href="#full-model-specification"><span class="header-section-number">13.2.3</span> Full Model Specification</a></li>
-</ul>
-</li>
-<li><a class="nav-link" href="#extending-lca"><span class="header-section-number">13.3</span> Extending LCA</a></li>
-</ul>
+      <div id="book-on-this-page"></div>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/blob/master/13-lca.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/13-lca.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+          
         </ul>
 </div>
     </nav>
