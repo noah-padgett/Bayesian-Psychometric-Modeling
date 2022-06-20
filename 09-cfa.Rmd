@@ -707,7 +707,7 @@ mcmc_areas(
 
 mcmc_areas(
   plot.data,
-  pars = c(paste0("psi[", 1:5, "]"), "phi"),
+  pars = c(paste0("psi[", 1:5, "]"), "phi[1,1]", "phi[1,2]","phi[2,2]"),
   prob = 0.8) +
   plot_title
 
@@ -810,6 +810,7 @@ fit <- stan(
   model_code = model_cfa_2factor, # model code to be compiled
   data = mydata,          # my data
   init = start_values,    # starting values
+  chains=3,
   refresh = 0             # no progress shown
 )
 # first get a basic breakdown of the posteriors

@@ -997,7 +997,7 @@ Figure 9.6: Model specification diagram for the CFA model with 2 latent factors
 ## Initializing model</code></pre>
 <div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
-<pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpQR8sbs/model45446c5357df.txt", fit using jags,
+<pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpKotSbY/model4ac475707c36.txt", fit using jags,
 ##  3 chains, each with 5000 iterations (first 2500 discarded)
 ##  n.sims = 7500 iterations saved
 ##              mu.vect sd.vect     2.5%      25%      50%      75%    97.5%  Rhat n.eff
@@ -1061,11 +1061,10 @@ Figure 9.6: Model specification diagram for the CFA model with 2 latent factors
 <div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
-  pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"psi["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span>, <span class="st">"phi"</span><span class="op">)</span>,
+  pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"psi["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span>, <span class="st">"phi[1,1]"</span>, <span class="st">"phi[1,2]"</span>,<span class="st">"phi[2,2]"</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
-<pre><code>## Error in `select_parameters()`:
-## ! Some 'pars' don't match parameter names: phi FALSE</code></pre>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-jags-2-23.png" width="90%" height="90%"></div>
 </div>
 <div id="stan---two-latent-variable" class="section level2" number="9.7">
 <h2>
@@ -1076,7 +1075,7 @@ Figure 9.6: Model specification diagram for the CFA model with 2 latent factors
 <span class="header-section-number">9.7.1</span> Inverse-Wishart Prior<a class="anchor" aria-label="anchor" href="#inverse-wishart-prior"><i class="fas fa-link"></i></a>
 </h3>
 <p>Using Stan based on a nearly identical model structure presented in the text.</p>
-<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_cfa_2factor</span> <span class="op">&lt;-</span> <span class="st">[1051 chars quoted with '"']</span>
 
 <span class="co"># data must be in a list</span>
@@ -1123,20 +1122,65 @@ Figure 9.6: Model specification diagram for the CFA model with 2 latent factors
   model_code <span class="op">=</span> <span class="va">model_cfa_2factor</span>, <span class="co"># model code to be compiled</span>
   data <span class="op">=</span> <span class="va">mydata</span>,          <span class="co"># my data</span>
   init <span class="op">=</span> <span class="va">start_values</span>,    <span class="co"># starting values</span>
+  chains<span class="op">=</span><span class="fl">3</span>,
   refresh <span class="op">=</span> <span class="fl">0</span>             <span class="co"># no progress shown</span>
 <span class="op">)</span></code></pre></div>
-<pre><code>## Error in config_argss(chains = chains, iter = iter, warmup = warmup, thin = thin,  : 
-##   initial value list mismatchs number of chains</code></pre>
-<pre><code>## error in specifying arguments; sampling not done</code></pre>
-<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
+<pre><code>## Warning: There were 2983 divergent transitions after warmup. See
+## https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+## to find out why this is a problem and how to eliminate them.</code></pre>
+<pre><code>## Warning: There were 17 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
+## https://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded</code></pre>
+<pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
+<pre><code>## Warning: The largest R-hat is 3.78, indicating chains have not mixed.
+## Running the chains for more iterations may help. See
+## https://mc-stan.org/misc/warnings.html#r-hat</code></pre>
+<pre><code>## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+## Running the chains for more iterations may help. See
+## https://mc-stan.org/misc/warnings.html#bulk-ess</code></pre>
+<pre><code>## Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+## Running the chains for more iterations may help. See
+## https://mc-stan.org/misc/warnings.html#tail-ess</code></pre>
+<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># first get a basic breakdown of the posteriors</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>, 
       pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda"</span>, <span class="st">"tau"</span>, <span class="st">"psi"</span>,
               <span class="st">"phi"</span>,
               <span class="st">"ksi[1, 1]"</span>, <span class="st">"ksi[1, 2]"</span>,
               <span class="st">"ksi[8, 1]"</span>, <span class="st">"ksi[8, 2]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Stan model 'anon_model' does not contain samples.</code></pre>
-<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<pre><code>## Inference for Stan model: anon_model.
+## 3 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=3000.
+## 
+##            mean se_mean   sd  2.5%   25%  50%  75% 97.5% n_eff       Rhat
+## lambda[1]  1.00    0.00 0.00  1.00  1.00 1.00 1.00  1.00     2       3.43
+## lambda[2]  1.00    0.20 0.24  0.70  0.70 1.00 1.30  1.30     2  688044.85
+## lambda[3]  1.00    0.20 0.24  0.70  0.70 1.00 1.30  1.30     2  571252.30
+## lambda[4]  1.00    0.00 0.00  1.00  1.00 1.00 1.00  1.00     2       8.82
+## lambda[5]  1.00    0.20 0.24  0.70  0.70 1.00 1.30  1.30     2  828681.14
+## tau[1]     3.00    1.33 1.63  1.00  1.00 3.00 5.00  5.00     2 6408079.17
+## tau[2]     3.00    1.33 1.63  1.00  1.00 3.00 5.00  5.00     2 4018815.25
+## tau[3]     3.00    1.33 1.63  1.00  1.00 3.00 5.00  5.00     2 4477733.07
+## tau[4]     3.00    1.33 1.63  1.00  1.00 3.00 5.00  5.00     2 5380093.58
+## tau[5]     3.00    1.33 1.63  1.00  1.00 3.00 5.00  5.00     2 2626323.63
+## psi[1]     1.17    0.51 0.62  0.50  0.50 1.00 2.00  2.00     2 1360074.81
+## psi[2]     1.17    0.51 0.62  0.50  0.50 1.00 2.00  2.00     2 1250198.67
+## psi[3]     1.17    0.51 0.62  0.50  0.50 1.00 2.00  2.00     2 1082592.54
+## psi[4]     1.17    0.51 0.62  0.50  0.50 1.00 2.00  2.00     2 1498131.27
+## psi[5]     1.17    0.51 0.62  0.50  0.50 1.00 2.00  2.00     2 1034527.28
+## phi[1,1]   1.00    0.00 0.00  1.00  1.00 1.00 1.00  1.00     3       1.55
+## phi[1,2]   0.13    0.10 0.12  0.00  0.00 0.10 0.30  0.30     2  388039.24
+## phi[2,1]   0.13    0.10 0.12  0.00  0.00 0.10 0.30  0.30     2  387623.00
+## phi[2,2]   1.00    0.00 0.00  1.00  1.00 1.00 1.00  1.00     2       9.66
+## ksi[1,1]   0.59    0.50 0.62 -0.28 -0.28 0.95 1.10  1.10     2 2255396.84
+## ksi[1,2]  -0.33    0.89 1.08 -1.84 -1.84 0.18 0.66  0.66     2 3056164.29
+## ksi[8,1]   0.13    0.69 0.85 -0.91 -0.91 0.12 1.18  1.18     2 2760193.16
+## ksi[8,2]   0.40    0.34 0.41 -0.10 -0.10 0.39 0.91  0.91     2  571386.66
+## 
+## Samples were drawn using NUTS(diag_e) at Sun Jun 19 23:30:13 2022.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot the posterior in a</span>
 <span class="co">#  95% probability interval</span>
 <span class="co">#  and 80% to contrast the dispersion</span>
@@ -1145,8 +1189,10 @@ Figure 9.6: Model specification diagram for the CFA model with 2 latent factors
               <span class="st">"phi"</span>,
               <span class="st">"ksi[1, 1]"</span>, <span class="st">"ksi[1, 2]"</span>,
               <span class="st">"ksi[8, 1]"</span>, <span class="st">"ksi[8, 2]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Stan model 'anon_model' does not contain samples.</code></pre>
-<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
+<pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
+<pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-1.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># traceplots</span>
 <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span>
   <span class="va">fit</span>,
@@ -1155,41 +1201,41 @@ Figure 9.6: Model specification diagram for the CFA model with 2 latent factors
               <span class="st">"ksi[1, 1]"</span>, <span class="st">"ksi[1, 2]"</span>,
               <span class="st">"ksi[8, 1]"</span>, <span class="st">"ksi[8, 2]"</span><span class="op">)</span>,
   inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>## Stan model 'anon_model' does not contain samples.</code></pre>
-<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-2.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
 <span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in 1:nChains: argument of length 0</code></pre>
-<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-3.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"tau"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in 1:nChains: argument of length 0</code></pre>
-<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-4.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"psi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in 1:nChains: argument of length 0</code></pre>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-5.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"phi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in 1:nChains: argument of length 0</code></pre>
-<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-6.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># autocorrelation</span>
 <span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"lambda"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in 1:nChains: argument of length 0</code></pre>
-<div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-7.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"tau"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in 1:nChains: argument of length 0</code></pre>
-<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-8.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"psi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in 1:nChains: argument of length 0</code></pre>
-<div class="sourceCode" id="cb228"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-9.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"phi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in 1:nChains: argument of length 0</code></pre>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-2-10.png" width="90%" height="90%"></div>
 </div>
 <div id="lkj-cholesky-parameterization" class="section level3" number="9.7.2">
 <h3>
@@ -1203,7 +1249,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 <li><a href="https://michaeldewittjr.com/resources/stan_cfa.html#bayesian_version">Michael DeWitt - Confirmatory Factor Analysis in Stan</a></li>
 <li><a href="https://rfarouni.github.io/assets/projects/BayesianFactorAnalysis/BayesianFactorAnalysis.html">Rick Farouni - Fitting a Bayesian Factor Analysis Model in Stan</a></li>
 </ul>
-<div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_cfa2</span> <span class="op">&lt;-</span> <span class="st">[1409 chars quoted with '"']</span>
 
 <span class="co"># data must be in a list</span>
@@ -1226,7 +1272,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 <pre><code>## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
 ## Running the chains for more iterations may help. See
 ## https://mc-stan.org/misc/warnings.html#bulk-ess</code></pre>
-<div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># first get a basic breakdown of the posteriors</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>, 
       pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda"</span>, <span class="st">"tau"</span>, <span class="st">"psi"</span>,
@@ -1276,7 +1322,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb234"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot the posterior in a</span>
 <span class="co">#  95% probability interval</span>
 <span class="co">#  and 80% to contrast the dispersion</span>
@@ -1287,7 +1333,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 <pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
 <pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># traceplots</span>
 <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span>,
       pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda"</span>, <span class="st">"tau"</span>, <span class="st">"psi"</span>,
@@ -1295,41 +1341,41 @@ I found that most people use the LKJ Cholesky parameterization.</p>
               <span class="st">"ksi[1, 1]"</span>, <span class="st">"ksi[1, 2]"</span>,
               <span class="st">"ksi[8, 1]"</span>, <span class="st">"ksi[8, 2]"</span><span class="op">)</span>, inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb238"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
 <span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-3.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb234"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"tau"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-4.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"psi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-5.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb241"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"phi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-6.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb242"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># autocorrelation</span>
 <span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"lambda"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-7.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb243"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb238"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"tau"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-8.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb244"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb239"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"psi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-9.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb245"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"phi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-10.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb246"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb241"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot the posterior density</span>
 <span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
@@ -1341,14 +1387,14 @@ I found that most people use the LKJ Cholesky parameterization.</p>
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-11.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb247"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb242"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"tau["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-stan-3-12.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb248"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb243"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"psi["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,
@@ -1362,7 +1408,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 <h2>
 <span class="header-section-number">9.8</span> Blavaan - Two Latent Variables<a class="anchor" aria-label="anchor" href="#blavaan---two-latent-variables"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb249"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb244"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># model</span>
 <span class="va">model_cfa2_blavaan</span> <span class="op">&lt;-</span> <span class="st">"
   f1 =~ 1*PI + AD + IGC 
@@ -1449,7 +1495,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 ## Chain 3:                9.815 seconds (Total)
 ## Chain 3: 
 ## Computing posterior predictives...</code></pre>
-<div class="sourceCode" id="cb251"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb246"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>## blavaan (0.4-3) results of 1000 samples after 500 adapt/burnin iterations
 ## 
@@ -1494,7 +1540,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 ##    .FC                0.151    0.023    0.105    0.198    1.000 gamma(1,.5)[sd]
 ##     f1                0.311    0.041    0.236    0.397    1.001 gamma(1,.5)[sd]
 ##     f2                0.465    0.050    0.375    0.569    1.001 gamma(1,.5)[sd]</code></pre>
-<div class="sourceCode" id="cb253"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb248"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp9-cfa-fit-blavaan-2-1.png" width="90%" height="90%"></div>
 </div>
@@ -1502,7 +1548,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 <h2>
 <span class="header-section-number">9.9</span> Indeterminacy in One Factor CFA<a class="anchor" aria-label="anchor" href="#indeterminacy-in-one-factor-cfa"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb254"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb249"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># model code</span>
 <span class="va">jags.model.cfa.ind</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
 
@@ -1590,7 +1636,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 ##    Total graph size: 8029
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb256"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb251"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpKotSbY/model4ac44cdd3712.txt", fit using jags,
 ##  2 chains, each with 5000 iterations (first 2500 discarded)
@@ -1609,7 +1655,7 @@ I found that most people use the LKJ Cholesky parameterization.</p>
 ## DIC info (using the rule, pD = var(deviance)/2)
 ## pD = 1895.3 and DIC = 5279.7
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb258"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb253"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
