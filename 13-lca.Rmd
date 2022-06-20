@@ -56,12 +56,12 @@ We assume that the individuals are independent ($i$'s are exchangeable).
 We assume that the responses to each item are conditionally (locally) independent ($j$'s are exchangeable).
 The joint probability conditional on the latent variable $C$ is
 
-\[p(\bm{x}_i \vert \bm{\theta}, \bm{\pi}) = \prod_{i=1}^Np(\bm{x}_i \vert \theta_i=c, \bm{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]
+\[p(\mathbf{x}_i \vert \mathbf{\theta}, \mathbf{\pi}) = \prod_{i=1}^Np(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]
 
 The marginal probability when the observed data when we sum over the possible latent classes becomes
 
 \[\begin{align*}
-p(\bm{x}_i \vert \bm{\pi}, \bm{\gamma}) &= \prod_{i=1}^N\sum_{c=1}^C p(\bm{x}_i \vert \theta_i=c, \bm{\pi})p(\theta_i = c \vert \gamma)\\
+p(\mathbf{x}_i \vert \mathbf{\pi}, \mathbf{\gamma}) &= \prod_{i=1}^N\sum_{c=1}^C p(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi})p(\theta_i = c \vert \gamma)\\
 &= \prod_{i=1}^N\left(\sum_{c=1}^C \left(\prod_{j=1}^J p(x_{ij} \vert \theta_i=c, \pi_j)\right)p(\theta_i = c \vert \gamma)\right)
 \end{align*}
 \]
@@ -82,7 +82,7 @@ That is, the observed data distribution is _categorical(.)_.
 Or
 
 \[\begin{align*}
-p(\bm{x}\vert \bm{\theta}, \bm{\pi})&= \prod_{i=1}^N p(\bm{x}_i\vert \theta_i, \bm{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \bm{\pi}_j),\\
+p(\mathbf{x}\vert \mathbf{\theta}, \mathbf{\pi})&= \prod_{i=1}^N p(\mathbf{x}_i\vert \theta_i, \mathbf{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j),\\
 x_{ij} &\sim \mathrm{Categorical}(\pi_{cj})\\
 \end{align*}\]
 where the model holds for observables taking values coded as $1,...,K$ with the categorical indicators.
@@ -103,23 +103,23 @@ Independence is a logical assumption and aligns with the IRT and CFA traditions 
 
 The prior for the latent variables is represents the prior for the discrete groups respondents are assumed to belong to.
 A common prior is placed over all respondents
-\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\bm{\theta}_p),\]
-where $\bm\theta_p$ represents the hyperpriors defining the conditions of the categorical latent variables.
-The vector of parameters $\bm\theta_p = \bm\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)$, where $C$ is the number of latent groups.
+\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\mathbf{\theta}_p),\]
+where $\mathbf\theta_p$ represents the hyperpriors defining the conditions of the categorical latent variables.
+The vector of parameters $\mathbf\theta_p = \mathbf\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)$, where $C$ is the number of latent groups.
 Stated in another way,
-\[\theta_i | \bm\gamma \sim \mathrm{Categorical}(\bm\gamma).\]
+\[\theta_i | \mathbf\gamma \sim \mathrm{Categorical}(\mathbf\gamma).\]
 
 The hyperprior for the categorical latent variable is also commonly given a prior distribution.
-The $\bm\gamma$ parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
+The $\mathbf\gamma$ parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
 The prior is
-\[\bm\gamma \sim \mathrm{Dirichlet}(\bm\alpha_\gamma),\]
-where $\bm\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).$
+\[\mathbf\gamma \sim \mathrm{Dirichlet}(\mathbf\alpha_\gamma),\]
+where $\mathbf\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).$
 The Dirichlet distribution is a generalization of the Beta distribution to more than two categories.
 This allows for a useful representation of the probabilities with well known statistical and sampling properties.
 
-The priors for the measurement model parameters ($\bm\pi$) are commonly defined at the item level instead of jointly over all items:
-\[p(\bm\pi) = \prod_{j=1}^Jp(\bm\pi_j\vert\bm\alpha_\pi),\]
-where $\bm\alpha_\pi$ defines the hyperpriors for the measurement model parameters.
+The priors for the measurement model parameters ($\mathbf\pi$) are commonly defined at the item level instead of jointly over all items:
+\[p(\mathbf\pi) = \prod_{j=1}^Jp(\mathbf\pi_j\vert\mathbf\alpha_\pi),\]
+where $\mathbf\alpha_\pi$ defines the hyperpriors for the measurement model parameters.
 The measurement model commonly utilizes either dichotomous or categorical indicators which leads to the use of either the Beta distribution or Dirichlet distribution for the priors.
 
 ### Full Model Specification
@@ -128,9 +128,9 @@ The full model specification can be shown as follows:
 
 \[
 \begin{align*}
-p(\bm\theta, \bm\gamma, \bm\pi) &\propto p(\mathbf{x} \vert \bm\theta, \bm\gamma, \bm\pi) p(\bm\theta, \bm\gamma, \bm\pi)\\
- &= p(\mathbf{x} \vert \bm\theta, \bm\gamma, \bm\pi) p(\bm\theta) p(\bm\gamma) p(\bm\pi)\\
- &= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \bm{\pi}_j)p(\theta_i \vert \bm\gamma)p(\bm\gamma) \prod_{c=1}^Cp(\bm\pi_{cj})
+p(\mathbf\theta, \mathbf\gamma, \mathbf\pi) &\propto p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta, \mathbf\gamma, \mathbf\pi)\\
+ &= p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta) p(\mathbf\gamma) p(\mathbf\pi)\\
+ &= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j)p(\theta_i \vert \mathbf\gamma)p(\mathbf\gamma) \prod_{c=1}^Cp(\mathbf\pi_{cj})
 \end{align*}
 \]
 
