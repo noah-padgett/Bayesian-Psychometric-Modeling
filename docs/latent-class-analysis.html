@@ -21,6 +21,28 @@
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
 </head>
 <body data-spy="scroll" data-target="#toc">
 
@@ -41,7 +63,25 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Chapter 13</span> Latent Class Analysis</a></li></ul>
+        <ul class="book-toc list-unstyled">
+<li class="book-part">Foundations</li>
+<li><a class="" href="overview.html"><span class="header-section-number">1</span> Overview</a></li>
+<li><a class="" href="chp2.html"><span class="header-section-number">2</span> Introduction to Bayesian Inference</a></li>
+<li><a class="" href="conceptual-issues-in-bayesian-inference.html"><span class="header-section-number">3</span> Conceptual Issues in Bayesian Inference</a></li>
+<li><a class="" href="normal-distribution-models.html"><span class="header-section-number">4</span> Normal Distribution Models</a></li>
+<li><a class="" href="markov-chain-monte-carlo-estimation.html"><span class="header-section-number">5</span> Markov Chain Monte Carlo Estimation</a></li>
+<li><a class="" href="regression.html"><span class="header-section-number">6</span> Regression</a></li>
+<li class="book-part">Psychometrics</li>
+<li><a class="" href="canonical-bayesian-psychometric-modeling.html"><span class="header-section-number">7</span> Canonical Bayesian Psychometric Modeling</a></li>
+<li><a class="" href="classical-test-theory.html"><span class="header-section-number">8</span> Classical Test Theory</a></li>
+<li><a class="" href="confirmatory-factor-analysis.html"><span class="header-section-number">9</span> Confirmatory Factor Analysis</a></li>
+<li><a class="" href="model-evaluation.html"><span class="header-section-number">10</span> Model Evaluation</a></li>
+<li><a class="" href="item-response-theory.html"><span class="header-section-number">11</span> Item Response Theory</a></li>
+<li><a class="" href="missing-data-modeling.html"><span class="header-section-number">12</span> Missing Data Modeling</a></li>
+<li><a class="active" href="latent-class-analysis.html"><span class="header-section-number">13</span> Latent Class Analysis</a></li>
+<li><a class="" href="bayesian-networks.html"><span class="header-section-number">14</span> Bayesian Networks</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
 
         <div class="book-extra">
           <p><a id="book-repo" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling">View book source <i class="fab fa-github"></i></a></p>
@@ -185,7 +225,8 @@ The measurement model commonly utilizes either dichotomous or categorical indica
 \begin{align*}
 p(\mathbf\theta, \mathbf\gamma, \mathbf\pi) &amp;\propto p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta, \mathbf\gamma, \mathbf\pi)\\
 &amp;= p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta) p(\mathbf\gamma) p(\mathbf\pi)\\
-&amp;= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j)p(\theta_i \vert \mathbf\gamma)p(\mathbf\gamma) \prod_{c=1}^Cp(\mathbf\pi_{cj})
+&amp;= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j)p(\theta_i \vert \mathbf\gamma)p(\mathbf\gamma) \prod_{c=1}^Cp(\mathbf\pi_{cj})\\
+(x_{ij} \vert \theta_i=c, \mathbf{\pi}_j)
 \end{align*}
 \]</span></p>
 </div>
@@ -200,15 +241,32 @@ For example, we can have factor mixture models where different CFA models hold f
 </div>
 </div>
   <div class="chapter-nav">
-<div class="empty"></div>
-<div class="empty"></div>
+<div class="prev"><a href="missing-data-modeling.html"><span class="header-section-number">12</span> Missing Data Modeling</a></div>
+<div class="next"><a href="bayesian-networks.html"><span class="header-section-number">14</span> Bayesian Networks</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#latent-class-analysis"><span class="header-section-number">13</span> Latent Class Analysis</a></li>
+<li>
+<a class="nav-link" href="#lca-model-specification"><span class="header-section-number">13.1</span> LCA Model Specification</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#lca-model-indeterminacy"><span class="header-section-number">13.1.1</span> LCA Model Indeterminacy</a></li>
+<li><a class="nav-link" href="#model-likelihood"><span class="header-section-number">13.1.2</span> Model Likelihood</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#bayesian-lca-model-specification"><span class="header-section-number">13.2</span> Bayesian LCA Model Specification</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#distribution-of-observed-indicators"><span class="header-section-number">13.2.1</span> Distribution of Observed Indicators</a></li>
+<li><a class="nav-link" href="#prior-distributions"><span class="header-section-number">13.2.2</span> Prior Distributions</a></li>
+<li><a class="nav-link" href="#full-model-specification"><span class="header-section-number">13.2.3</span> Full Model Specification</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#extending-lca"><span class="header-section-number">13.3</span> Extending LCA</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          
+<li><a id="book-source" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/blob/master/13-lca.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/noah-padgett/Bayesian-Psychometric-Modeling/edit/master/13-lca.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>

@@ -870,7 +870,7 @@ Some helpful pages that I used to help get this to work.
 * [Michael DeWitt - Confirmatory Factor Analysis in Stan](https://michaeldewittjr.com/resources/stan_cfa.html#bayesian_version)
 * [Rick Farouni - Fitting a Bayesian Factor Analysis Model in Stan](https://rfarouni.github.io/assets/projects/BayesianFactorAnalysis/BayesianFactorAnalysis.html)
 
-```{r chp9-cfa-fit-stan-3, warnings=T, message=T,error=T, cache=TRUE, eval=F}
+```{r chp9-cfa-fit-stan-3, warnings=T, message=T,error=T, cache=TRUE}
 
 
 model_cfa2 <- "
@@ -1001,7 +1001,7 @@ plot_title <- ggtitle("Posterior distributions",
                       "with medians and 80% intervals")
 mcmc_areas(
   plot.data,
-  pars = c(paste0("lambda[",1:5,"]")),
+  pars = c("lambda[2]", "lambda[3]", "lambda[5]"),
   prob = 0.8) +
   plot_title
 
@@ -1045,7 +1045,7 @@ plot(fit)
 
 ## Indeterminacy in One Factor CFA
 
-```{r chp9-cfa-fit-jags-FID, warnings=T, message=T,error=T, cache=TRUE, eval=F}
+```{r chp9-cfa-fit-jags-FID, warnings=T, message=T,error=T, cache=TRUE}
 
 
 # model code

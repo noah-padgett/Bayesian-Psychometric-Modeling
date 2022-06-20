@@ -234,7 +234,7 @@ For (1), the SMBC is
 
 In R, the functions below can be used to compute these qualtities.
 
-```{r chp11-ppd-functions}
+```{r chp11-ppd-functions, warnings=T, message=T, error=T, cache=TRUE}
 
 calculate.SGDDM <- function(data.matrix, expected.value.matrix){
 	
