@@ -48,12 +48,6 @@ I wanted to deeply dive into this text so rerunning all the examples in a differ
 Also, since I can go into more detail in this format than they could, I have not restricted myself by cutting short of the analysis.
 Meaning that I have done my best to fully (or sufficient for the example) analyze the posteriors to see what issues may pop up and how I resolved them.
 
-## Software 
-
-We have used ` R` to call Stan. So we have relied on ` rstan` heavily. 
-
-NEED TO UPDATE - NEEDS A LOT MORE INFORMATION
-
 ## Overview of Assessment and Psychometric Modeling
 
 Chapter 1 of BPM provided an excellent overview of topics related to psychometric modeling.

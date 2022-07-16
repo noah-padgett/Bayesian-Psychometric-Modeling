@@ -149,10 +149,10 @@ LCA models discrete latent variables which do not have any inherent labels, as C
 We assume that the individuals are independent (<span class="math inline">\(i\)</span>’s are exchangeable).
 We assume that the responses to each item are conditionally (locally) independent (<span class="math inline">\(j\)</span>’s are exchangeable).
 The joint probability conditional on the latent variable <span class="math inline">\(C\)</span> is</p>
-<p><span class="math display">\[p(\mathbf{x}_i \vert \mathbf{\theta}, \mathbf{\pi}) = \prod_{i=1}^Np(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]</span></p>
+<p><span class="math display">\[p(\mathbf{x}_i \vert \boldsymbol{\theta}, \boldsymbol{\pi}) = \prod_{i=1}^Np(\mathbf{x}_i \vert \theta_i=c, \boldsymbol{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]</span></p>
 <p>The marginal probability when the observed data when we sum over the possible latent classes becomes</p>
 <p><span class="math display">\[\begin{align*}
-p(\mathbf{x}_i \vert \mathbf{\pi}, \mathbf{\gamma}) &amp;= \prod_{i=1}^N\sum_{c=1}^C p(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi})p(\theta_i = c \vert \gamma)\\
+p(\mathbf{x}_i \vert \boldsymbol{\pi}, \boldsymbol{\gamma}) &amp;= \prod_{i=1}^N\sum_{c=1}^C p(\mathbf{x}_i \vert \theta_i=c, \boldsymbol{\pi})p(\theta_i = c \vert \gamma)\\
 &amp;= \prod_{i=1}^N\left(\sum_{c=1}^C \left(\prod_{j=1}^J p(x_{ij} \vert \theta_i=c, \pi_j)\right)p(\theta_i = c \vert \gamma)\right)
 \end{align*}
 \]</span></p>
@@ -177,7 +177,7 @@ Figure 13.1: DAG for a general latent class analysis model
 That is, the observed data distribution is <em>categorical(.)</em>.
 Or</p>
 <p><span class="math display">\[\begin{align*}
-p(\mathbf{x}\vert \mathbf{\theta}, \mathbf{\pi})&amp;= \prod_{i=1}^N p(\mathbf{x}_i\vert \theta_i, \mathbf{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j),\\
+p(\mathbf{x}\vert \boldsymbol{\theta}, \boldsymbol{\pi})&amp;= \prod_{i=1}^N p(\mathbf{x}_i\vert \theta_i, \boldsymbol{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \boldsymbol{\pi}_j),\\
 x_{ij} &amp;\sim \mathrm{Categorical}(\pi_{cj})\\
 \end{align*}\]</span>
 where the model holds for observables taking values coded as <span class="math inline">\(1,...,K\)</span> with the categorical indicators.
@@ -199,21 +199,21 @@ due to assuming independence between these two types of parameters.
 Independence is a logical assumption and aligns with the IRT and CFA traditions that latent variable values are independent of the measurement model parameters.</p>
 <p>The prior for the latent variables is represents the prior for the discrete groups respondents are assumed to belong to.
 A common prior is placed over all respondents
-<span class="math display">\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\mathbf{\theta}_p),\]</span>
-where <span class="math inline">\(\mathbf\theta_p\)</span> represents the hyperpriors defining the conditions of the categorical latent variables.
-The vector of parameters <span class="math inline">\(\mathbf\theta_p = \mathbf\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)\)</span>, where <span class="math inline">\(C\)</span> is the number of latent groups.
+<span class="math display">\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\boldsymbol{\theta}_p),\]</span>
+where <span class="math inline">\(\boldsymbol\theta_p\)</span> represents the hyperpriors defining the conditions of the categorical latent variables.
+The vector of parameters <span class="math inline">\(\boldsymbol\theta_p = \boldsymbol\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)\)</span>, where <span class="math inline">\(C\)</span> is the number of latent groups.
 Stated in another way,
-<span class="math display">\[\theta_i | \mathbf\gamma \sim \mathrm{Categorical}(\mathbf\gamma).\]</span></p>
+<span class="math display">\[\theta_i | \boldsymbol\gamma \sim \mathrm{Categorical}(\boldsymbol\gamma).\]</span></p>
 <p>The hyperprior for the categorical latent variable is also commonly given a prior distribution.
-The <span class="math inline">\(\mathbf\gamma\)</span> parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
+The <span class="math inline">\(\boldsymbol\gamma\)</span> parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
 The prior is
-<span class="math display">\[\mathbf\gamma \sim \mathrm{Dirichlet}(\mathbf\alpha_\gamma),\]</span>
-where <span class="math inline">\(\mathbf\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).\)</span>
+<span class="math display">\[\boldsymbol\gamma \sim \mathrm{Dirichlet}(\boldsymbol\alpha_\gamma),\]</span>
+where <span class="math inline">\(\boldsymbol\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).\)</span>
 The Dirichlet distribution is a generalization of the Beta distribution to more than two categories.
 This allows for a useful representation of the probabilities with well known statistical and sampling properties.</p>
-<p>The priors for the measurement model parameters (<span class="math inline">\(\mathbf\pi\)</span>) are commonly defined at the item level instead of jointly over all items:
-<span class="math display">\[p(\mathbf\pi) = \prod_{j=1}^Jp(\mathbf\pi_j\vert\mathbf\alpha_\pi),\]</span>
-where <span class="math inline">\(\mathbf\alpha_\pi\)</span> defines the hyperpriors for the measurement model parameters.
+<p>The priors for the measurement model parameters (<span class="math inline">\(\boldsymbol\pi\)</span>) are commonly defined at the item level instead of jointly over all items:
+<span class="math display">\[p(\boldsymbol\pi) = \prod_{j=1}^Jp(\boldsymbol\pi_j\vert\boldsymbol\alpha_\pi),\]</span>
+where <span class="math inline">\(\boldsymbol\alpha_\pi\)</span> defines the hyperpriors for the measurement model parameters.
 The measurement model commonly utilizes either dichotomous or categorical indicators which leads to the use of either the Beta distribution or Dirichlet distribution for the priors.</p>
 </div>
 <div id="full-model-specification" class="section level3" number="13.2.3">
@@ -223,17 +223,335 @@ The measurement model commonly utilizes either dichotomous or categorical indica
 <p>The full model specification can be shown as follows:</p>
 <p><span class="math display">\[
 \begin{align*}
-p(\mathbf\theta, \mathbf\gamma, \mathbf\pi) &amp;\propto p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta, \mathbf\gamma, \mathbf\pi)\\
-&amp;= p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta) p(\mathbf\gamma) p(\mathbf\pi)\\
-&amp;= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j)p(\theta_i \vert \mathbf\gamma)p(\mathbf\gamma) \prod_{c=1}^Cp(\mathbf\pi_{cj})\\
-(x_{ij} \vert \theta_i=c, \mathbf{\pi}_j)
+p(\boldsymbol\theta, \boldsymbol\gamma, \boldsymbol\pi) &amp;\propto p(\mathbf{x} \vert \boldsymbol\theta, \boldsymbol\gamma, \boldsymbol\pi) p(\boldsymbol\theta, \boldsymbol\gamma, \boldsymbol\pi)\\
+&amp;= p(\mathbf{x} \vert \boldsymbol\theta, \boldsymbol\gamma, \boldsymbol\pi) p(\boldsymbol\theta) p(\boldsymbol\gamma) p(\boldsymbol\pi)\\
+&amp;= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \boldsymbol{\pi}_j)p(\theta_i \vert \boldsymbol\gamma)p(\boldsymbol\gamma) \prod_{c=1}^Cp(\boldsymbol\pi_{cj})\\
+(x_{ij} \vert \theta_i=c, \boldsymbol{\pi}_j) &amp;\sim \mathrm{Categorical}(\boldsymbol{\pi}_{cj}), \mathrm{for}\ i=1, ...,n,\ j=1, ...,J,\\
+\theta_i \vert \boldsymbol{\gamma} &amp;\sim \mathrm{Categorical}(\boldsymbol{\gamma})\ \mathrm{for}\ i=1, ...,n,\\
+\boldsymbol\gamma &amp;\sim \mathrm{Dirichlet}(\boldsymbol\alpha_{\gamma}),\\
+\boldsymbol\pi_{cj} &amp;\sim \mathrm{Dirichlet}(\boldsymbol\alpha_{\pi_c})\ \mathrm{for}\ c=1, ..., C, j=1, ..., J.
 \end{align*}
 \]</span></p>
 </div>
 </div>
-<div id="extending-lca" class="section level2" number="13.3">
+<div id="academic-cheating-example" class="section level2" number="13.3">
 <h2>
-<span class="header-section-number">13.3</span> Extending LCA<a class="anchor" aria-label="anchor" href="#extending-lca"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13.3</span> Academic Cheating Example<a class="anchor" aria-label="anchor" href="#academic-cheating-example"><i class="fas fa-link"></i></a>
+</h2>
+<p>The academic cheating example is discussed on pages 328-340. The last few pages pertain mainly to model fit/evaluation and a discussion on indeterminacy in the model.
+Some of these points will be left to the reader for in-text learning.
+The major motivation for this current development is applying the model from pages 329-330, and replicating results (p.336).</p>
+<div id="estimating-using-jags" class="section level3" number="13.3.1">
+<h3>
+<span class="header-section-number">13.3.1</span> Estimating using JAGS<a class="anchor" aria-label="anchor" href="#estimating-using-jags"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb360"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">jags.model.lsat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
+
+<span class="co">#########################################</span>
+<span class="co"># Specify the item response measurement model for the observables</span>
+<span class="co">#########################################</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span>
+  <span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">J</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">x</span><span class="op">[</span><span class="va">i</span>,<span class="va">j</span><span class="op">]</span> <span class="op">~</span> <span class="fu">dbern</span><span class="op">(</span><span class="va">pi</span><span class="op">[</span><span class="va">theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>,<span class="va">j</span><span class="op">]</span><span class="op">)</span>                  <span class="co"># distribution for each observable conditional on latent class assignment theta</span>
+  <span class="op">}</span>
+<span class="op">}</span>
+
+
+<span class="co">##########################################</span>
+<span class="co"># Specify the (prior) distribution for the latent variables</span>
+<span class="co">##########################################</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">theta</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">~</span> <span class="fu">dcat</span><span class="op">(</span><span class="va">gamma</span><span class="op">[</span><span class="op">]</span><span class="op">)</span>  <span class="co"># distribution for the latent variables is categorical</span>
+<span class="op">}</span>
+
+<span class="va">gamma</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">C</span><span class="op">]</span> <span class="op">~</span> <span class="fu">ddirich</span><span class="op">(</span><span class="va">alpha_gamma</span><span class="op">[</span><span class="op">]</span><span class="op">)</span>
+<span class="kw">for</span><span class="op">(</span><span class="va">c</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">C</span><span class="op">)</span><span class="op">{</span>
+  <span class="va">alpha_gamma</span><span class="op">[</span><span class="va">c</span><span class="op">]</span> <span class="op">=</span> <span class="fl">1</span>
+<span class="op">}</span>
+
+<span class="co">##########################################</span>
+<span class="co"># Specify the prior distribution for the measurement model parameters</span>
+<span class="co"># Measurement model consists of class specific response probabilities</span>
+<span class="co">##########################################</span>
+<span class="kw">for</span><span class="op">(</span><span class="va">c</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">C</span><span class="op">)</span><span class="op">{</span>
+  <span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">J</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">pi</span><span class="op">[</span><span class="va">c</span>,<span class="va">j</span><span class="op">]</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>
+  <span class="op">}</span>
+<span class="op">}</span>
+<span class="va">pi</span><span class="op">[</span><span class="fl">1</span>,<span class="va">J</span><span class="op">]</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>
+<span class="va">pi</span><span class="op">[</span><span class="fl">2</span>,<span class="va">J</span><span class="op">]</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html">dbeta</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>
+  
+
+<span class="op">}</span> <span class="co"># closes the model</span>
+
+<span class="co"># initial values</span>
+<span class="va">start_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"gamma"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.1</span><span class="op">)</span>,
+       <span class="st">"pi"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span>.Data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.37</span>, <span class="fl">.20</span>, <span class="fl">.06</span>, <span class="fl">.04</span>, <span class="fl">.41</span>, <span class="fl">.47</span>, <span class="fl">.19</span>, <span class="fl">.32</span><span class="op">)</span>, .Dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"gamma"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span><span class="op">)</span>,
+       <span class="st">"pi"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span>.Data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.58</span>, <span class="fl">.62</span>, <span class="fl">.69</span>, <span class="fl">.77</span>, <span class="fl">.81</span>, <span class="fl">.84</span>, <span class="fl">.88</span>, <span class="fl">.90</span><span class="op">)</span>, .Dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"gamma"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>,
+       <span class="st">"pi"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span>.Data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.32</span>, <span class="fl">.49</span>, <span class="fl">.29</span>, <span class="fl">.61</span>, <span class="fl">.48</span>, <span class="fl">.54</span>, <span class="fl">.44</span>, <span class="fl">.70</span><span class="op">)</span>, .Dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="co"># vector of all parameters to save</span>
+<span class="va">param_save</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gamma"</span>, <span class="st">"pi"</span><span class="op">)</span>
+
+<span class="co"># dataset</span>
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="st">"data/Cheat.dat"</span>, header<span class="op">=</span><span class="cn">F</span><span class="op">)</span>
+
+<span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, 
+  J <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,
+  C<span class="op">=</span><span class="fl">2</span>,
+  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="co"># fit model</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">jags</span><span class="op">(</span>
+  model.file<span class="op">=</span><span class="va">jags.model.lsat</span>,
+  data<span class="op">=</span><span class="va">mydata</span>,
+  inits<span class="op">=</span><span class="va">start_values</span>,
+  parameters.to.save <span class="op">=</span> <span class="va">param_save</span>,
+  n.iter<span class="op">=</span><span class="fl">2000</span>,
+  n.burnin <span class="op">=</span> <span class="fl">1000</span>,
+  n.chains <span class="op">=</span> <span class="fl">3</span>,
+  progress.bar <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<pre><code>## module glm loaded</code></pre>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 1276
+##    Unobserved stochastic nodes: 328
+##    Total graph size: 2885
+## 
+## Initializing model</code></pre>
+<div class="sourceCode" id="cb363"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
+<pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/Rtmp4WWggD/model5c285c9023ab.txt", fit using jags,
+##  3 chains, each with 2000 iterations (first 1000 discarded)
+##  n.sims = 3000 iterations saved
+##          mu.vect sd.vect    2.5%     25%     50%     75%   97.5%  Rhat n.eff
+## gamma[1]   0.861   0.063   0.757   0.839   0.870   0.895   0.937 1.239    73
+## gamma[2]   0.139   0.063   0.063   0.105   0.130   0.161   0.243 1.041    77
+## pi[1,1]    0.033   0.018   0.003   0.020   0.032   0.044   0.073 1.058    80
+## pi[2,1]    0.626   0.147   0.359   0.526   0.622   0.728   0.913 1.028   180
+## pi[1,2]    0.042   0.021   0.004   0.026   0.041   0.056   0.086 1.005   610
+## pi[2,2]    0.652   0.139   0.382   0.560   0.653   0.746   0.919 1.050    92
+## pi[1,3]    0.043   0.015   0.016   0.033   0.042   0.052   0.074 1.026   640
+## pi[2,3]    0.252   0.084   0.112   0.190   0.244   0.305   0.439 1.011   190
+## pi[1,4]    0.186   0.027   0.136   0.170   0.186   0.204   0.238 1.065   230
+## pi[2,4]    0.406   0.096   0.233   0.338   0.399   0.469   0.608 1.002  1100
+## deviance 735.481  29.161 681.307 718.188 734.787 751.019 789.102 1.004  3000
+## 
+## For each parameter, n.eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+## 
+## DIC info (using the rule, pD = var(deviance)/2)
+## pD = 425.4 and DIC = 1160.9
+## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
+<div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
+<span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
+<span class="co"># the below two plots are too big to be useful given the 1000 observations.</span>
+<span class="co">#R2jags::traceplot(jags.mcmc)</span>
+
+<span class="co"># gelman-rubin-brook</span>
+<span class="co">#gelman.plot(jags.mcmc)</span>
+
+<span class="co"># convert to single data.frame for density plot</span>
+<span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
+<span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">jags.mcmc</span>, chains<span class="op">=</span><span class="cn">T</span>, iters <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">plot.data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chain"</span>, <span class="st">"iter"</span>, <span class="va">a</span><span class="op">)</span>
+
+
+<span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-diagnostics.html">mcmc_acf</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gamma["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-1.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb366"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-traces.html">mcmc_trace</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gamma["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-2.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"gamma"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-3.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb368"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gamma["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="st">"]"</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-4.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-diagnostics.html">mcmc_acf</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pi[1,"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-5.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb370"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-traces.html">mcmc_trace</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pi[1,"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-6.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb371"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span> <span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pi[1,"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-7.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb372"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-diagnostics.html">mcmc_acf</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pi[2,"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-8.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-traces.html">mcmc_trace</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pi[2,"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-9.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb374"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pi[2,"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>, prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-10.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"pi"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-jags-11.png" width="90%" height="90%"></div>
+</div>
+<div id="estimation-using-stan" class="section level3" number="13.3.2">
+<h3>
+<span class="header-section-number">13.3.2</span> Estimation using Stan<a class="anchor" aria-label="anchor" href="#estimation-using-stan"><i class="fas fa-link"></i></a>
+</h3>
+<div class="sourceCode" id="cb376"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_lca</span> <span class="op">&lt;-</span> <span class="st">'
+data {
+  int  N;
+  int  J;
+  int  C;
+  int x[N,J];
+}
+
+parameters {
+  simplex[C] gamma; //class mixing weights
+  real&lt;lower=0, upper=1&gt; pi[C,J]; //class probabilities
+}
+
+model {
+  vector[C] log_gamma = log(gamma);  // cache log calculation
+  // prior for class response probabilities
+  for(c in 1:C){
+    for(j in 1:J){
+      pi[c,j] ~ beta(1,1);
+    }
+  }
+  //compute loglikelihood
+  for (n in 1:N) {
+    for(j in 1:J){
+      vector[C] lps = log_gamma;
+      for (c in 1:C) {
+        lps[c] += bernoulli_lpmf(x[n,j] | pi[c,j]);
+      }
+      target += log_sum_exp(lps);
+    }
+  }
+}
+
+'</span>
+
+
+<span class="co"># initial values</span>
+<span class="va">start_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>gamma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.1</span><span class="op">)</span>,
+       pi<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span>.Data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.37</span>, <span class="fl">.20</span>, <span class="fl">.06</span>, <span class="fl">.04</span>, <span class="fl">.41</span>, <span class="fl">.47</span>, <span class="fl">.19</span>, <span class="fl">.32</span><span class="op">)</span>, .Dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>gamma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span><span class="op">)</span>,
+       pi<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span>.Data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.58</span>, <span class="fl">.62</span>, <span class="fl">.69</span>, <span class="fl">.77</span>, <span class="fl">.81</span>, <span class="fl">.84</span>, <span class="fl">.88</span>, <span class="fl">.90</span><span class="op">)</span>, .Dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>gamma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.5</span><span class="op">)</span>,
+       pi<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span>.Data<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.32</span>, <span class="fl">.49</span>, <span class="fl">.29</span>, <span class="fl">.61</span>, <span class="fl">.48</span>, <span class="fl">.54</span>, <span class="fl">.44</span>, <span class="fl">.70</span><span class="op">)</span>, .Dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="co"># dataset</span>
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="st">"data/Cheat.dat"</span>, header<span class="op">=</span><span class="cn">F</span><span class="op">)</span>
+
+<span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, 
+  J <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,
+  C <span class="op">=</span> <span class="fl">2</span>,
+  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>
+<span class="op">)</span>
+
+
+
+<span class="co"># Next, need to fit the model</span>
+<span class="co">#   I have explicitly outlined some common parameters</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">stan</span><span class="op">(</span>
+  model_code <span class="op">=</span> <span class="va">model_lca</span>, <span class="co"># model code to be compiled</span>
+  data <span class="op">=</span> <span class="va">mydata</span>,          <span class="co"># my data</span>
+  init <span class="op">=</span> <span class="va">start_values</span>,    <span class="co"># starting values</span>
+  chains <span class="op">=</span> <span class="fl">3</span>,             <span class="co"># number of Markov chains</span>
+  warmup <span class="op">=</span> <span class="fl">2000</span>,          <span class="co"># number of warm up iterations per chain</span>
+  iter <span class="op">=</span> <span class="fl">4000</span>,            <span class="co"># total number of iterations per chain</span>
+  cores <span class="op">=</span> <span class="fl">1</span>,              <span class="co"># number of cores (could use one per chain)</span>
+  refresh <span class="op">=</span> <span class="fl">0</span>             <span class="co"># no progress shown</span>
+<span class="op">)</span>
+
+<span class="co"># first get a basic breakdown of the posteriors</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gamma"</span>, <span class="st">"pi"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Inference for Stan model: anon_model.
+## 3 chains, each with iter=4000; warmup=2000; thin=1; 
+## post-warmup draws per chain=2000, total post-warmup draws=6000.
+## 
+##          mean se_mean   sd 2.5%  25%  50%  75% 97.5% n_eff Rhat
+## gamma[1] 0.50    0.02 0.40 0.01 0.09 0.50 0.91  0.99   266 1.01
+## gamma[2] 0.50    0.02 0.40 0.01 0.09 0.50 0.91  0.99   266 1.01
+## pi[1,1]  0.25    0.01 0.26 0.01 0.07 0.12 0.39  0.91   533 1.00
+## pi[1,2]  0.27    0.01 0.27 0.01 0.08 0.13 0.41  0.93   551 1.00
+## pi[1,3]  0.20    0.01 0.25 0.00 0.04 0.07 0.30  0.89   547 1.01
+## pi[1,4]  0.33    0.01 0.25 0.03 0.17 0.22 0.48  0.94   636 1.00
+## pi[2,1]  0.26    0.01 0.27 0.01 0.07 0.11 0.41  0.94   554 1.00
+## pi[2,2]  0.26    0.01 0.26 0.01 0.08 0.13 0.40  0.93   530 1.00
+## pi[2,3]  0.20    0.01 0.25 0.00 0.04 0.07 0.30  0.88   556 1.00
+## pi[2,4]  0.33    0.01 0.25 0.03 0.17 0.22 0.46  0.94   621 1.00
+## 
+## Samples were drawn using NUTS(diag_e) at Fri Jul 15 18:15:37 2022.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<div class="sourceCode" id="cb378"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot the posterior in a</span>
+<span class="co">#  95% probability interval</span>
+<span class="co">#  and 80% to contrast the dispersion</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gamma"</span>, <span class="st">"pi"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
+<pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-stan-1.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># traceplots</span>
+<span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gamma"</span>, <span class="st">"pi"</span><span class="op">)</span>, inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-stan-2.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb382"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
+<span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gamma"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-stan-3.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"pi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-stan-4.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb384"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># autocorrelation</span>
+<span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"gamma"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-stan-5.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"pi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-stan-6.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb386"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot the posterior density</span>
+<span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
+
+<span class="va">plot_title</span> <span class="op">&lt;-</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Posterior distributions"</span>,
+                      <span class="st">"with medians and 80% intervals"</span><span class="op">)</span>
+<span class="fu">mcmc_areas</span><span class="op">(</span>
+  <span class="va">plot.data</span>,
+  pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gamma["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,<span class="st">"]"</span><span class="op">)</span>,
+  prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">plot_title</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-stan-7.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb387"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
+  <span class="va">plot.data</span>,
+  pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pi[1,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pi[2,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span><span class="op">)</span>,
+  prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">plot_title</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp13-academic-cheating-stan-8.png" width="90%" height="90%"></div>
+</div>
+</div>
+<div id="extending-lca" class="section level2" number="13.4">
+<h2>
+<span class="header-section-number">13.4</span> Extending LCA<a class="anchor" aria-label="anchor" href="#extending-lca"><i class="fas fa-link"></i></a>
 </h2>
 <p>In LCA, the mixing of distributions can be generalized to include more complex components such as factor models to model the response process within class.
 For example, we can have factor mixture models where different CFA models hold for different subsets of the population.</p>
@@ -260,7 +578,13 @@ For example, we can have factor mixture models where different CFA models hold f
 <li><a class="nav-link" href="#full-model-specification"><span class="header-section-number">13.2.3</span> Full Model Specification</a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#extending-lca"><span class="header-section-number">13.3</span> Extending LCA</a></li>
+<li>
+<a class="nav-link" href="#academic-cheating-example"><span class="header-section-number">13.3</span> Academic Cheating Example</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#estimating-using-jags"><span class="header-section-number">13.3.1</span> Estimating using JAGS</a></li>
+<li><a class="nav-link" href="#estimation-using-stan"><span class="header-section-number">13.3.2</span> Estimation using Stan</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#extending-lca"><span class="header-section-number">13.4</span> Extending LCA</a></li>
 </ul>
 
       <div class="book-extra">
@@ -278,7 +602,7 @@ For example, we can have factor mixture models where different CFA models hold f
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-06-20.</p>
+    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-07-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -120,7 +120,7 @@ This view highlights the three major pieces we are going to use in the model eva
 We can rewrite the above to focus on the residuals as well.</p>
 <p>In factor analysis (CFA in particular), we tend to be interested in the residuals of the covariances among variables because our factor model is a hypothesis for how the observed variables are interrelated.
 In the observed data, we capture this relationship with the observed sample covariance matrix <span class="math inline">\(\mathbf{S}\)</span>, which for variable <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span> is usually computed as
-<span class="math display">\[s_{jk} = \frac{\sum_{\forall i (x_{ij}-\bar{x}_j)(x_{ik}-\bar{x}_k)}}{n-1}.\]</span>
+<span class="math display">\[s_{jk} = \frac{\sum_{\forall i} (x_{ij}-\bar{x}_j)(x_{ik}-\bar{x}_k)}{n-1}.\]</span>
 And, the whole covariance matrix is <span class="math inline">\(\mathbf{S} = \frac{1}{n-1}\mathbf{X}^{\prime}\mathbf{X}\)</span> where <span class="math inline">\(\mathbf{X}\)</span> is in centered form.</p>
 <p>In CFA, we can get the model implied covariance matrix by using the estimated parameters to get <span class="math inline">\(\Sigma(\theta)\)</span>, that is
 <span class="math display">\[\Sigma(\theta) = \Lambda\Phi\Lambda^{\prime} + \Psi.\]</span>
@@ -623,7 +623,7 @@ KLMNO
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-06-20.</p>
+    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-07-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

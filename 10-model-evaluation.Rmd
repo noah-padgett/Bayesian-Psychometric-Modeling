@@ -28,7 +28,7 @@ We can rewrite the above to focus on the residuals as well.
 
 In factor analysis (CFA in particular), we tend to be interested in the residuals of the covariances among variables because our factor model is a hypothesis for how the observed variables are interrelated.
 In the observed data, we capture this relationship with the observed sample covariance matrix $\mathbf{S}$, which for variable $j$ and $k$ is usually computed as
-\[s_{jk} = \frac{\sum_{\forall i (x_{ij}-\bar{x}_j)(x_{ik}-\bar{x}_k)}}{n-1}.\]
+\[s_{jk} = \frac{\sum_{\forall i} (x_{ij}-\bar{x}_j)(x_{ik}-\bar{x}_k)}{n-1}.\]
 And, the whole covariance matrix is $\mathbf{S} = \frac{1}{n-1}\mathbf{X}^{\prime}\mathbf{X}$ where $\mathbf{X}$ is in centered form.
 
 In CFA, we can get the model implied covariance matrix by using the estimated parameters to get $\Sigma(\theta)$, that is 

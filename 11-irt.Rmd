@@ -183,13 +183,12 @@ fit <- jags(
   data=mydata,
   inits=start_values,
   parameters.to.save = param_save,
-  n.iter=20000,
-  n.iter=26000,
-  n.burnin = 6000,
+  n.iter=2000,
+  n.burnin = 1000,
   n.chains = 3,
   progress.bar = "none")
 
-print(fit)
+#print(fit)
 round(fit$BUGSoutput$summary[ !rownames(fit$BUGSoutput$summary) %like% "theta", ], 3)
 
 # extract posteriors for all chains
@@ -353,9 +352,8 @@ d <- dat_long %>%
   summarise(raw.score = sum(x),
             raw.score.ppd = sum(x.ppd))
 
-di <- d[ d$chain ==1 & d$iter == itermin, ] %>%
 di <- d %>%
-  filter(chain==1, iter==6001) %>%
+  filter(chain==1, iter==1001) %>%
   group_by(raw.score) %>%
   summarise(count = n())
 dii <- d %>%
@@ -374,9 +372,9 @@ d <- dat_long %>%
   group_by(chain, iter, person) %>%
   mutate(raw.score = sum(x),
          raw.score.ppd = sum(x.ppd))
-di <- d[ d$chain ==1 & d$iter == itermin, ] %>%
+
 di <- d %>%
-  filter(chain==1, iter==6001) %>%
+  filter(chain==1, iter==1001) %>%
   group_by(raw.score, item) %>%
   summarise(p.correct = mean(x))
 dii <- d %>%
@@ -395,10 +393,6 @@ ggplot()+
   labs(x="Raw Score", y="Number of Examinees")+
   theme_classic()
 
-```
-
-
-```{r chp11-ppd-smbc-formatting, warnings=T, message=T, error=T, cache=TRUE}
 # computing standardized model summary statistics
 # objects for results
 J <- 5
@@ -453,12 +447,6 @@ for(i in 1:length(iter.cond)){
   }
 }
 
-
-```
-
-Next, generate plots to help summarize and describe the posterior predictor distributions of these statistics.
-
-```{r chp11-ppd-lsat-plots, warnings=T, message=T, error=T, cache=TRUE}
 
 plot.dat.ppd <- data.frame(
   real = realized.SGDDM.vector,
@@ -558,7 +546,7 @@ Let $x_{ij}$ be the observed response to item $j$ from examinee $i$ that may tak
 In many applications, the number of response options is constant across items, though this need not be the case.
 The GRM using conditional probability statements about the probability of a response being at or above a specific category and obtaining the probability for each category as a difference of two such conditional probabilities.
 That is 
-\[P(x_{ij} = k \mid \theta_i, \boldsymbol{d}_j,a_j) = P(x_{ij} \geq k \mid \theta_i, d_{jk},a_j) - P(x_{ij \geq k+1 \mid \theta_i, d_{j(k+1)},a_j),\]
+\[P(x_{ij} = k \mid \theta_i, \boldsymbol{d}_j,a_j) = P(x_{ij} \geq k \mid \theta_i, d_{jk},a_j) - P(x_{ij} \geq k+1 \mid \theta_i, d_{j(k+1)},a_j),\]
 where $\boldsymbol{d}_j$ is the collection of location/threshold parameters for item $j$.
 The GRM takes on a structure similar to the 2-PL for any one category
 \[P(x_{ij} \geq k \mid \theta_i, d_{jk},a_j)=F(a_j\theta_i + d_{jk}).\]
@@ -587,7 +575,7 @@ Therefore, the probability would be 1.
 We set $d_{j1} = -\inf$ and then set a normal prior for $d_{j2}\sim \mathrm{Normal}(\mu_{d2},\sigma^2_{d2})$.
 The priors for the remaining location parameters ($d_{3}-d_{k}$) can be specified as truncated normal distributions.
 That is, the location of the next threshold is constrained to be larger than the previous threshold and is formally
-\[d_{jk} \sim \mathrm{Normal}^{>d_{j(k-1)}}(\mu_{d_k},\sigma^2_{d_k},\ \mathrm{for}\ k=3, ...,K_j.\]
+\[d_{jk} \sim \mathrm{Normal}^{>d_{j(k-1)}}(\mu_{d_k},\sigma^2_{d_k}),\ \mathrm{for}\ k=3, ...,K_j.\]
 
 The posterior distribution for the GRM can be parameterized as follows.
 The model as described below is very general and can accommodate varying number of thresholds per item but is constrained to only 1 latent factor.
@@ -778,7 +766,8 @@ fit <- jags(
   parameters.to.save = param_save,
   n.iter=2000,
   n.burnin = 1000,
-  n.chains = 3)
+  n.chains = 3,
+  progress.bar = "none")
 
 print(fit)
 round(fit$BUGSoutput$summary[ !rownames(fit$BUGSoutput$summary) %like% "theta", ], 3)
@@ -900,13 +889,28 @@ The model can be defined as
 
 \[x^{\ast}_{ij} = a_j\theta_i+d_j+\varepsilon_{ij},\]
 
-where, for each $j$, $\varepsilon_{ij} \sim \mathrm{Normal}(0, \sigma^2_{\varepsilon_j})$. And can jointly be expressed as
+where, an important feature is how this latent response is related back to the observed indicator. The range of possible values of a latent response is defined conditional on the value of the observed response. That is,
+\[
+x^{\ast}_{ij} \sim \cases{
+N(a_j\theta_i+d_j, 1)I(x^{\ast}_{ij}\geq0)\ \ \ \ if\ x=1\\
+N(a_j\theta_i+d_j, 1)I(x^{\ast}_{ij}<0)\ \ \ \ if\ x=0}
+\]
 
-\[x^{\ast}_{ij} \sim \mathrm{Normal}(a_j\theta_i+d_j, \sigma^2_{\varepsilon_j}).\]
 
-The probability of an observed response is then modeled as probability of the latent response variable for person $i$ on item $j$ being greater than or equal to some threshold $\gamma_j$.
+### A Comment on use of JAGS 
 
-### LSAT Example Revisted
+After a lot of trial and error in JAGS, I discovered that the model for a latent response is a bit difficult to code up as defined above.
+I found a way to utilize the idea of the latent response formulation.
+The approach is not perfect and better ways of coding the model are likely more efficient.
+
+In the approached below, which I demonstrate in the example code below, I utilize the model nearly identically to the above specification.
+However, I alter the model so that an "observed stochastic node" can be utilized as part of the sampling.
+That is, I had to use the latent response variables to obtain a probability of the observed response.
+This is straightforward as the latent response variable is based on the normal standard normal distribution and we can use the cumulative normal distribution CDF (Phi) to obtain a probability that represents the probability of responding "1".
+Then a Bernoulli distribution is used as the data model.
+This approach is a straightforward addition to the latent response modeling and connects well to what is done in IRT models above.
+
+### LSAT Example Revisted - JAGS
 
 ```{r chp11-lrv-lsat-jags, warnings=T, message=T, error=T, cache=TRUE}
 
@@ -915,21 +919,40 @@ jags.model.lsat <- function(){
 for (i in 1:n){
   for(j in 1:J){
     # latent response variable
-    xstar[i,j] ~ dnorm(a[j]*theta[i]+d[j], 1)
-    P[i,j] <- c[j]+(1-c[j])*phi(xstar[i,j]) # 3P-NO expression
-    x[i,j] ~ dbern(P[i,j])                  # distribution for each observable
+    
+    xpos[i,j] ~ dnorm(0, 1);T(0,)
+    xneg[i,j] ~ dnorm(0, 1);T(,0)
+    
+    mu[i,j] = xpos[i,j]*z[i,j] + xneg[i,j]*(1-z[i,j])
+    
+    # compute probabilities based on probit to obtain probabilities for observed categories
+    x[i,j] ~ dbern(phi(xstar[i,j] - d[j]))
+
   }
+  
+  xstar[i,1:J] ~ dmnorm.vcov(mu[i,1:J], Omega)
+  
+  
 }
 
-for (i in 1:n){
-  theta[i] ~ dnorm(0, 1)  # distribution for the latent variables
+psi ~ dgamma(1, 0.5)
+invpsi = 1/psi;
+for(i in 1:n){
+  theta[i] ~ dnorm(0, invpsi)  # distribution for the latent variables
 }
 
 for(j in 1:J){
   d[j] ~ dnorm(0, .5)          # Locations for observables
-  a[j] ~ dnorm(1, .5); I(0,)    # Discriminations for observables
-  c[j] ~ dbeta(5,17)           # Lower asymptotes for observables
-  
+}
+a[1] = 1
+for(j in 2:J){
+  a[j] ~ dnorm(1, .5)    # Discriminations for observables
+}
+
+for(i in 1:J){
+  for(j in 1:J){
+    Omega[i,j] = ifelse(i==j, 1 + psi*a[i]*a[j], psi*a[i]*a[j])
+  }
 }
 
 
@@ -938,18 +961,15 @@ for(j in 1:J){
 # initial values
 start_values <- list(
   list("d"=c(1.00, 1.00, 1.00, 1.00, 1.00),
-       "a"=c(1.00, 1.00, 1.00, 1.00, 1.00),
-       "c"=c(0.20, 0.20, 0.20, 0.20, 0.20)),
+       "a"=c(NA, 1.00, 1.00, 1.00, 1.00)),
   list("d"=c(-3.00, -3.00, -3.00, -3.00, -3.00),
-       "a"=c(3.00, 3.00, 3.00, 3.00, 3.00),
-       "c"=c(0.50, 0.50, 0.50, 0.50, 0.50)),
+       "a"=c(NA, 3.00, 3.00, 3.00, 3.00)),
   list("d"=c(3.00, 3.00, 3.00, 3.00, 3.00),
-       "a"=c(0.1, 0.1, 0.1, 0.1, 0.1),
-       "c"=c(0.05, 0.05, 0.05, 0.05, 0.05))
+       "a"=c(NA, 0.1, 0.1, 0.1, 0.1))
 )
 
 # vector of all parameters to save
-param_save <- c("a", "d", "c", "theta")
+param_save <- c("a", "d", "theta", "psi", "Omega", "xstar")
 
 # dataset
 dat <- read.table("data/LSAT.dat", header=T)
@@ -957,7 +977,8 @@ dat <- read.table("data/LSAT.dat", header=T)
 mydata <- list(
   n = nrow(dat),
   J = ncol(dat),
-  x = as.matrix(dat)
+  x = as.matrix(dat),
+  z = as.matrix(dat)
 )
 
 # fit model
@@ -966,14 +987,15 @@ fit <- jags(
   data=mydata,
   inits=start_values,
   parameters.to.save = param_save,
-  n.iter=500,
-  n.burnin = 200,
+  n.iter=2000,
+  n.burnin = 1000,
   n.chains = 3,
   progress.bar = "none")
 
-print(fit)
-round(fit$BUGSoutput$summary[ !rownames(fit$BUGSoutput$summary) %like% "theta", ], 3)
-
+#print(fit)
+round(fit$BUGSoutput$summary[ !c(rownames(fit$BUGSoutput$summary) %like% "theta" |
+                                   rownames(fit$BUGSoutput$summary) %like% "xstar" ), ], 3)
+round(fit$BUGSoutput$summary[c("xstar[4,4]","xstar[4,5]","xstar[10,4]","xstar[10,5]"),] ,3)
 # extract posteriors for all chains
 jags.mcmc <- as.mcmc(fit)
 # the below two plots are too big to be useful given the 1000 observations.
@@ -998,18 +1020,209 @@ mcmc_areas(
 
 mcmc_areas(
   plot.data,
-  pars = c(paste0("a[", 1:5, "]")),
+  pars = c(paste0("a[", 2:5, "]")),
   prob = 0.8) +
   plot_title
 
+print(mydata$x[50,])
 mcmc_areas(
   plot.data,
-  pars = c(paste0("c[", 1:5, "]")),
+  pars = c("xstar[50,1]", "xstar[50,2]"),
   prob = 0.8) +
   plot_title
 
 
 ```
+
+
+### LSAT Example Revisted - Stan
+
+```{r chp11-lrv-lsat-stan, warnings=T, message=T, error=T, cache=TRUE}
+
+model_lrv <- '
+functions {
+  //x = data vector of 1,2,...,nlevs to determine which nu to use
+  //mu=vector of K means
+  //L= cholesky  factor for K variables
+  //b=vector of bounds/threshold values
+  //u=vector of random uniform numbers (K)
+  vector[] tmvn(int[] y, vector mu, matrix L, vector b, real[] u) {
+    int K = rows(mu);
+    vector[K] d;
+    vector[K] z;
+    vector[K] out[2];
+    for (k in 1:K) {
+      int km1 = k - 1;
+      real nu;
+      //y==0 => upper bound only
+      if (y[k] == 0) {
+        real z_star = (b[k] - (mu[k] + ((k > 1) ? L[k,1:km1] * head(z, km1) : 0))) /  L[k,k];
+        real u_star = Phi(z_star); //normal CDF for implied density of TMVN
+        nu = u_star * u[k];
+        d[k] = u_star;
+      }
+      //y==1 => lower bound only
+      if(y[k] == 1) {
+        real z_star = (b[k] - (mu[k] + ((k > 1) ? L[k,1:km1] * head(z, km1) : 0))) /  L[k,k];
+        real u_star = Phi(z_star);
+        d[k] = 1 - u_star;
+        nu = u_star + d[k] * u[k];
+      }
+      z[k] = inv_Phi(nu); //convert back to z-score from uniform variate
+    }
+
+    out[1] = z; //simulated ystar value
+    out[2] = d; //density
+    return(out);
+  }
+
+}
+data {
+  int<lower=1>  N;
+  int<lower=1>  J;
+  array[N, J] int<lower=0, upper=1> x;
+}
+
+parameters {
+  vector[J] tau; //threshold parameters
+  vector[J-1] lambda_fr; //factor loadings
+  real<lower=0> psi; // factor standard deviation
+  real eta[N]; //factor scores
+  array[N, J] real<lower=0, upper=1> u; // nuisance that absorbs inequality constraints
+}
+
+transformed parameters {
+  vector[J] lambda;
+  matrix[J,J] Omega;
+  matrix[J,J] L_Omega;
+  real psi_var;
+
+  lambda[1] = 1;
+  lambda[2:J] = lambda_fr;
+  psi_var = psi^2;
+
+  for(d in 1:J){
+    for(f in 1:J){
+      if(d==f){
+        Omega[d,f] = 1 + psi_var*lambda[d]^2;
+      } else {
+        Omega[d,f] = psi_var*lambda[d]*lambda[f];
+      }
+    }
+  }
+  //decomponse for use in stan sampling statement
+  L_Omega = cholesky_decompose(Omega);
+}
+
+model {
+  for(n in 1:N)
+    target += log(tmvn(x[n,1:J], rep_vector(0,J), L_Omega, tau, u[n,1:J])[2]);
+  // Jacobian adjustments to kernal density for use of TMVN density on x*
+  // implicit: u ~ uniform(0,1)
+  // truncated multivariate normal
+  
+  
+  //priors for measurement model
+  psi ~ gamma(1, 0.5);
+  eta ~ normal(0,psi);
+  lambda_fr ~ normal(0,1.5);
+  tau ~ normal(0,1.5);
+}
+
+generated quantities {
+  corr_matrix[J] Omega_cor;
+
+  for(d in 1:J){
+    for(f in 1:J){
+      if(d==f){
+        Omega_cor[d,f] = 1;
+      } else {
+        Omega_cor[d,f] = Omega[d,f]/(sqrt(Omega[d,d])*sqrt(Omega[f,f]));
+      }
+    }
+  }
+}
+
+'
+cat(model_lrv)
+# initial values
+start_values <- list(
+  list("tau"=c(1.00, 1.00, 1.00, 1.00, 1.00),
+       "lambda_fr"=c(1.00, 1.00, 1.00, 1.00)),
+  list("tau"=c(-3.00, -3.00, -3.00, -3.00, -3.00),
+       "lambda_fr"=c(3.00, 3.00, 3.00, 3.00)),
+  list("tau"=c(3.00, 3.00, 3.00, 3.00, 3.00),
+       "lambda_fr"=c(0.1, 0.1, 0.1, 0.1))
+)
+
+# dataset
+dat <- read.table("data/LSAT.dat", header=T)
+
+mydata <- list(
+  N = nrow(dat),
+  J = ncol(dat),
+  x = as.matrix(dat)
+)
+
+
+# Next, need to fit the model
+#   I have explicitly outlined some common parameters
+fit <- stan(
+  model_code = model_lrv, # model code to be compiled
+  data = mydata,          # my data
+  #init = start_values,    # starting values
+  chains = 4,             # number of Markov chains
+  warmup = 1000,          # number of warm up iterations per chain
+  iter = 2000,            # total number of iterations per chain
+  cores = 4,              # number of cores (could use one per chain)
+  refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit,pars =c("lambda", "tau","psi", "Omega_cor"))
+
+
+rstan::traceplot(fit,pars =c("lambda_fr", "tau", "psi"), inc_warmup = TRUE)
+
+# Gelman-Rubin-Brooks Convergence Criterion
+ggs_grb(ggs(fit, family = c("lambda_fr"))) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_grb(ggs(fit, family = "tau")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_grb(ggs(fit, family = "psi")) +
+   theme_bw() + theme(panel.grid = element_blank())
+# autocorrelation
+ggs_autocorrelation(ggs(fit, family="lambda_fr")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_autocorrelation(ggs(fit, family="tau")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_autocorrelation(ggs(fit, family="psi")) +
+   theme_bw() + theme(panel.grid = element_blank())
+
+# plot the posterior density
+plot.data <- as.matrix(fit)
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = paste0("lambda_fr[",1:4,"]"),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = paste0("tau[",1:5,"]"),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c("psi"),
+  prob = 0.8) +
+  plot_title
+```
+
 
 ## Final Notes
 

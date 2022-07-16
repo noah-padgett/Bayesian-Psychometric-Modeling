@@ -35,7 +35,6 @@ fig:chp11-pathdiag-2
 fig:chp11-spec-2
 fig:chp13-dag-1
 index
-software
 overview-of-assessment-and-psychometric-modeling
 looking-forward
 chp2
@@ -96,7 +95,9 @@ example-specific-model-specification
 pi-example---jags
 pi-example---stan
 latent-response-formulation
-lsat-example-revisted
+a-comment-on-use-of-jags
+lsat-example-revisted---jags
+lsat-example-revisted---stan
 final-notes
 missing-data-modeling
 latent-class-analysis
@@ -107,5 +108,8 @@ bayesian-lca-model-specification
 distribution-of-observed-indicators
 prior-distributions
 full-model-specification
+academic-cheating-example
+estimating-using-jags
+estimation-using-stan
 extending-lca
 bayesian-networks

@@ -56,12 +56,12 @@ We assume that the individuals are independent ($i$'s are exchangeable).
 We assume that the responses to each item are conditionally (locally) independent ($j$'s are exchangeable).
 The joint probability conditional on the latent variable $C$ is
 
-\[p(\mathbf{x}_i \vert \mathbf{\theta}, \mathbf{\pi}) = \prod_{i=1}^Np(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]
+\[p(\mathbf{x}_i \vert \boldsymbol{\theta}, \boldsymbol{\pi}) = \prod_{i=1}^Np(\mathbf{x}_i \vert \theta_i=c, \boldsymbol{\pi}) = \prod_{i=1}^N\prod_{j=1}^Jp(x_{ij} \vert \theta_i=c, \pi_j).\]
 
 The marginal probability when the observed data when we sum over the possible latent classes becomes
 
 \[\begin{align*}
-p(\mathbf{x}_i \vert \mathbf{\pi}, \mathbf{\gamma}) &= \prod_{i=1}^N\sum_{c=1}^C p(\mathbf{x}_i \vert \theta_i=c, \mathbf{\pi})p(\theta_i = c \vert \gamma)\\
+p(\mathbf{x}_i \vert \boldsymbol{\pi}, \boldsymbol{\gamma}) &= \prod_{i=1}^N\sum_{c=1}^C p(\mathbf{x}_i \vert \theta_i=c, \boldsymbol{\pi})p(\theta_i = c \vert \gamma)\\
 &= \prod_{i=1}^N\left(\sum_{c=1}^C \left(\prod_{j=1}^J p(x_{ij} \vert \theta_i=c, \pi_j)\right)p(\theta_i = c \vert \gamma)\right)
 \end{align*}
 \]
@@ -82,7 +82,7 @@ That is, the observed data distribution is _categorical(.)_.
 Or
 
 \[\begin{align*}
-p(\mathbf{x}\vert \mathbf{\theta}, \mathbf{\pi})&= \prod_{i=1}^N p(\mathbf{x}_i\vert \theta_i, \mathbf{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j),\\
+p(\mathbf{x}\vert \boldsymbol{\theta}, \boldsymbol{\pi})&= \prod_{i=1}^N p(\mathbf{x}_i\vert \theta_i, \boldsymbol{\pi}) = \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \boldsymbol{\pi}_j),\\
 x_{ij} &\sim \mathrm{Categorical}(\pi_{cj})\\
 \end{align*}\]
 where the model holds for observables taking values coded as $1,...,K$ with the categorical indicators.
@@ -103,23 +103,23 @@ Independence is a logical assumption and aligns with the IRT and CFA traditions 
 
 The prior for the latent variables is represents the prior for the discrete groups respondents are assumed to belong to.
 A common prior is placed over all respondents
-\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\mathbf{\theta}_p),\]
-where $\mathbf\theta_p$ represents the hyperpriors defining the conditions of the categorical latent variables.
-The vector of parameters $\mathbf\theta_p = \mathbf\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)$, where $C$ is the number of latent groups.
+\[p(\theta)=\prod_{i=1}^np(\theta_i\vert\boldsymbol{\theta}_p),\]
+where $\boldsymbol\theta_p$ represents the hyperpriors defining the conditions of the categorical latent variables.
+The vector of parameters $\boldsymbol\theta_p = \boldsymbol\gamma = (\gamma_1, \gamma_2, ..., \gamma_C)$, where $C$ is the number of latent groups.
 Stated in another way,
-\[\theta_i | \mathbf\gamma \sim \mathrm{Categorical}(\mathbf\gamma).\]
+\[\theta_i | \boldsymbol\gamma \sim \mathrm{Categorical}(\boldsymbol\gamma).\]
 
 The hyperprior for the categorical latent variable is also commonly given a prior distribution.
-The $\mathbf\gamma$ parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
+The $\boldsymbol\gamma$ parameters represent the class proportions and a prior on these parameters is useful when these class proportions are not known.
 The prior is
-\[\mathbf\gamma \sim \mathrm{Dirichlet}(\mathbf\alpha_\gamma),\]
-where $\mathbf\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).$
+\[\boldsymbol\gamma \sim \mathrm{Dirichlet}(\boldsymbol\alpha_\gamma),\]
+where $\boldsymbol\alpha_\gamma = (\alpha_{\gamma 1}, \alpha_{\gamma 2}, ..., \alpha_{\gamma C}).$
 The Dirichlet distribution is a generalization of the Beta distribution to more than two categories.
 This allows for a useful representation of the probabilities with well known statistical and sampling properties.
 
-The priors for the measurement model parameters ($\mathbf\pi$) are commonly defined at the item level instead of jointly over all items:
-\[p(\mathbf\pi) = \prod_{j=1}^Jp(\mathbf\pi_j\vert\mathbf\alpha_\pi),\]
-where $\mathbf\alpha_\pi$ defines the hyperpriors for the measurement model parameters.
+The priors for the measurement model parameters ($\boldsymbol\pi$) are commonly defined at the item level instead of jointly over all items:
+\[p(\boldsymbol\pi) = \prod_{j=1}^Jp(\boldsymbol\pi_j\vert\boldsymbol\alpha_\pi),\]
+where $\boldsymbol\alpha_\pi$ defines the hyperpriors for the measurement model parameters.
 The measurement model commonly utilizes either dichotomous or categorical indicators which leads to the use of either the Beta distribution or Dirichlet distribution for the priors.
 
 ### Full Model Specification
@@ -128,12 +128,286 @@ The full model specification can be shown as follows:
 
 \[
 \begin{align*}
-p(\mathbf\theta, \mathbf\gamma, \mathbf\pi) &\propto p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta, \mathbf\gamma, \mathbf\pi)\\
- &= p(\mathbf{x} \vert \mathbf\theta, \mathbf\gamma, \mathbf\pi) p(\mathbf\theta) p(\mathbf\gamma) p(\mathbf\pi)\\
- &= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \mathbf{\pi}_j)p(\theta_i \vert \mathbf\gamma)p(\mathbf\gamma) \prod_{c=1}^Cp(\mathbf\pi_{cj})\\
-(x_{ij} \vert \theta_i=c, \mathbf{\pi}_j)
+p(\boldsymbol\theta, \boldsymbol\gamma, \boldsymbol\pi) &\propto p(\mathbf{x} \vert \boldsymbol\theta, \boldsymbol\gamma, \boldsymbol\pi) p(\boldsymbol\theta, \boldsymbol\gamma, \boldsymbol\pi)\\
+ &= p(\mathbf{x} \vert \boldsymbol\theta, \boldsymbol\gamma, \boldsymbol\pi) p(\boldsymbol\theta) p(\boldsymbol\gamma) p(\boldsymbol\pi)\\
+ &= \prod_{i=1}^N \prod_{j=1}^J p(x_{ij}\vert \theta_i, \boldsymbol{\pi}_j)p(\theta_i \vert \boldsymbol\gamma)p(\boldsymbol\gamma) \prod_{c=1}^Cp(\boldsymbol\pi_{cj})\\
+(x_{ij} \vert \theta_i=c, \boldsymbol{\pi}_j) &\sim \mathrm{Categorical}(\boldsymbol{\pi}_{cj}), \mathrm{for}\ i=1, ...,n,\ j=1, ...,J,\\
+\theta_i \vert \boldsymbol{\gamma} &\sim \mathrm{Categorical}(\boldsymbol{\gamma})\ \mathrm{for}\ i=1, ...,n,\\
+\boldsymbol\gamma &\sim \mathrm{Dirichlet}(\boldsymbol\alpha_{\gamma}),\\
+\boldsymbol\pi_{cj} &\sim \mathrm{Dirichlet}(\boldsymbol\alpha_{\pi_c})\ \mathrm{for}\ c=1, ..., C, j=1, ..., J.
 \end{align*}
 \]
+
+## Academic Cheating Example
+
+The academic cheating example is discussed on pages 328-340. The last few pages pertain mainly to model fit/evaluation and a discussion on indeterminacy in the model.
+Some of these points will be left to the reader for in-text learning.
+The major motivation for this current development is applying the model from pages 329-330, and replicating results (p.336).
+
+### Estimating using JAGS
+
+```{r chp13-academic-cheating-jags, warnings=T, message=T, error=T, cache=TRUE}
+
+jags.model.lsat <- function(){
+
+#########################################
+# Specify the item response measurement model for the observables
+#########################################
+for (i in 1:n){
+  for(j in 1:J){
+    x[i,j] ~ dbern(pi[theta[i],j])                  # distribution for each observable conditional on latent class assignment theta
+  }
+}
+
+
+##########################################
+# Specify the (prior) distribution for the latent variables
+##########################################
+for (i in 1:n){
+  theta[i] ~ dcat(gamma[])  # distribution for the latent variables is categorical
+}
+
+gamma[1:C] ~ ddirich(alpha_gamma[])
+for(c in 1:C){
+  alpha_gamma[c] = 1
+}
+
+##########################################
+# Specify the prior distribution for the measurement model parameters
+# Measurement model consists of class specific response probabilities
+##########################################
+for(c in 1:C){
+  for(j in 1:(J-1)){
+    pi[c,j] ~ dbeta(1,1)
+  }
+}
+pi[1,J] ~ dbeta(1,1)
+pi[2,J] ~ dbeta(1,1)
+  
+
+} # closes the model
+
+# initial values
+start_values <- list(
+  list("gamma"=c(0.9, 0.1),
+       "pi"=structure(.Data=c(.37, .20, .06, .04, .41, .47, .19, .32), .Dim=c(2, 4))),
+  list("gamma"=c(0.1, 0.9),
+       "pi"=structure(.Data=c(.58, .62, .69, .77, .81, .84, .88, .90), .Dim=c(2, 4))),
+  list("gamma"=c(0.5, 0.5),
+       "pi"=structure(.Data=c(.32, .49, .29, .61, .48, .54, .44, .70), .Dim=c(2, 4)))
+)
+
+# vector of all parameters to save
+param_save <- c("gamma", "pi")
+
+# dataset
+dat <- read.table("data/Cheat.dat", header=F)
+
+mydata <- list(
+  n = nrow(dat), 
+  J = ncol(dat),
+  C=2,
+  x = as.matrix(dat)
+)
+
+# fit model
+fit <- jags(
+  model.file=jags.model.lsat,
+  data=mydata,
+  inits=start_values,
+  parameters.to.save = param_save,
+  n.iter=2000,
+  n.burnin = 1000,
+  n.chains = 3,
+  progress.bar = "none")
+
+print(fit)
+
+# extract posteriors for all chains
+jags.mcmc <- as.mcmc(fit)
+# the below two plots are too big to be useful given the 1000 observations.
+#R2jags::traceplot(jags.mcmc)
+
+# gelman-rubin-brook
+#gelman.plot(jags.mcmc)
+
+# convert to single data.frame for density plot
+a <- colnames(as.data.frame(jags.mcmc[[1]]))
+plot.data <- data.frame(as.matrix(jags.mcmc, chains=T, iters = T))
+colnames(plot.data) <- c("chain", "iter", a)
+
+
+bayesplot::mcmc_acf(plot.data,pars = c(paste0("gamma[", 1:2, "]")))
+bayesplot::mcmc_trace(plot.data,pars = c(paste0("gamma[", 1:2, "]")))
+ggmcmc::ggs_grb(ggs(jags.mcmc), family="gamma")
+mcmc_areas(plot.data, pars = c(paste0("gamma[",1:2,"]")), prob = 0.8)
+
+bayesplot::mcmc_acf(plot.data,pars = c(paste0("pi[1,", 1:4, "]")))
+bayesplot::mcmc_trace(plot.data,pars = c(paste0("pi[1,", 1:4, "]")))
+mcmc_areas( plot.data,pars = c(paste0("pi[1,", 1:4, "]")), prob = 0.8)
+bayesplot::mcmc_acf(plot.data,pars = c(paste0("pi[2,", 1:4, "]")))
+bayesplot::mcmc_trace(plot.data,pars = c(paste0("pi[2,", 1:4, "]")))
+mcmc_areas(plot.data, pars = c(paste0("pi[2,", 1:4, "]")), prob = 0.8)
+ggmcmc::ggs_grb(ggs(jags.mcmc), family="pi")
+
+```
+
+
+
+### Estimation using Stan
+
+```{r chp13-academic-cheating-stan, warnings=T, message=T, error=T, cache=TRUE}
+
+
+model_lca <- '
+functions {
+  //https://discourse.mc-stan.org/t/ordered-simplex-constraint-transform/24102/14
+  //for ordered simplex in stan
+  vector ordered_simplex_constrain_min_lp(vector y) {
+    int Km1 = rows(y);
+    vector[Km1 + 1] x;
+    real remaining = 1; // Remaining amount to be distributed
+    real lb = 0; // The minimum for the next element
+    real ub = 1;
+    real xcons;
+ 
+    for(i in 1:Km1) {
+      int K_prime = Km1 + 2 - i; // Number of remaining elements
+      //First constrain to [0; 1 / K_prime]
+      ub = inv(K_prime);
+      xcons = ub * inv_logit(y[i]);
+      target += log(ub) + log_inv_logit(y[i]) + log1m_inv_logit(y[i]);
+
+      // Add the lowest element log density
+      target += log(K_prime - 1) +  log(K_prime) + (K_prime - 2) * log1m(K_prime * xcons);
+      
+      x[i] = lb + remaining * xcons;
+      lb = x[i];
+      //We added  remaining * x_cons to each of the K_prime elements yet to be processed
+      remaining -= remaining * xcons * K_prime; 
+    }
+    x[Km1 + 1] = lb + remaining;
+
+    return x;
+ }
+}
+
+data {
+  int  N;
+  int  J;
+  int  C;
+  int x[N,J];
+}
+
+parameters {
+  vector[C-1] gamma; //class mixing weights
+  real<lower=0, upper=1> pi[C,J]; //class probabilities
+}
+
+transformed parameters {
+  simplex[C] gamma_ord = ordered_simplex_constrain_min_lp(gamma);
+}
+
+model {
+  vector[C] log_gamma = log(gamma_ord);  // cache log calculation
+  // prior for class response probabilities
+  for(c in 1:C){
+    for(j in 1:J){
+      pi[c,j] ~ beta(1,1);
+    }
+  }
+  //compute loglikelihood
+  for (n in 1:N) {
+    for(j in 1:J){
+      vector[C] lps = log_gamma;
+      for (c in 1:C) {
+        lps[c] += bernoulli_lpmf(x[n,j] | pi[c,j]);
+      }
+      target += log_sum_exp(lps);
+    }
+  }
+}
+
+'
+
+
+# initial values
+start_values <- list(
+  list(gamma=c(0.1, 0.9),
+       pi=structure(.Data=c(.37, .20, .06, .04, .41, .47, .19, .32), .Dim=c(2, 4))),
+  list(gamma=c(0.2, 0.8),
+       pi=structure(.Data=c(.58, .62, .69, .77, .81, .84, .88, .90), .Dim=c(2, 4))),
+  list(gamma=c(0.4, 0.6),
+       pi=structure(.Data=c(.32, .49, .29, .61, .48, .54, .44, .70), .Dim=c(2, 4)))
+)
+
+# dataset
+dat <- read.table("data/Cheat.dat", header=F)
+
+mydata <- list(
+  N = nrow(dat), 
+  J = ncol(dat),
+  C = 2,
+  x = as.matrix(dat)
+)
+
+
+
+# Next, need to fit the model
+#   I have explicitly outlined some common parameters
+fit <- stan(
+  model_code = model_lca, # model code to be compiled
+  data = mydata,          # my data
+  #init = start_values,    # starting values
+  chains = 1,             # number of Markov chains
+  warmup = 2000,          # number of warm up iterations per chain
+  iter = 4000,            # total number of iterations per chain
+  cores = 1,              # number of cores (could use one per chain)
+  #refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit,pars =c("gamma", "gamma_ord", "pi"))
+
+# plot the posterior in a
+#  95% probability interval
+#  and 80% to contrast the dispersion
+plot(fit,pars =c("gamma", "pi"))
+
+# traceplots
+rstan::traceplot(fit,pars =c("gamma", "pi"), inc_warmup = TRUE)
+
+# Gelman-Rubin-Brooks Convergence Criterion
+ggs_grb(ggs(fit, family = c("gamma"))) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_grb(ggs(fit, family = "pi")) +
+   theme_bw() + theme(panel.grid = element_blank())
+# autocorrelation
+ggs_autocorrelation(ggs(fit, family="gamma")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_autocorrelation(ggs(fit, family="pi")) +
+   theme_bw() + theme(panel.grid = element_blank())
+
+# plot the posterior density
+plot.data <- as.matrix(fit)
+
+plot_title <- ggtitle("Posterior distributions",
+                      "with medians and 80% intervals")
+mcmc_areas(
+  plot.data,
+  pars = paste0("gamma[",1:2,"]"),
+  prob = 0.8) +
+  plot_title
+
+mcmc_areas(
+  plot.data,
+  pars = c(paste0("pi[1,",1:4,"]"),paste0("pi[2,",1:4,"]")),
+  prob = 0.8) +
+  plot_title
+
+
+```
+
 
 ## Extending LCA
 
