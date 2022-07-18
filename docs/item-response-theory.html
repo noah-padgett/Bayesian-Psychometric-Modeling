@@ -679,7 +679,174 @@ Figure 11.3: Model specification diagram for the 3-PL IRT model
 <h2>
 <span class="header-section-number">11.4</span> LSAT Example - Stan<a class="anchor" aria-label="anchor" href="#lsat-example---stan"><i class="fas fa-link"></i></a>
 </h2>
-<p>TO-DO</p>
+<div class="sourceCode" id="cb313"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_irt_lsat</span> <span class="op">&lt;-</span> <span class="st">'
+data {
+  int  N;
+  int  J;
+  int x[N,J];
+}
+
+parameters {
+  real&lt;lower=0&gt; a[J]; //discrimination
+  real d[J]; //location
+  real&lt;lower=0, upper=1&gt; c[J]; //guessing
+  real theta[N]; //person parameters
+}
+
+model {
+  matrix[N,J] pi;
+  // item response probabilities
+  for(n in 1:N){
+    for(j in 1:J){
+      pi[n,j] = c[j]+(1-c[j])*Phi(a[j]*theta[n]+d[j]);
+      x[n,j] ~ bernoulli(pi[n,j]);
+    }
+  }
+  //measurement model priors
+  for(j in 1:J){
+    a[j] ~ normal(1,2)T[0,];
+    d[j] ~ normal(0,2);
+    c[j] ~ beta(5, 17);
+  }
+  theta ~ normal(0,1);
+}
+
+'</span>
+
+
+<span class="co"># initial values</span>
+<span class="va">start_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span><span class="op">)</span>,
+       <span class="st">"a"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span><span class="op">)</span>,
+       <span class="st">"c"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span>, <span class="fl">0.20</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3.00</span>, <span class="op">-</span><span class="fl">3.00</span>, <span class="op">-</span><span class="fl">3.00</span>, <span class="op">-</span><span class="fl">3.00</span>, <span class="op">-</span><span class="fl">3.00</span><span class="op">)</span>,
+       <span class="st">"a"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span><span class="op">)</span>,
+       <span class="st">"c"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span>, <span class="fl">0.50</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span>, <span class="fl">3.00</span><span class="op">)</span>,
+       <span class="st">"a"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span><span class="op">)</span>,
+       <span class="st">"c"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="co"># dataset</span>
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="st">"data/LSAT.dat"</span>, header<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
+
+
+<span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>, 
+  J <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,
+  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>
+<span class="op">)</span>
+
+
+
+<span class="co"># Next, need to fit the model</span>
+<span class="co">#   I have explicitly outlined some common parameters</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">stan</span><span class="op">(</span>
+  model_code <span class="op">=</span> <span class="va">model_irt_lsat</span>, <span class="co"># model code to be compiled</span>
+  data <span class="op">=</span> <span class="va">mydata</span>,          <span class="co"># my data</span>
+  init <span class="op">=</span> <span class="va">start_values</span>,    <span class="co"># starting values</span>
+  chains <span class="op">=</span> <span class="fl">3</span>,             <span class="co"># number of Markov chains</span>
+  warmup <span class="op">=</span> <span class="fl">2000</span>,          <span class="co"># number of warm up iterations per chain</span>
+  iter <span class="op">=</span> <span class="fl">4000</span>,            <span class="co"># total number of iterations per chain</span>
+  cores <span class="op">=</span> <span class="fl">1</span>,              <span class="co"># number of cores (could use one per chain)</span>
+  refresh <span class="op">=</span> <span class="fl">0</span>             <span class="co"># no progress shown</span>
+<span class="op">)</span></code></pre></div>
+<pre><code>## Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+## Running the chains for more iterations may help. See
+## https://mc-stan.org/misc/warnings.html#bulk-ess</code></pre>
+<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># first get a basic breakdown of the posteriors</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"c"</span>, <span class="st">"theta[1000]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Inference for Stan model: anon_model.
+## 3 chains, each with iter=4000; warmup=2000; thin=1; 
+## post-warmup draws per chain=2000, total post-warmup draws=6000.
+## 
+##              mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
+## d[1]         1.42    0.00 0.15  1.16  1.33  1.41  1.50  1.74  1420    1
+## d[2]         0.27    0.01 0.27 -0.37  0.20  0.32  0.42  0.56   596    1
+## d[3]        -0.76    0.04 0.68 -2.61 -1.07 -0.55 -0.26  0.00   379    1
+## d[4]         0.51    0.01 0.20  0.13  0.44  0.54  0.62  0.75   765    1
+## d[5]         1.03    0.00 0.12  0.77  0.96  1.04  1.11  1.26  3190    1
+## a[1]         0.47    0.01 0.20  0.17  0.34  0.45  0.56  0.93  1078    1
+## a[2]         0.63    0.02 0.45  0.27  0.43  0.53  0.67  1.74   342    1
+## a[3]         1.60    0.07 1.11  0.43  0.77  1.21  2.14  4.41   266    1
+## a[4]         0.51    0.02 0.30  0.23  0.37  0.47  0.57  1.03   408    1
+## a[5]         0.43    0.00 0.17  0.16  0.31  0.40  0.51  0.81  1137    1
+## c[1]         0.24    0.00 0.09  0.09  0.17  0.23  0.30  0.44 10326    1
+## c[2]         0.26    0.00 0.10  0.09  0.18  0.25  0.32  0.49  1230    1
+## c[3]         0.28    0.00 0.08  0.12  0.22  0.29  0.34  0.42   652    1
+## c[4]         0.25    0.00 0.10  0.09  0.18  0.24  0.31  0.47  2006    1
+## c[5]         0.24    0.00 0.09  0.08  0.17  0.23  0.30  0.44  6963    1
+## theta[1000]  0.71    0.01 0.86 -1.04  0.14  0.73  1.30  2.35 12907    1
+## 
+## Samples were drawn using NUTS(diag_e) at Sun Jul 17 16:25:35 2022.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<div class="sourceCode" id="cb317"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot the posterior in a</span>
+<span class="co">#  95% probability interval</span>
+<span class="co">#  and 80% to contrast the dispersion</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"c"</span>, <span class="st">"theta[1000]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
+<pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-1.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb320"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># traceplots</span>
+<span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"c"</span>, <span class="st">"theta[1000]"</span><span class="op">)</span>, inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-2.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
+<span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-3.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb322"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"a"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-4.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-5.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"theta[1000]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in max(D$Iteration): no non-missing arguments to max; returning -Inf</code></pre>
+<pre><code>## Error in ggs_grb(ggs(fit, family = "theta[1000]")): At least two chains are required</code></pre>
+<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># autocorrelation</span>
+<span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-6.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"a"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-7.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"c"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-8.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"theta[1000]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in max(D$Iteration): no non-missing arguments to max; returning -Inf</code></pre>
+<pre><code>## Error in sprintf("nLags=%d is larger than number of iterations, computing until max possible lag %d", : invalid format '%d'; use format %f, %e, %g or %a for numeric objects</code></pre>
+<div class="sourceCode" id="cb333"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot the posterior density</span>
+<span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
+
+<span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-9.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-10.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"c["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-11.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"theta[1000]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-12.png" width="90%" height="90%"></div>
 </div>
 <div id="irt-models-for-polytomous-data" class="section level2" number="11.5">
 <h2>
@@ -792,7 +959,7 @@ d_{j5}\mid\mu_{d_{j5}},\sigma^2_{d_{j5}} &amp;\sim \mathrm{Normal}^{&gt;d_{j4}}(
 <p>In the below implementation, I had to change <code>d[j,3] ~ dnorm(1, .5)I(d[j,4],d[j,2])</code> to <code>d[j,3] ~ dnorm(1, .5);I(,d[j,2])</code> because (1) R is dumb and doesn’t realize that <code>I</code> is a JAGS function; and (2) JAGS does not allow for a <code>directed cycle</code>.
 The directed cycle in the DAG is when the range of values for <code>d[j,3]</code> is fixed to be within <code>I(d[j,4],d[j,2])</code> and is not permissible. We need to simply constrain the thresholds to be decreasing or smaller than the previous threshold.
 I’m not sure of the underlying technical reason for this error, but I found that adding the semi-colon fixes the issue when defining the model as an R function.</p>
-<div class="sourceCode" id="cb313"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb337"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jags.model.peer.int</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
 
   <span class="co">#######################################</span>
@@ -918,7 +1085,7 @@ I’m not sure of the underlying technical reason for this error, but I found th
 ##    Total graph size: 53050
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb315"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpMh7bvq/model3bcc64b92e59.txt", fit using jags,
 ##  3 chains, each with 2000 iterations (first 1000 discarded)
@@ -1043,7 +1210,7 @@ I’m not sure of the underlying technical reason for this error, but I found th
 ## DIC info (using the rule, pD = var(deviance)/2)
 ## pD = 692.5 and DIC = 7012.1
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb317"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span> <span class="op">%like%</span> <span class="st">"theta"</span>, <span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>##              mean     sd     2.5%      25%      50%      75%    97.5%  Rhat n.eff
 ## a[1]        2.136  0.164    1.845    2.024    2.126    2.239    2.481 1.006   670
@@ -1082,7 +1249,7 @@ I’m not sure of the underlying technical reason for this error, but I found th
 ## d[6,5]     -3.210  0.214   -3.631   -3.355   -3.205   -3.061   -2.806 1.009   530
 ## d[7,5]     -2.748  0.179   -3.112   -2.865   -2.740   -2.625   -2.413 1.004   650
 ## deviance 6319.569 37.286 6251.475 6293.382 6318.824 6344.230 6396.701 1.005   460</code></pre>
-<div class="sourceCode" id="cb319"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
@@ -1098,26 +1265,26 @@ I’m not sure of the underlying technical reason for this error, but I found th
 ## scale.</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb322"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb346"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-intervals.html">mcmc_areas</a></span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-diagnostics.html">mcmc_acf</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-3.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-traces.html">mcmc_trace</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-4.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb325"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-5.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb326"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"a"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-6.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb327"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_autocorrelation.html">ggs_autocorrelation</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-7.png" width="90%" height="90%"></div>
 <!-- ## PI Example - OpenBUGS -->
@@ -1181,7 +1348,243 @@ I’m not sure of the underlying technical reason for this error, but I found th
 <h2>
 <span class="header-section-number">11.8</span> PI Example - Stan<a class="anchor" aria-label="anchor" href="#pi-example---stan"><i class="fas fa-link"></i></a>
 </h2>
-<p>TO-DO</p>
+<div class="sourceCode" id="cb352"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_irt_peer_int</span> <span class="op">&lt;-</span> <span class="st">'
+data {
+  int  N;
+  int  J;
+  int  K;
+  int  x[N,J];
+}
+
+parameters {
+  real&lt;lower=0&gt; a[J]; //discrimination
+  ordered[K-1] d[J]; //location/thresholds
+  real theta[N]; //person parameters
+}
+
+model {
+  // item response probabilities
+  for(n in 1:N){
+    for(j in 1:J){
+      x[n,j] ~ ordered_logistic(a[j]*theta[n], d[j,1:(K-1)]);
+    }
+  }
+  //measurement model priors
+  theta ~ normal(0,1);
+  for(j in 1:J){
+    a[j] ~ normal(1,2)T[0,];
+    d[j,1] ~ normal(-2,2);
+    d[j,2] ~ normal(-1,2)T[d[j,1],];
+    d[j,3] ~ normal(1,2)T[d[j,2],];
+    d[j,4] ~ normal(2,2)T[d[j,3],];
+  }
+}
+
+'</span>
+
+
+<span class="co"># initial values</span>
+<span class="va">start_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    d<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3.00E+00</span>, <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>,
+               <span class="op">-</span><span class="fl">3.00E+00</span>, <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>,
+               <span class="op">-</span><span class="fl">3.00E+00</span>, <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>,
+               <span class="op">-</span><span class="fl">3.00E+00</span>, <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>,
+               <span class="op">-</span><span class="fl">3.00E+00</span>, <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>,
+               <span class="op">-</span><span class="fl">3.00E+00</span>, <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>,
+               <span class="op">-</span><span class="fl">3.00E+00</span>, <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span><span class="op">)</span>,
+      ncol<span class="op">=</span><span class="fl">4</span>, nrow<span class="op">=</span><span class="fl">7</span>, byrow<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,
+    a<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span>, <span class="fl">1.00E-01</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    d<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>,
+               <span class="op">-</span><span class="fl">2.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>,
+               <span class="op">-</span><span class="fl">2.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>,
+               <span class="op">-</span><span class="fl">2.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>,
+               <span class="op">-</span><span class="fl">2.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>,
+               <span class="op">-</span><span class="fl">2.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>,
+               <span class="op">-</span><span class="fl">2.00E+00</span>, <span class="fl">0.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span><span class="op">)</span>,
+      ncol<span class="op">=</span><span class="fl">4</span>, nrow<span class="op">=</span><span class="fl">7</span>, byrow<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,
+    a<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span>, <span class="fl">3.00E+00</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    d<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">3.00E+00</span>,
+               <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">3.00E+00</span>,
+               <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">3.00E+00</span>,
+               <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">3.00E+00</span>,
+               <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">3.00E+00</span>,
+               <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">3.00E+00</span>,
+               <span class="op">-</span><span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">2.00E+00</span>, <span class="fl">3.00E+00</span><span class="op">)</span>,
+              ncol<span class="op">=</span><span class="fl">4</span>, nrow<span class="op">=</span><span class="fl">7</span>, byrow<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,
+    a<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span>, <span class="fl">1.00E+00</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span>
+
+<span class="co"># dataset</span>
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="st">"data/PI.dat"</span>, header<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
+
+<span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  N <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,
+  J <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>,
+  K <span class="op">=</span> <span class="fl">5</span>,
+  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>
+<span class="op">)</span>
+
+
+<span class="co"># Next, need to fit the model</span>
+<span class="co">#   I have explicitly outlined some common parameters</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">stan</span><span class="op">(</span>
+  model_code <span class="op">=</span> <span class="va">model_irt_peer_int</span>, <span class="co"># model code to be compiled</span>
+  data <span class="op">=</span> <span class="va">mydata</span>,          <span class="co"># my data</span>
+  <span class="co">#init = start_values,    # starting values</span>
+  chains <span class="op">=</span> <span class="fl">1</span>,             <span class="co"># number of Markov chains</span>
+  warmup <span class="op">=</span> <span class="fl">1000</span>,          <span class="co"># number of warm up iterations per chain</span>
+  iter <span class="op">=</span> <span class="fl">2000</span>,            <span class="co"># total number of iterations per chain</span>
+  cores <span class="op">=</span> <span class="fl">1</span>,              <span class="co"># number of cores (could use one per chain)</span>
+  <span class="co">#refresh = 0             # no progress shown</span>
+<span class="op">)</span></code></pre></div>
+<pre><code>## 
+## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
+## Chain 1: 
+## Chain 1: Gradient evaluation took 0.003775 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 37.75 seconds.
+## Chain 1: Adjust your expectations accordingly!
+## Chain 1: 
+## Chain 1: 
+## Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+## Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+## Chain 1: 
+## Chain 1:  Elapsed Time: 131.248 seconds (Warm-up)
+## Chain 1:                107.288 seconds (Sampling)
+## Chain 1:                238.536 seconds (Total)
+## Chain 1:</code></pre>
+<div class="sourceCode" id="cb354"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># first get a basic breakdown of the posteriors</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"theta[500]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Inference for Stan model: anon_model.
+## 1 chains, each with iter=2000; warmup=1000; thin=1; 
+## post-warmup draws per chain=1000, total post-warmup draws=1000.
+## 
+##             mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
+## d[1,1]     -5.08    0.01 0.34 -5.75 -5.31 -5.10 -4.84 -4.43   607 1.00
+## d[1,2]     -3.04    0.01 0.21 -3.46 -3.17 -3.03 -2.90 -2.65   307 1.00
+## d[1,3]     -0.72    0.01 0.15 -1.03 -0.81 -0.71 -0.61 -0.42   171 1.00
+## d[1,4]      2.46    0.01 0.19  2.07  2.33  2.46  2.59  2.85   234 1.00
+## d[2,1]     -5.53    0.02 0.43 -6.35 -5.82 -5.53 -5.24 -4.69   341 1.01
+## d[2,2]     -1.33    0.02 0.24 -1.81 -1.48 -1.34 -1.17 -0.86   169 1.00
+## d[2,3]      1.74    0.02 0.25  1.28  1.57  1.73  1.90  2.22   162 1.00
+## d[2,4]      5.25    0.02 0.42  4.47  4.97  5.21  5.51  6.14   329 1.00
+## d[3,1]     -7.16    0.03 0.57 -8.27 -7.54 -7.15 -6.75 -6.10   279 1.01
+## d[3,2]     -3.72    0.03 0.36 -4.45 -3.96 -3.71 -3.46 -3.06   208 1.02
+## d[3,3]      1.27    0.02 0.26  0.75  1.10  1.27  1.45  1.78   143 1.00
+## d[3,4]      5.86    0.03 0.49  4.96  5.52  5.83  6.16  6.87   242 1.00
+## d[4,1]     -6.76    0.03 0.50 -7.78 -7.10 -6.74 -6.39 -5.86   300 1.00
+## d[4,2]     -2.91    0.02 0.27 -3.48 -3.08 -2.89 -2.72 -2.44   221 1.00
+## d[4,3]      0.71    0.02 0.23  0.29  0.55  0.70  0.87  1.14   146 1.00
+## d[4,4]      4.89    0.03 0.38  4.21  4.62  4.89  5.14  5.66   220 1.00
+## d[5,1]     -4.95    0.02 0.34 -5.59 -5.17 -4.94 -4.72 -4.31   436 1.01
+## d[5,2]     -2.81    0.01 0.22 -3.27 -2.96 -2.80 -2.65 -2.39   285 1.01
+## d[5,3]      0.27    0.01 0.17 -0.06  0.16  0.27  0.39  0.60   193 1.01
+## d[5,4]      3.57    0.01 0.26  3.09  3.39  3.57  3.73  4.11   409 1.00
+## d[6,1]     -3.90    0.01 0.26 -4.42 -4.07 -3.90 -3.72 -3.42   548 1.00
+## d[6,2]     -2.01    0.01 0.17 -2.37 -2.13 -2.01 -1.89 -1.70   355 1.00
+## d[6,3]      0.43    0.01 0.14  0.16  0.33  0.43  0.53  0.69   190 1.01
+## d[6,4]      3.16    0.01 0.22  2.74  3.01  3.16  3.31  3.60   394 1.01
+## d[7,1]     -4.41    0.01 0.30 -5.03 -4.60 -4.39 -4.21 -3.83   659 1.00
+## d[7,2]     -2.52    0.01 0.18 -2.87 -2.63 -2.51 -2.40 -2.19   615 1.00
+## d[7,3]     -0.32    0.01 0.12 -0.56 -0.40 -0.32 -0.24 -0.09   329 1.00
+## d[7,4]      2.70    0.01 0.19  2.34  2.57  2.70  2.83  3.11   373 1.00
+## a[1]        2.19    0.01 0.16  1.86  2.08  2.18  2.30  2.51   347 1.00
+## a[2]        3.74    0.02 0.29  3.21  3.53  3.73  3.94  4.33   336 1.01
+## a[3]        4.35    0.02 0.34  3.69  4.11  4.34  4.58  5.05   251 1.01
+## a[4]        3.76    0.02 0.30  3.22  3.56  3.76  3.95  4.39   254 1.00
+## a[5]        2.53    0.01 0.19  2.18  2.39  2.52  2.65  2.91   457 1.00
+## a[6]        1.89    0.01 0.15  1.63  1.78  1.88  1.99  2.18   546 1.00
+## a[7]        1.52    0.01 0.13  1.29  1.43  1.52  1.62  1.78   382 1.00
+## theta[500]  0.48    0.01 0.26 -0.04  0.30  0.48  0.66  1.00  1162 1.00
+## 
+## Samples were drawn using NUTS(diag_e) at Sun Jul 17 16:34:41 2022.
+## For each parameter, n_eff is a crude measure of effective sample size,
+## and Rhat is the potential scale reduction factor on split chains (at 
+## convergence, Rhat=1).</code></pre>
+<div class="sourceCode" id="cb356"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot the posterior in a</span>
+<span class="co">#  95% probability interval</span>
+<span class="co">#  and 80% to contrast the dispersion</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"theta[500]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
+<pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-1.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># traceplots</span>
+<span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"theta[500]"</span><span class="op">)</span>, inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-2.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb360"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
+<span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Error in ggs_grb(ggs(fit, family = c("d"))): At least two chains are required</code></pre>
+<div class="sourceCode" id="cb362"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"a"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Error in ggs_grb(ggs(fit, family = "a")): At least two chains are required</code></pre>
+<div class="sourceCode" id="cb364"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"theta[500]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in max(D$Iteration): no non-missing arguments to max; returning -Inf</code></pre>
+<pre><code>## Error in ggs_grb(ggs(fit, family = "theta[500]")): At least two chains are required</code></pre>
+<div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># autocorrelation</span>
+<span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-3.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb368"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"a"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-4.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"theta[500]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in max(D$Iteration): no non-missing arguments to max; returning -Inf</code></pre>
+<pre><code>## Error in sprintf("nLags=%d is larger than number of iterations, computing until max possible lag %d", : invalid format '%d'; use format %f, %e, %g or %a for numeric objects</code></pre>
+<div class="sourceCode" id="cb372"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># plot the posterior density</span>
+<span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
+
+<span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[1,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-5.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[2,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-6.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb374"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[3,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-7.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[4,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-8.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb376"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[5,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-9.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb377"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[6,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-10.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb378"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[7,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-11.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb379"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">7</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-12.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb380"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"theta[500]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-13.png" width="90%" height="90%"></div>
 </div>
 <div id="latent-response-formulation" class="section level2" number="11.9">
 <h2>
@@ -1223,7 +1626,7 @@ This approach is a straightforward addition to the latent response modeling and 
 <h3>
 <span class="header-section-number">11.9.2</span> LSAT Example Revisted - JAGS<a class="anchor" aria-label="anchor" href="#lsat-example-revisted---jags"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jags.model.lsat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span>
@@ -1310,7 +1713,7 @@ This approach is a straightforward addition to the latent response modeling and 
 ##    Total graph size: 53123
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#print(fit)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span> <span class="op">%like%</span> <span class="st">"theta"</span> <span class="op">|</span>
                                    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span> <span class="op">%like%</span> <span class="st">"xstar"</span> <span class="op">)</span>, <span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
@@ -1352,14 +1755,14 @@ This approach is a straightforward addition to the latent response modeling and 
 ## d[5]         -1.397  0.084   -1.562   -1.450   -1.398   -1.340   -1.231 1.001  2500
 ## deviance   1874.048 44.526 1787.777 1844.505 1873.781 1903.707 1963.353 1.038    59
 ## psi           0.006  0.008    0.000    0.001    0.003    0.007    0.030 1.005   440</code></pre>
-<div class="sourceCode" id="cb332"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"xstar[4,4]"</span>,<span class="st">"xstar[4,5]"</span>,<span class="st">"xstar[10,4]"</span>,<span class="st">"xstar[10,5]"</span><span class="op">)</span>,<span class="op">]</span> ,<span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>##               mean    sd   2.5%    25%    50%    75%  97.5%  Rhat n.eff
 ## xstar[4,4]  -1.502 0.948 -3.426 -2.145 -1.453 -0.829  0.179 1.031    71
 ## xstar[4,5]   0.863 1.117 -1.072  0.089  0.769  1.537  3.274 1.012   280
 ## xstar[10,4]  1.052 1.087 -0.838  0.320  0.987  1.675  3.501 1.005   470
 ## xstar[10,5] -1.880 1.002 -4.120 -2.459 -1.772 -1.185 -0.126 1.018   200</code></pre>
-<div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb387"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 <span class="co"># the below two plots are too big to be useful given the 1000 observations.</span>
@@ -1382,18 +1785,18 @@ This approach is a straightforward addition to the latent response modeling and 
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb388"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="fl">50</span>,<span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>## Item.1 Item.2 Item.3 Item.4 Item.5 
 ##      0      1      0      1      1</code></pre>
-<div class="sourceCode" id="cb338"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"xstar[50,1]"</span>, <span class="st">"xstar[50,2]"</span><span class="op">)</span>,
@@ -1405,13 +1808,13 @@ This approach is a straightforward addition to the latent response modeling and 
 <h3>
 <span class="header-section-number">11.9.3</span> LSAT Example Revisted - Stan<a class="anchor" aria-label="anchor" href="#lsat-example-revisted---stan"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">model_lrv</span> <span class="op">&lt;-</span> <span class="st">[2564 chars quoted with ''']</span>
+<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_lrv</span> <span class="op">&lt;-</span> <span class="st">[2597 chars quoted with ''']</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">model_lrv</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## functions {
 ##   //x = data vector of 1,2,...,nlevs to determine which nu to use
-##   //mu=vector of K means
+##   //mu=vector of K means fixed to 0 to align with blavaan
 ##   //L= cholesky  factor for K variables
 ##   //b=vector of bounds/threshold values
 ##   //u=vector of random uniform numbers (K)
@@ -1511,7 +1914,7 @@ This approach is a straightforward addition to the latent response modeling and 
 ##     }
 ##   }
 ## }</code></pre>
-<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># initial values</span>
 <span class="va">start_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"tau"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span><span class="op">)</span>,
@@ -1558,7 +1961,7 @@ This approach is a straightforward addition to the latent response modeling and 
 <pre><code>## Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
 ## Running the chains for more iterations may help. See
 ## https://mc-stan.org/misc/warnings.html#tail-ess</code></pre>
-<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb401"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># first get a basic breakdown of the posteriors</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda"</span>, <span class="st">"tau"</span>,<span class="st">"psi"</span>, <span class="st">"Omega_cor"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Stan model: anon_model.
@@ -1603,40 +2006,40 @@ This approach is a straightforward addition to the latent response modeling and 
 ## Omega_cor[5,4]  0.12    0.00 0.05  0.04  0.09  0.12  0.15  0.22  1948 1.00
 ## Omega_cor[5,5]  1.00     NaN 0.00  1.00  1.00  1.00  1.00  1.00   NaN  NaN
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Jun 30 00:20:41 2022.
+## Samples were drawn using NUTS(diag_e) at Sun Jul 17 16:59:09 2022.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda_fr"</span>, <span class="st">"tau"</span>, <span class="st">"psi"</span><span class="op">)</span>, inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
 <span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda_fr"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb352"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb405"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"tau"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-3.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"psi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-4.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb354"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb407"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># autocorrelation</span>
 <span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"lambda_fr"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-5.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"tau"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-6.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb356"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb409"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"psi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-7.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb357"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot the posterior density</span>
 <span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
@@ -1648,14 +2051,14 @@ This approach is a straightforward addition to the latent response modeling and 
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-8.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb358"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb411"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"tau["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-9.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"psi"</span><span class="op">)</span>,
@@ -1717,7 +2120,7 @@ This approach is a straightforward addition to the latent response modeling and 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-07-15.</p>
+    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-07-17.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

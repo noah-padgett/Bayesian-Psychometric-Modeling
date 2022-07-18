@@ -536,7 +536,122 @@ ggplot(plot.dat.ppd, aes(x=real, y=ppd))+
 
 ## LSAT Example - Stan
 
-TO-DO
+```{r chp11-lsat-stan, warnings=T, message=T, error=T, cache=TRUE}
+
+
+model_irt_lsat <- '
+data {
+  int  N;
+  int  J;
+  int x[N,J];
+}
+
+parameters {
+  real<lower=0> a[J]; //discrimination
+  real d[J]; //location
+  real<lower=0, upper=1> c[J]; //guessing
+  real theta[N]; //person parameters
+}
+
+model {
+  matrix[N,J] pi;
+  // item response probabilities
+  for(n in 1:N){
+    for(j in 1:J){
+      pi[n,j] = c[j]+(1-c[j])*Phi(a[j]*theta[n]+d[j]);
+      x[n,j] ~ bernoulli(pi[n,j]);
+    }
+  }
+  //measurement model priors
+  for(j in 1:J){
+    a[j] ~ normal(1,2)T[0,];
+    d[j] ~ normal(0,2);
+    c[j] ~ beta(5, 17);
+  }
+  theta ~ normal(0,1);
+}
+
+'
+
+
+# initial values
+start_values <- list(
+  list("d"=c(1.00, 1.00, 1.00, 1.00, 1.00),
+       "a"=c(1.00, 1.00, 1.00, 1.00, 1.00),
+       "c"=c(0.20, 0.20, 0.20, 0.20, 0.20)),
+  list("d"=c(-3.00, -3.00, -3.00, -3.00, -3.00),
+       "a"=c(3.00, 3.00, 3.00, 3.00, 3.00),
+       "c"=c(0.50, 0.50, 0.50, 0.50, 0.50)),
+  list("d"=c(3.00, 3.00, 3.00, 3.00, 3.00),
+       "a"=c(0.1, 0.1, 0.1, 0.1, 0.1),
+       "c"=c(0.05, 0.05, 0.05, 0.05, 0.05))
+)
+
+# dataset
+dat <- read.table("data/LSAT.dat", header=T)
+
+
+mydata <- list(
+  N = nrow(dat), 
+  J = ncol(dat),
+  x = as.matrix(dat)
+)
+
+
+
+# Next, need to fit the model
+#   I have explicitly outlined some common parameters
+fit <- stan(
+  model_code = model_irt_lsat, # model code to be compiled
+  data = mydata,          # my data
+  init = start_values,    # starting values
+  chains = 3,             # number of Markov chains
+  warmup = 2000,          # number of warm up iterations per chain
+  iter = 4000,            # total number of iterations per chain
+  cores = 1,              # number of cores (could use one per chain)
+  refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit,pars =c("d", "a", "c", "theta[1000]"))
+
+# plot the posterior in a
+#  95% probability interval
+#  and 80% to contrast the dispersion
+plot(fit,pars =c("d", "a", "c", "theta[1000]"))
+
+# traceplots
+rstan::traceplot(fit,pars =c("d", "a", "c", "theta[1000]"), inc_warmup = TRUE)
+
+# Gelman-Rubin-Brooks Convergence Criterion
+ggs_grb(ggs(fit, family = c("d"))) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_grb(ggs(fit, family = "a")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_grb(ggs(fit, family = "c")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_grb(ggs(fit, family = "theta[1000]")) +
+   theme_bw() + theme(panel.grid = element_blank())
+# autocorrelation
+ggs_autocorrelation(ggs(fit, family="d")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_autocorrelation(ggs(fit, family="a")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_autocorrelation(ggs(fit, family="c")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_autocorrelation(ggs(fit, family="theta[1000]")) +
+   theme_bw() + theme(panel.grid = element_blank())
+
+# plot the posterior density
+plot.data <- as.matrix(fit)
+
+mcmc_areas(plot.data, pars = paste0("d[",1:5,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("a[",1:5,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("c[",1:5,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("theta[1000]"),prob = 0.8)
+
+```
+
 
 ## IRT Models for Polytomous Data
 
@@ -865,10 +980,141 @@ ggmcmc::ggs_autocorrelation(ggs(jags.mcmc), family="d")
 
 ## PI Example - Stan
 
-TO-DO
 
 ```{r chp11-peer-int-stan, warnings=T, message=T, error=T, cache=TRUE}
 
+
+model_irt_peer_int <- '
+data {
+  int  N;
+  int  J;
+  int  K;
+  int  x[N,J];
+}
+
+parameters {
+  real<lower=0> a[J]; //discrimination
+  ordered[K-1] d[J]; //location/thresholds
+  real theta[N]; //person parameters
+}
+
+model {
+  // item response probabilities
+  for(n in 1:N){
+    for(j in 1:J){
+      x[n,j] ~ ordered_logistic(a[j]*theta[n], d[j,1:(K-1)]);
+    }
+  }
+  //measurement model priors
+  theta ~ normal(0,1);
+  for(j in 1:J){
+    a[j] ~ normal(1,2)T[0,];
+    d[j,1] ~ normal(-2,2);
+    d[j,2] ~ normal(-1,2)T[d[j,1],];
+    d[j,3] ~ normal(1,2)T[d[j,2],];
+    d[j,4] ~ normal(2,2)T[d[j,3],];
+  }
+}
+
+'
+
+
+# initial values
+start_values <- list(
+  list(
+    d= matrix(c(-3.00E+00, -1.00E+00, 0.00E+00, 1.00E+00,
+               -3.00E+00, -1.00E+00, 0.00E+00, 1.00E+00,
+               -3.00E+00, -1.00E+00, 0.00E+00, 1.00E+00,
+               -3.00E+00, -1.00E+00, 0.00E+00, 1.00E+00,
+               -3.00E+00, -1.00E+00, 0.00E+00, 1.00E+00,
+               -3.00E+00, -1.00E+00, 0.00E+00, 1.00E+00,
+               -3.00E+00, -1.00E+00, 0.00E+00, 1.00E+00),
+      ncol=4, nrow=7, byrow=T),
+    a=c(1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01, 1.00E-01)),
+  list(
+    d= matrix(c(-2.00E+00, 0.00E+00, 1.00E+00, 2.00E+00,
+               -2.00E+00, 0.00E+00, 1.00E+00, 2.00E+00,
+               -2.00E+00, 0.00E+00, 1.00E+00, 2.00E+00,
+               -2.00E+00, 0.00E+00, 1.00E+00, 2.00E+00,
+               -2.00E+00, 0.00E+00, 1.00E+00, 2.00E+00,
+               -2.00E+00, 0.00E+00, 1.00E+00, 2.00E+00,
+               -2.00E+00, 0.00E+00, 1.00E+00, 2.00E+00),
+      ncol=4, nrow=7, byrow=T),
+    a=c(3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00, 3.00E+00)),
+  list(
+    d= matrix(c(-1.00E+00, 1.00E+00, 2.00E+00, 3.00E+00,
+               -1.00E+00, 1.00E+00, 2.00E+00, 3.00E+00,
+               -1.00E+00, 1.00E+00, 2.00E+00, 3.00E+00,
+               -1.00E+00, 1.00E+00, 2.00E+00, 3.00E+00,
+               -1.00E+00, 1.00E+00, 2.00E+00, 3.00E+00,
+               -1.00E+00, 1.00E+00, 2.00E+00, 3.00E+00,
+               -1.00E+00, 1.00E+00, 2.00E+00, 3.00E+00),
+              ncol=4, nrow=7, byrow=T),
+    a=c(1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00, 1.00E+00))
+)
+
+# dataset
+dat <- read.table("data/PI.dat", header=T)
+
+mydata <- list(
+  N = nrow(dat),
+  J = ncol(dat),
+  K = 5,
+  x = as.matrix(dat)
+)
+
+
+# Next, need to fit the model
+#   I have explicitly outlined some common parameters
+fit <- stan(
+  model_code = model_irt_peer_int, # model code to be compiled
+  data = mydata,          # my data
+  #init = start_values,    # starting values
+  chains = 1,             # number of Markov chains
+  warmup = 1000,          # number of warm up iterations per chain
+  iter = 2000,            # total number of iterations per chain
+  cores = 1,              # number of cores (could use one per chain)
+  #refresh = 0             # no progress shown
+)
+
+# first get a basic breakdown of the posteriors
+print(fit,pars =c("d", "a", "theta[500]"))
+
+# plot the posterior in a
+#  95% probability interval
+#  and 80% to contrast the dispersion
+plot(fit,pars =c("d", "a", "theta[500]"))
+
+# traceplots
+rstan::traceplot(fit,pars =c("d", "a", "theta[500]"), inc_warmup = TRUE)
+
+# Gelman-Rubin-Brooks Convergence Criterion
+ggs_grb(ggs(fit, family = c("d"))) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_grb(ggs(fit, family = "a")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_grb(ggs(fit, family = "theta[500]")) +
+   theme_bw() + theme(panel.grid = element_blank())
+# autocorrelation
+ggs_autocorrelation(ggs(fit, family="d")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_autocorrelation(ggs(fit, family="a")) +
+   theme_bw() + theme(panel.grid = element_blank())
+ggs_autocorrelation(ggs(fit, family="theta[500]")) +
+   theme_bw() + theme(panel.grid = element_blank())
+
+# plot the posterior density
+plot.data <- as.matrix(fit)
+
+mcmc_areas(plot.data, pars = paste0("d[1,",1:4,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("d[2,",1:4,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("d[3,",1:4,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("d[4,",1:4,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("d[5,",1:4,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("d[6,",1:4,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("d[7,",1:4,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("a[",1:7,"]"),prob = 0.8)
+mcmc_areas(plot.data, pars = paste0("theta[500]"),prob = 0.8)
 
 ```
 
@@ -1042,7 +1288,7 @@ mcmc_areas(
 model_lrv <- '
 functions {
   //x = data vector of 1,2,...,nlevs to determine which nu to use
-  //mu=vector of K means
+  //mu=vector of K means fixed to 0 to align with blavaan
   //L= cholesky  factor for K variables
   //b=vector of bounds/threshold values
   //u=vector of random uniform numbers (K)
