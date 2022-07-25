@@ -536,7 +536,7 @@ ggplot(plot.dat.ppd, aes(x=real, y=ppd))+
 
 ## LSAT Example - Stan
 
-```{r chp11-lsat-stan, warnings=T, message=T, error=T, cache=TRUE}
+```{r chp11-lsat-stan, warnings=T, message=T, error=T}
 
 
 model_irt_lsat <- '
@@ -607,11 +607,13 @@ fit <- stan(
   init = start_values,    # starting values
   chains = 3,             # number of Markov chains
   warmup = 2000,          # number of warm up iterations per chain
-  iter = 4000,            # total number of iterations per chain
+  iter = 4300,            # total number of iterations per chain
   cores = 1,              # number of cores (could use one per chain)
   refresh = 0             # no progress shown
 )
+```
 
+```{r chp11-lsat-stan-plots, warnings=T, message=T, error=T}
 # first get a basic breakdown of the posteriors
 print(fit,pars =c("d", "a", "c", "theta[1000]"))
 
@@ -879,8 +881,8 @@ fit <- jags(
   data=mydata,
   inits=start_values,
   parameters.to.save = param_save,
-  n.iter=2000,
-  n.burnin = 1000,
+  n.iter=4000,
+  n.burnin = 2000,
   n.chains = 3,
   progress.bar = "none")
 
@@ -1069,12 +1071,12 @@ mydata <- list(
 fit <- stan(
   model_code = model_irt_peer_int, # model code to be compiled
   data = mydata,          # my data
-  #init = start_values,    # starting values
-  chains = 1,             # number of Markov chains
-  warmup = 1000,          # number of warm up iterations per chain
-  iter = 2000,            # total number of iterations per chain
-  cores = 1,              # number of cores (could use one per chain)
-  #refresh = 0             # no progress shown
+  init = start_values,    # starting values
+  chains = 3,             # number of Markov chains
+  warmup = 2000,          # number of warm up iterations per chain
+  iter = 4000,            # total number of iterations per chain
+  cores = 3,              # number of cores (could use one per chain)
+  refresh = 0             # no progress shown
 )
 
 # first get a basic breakdown of the posteriors

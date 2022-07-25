@@ -748,7 +748,7 @@ model {
   init <span class="op">=</span> <span class="va">start_values</span>,    <span class="co"># starting values</span>
   chains <span class="op">=</span> <span class="fl">3</span>,             <span class="co"># number of Markov chains</span>
   warmup <span class="op">=</span> <span class="fl">2000</span>,          <span class="co"># number of warm up iterations per chain</span>
-  iter <span class="op">=</span> <span class="fl">4000</span>,            <span class="co"># total number of iterations per chain</span>
+  iter <span class="op">=</span> <span class="fl">4300</span>,            <span class="co"># total number of iterations per chain</span>
   cores <span class="op">=</span> <span class="fl">1</span>,              <span class="co"># number of cores (could use one per chain)</span>
   refresh <span class="op">=</span> <span class="fl">0</span>             <span class="co"># no progress shown</span>
 <span class="op">)</span></code></pre></div>
@@ -759,28 +759,28 @@ model {
 <code class="sourceCode R"><span class="co"># first get a basic breakdown of the posteriors</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"c"</span>, <span class="st">"theta[1000]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Stan model: anon_model.
-## 3 chains, each with iter=4000; warmup=2000; thin=1; 
-## post-warmup draws per chain=2000, total post-warmup draws=6000.
+## 3 chains, each with iter=200; warmup=100; thin=1; 
+## post-warmup draws per chain=100, total post-warmup draws=300.
 ## 
 ##              mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## d[1]         1.42    0.00 0.15  1.16  1.33  1.41  1.50  1.74  1420    1
-## d[2]         0.27    0.01 0.27 -0.37  0.20  0.32  0.42  0.56   596    1
-## d[3]        -0.76    0.04 0.68 -2.61 -1.07 -0.55 -0.26  0.00   379    1
-## d[4]         0.51    0.01 0.20  0.13  0.44  0.54  0.62  0.75   765    1
-## d[5]         1.03    0.00 0.12  0.77  0.96  1.04  1.11  1.26  3190    1
-## a[1]         0.47    0.01 0.20  0.17  0.34  0.45  0.56  0.93  1078    1
-## a[2]         0.63    0.02 0.45  0.27  0.43  0.53  0.67  1.74   342    1
-## a[3]         1.60    0.07 1.11  0.43  0.77  1.21  2.14  4.41   266    1
-## a[4]         0.51    0.02 0.30  0.23  0.37  0.47  0.57  1.03   408    1
-## a[5]         0.43    0.00 0.17  0.16  0.31  0.40  0.51  0.81  1137    1
-## c[1]         0.24    0.00 0.09  0.09  0.17  0.23  0.30  0.44 10326    1
-## c[2]         0.26    0.00 0.10  0.09  0.18  0.25  0.32  0.49  1230    1
-## c[3]         0.28    0.00 0.08  0.12  0.22  0.29  0.34  0.42   652    1
-## c[4]         0.25    0.00 0.10  0.09  0.18  0.24  0.31  0.47  2006    1
-## c[5]         0.24    0.00 0.09  0.08  0.17  0.23  0.30  0.44  6963    1
-## theta[1000]  0.71    0.01 0.86 -1.04  0.14  0.73  1.30  2.35 12907    1
+## d[1]         1.48    0.04 0.27  1.20  1.35  1.42  1.53  2.00    38 1.05
+## d[2]         0.26    0.03 0.29 -0.41  0.18  0.32  0.42  0.55    86 1.02
+## d[3]        -0.78    0.13 0.76 -2.80 -1.09 -0.53 -0.25  0.03    32 1.22
+## d[4]         0.52    0.01 0.15  0.13  0.45  0.54  0.62  0.73   526 1.00
+## d[5]         1.04    0.01 0.12  0.78  0.97  1.04  1.12  1.23   160 1.00
+## a[1]         0.55    0.06 0.32  0.24  0.38  0.50  0.63  1.24    27 1.08
+## a[2]         0.62    0.05 0.34  0.24  0.43  0.55  0.71  1.48    47 1.04
+## a[3]         1.44    0.20 0.99  0.44  0.71  1.08  1.90  3.76    24 1.19
+## a[4]         0.48    0.02 0.18  0.17  0.36  0.45  0.59  0.89    61 1.09
+## a[5]         0.44    0.02 0.16  0.20  0.33  0.42  0.55  0.80    43 1.09
+## c[1]         0.24    0.00 0.09  0.10  0.19  0.23  0.29  0.44   743 0.99
+## c[2]         0.26    0.01 0.11  0.09  0.18  0.25  0.33  0.51   197 1.00
+## c[3]         0.29    0.01 0.09  0.10  0.22  0.30  0.35  0.45    51 1.12
+## c[4]         0.25    0.00 0.10  0.09  0.18  0.25  0.30  0.47   743 1.00
+## c[5]         0.24    0.00 0.08  0.10  0.19  0.23  0.29  0.43   743 1.00
+## theta[1000]  0.78    0.04 0.93 -1.13  0.20  0.75  1.41  2.48   624 0.99
 ## 
-## Samples were drawn using NUTS(diag_e) at Sun Jul 17 16:25:35 2022.
+## Samples were drawn using NUTS(diag_e) at Sun Jul 24 14:56:32 2022.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -791,24 +791,24 @@ model {
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"c"</span>, <span class="st">"theta[1000]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
 <pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-1.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-1.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb320"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># traceplots</span>
 <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"c"</span>, <span class="st">"theta[1000]"</span><span class="op">)</span>, inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-2.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-2.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb321"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
 <span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-3.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-3.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb322"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"a"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-4.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-4.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb323"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-5.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-5.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb324"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"theta[1000]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -818,15 +818,15 @@ model {
 <code class="sourceCode R"><span class="co"># autocorrelation</span>
 <span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-6.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-6.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb328"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"a"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-7.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-7.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb329"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"c"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-8.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-8.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb330"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"theta[1000]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -837,16 +837,16 @@ model {
 <span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
 <span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-9.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-9.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb334"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-10.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-10.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb335"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"c["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-11.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-11.png" width="90%" height="90%"></div>
 <div class="sourceCode" id="cb336"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"theta[1000]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-12.png" width="90%" height="90%"></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lsat-stan-plots-12.png" width="90%" height="90%"></div>
 </div>
 <div id="irt-models-for-polytomous-data" class="section level2" number="11.5">
 <h2>
@@ -1072,10 +1072,11 @@ I’m not sure of the underlying technical reason for this error, but I found th
   data<span class="op">=</span><span class="va">mydata</span>,
   inits<span class="op">=</span><span class="va">start_values</span>,
   parameters.to.save <span class="op">=</span> <span class="va">param_save</span>,
-  n.iter<span class="op">=</span><span class="fl">2000</span>,
-  n.burnin <span class="op">=</span> <span class="fl">1000</span>,
+  n.iter<span class="op">=</span><span class="fl">4000</span>,
+  n.burnin <span class="op">=</span> <span class="fl">2000</span>,
   n.chains <span class="op">=</span> <span class="fl">3</span>,
   progress.bar <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<pre><code>## module glm loaded</code></pre>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes
@@ -1085,171 +1086,171 @@ I’m not sure of the underlying technical reason for this error, but I found th
 ##    Total graph size: 53050
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb339"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb340"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
-<pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpMh7bvq/model3bcc64b92e59.txt", fit using jags,
-##  3 chains, each with 2000 iterations (first 1000 discarded)
+<pre><code>## Inference for Bugs model at "C:/Users/noahp/AppData/Local/Temp/RtmpoRjxzc/model6f744e4175e6.txt", fit using jags,
+##  3 chains, each with 4000 iterations (first 2000 discarded), n.thin = 2
 ##  n.sims = 3000 iterations saved
 ##             mu.vect sd.vect     2.5%      25%      50%      75%    97.5%  Rhat n.eff
-## a[1]          2.136   0.164    1.845    2.024    2.126    2.239    2.481 1.006   670
-## a[2]          3.521   0.260    3.016    3.346    3.518    3.696    4.032 1.008   270
-## a[3]          3.957   0.303    3.356    3.758    3.959    4.149    4.550 1.004   530
-## a[4]          3.576   0.252    3.104    3.401    3.571    3.747    4.088 1.008   260
-## a[5]          2.444   0.171    2.124    2.323    2.437    2.563    2.786 1.009   270
-## a[6]          1.866   0.151    1.587    1.761    1.861    1.965    2.171 1.011   200
-## a[7]          1.495   0.121    1.255    1.413    1.492    1.577    1.730 1.004  2300
-## d[1,2]        4.952   0.328    4.343    4.735    4.949    5.156    5.639 1.002  1000
-## d[2,2]        5.185   0.355    4.529    4.936    5.169    5.420    5.915 1.007   330
-## d[3,2]        6.513   0.482    5.575    6.188    6.506    6.830    7.485 1.003  1400
-## d[4,2]        6.385   0.435    5.593    6.086    6.373    6.676    7.251 1.004   650
-## d[5,2]        4.768   0.312    4.184    4.562    4.759    4.973    5.403 1.013   200
-## d[6,2]        3.833   0.258    3.362    3.653    3.825    4.007    4.361 1.013   160
-## d[7,2]        4.274   0.286    3.723    4.080    4.265    4.460    4.852 1.001  2400
-## d[1,3]        2.943   0.211    2.536    2.800    2.939    3.085    3.370 1.003   970
-## d[2,3]        1.169   0.201    0.756    1.046    1.174    1.300    1.563 1.020   240
-## d[3,3]        3.323   0.296    2.753    3.120    3.329    3.508    3.930 1.002  2300
-## d[4,3]        2.703   0.242    2.261    2.536    2.695    2.859    3.194 1.009   270
-## d[5,3]        2.672   0.203    2.268    2.540    2.676    2.805    3.073 1.013   200
-## d[6,3]        1.949   0.164    1.626    1.837    1.951    2.059    2.275 1.012   200
-## d[7,3]        2.443   0.167    2.120    2.330    2.446    2.557    2.762 1.004   710
-## d[1,4]        0.645   0.146    0.362    0.547    0.644    0.741    0.934 1.006   360
-## d[2,4]       -1.785   0.222   -2.239   -1.929   -1.780   -1.627   -1.370 1.020   110
-## d[3,4]       -1.325   0.233   -1.837   -1.467   -1.312   -1.164   -0.903 1.024    90
-## d[4,4]       -0.806   0.206   -1.253   -0.933   -0.797   -0.672   -0.425 1.019   160
-## d[5,4]       -0.356   0.156   -0.670   -0.455   -0.353   -0.249   -0.059 1.011   190
-## d[6,4]       -0.490   0.131   -0.767   -0.571   -0.488   -0.403   -0.240 1.007   650
-## d[7,4]        0.263   0.116    0.038    0.186    0.266    0.341    0.482 1.008   290
-## d[1,5]       -2.511   0.186   -2.887   -2.636   -2.507   -2.379   -2.157 1.007   320
-## d[2,5]       -5.140   0.368   -5.858   -5.374   -5.137   -4.885   -4.446 1.011   200
-## d[3,5]       -5.562   0.419   -6.453   -5.830   -5.553   -5.272   -4.757 1.013   170
-## d[4,5]       -4.855   0.348   -5.562   -5.083   -4.832   -4.625   -4.196 1.017   220
-## d[5,5]       -3.605   0.243   -4.092   -3.762   -3.600   -3.436   -3.153 1.003  3000
-## d[6,5]       -3.210   0.214   -3.631   -3.355   -3.205   -3.061   -2.806 1.009   530
-## d[7,5]       -2.748   0.179   -3.112   -2.865   -2.740   -2.625   -2.413 1.004   650
-## theta[1]      0.855   0.285    0.283    0.669    0.853    1.050    1.390 1.001  3000
-## theta[2]     -0.976   0.268   -1.499   -1.152   -0.970   -0.802   -0.457 1.002  1000
-## theta[3]     -1.040   0.252   -1.546   -1.205   -1.041   -0.871   -0.539 1.002  1100
-## theta[4]     -0.257   0.258   -0.769   -0.428   -0.252   -0.083    0.242 1.001  3000
-## theta[5]      0.113   0.274   -0.412   -0.070    0.124    0.293    0.636 1.001  3000
-## theta[6]      0.107   0.248   -0.364   -0.062    0.107    0.272    0.598 1.004   570
-## theta[7]      1.470   0.330    0.861    1.244    1.456    1.683    2.147 1.005   600
-## theta[8]      0.787   0.258    0.292    0.608    0.788    0.964    1.297 1.001  3000
-## theta[9]      0.004   0.253   -0.495   -0.166    0.008    0.173    0.503 1.004   580
-## theta[10]     0.371   0.267   -0.130    0.194    0.367    0.543    0.896 1.001  3000
-## theta[11]    -0.758   0.259   -1.266   -0.938   -0.754   -0.585   -0.231 1.001  2100
-## theta[12]    -0.195   0.253   -0.697   -0.365   -0.194   -0.028    0.300 1.003   830
-## theta[13]     1.036   0.267    0.521    0.857    1.036    1.210    1.562 1.003   720
-## theta[14]     0.006   0.261   -0.516   -0.164    0.009    0.183    0.520 1.002  1600
-## theta[15]    -0.698   0.267   -1.219   -0.880   -0.704   -0.518   -0.176 1.003   810
-## theta[16]    -0.449   0.292   -1.001   -0.654   -0.451   -0.253    0.124 1.001  3000
-## theta[17]     2.349   0.463    1.582    2.021    2.299    2.619    3.407 1.001  3000
-## theta[18]     0.232   0.260   -0.271    0.062    0.236    0.404    0.744 1.002  2000
-## theta[19]     0.045   0.260   -0.457   -0.133    0.046    0.216    0.564 1.001  3000
-## theta[20]     0.240   0.263   -0.282    0.069    0.242    0.415    0.749 1.002  1300
-## theta[21]     0.370   0.259   -0.139    0.198    0.370    0.543    0.883 1.001  3000
-## theta[22]    -1.004   0.267   -1.518   -1.189   -1.003   -0.829   -0.479 1.001  2500
-## theta[23]     0.698   0.265    0.195    0.520    0.699    0.869    1.231 1.003   900
-## theta[24]     0.059   0.263   -0.468   -0.116    0.060    0.237    0.562 1.002  3000
-## theta[25]     2.356   0.452    1.589    2.028    2.316    2.637    3.354 1.002  2900
-## theta[26]     0.549   0.303   -0.038    0.342    0.539    0.758    1.137 1.001  3000
-## theta[27]    -0.753   0.269   -1.275   -0.924   -0.759   -0.581   -0.192 1.002  1300
-## theta[28]     0.214   0.260   -0.298    0.044    0.217    0.392    0.728 1.004   600
-## theta[29]     1.074   0.290    0.525    0.876    1.063    1.267    1.662 1.003  3000
-## theta[30]     0.373   0.263   -0.146    0.201    0.371    0.547    0.890 1.001  3000
-## theta[31]     0.489   0.258   -0.019    0.311    0.484    0.659    1.002 1.002  1800
-## theta[32]     0.438   0.261   -0.069    0.261    0.437    0.608    0.958 1.001  3000
-## theta[33]     0.439   0.268   -0.102    0.256    0.441    0.617    0.973 1.001  3000
-## theta[34]     0.137   0.261   -0.377   -0.037    0.141    0.309    0.652 1.002  3000
-## theta[35]    -1.317   0.268   -1.848   -1.494   -1.319   -1.143   -0.770 1.003   890
-## theta[36]     0.783   0.256    0.282    0.615    0.779    0.956    1.284 1.005   430
-## theta[37]    -0.516   0.260   -1.010   -0.694   -0.524   -0.347    0.022 1.004   610
-## theta[38]    -0.727   0.250   -1.222   -0.887   -0.725   -0.562   -0.240 1.002  1900
-## theta[39]    -0.461   0.296   -1.048   -0.659   -0.460   -0.262    0.124 1.004  1400
-## theta[40]    -0.128   0.272   -0.669   -0.310   -0.123    0.058    0.392 1.006   370
-## theta[41]     0.228   0.278   -0.308    0.041    0.231    0.411    0.784 1.001  3000
-## theta[42]    -2.225   0.354   -2.982   -2.452   -2.204   -1.975   -1.596 1.001  3000
-## theta[43]     2.103   0.389    1.447    1.833    2.075    2.338    3.007 1.001  3000
-## theta[44]    -0.396   0.303   -0.988   -0.606   -0.389   -0.195    0.189 1.001  3000
-## theta[45]     2.361   0.481    1.556    2.028    2.303    2.647    3.514 1.001  3000
-## theta[46]     0.796   0.262    0.281    0.625    0.790    0.966    1.331 1.001  3000
-## theta[47]    -0.845   0.274   -1.381   -1.032   -0.841   -0.664   -0.312 1.002  1200
-## theta[48]    -0.168   0.266   -0.701   -0.340   -0.160    0.015    0.322 1.002  2100
-## theta[49]     0.178   0.270   -0.339    0.006    0.171    0.353    0.719 1.002  1100
-## theta[50]    -0.582   0.285   -1.128   -0.775   -0.589   -0.389   -0.028 1.001  3000
-## theta[51]    -0.377   0.262   -0.900   -0.554   -0.374   -0.199    0.130 1.005   440
-## theta[52]    -0.998   0.260   -1.508   -1.177   -1.005   -0.828   -0.476 1.001  3000
-## theta[53]     0.444   0.266   -0.082    0.266    0.446    0.628    0.951 1.001  3000
-## theta[54]     0.380   0.272   -0.164    0.203    0.378    0.559    0.916 1.002  1900
-## theta[55]    -0.829   0.271   -1.362   -1.010   -0.826   -0.651   -0.308 1.001  3000
-## theta[56]     0.782   0.262    0.276    0.607    0.781    0.958    1.292 1.003   870
-## theta[57]     1.393   0.275    0.852    1.207    1.389    1.568    1.954 1.001  3000
-## theta[58]    -0.840   0.243   -1.302   -1.017   -0.845   -0.669   -0.371 1.001  2500
-## theta[59]     0.111   0.253   -0.381   -0.052    0.108    0.279    0.617 1.007   310
-## theta[60]     0.357   0.261   -0.156    0.183    0.355    0.530    0.878 1.003  1300
-## theta[61]    -1.806   0.316   -2.490   -2.013   -1.792   -1.589   -1.235 1.001  3000
-## theta[62]    -0.416   0.257   -0.905   -0.588   -0.419   -0.249    0.113 1.002  1000
-## theta[63]     2.365   0.489    1.533    2.018    2.312    2.674    3.411 1.003   770
-## theta[64]    -0.926   0.254   -1.434   -1.097   -0.921   -0.748   -0.444 1.001  3000
-## theta[65]     0.387   0.264   -0.119    0.206    0.382    0.562    0.918 1.002  1800
-## theta[66]     0.777   0.253    0.279    0.606    0.773    0.946    1.281 1.029   720
-## theta[67]     0.344   0.250   -0.146    0.179    0.339    0.505    0.848 1.001  3000
-## theta[68]     1.622   0.285    1.076    1.433    1.614    1.807    2.207 1.006   550
-## theta[69]     1.091   0.268    0.554    0.912    1.089    1.272    1.618 1.003   960
-## theta[70]     1.622   0.297    1.066    1.421    1.611    1.810    2.259 1.001  2000
-## theta[71]    -0.003   0.247   -0.493   -0.178    0.002    0.169    0.478 1.002  1600
-## theta[72]    -1.028   0.254   -1.538   -1.193   -1.029   -0.853   -0.564 1.001  3000
-## theta[73]     0.158   0.259   -0.359   -0.010    0.161    0.332    0.663 1.001  3000
-## theta[74]    -2.300   0.384   -3.130   -2.533   -2.272   -2.035   -1.665 1.004  3000
-## theta[75]    -0.108   0.284   -0.659   -0.297   -0.106    0.082    0.448 1.001  2300
-## theta[76]    -1.098   0.254   -1.596   -1.268   -1.094   -0.928   -0.609 1.003   870
+## a[1]          2.144   0.165    1.834    2.032    2.140    2.254    2.474 1.001  3000
+## a[2]          3.522   0.271    2.996    3.336    3.517    3.709    4.049 1.004   730
+## a[3]          3.965   0.304    3.403    3.763    3.951    4.156    4.604 1.007   360
+## a[4]          3.557   0.258    3.071    3.384    3.548    3.726    4.106 1.024    95
+## a[5]          2.461   0.187    2.106    2.336    2.460    2.583    2.832 1.001  2300
+## a[6]          1.873   0.147    1.598    1.773    1.865    1.971    2.178 1.001  3000
+## a[7]          1.495   0.128    1.246    1.410    1.489    1.580    1.754 1.002  1400
+## d[1,2]        4.969   0.332    4.359    4.737    4.959    5.180    5.648 1.003   680
+## d[2,2]        5.224   0.384    4.472    4.960    5.225    5.481    5.974 1.004   740
+## d[3,2]        6.559   0.471    5.630    6.247    6.549    6.865    7.506 1.003  3000
+## d[4,2]        6.386   0.448    5.572    6.063    6.370    6.672    7.304 1.016   140
+## d[5,2]        4.817   0.330    4.203    4.584    4.808    5.035    5.498 1.002  1000
+## d[6,2]        3.853   0.251    3.389    3.675    3.851    4.013    4.380 1.001  2300
+## d[7,2]        4.289   0.295    3.739    4.087    4.272    4.478    4.891 1.006   360
+## d[1,3]        2.978   0.207    2.581    2.838    2.975    3.116    3.399 1.003   750
+## d[2,3]        1.218   0.209    0.802    1.085    1.220    1.359    1.623 1.011   290
+## d[3,3]        3.378   0.305    2.790    3.175    3.373    3.583    3.992 1.002  3000
+## d[4,3]        2.731   0.245    2.262    2.565    2.727    2.889    3.231 1.010   210
+## d[5,3]        2.720   0.209    2.310    2.578    2.717    2.858    3.137 1.008   310
+## d[6,3]        1.979   0.165    1.660    1.872    1.976    2.086    2.306 1.005   530
+## d[7,3]        2.462   0.167    2.148    2.347    2.462    2.577    2.801 1.009   250
+## d[1,4]        0.676   0.140    0.412    0.578    0.675    0.770    0.952 1.005   440
+## d[2,4]       -1.729   0.215   -2.166   -1.865   -1.726   -1.586   -1.323 1.012   180
+## d[3,4]       -1.261   0.225   -1.730   -1.403   -1.256   -1.113   -0.831 1.017   160
+## d[4,4]       -0.753   0.198   -1.150   -0.884   -0.750   -0.618   -0.381 1.009   310
+## d[5,4]       -0.320   0.157   -0.631   -0.422   -0.320   -0.216   -0.006 1.007   330
+## d[6,4]       -0.468   0.133   -0.726   -0.559   -0.467   -0.377   -0.211 1.007   320
+## d[7,4]        0.285   0.119    0.041    0.208    0.288    0.364    0.508 1.007   330
+## d[1,5]       -2.483   0.187   -2.863   -2.610   -2.479   -2.355   -2.134 1.005   510
+## d[2,5]       -5.089   0.362   -5.808   -5.338   -5.077   -4.831   -4.420 1.005   420
+## d[3,5]       -5.521   0.408   -6.390   -5.778   -5.502   -5.248   -4.751 1.012   210
+## d[4,5]       -4.779   0.359   -5.541   -5.006   -4.766   -4.539   -4.123 1.015   150
+## d[5,5]       -3.583   0.252   -4.107   -3.745   -3.577   -3.419   -3.104 1.001  2000
+## d[6,5]       -3.193   0.209   -3.612   -3.332   -3.189   -3.043   -2.806 1.002  1600
+## d[7,5]       -2.723   0.188   -3.090   -2.853   -2.722   -2.587   -2.372 1.002  1300
+## theta[1]      0.843   0.277    0.299    0.653    0.847    1.030    1.379 1.002  1300
+## theta[2]     -0.987   0.256   -1.493   -1.159   -0.986   -0.818   -0.487 1.001  2200
+## theta[3]     -1.047   0.250   -1.551   -1.207   -1.044   -0.880   -0.569 1.001  3000
+## theta[4]     -0.264   0.256   -0.761   -0.435   -0.267   -0.090    0.229 1.002  1200
+## theta[5]      0.093   0.270   -0.439   -0.090    0.092    0.266    0.640 1.002  1000
+## theta[6]      0.093   0.257   -0.422   -0.081    0.098    0.264    0.588 1.003   740
+## theta[7]      1.437   0.321    0.827    1.221    1.433    1.641    2.087 1.001  3000
+## theta[8]      0.769   0.264    0.260    0.591    0.761    0.950    1.314 1.001  3000
+## theta[9]     -0.018   0.252   -0.497   -0.190   -0.021    0.151    0.474 1.002  1400
+## theta[10]     0.343   0.271   -0.184    0.168    0.334    0.519    0.891 1.001  3000
+## theta[11]    -0.778   0.256   -1.282   -0.944   -0.775   -0.608   -0.275 1.003   720
+## theta[12]    -0.205   0.259   -0.722   -0.380   -0.201   -0.028    0.297 1.001  2300
+## theta[13]     1.034   0.278    0.492    0.840    1.031    1.225    1.572 1.001  3000
+## theta[14]    -0.013   0.255   -0.517   -0.182   -0.012    0.156    0.477 1.001  3000
+## theta[15]    -0.711   0.259   -1.224   -0.885   -0.708   -0.545   -0.186 1.002  1300
+## theta[16]    -0.452   0.286   -1.009   -0.648   -0.461   -0.266    0.121 1.001  3000
+## theta[17]     2.351   0.468    1.574    2.016    2.300    2.635    3.410 1.001  2800
+## theta[18]     0.225   0.259   -0.284    0.049    0.227    0.399    0.717 1.003   790
+## theta[19]     0.026   0.257   -0.480   -0.146    0.023    0.197    0.534 1.002  1000
+## theta[20]     0.227   0.268   -0.299    0.052    0.231    0.404    0.746 1.002  1100
+## theta[21]     0.358   0.259   -0.158    0.193    0.358    0.525    0.871 1.002  2100
+## theta[22]    -1.029   0.260   -1.548   -1.203   -1.035   -0.859   -0.511 1.004   560
+## theta[23]     0.669   0.265    0.157    0.496    0.660    0.835    1.198 1.001  3000
+## theta[24]     0.061   0.265   -0.470   -0.121    0.062    0.243    0.553 1.001  3000
+## theta[25]     2.349   0.459    1.585    2.021    2.303    2.634    3.383 1.001  3000
+## theta[26]     0.538   0.296   -0.038    0.342    0.533    0.730    1.133 1.001  3000
+## theta[27]    -0.772   0.265   -1.301   -0.949   -0.775   -0.589   -0.255 1.005   500
+## theta[28]     0.194   0.254   -0.305    0.021    0.196    0.365    0.699 1.003   720
+## theta[29]     1.054   0.288    0.500    0.859    1.055    1.248    1.633 1.003  2500
+## theta[30]     0.357   0.250   -0.133    0.186    0.355    0.522    0.849 1.003   860
+## theta[31]     0.476   0.259   -0.022    0.301    0.478    0.645    0.991 1.002  3000
+## theta[32]     0.428   0.267   -0.095    0.252    0.432    0.600    0.960 1.001  2800
+## theta[33]     0.412   0.267   -0.114    0.238    0.405    0.593    0.919 1.002  1000
+## theta[34]     0.126   0.261   -0.390   -0.044    0.127    0.301    0.614 1.002  1800
+## theta[35]    -1.319   0.266   -1.839   -1.498   -1.321   -1.138   -0.792 1.001  3000
+## theta[36]     0.766   0.267    0.252    0.587    0.767    0.949    1.305 1.001  3000
+## theta[37]    -0.533   0.263   -1.047   -0.706   -0.532   -0.356   -0.024 1.001  3000
+## theta[38]    -0.737   0.253   -1.227   -0.906   -0.740   -0.568   -0.229 1.001  2700
+## theta[39]    -0.468   0.298   -1.047   -0.666   -0.470   -0.266    0.121 1.001  3000
+## theta[40]    -0.153   0.265   -0.685   -0.331   -0.146    0.030    0.351 1.002  1900
+## theta[41]     0.212   0.277   -0.321    0.026    0.210    0.392    0.770 1.001  3000
+## theta[42]    -2.220   0.347   -2.952   -2.442   -2.197   -1.974   -1.594 1.001  3000
+## theta[43]     2.082   0.394    1.406    1.804    2.046    2.336    2.934 1.001  3000
+## theta[44]    -0.398   0.297   -0.972   -0.599   -0.405   -0.196    0.190 1.001  3000
+## theta[45]     2.360   0.469    1.566    2.019    2.315    2.660    3.424 1.001  3000
+## theta[46]     0.760   0.259    0.260    0.589    0.760    0.932    1.256 1.001  3000
+## theta[47]    -0.858   0.265   -1.374   -1.037   -0.862   -0.684   -0.312 1.001  3000
+## theta[48]    -0.197   0.268   -0.721   -0.385   -0.190   -0.016    0.306 1.001  3000
+## theta[49]     0.164   0.270   -0.365   -0.009    0.166    0.339    0.690 1.002  1800
+## theta[50]    -0.588   0.292   -1.147   -0.782   -0.592   -0.397   -0.001 1.001  3000
+## theta[51]    -0.383   0.262   -0.886   -0.567   -0.376   -0.209    0.128 1.002  1600
+## theta[52]    -1.026   0.252   -1.528   -1.197   -1.018   -0.858   -0.540 1.002  1200
+## theta[53]     0.434   0.261   -0.078    0.262    0.435    0.604    0.985 1.001  3000
+## theta[54]     0.372   0.284   -0.193    0.185    0.376    0.559    0.925 1.002  1800
+## theta[55]    -0.850   0.268   -1.386   -1.030   -0.847   -0.673   -0.321 1.001  3000
+## theta[56]     0.772   0.255    0.268    0.604    0.774    0.944    1.276 1.002  1800
+## theta[57]     1.389   0.275    0.850    1.211    1.383    1.572    1.935 1.003   900
+## theta[58]    -0.840   0.259   -1.356   -1.015   -0.837   -0.670   -0.313 1.001  3000
+## theta[59]     0.094   0.260   -0.413   -0.084    0.092    0.270    0.619 1.002  1000
+## theta[60]     0.337   0.258   -0.178    0.167    0.339    0.495    0.852 1.002  1700
+## theta[61]    -1.791   0.297   -2.422   -1.979   -1.786   -1.592   -1.229 1.003   890
+## theta[62]    -0.426   0.255   -0.938   -0.594   -0.427   -0.257    0.084 1.001  3000
+## theta[63]     2.336   0.469    1.557    2.010    2.282    2.619    3.427 1.001  3000
+## theta[64]    -0.935   0.247   -1.423   -1.107   -0.936   -0.766   -0.463 1.002  1200
+## theta[65]     0.365   0.265   -0.162    0.191    0.368    0.539    0.872 1.002  1900
+## theta[66]     0.774   0.259    0.271    0.599    0.774    0.951    1.279 1.002  2800
+## theta[67]     0.337   0.256   -0.148    0.156    0.330    0.506    0.852 1.001  3000
+## theta[68]     1.598   0.297    1.045    1.398    1.588    1.789    2.214 1.001  3000
+## theta[69]     1.078   0.272    0.552    0.900    1.082    1.255    1.620 1.003   960
+## theta[70]     1.614   0.301    1.060    1.406    1.597    1.805    2.249 1.001  2400
+## theta[71]    -0.013   0.256   -0.502   -0.189   -0.008    0.162    0.496 1.001  3000
+## theta[72]    -1.028   0.258   -1.542   -1.202   -1.021   -0.857   -0.524 1.004   700
+## theta[73]     0.140   0.266   -0.378   -0.037    0.139    0.315    0.675 1.001  2100
+## theta[74]    -2.309   0.393   -3.175   -2.544   -2.279   -2.030   -1.638 1.002  1000
+## theta[75]    -0.135   0.282   -0.693   -0.330   -0.129    0.055    0.415 1.001  3000
+## theta[76]    -1.111   0.253   -1.599   -1.279   -1.119   -0.933   -0.612 1.001  2200
 ##  [ reached getOption("max.print") -- omitted 425 rows ]
 ## 
 ## For each parameter, n.eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
 ## 
 ## DIC info (using the rule, pD = var(deviance)/2)
-## pD = 692.5 and DIC = 7012.1
+## pD = 706.9 and DIC = 7026.0
 ## DIC is an estimate of expected predictive error (lower deviance is better).</code></pre>
-<div class="sourceCode" id="cb341"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb342"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span> <span class="op">%like%</span> <span class="st">"theta"</span>, <span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>##              mean     sd     2.5%      25%      50%      75%    97.5%  Rhat n.eff
-## a[1]        2.136  0.164    1.845    2.024    2.126    2.239    2.481 1.006   670
-## a[2]        3.521  0.260    3.016    3.346    3.518    3.696    4.032 1.008   270
-## a[3]        3.957  0.303    3.356    3.758    3.959    4.149    4.550 1.004   530
-## a[4]        3.576  0.252    3.104    3.401    3.571    3.747    4.088 1.008   260
-## a[5]        2.444  0.171    2.124    2.323    2.437    2.563    2.786 1.009   270
-## a[6]        1.866  0.151    1.587    1.761    1.861    1.965    2.171 1.011   200
-## a[7]        1.495  0.121    1.255    1.413    1.492    1.577    1.730 1.004  2300
-## d[1,2]      4.952  0.328    4.343    4.735    4.949    5.156    5.639 1.002  1000
-## d[2,2]      5.185  0.355    4.529    4.936    5.169    5.420    5.915 1.007   330
-## d[3,2]      6.513  0.482    5.575    6.188    6.506    6.830    7.485 1.003  1400
-## d[4,2]      6.385  0.435    5.593    6.086    6.373    6.676    7.251 1.004   650
-## d[5,2]      4.768  0.312    4.184    4.562    4.759    4.973    5.403 1.013   200
-## d[6,2]      3.833  0.258    3.362    3.653    3.825    4.007    4.361 1.013   160
-## d[7,2]      4.274  0.286    3.723    4.080    4.265    4.460    4.852 1.001  2400
-## d[1,3]      2.943  0.211    2.536    2.800    2.939    3.085    3.370 1.003   970
-## d[2,3]      1.169  0.201    0.756    1.046    1.174    1.300    1.563 1.020   240
-## d[3,3]      3.323  0.296    2.753    3.120    3.329    3.508    3.930 1.002  2300
-## d[4,3]      2.703  0.242    2.261    2.536    2.695    2.859    3.194 1.009   270
-## d[5,3]      2.672  0.203    2.268    2.540    2.676    2.805    3.073 1.013   200
-## d[6,3]      1.949  0.164    1.626    1.837    1.951    2.059    2.275 1.012   200
-## d[7,3]      2.443  0.167    2.120    2.330    2.446    2.557    2.762 1.004   710
-## d[1,4]      0.645  0.146    0.362    0.547    0.644    0.741    0.934 1.006   360
-## d[2,4]     -1.785  0.222   -2.239   -1.929   -1.780   -1.627   -1.370 1.020   110
-## d[3,4]     -1.325  0.233   -1.837   -1.467   -1.312   -1.164   -0.903 1.024    90
-## d[4,4]     -0.806  0.206   -1.253   -0.933   -0.797   -0.672   -0.425 1.019   160
-## d[5,4]     -0.356  0.156   -0.670   -0.455   -0.353   -0.249   -0.059 1.011   190
-## d[6,4]     -0.490  0.131   -0.767   -0.571   -0.488   -0.403   -0.240 1.007   650
-## d[7,4]      0.263  0.116    0.038    0.186    0.266    0.341    0.482 1.008   290
-## d[1,5]     -2.511  0.186   -2.887   -2.636   -2.507   -2.379   -2.157 1.007   320
-## d[2,5]     -5.140  0.368   -5.858   -5.374   -5.137   -4.885   -4.446 1.011   200
-## d[3,5]     -5.562  0.419   -6.453   -5.830   -5.553   -5.272   -4.757 1.013   170
-## d[4,5]     -4.855  0.348   -5.562   -5.083   -4.832   -4.625   -4.196 1.017   220
-## d[5,5]     -3.605  0.243   -4.092   -3.762   -3.600   -3.436   -3.153 1.003  3000
-## d[6,5]     -3.210  0.214   -3.631   -3.355   -3.205   -3.061   -2.806 1.009   530
-## d[7,5]     -2.748  0.179   -3.112   -2.865   -2.740   -2.625   -2.413 1.004   650
-## deviance 6319.569 37.286 6251.475 6293.382 6318.824 6344.230 6396.701 1.005   460</code></pre>
-<div class="sourceCode" id="cb343"><pre class="downlit sourceCode r">
+## a[1]        2.144  0.165    1.834    2.032    2.140    2.254    2.474 1.001  3000
+## a[2]        3.522  0.271    2.996    3.336    3.517    3.709    4.049 1.004   730
+## a[3]        3.965  0.304    3.403    3.763    3.951    4.156    4.604 1.007   360
+## a[4]        3.557  0.258    3.071    3.384    3.548    3.726    4.106 1.024    95
+## a[5]        2.461  0.187    2.106    2.336    2.460    2.583    2.832 1.001  2300
+## a[6]        1.873  0.147    1.598    1.773    1.865    1.971    2.178 1.001  3000
+## a[7]        1.495  0.128    1.246    1.410    1.489    1.580    1.754 1.002  1400
+## d[1,2]      4.969  0.332    4.359    4.737    4.959    5.180    5.648 1.003   680
+## d[2,2]      5.224  0.384    4.472    4.960    5.225    5.481    5.974 1.004   740
+## d[3,2]      6.559  0.471    5.630    6.247    6.549    6.865    7.506 1.003  3000
+## d[4,2]      6.386  0.448    5.572    6.063    6.370    6.672    7.304 1.016   140
+## d[5,2]      4.817  0.330    4.203    4.584    4.808    5.035    5.498 1.002  1000
+## d[6,2]      3.853  0.251    3.389    3.675    3.851    4.013    4.380 1.001  2300
+## d[7,2]      4.289  0.295    3.739    4.087    4.272    4.478    4.891 1.006   360
+## d[1,3]      2.978  0.207    2.581    2.838    2.975    3.116    3.399 1.003   750
+## d[2,3]      1.218  0.209    0.802    1.085    1.220    1.359    1.623 1.011   290
+## d[3,3]      3.378  0.305    2.790    3.175    3.373    3.583    3.992 1.002  3000
+## d[4,3]      2.731  0.245    2.262    2.565    2.727    2.889    3.231 1.010   210
+## d[5,3]      2.720  0.209    2.310    2.578    2.717    2.858    3.137 1.008   310
+## d[6,3]      1.979  0.165    1.660    1.872    1.976    2.086    2.306 1.005   530
+## d[7,3]      2.462  0.167    2.148    2.347    2.462    2.577    2.801 1.009   250
+## d[1,4]      0.676  0.140    0.412    0.578    0.675    0.770    0.952 1.005   440
+## d[2,4]     -1.729  0.215   -2.166   -1.865   -1.726   -1.586   -1.323 1.012   180
+## d[3,4]     -1.261  0.225   -1.730   -1.403   -1.256   -1.113   -0.831 1.017   160
+## d[4,4]     -0.753  0.198   -1.150   -0.884   -0.750   -0.618   -0.381 1.009   310
+## d[5,4]     -0.320  0.157   -0.631   -0.422   -0.320   -0.216   -0.006 1.007   330
+## d[6,4]     -0.468  0.133   -0.726   -0.559   -0.467   -0.377   -0.211 1.007   320
+## d[7,4]      0.285  0.119    0.041    0.208    0.288    0.364    0.508 1.007   330
+## d[1,5]     -2.483  0.187   -2.863   -2.610   -2.479   -2.355   -2.134 1.005   510
+## d[2,5]     -5.089  0.362   -5.808   -5.338   -5.077   -4.831   -4.420 1.005   420
+## d[3,5]     -5.521  0.408   -6.390   -5.778   -5.502   -5.248   -4.751 1.012   210
+## d[4,5]     -4.779  0.359   -5.541   -5.006   -4.766   -4.539   -4.123 1.015   150
+## d[5,5]     -3.583  0.252   -4.107   -3.745   -3.577   -3.419   -3.104 1.001  2000
+## d[6,5]     -3.193  0.209   -3.612   -3.332   -3.189   -3.043   -2.806 1.002  1600
+## d[7,5]     -2.723  0.188   -3.090   -2.853   -2.722   -2.587   -2.372 1.002  1300
+## deviance 6319.128 37.624 6247.301 6293.705 6318.101 6344.862 6393.572 1.002  1000</code></pre>
+<div class="sourceCode" id="cb344"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
@@ -1265,26 +1266,26 @@ I’m not sure of the underlying technical reason for this error, but I found th
 ## scale.</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb346"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-intervals.html">mcmc_areas</a></span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb347"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-diagnostics.html">mcmc_acf</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-3.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb348"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">bayesplot</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/bayesplot/reference/MCMC-traces.html">mcmc_trace</a></span><span class="op">(</span><span class="va">plot.data</span>,pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-4.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb349"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-5.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb350"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_grb.html">ggs_grb</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"a"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-6.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb351"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb352"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggmcmc</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggmcmc/man/ggs_autocorrelation.html">ggs_autocorrelation</a></span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">jags.mcmc</span><span class="op">)</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-jags-7.png" width="90%" height="90%"></div>
 <!-- ## PI Example - OpenBUGS -->
@@ -1348,7 +1349,7 @@ I’m not sure of the underlying technical reason for this error, but I found th
 <h2>
 <span class="header-section-number">11.8</span> PI Example - Stan<a class="anchor" aria-label="anchor" href="#pi-example---stan"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb352"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb353"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_irt_peer_int</span> <span class="op">&lt;-</span> <span class="st">'
 data {
   int  N;
@@ -1434,88 +1435,63 @@ model {
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">stan</span><span class="op">(</span>
   model_code <span class="op">=</span> <span class="va">model_irt_peer_int</span>, <span class="co"># model code to be compiled</span>
   data <span class="op">=</span> <span class="va">mydata</span>,          <span class="co"># my data</span>
-  <span class="co">#init = start_values,    # starting values</span>
-  chains <span class="op">=</span> <span class="fl">1</span>,             <span class="co"># number of Markov chains</span>
-  warmup <span class="op">=</span> <span class="fl">1000</span>,          <span class="co"># number of warm up iterations per chain</span>
-  iter <span class="op">=</span> <span class="fl">2000</span>,            <span class="co"># total number of iterations per chain</span>
-  cores <span class="op">=</span> <span class="fl">1</span>,              <span class="co"># number of cores (could use one per chain)</span>
-  <span class="co">#refresh = 0             # no progress shown</span>
-<span class="op">)</span></code></pre></div>
-<pre><code>## 
-## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 0.003775 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 37.75 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
-## Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 131.248 seconds (Warm-up)
-## Chain 1:                107.288 seconds (Sampling)
-## Chain 1:                238.536 seconds (Total)
-## Chain 1:</code></pre>
-<div class="sourceCode" id="cb354"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># first get a basic breakdown of the posteriors</span>
+  init <span class="op">=</span> <span class="va">start_values</span>,    <span class="co"># starting values</span>
+  chains <span class="op">=</span> <span class="fl">3</span>,             <span class="co"># number of Markov chains</span>
+  warmup <span class="op">=</span> <span class="fl">2000</span>,          <span class="co"># number of warm up iterations per chain</span>
+  iter <span class="op">=</span> <span class="fl">4000</span>,            <span class="co"># total number of iterations per chain</span>
+  cores <span class="op">=</span> <span class="fl">3</span>,              <span class="co"># number of cores (could use one per chain)</span>
+  refresh <span class="op">=</span> <span class="fl">0</span>             <span class="co"># no progress shown</span>
+<span class="op">)</span>
+
+<span class="co"># first get a basic breakdown of the posteriors</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"theta[500]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Stan model: anon_model.
-## 1 chains, each with iter=2000; warmup=1000; thin=1; 
-## post-warmup draws per chain=1000, total post-warmup draws=1000.
+## 3 chains, each with iter=4000; warmup=2000; thin=1; 
+## post-warmup draws per chain=2000, total post-warmup draws=6000.
 ## 
 ##             mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## d[1,1]     -5.08    0.01 0.34 -5.75 -5.31 -5.10 -4.84 -4.43   607 1.00
-## d[1,2]     -3.04    0.01 0.21 -3.46 -3.17 -3.03 -2.90 -2.65   307 1.00
-## d[1,3]     -0.72    0.01 0.15 -1.03 -0.81 -0.71 -0.61 -0.42   171 1.00
-## d[1,4]      2.46    0.01 0.19  2.07  2.33  2.46  2.59  2.85   234 1.00
-## d[2,1]     -5.53    0.02 0.43 -6.35 -5.82 -5.53 -5.24 -4.69   341 1.01
-## d[2,2]     -1.33    0.02 0.24 -1.81 -1.48 -1.34 -1.17 -0.86   169 1.00
-## d[2,3]      1.74    0.02 0.25  1.28  1.57  1.73  1.90  2.22   162 1.00
-## d[2,4]      5.25    0.02 0.42  4.47  4.97  5.21  5.51  6.14   329 1.00
-## d[3,1]     -7.16    0.03 0.57 -8.27 -7.54 -7.15 -6.75 -6.10   279 1.01
-## d[3,2]     -3.72    0.03 0.36 -4.45 -3.96 -3.71 -3.46 -3.06   208 1.02
-## d[3,3]      1.27    0.02 0.26  0.75  1.10  1.27  1.45  1.78   143 1.00
-## d[3,4]      5.86    0.03 0.49  4.96  5.52  5.83  6.16  6.87   242 1.00
-## d[4,1]     -6.76    0.03 0.50 -7.78 -7.10 -6.74 -6.39 -5.86   300 1.00
-## d[4,2]     -2.91    0.02 0.27 -3.48 -3.08 -2.89 -2.72 -2.44   221 1.00
-## d[4,3]      0.71    0.02 0.23  0.29  0.55  0.70  0.87  1.14   146 1.00
-## d[4,4]      4.89    0.03 0.38  4.21  4.62  4.89  5.14  5.66   220 1.00
-## d[5,1]     -4.95    0.02 0.34 -5.59 -5.17 -4.94 -4.72 -4.31   436 1.01
-## d[5,2]     -2.81    0.01 0.22 -3.27 -2.96 -2.80 -2.65 -2.39   285 1.01
-## d[5,3]      0.27    0.01 0.17 -0.06  0.16  0.27  0.39  0.60   193 1.01
-## d[5,4]      3.57    0.01 0.26  3.09  3.39  3.57  3.73  4.11   409 1.00
-## d[6,1]     -3.90    0.01 0.26 -4.42 -4.07 -3.90 -3.72 -3.42   548 1.00
-## d[6,2]     -2.01    0.01 0.17 -2.37 -2.13 -2.01 -1.89 -1.70   355 1.00
-## d[6,3]      0.43    0.01 0.14  0.16  0.33  0.43  0.53  0.69   190 1.01
-## d[6,4]      3.16    0.01 0.22  2.74  3.01  3.16  3.31  3.60   394 1.01
-## d[7,1]     -4.41    0.01 0.30 -5.03 -4.60 -4.39 -4.21 -3.83   659 1.00
-## d[7,2]     -2.52    0.01 0.18 -2.87 -2.63 -2.51 -2.40 -2.19   615 1.00
-## d[7,3]     -0.32    0.01 0.12 -0.56 -0.40 -0.32 -0.24 -0.09   329 1.00
-## d[7,4]      2.70    0.01 0.19  2.34  2.57  2.70  2.83  3.11   373 1.00
-## a[1]        2.19    0.01 0.16  1.86  2.08  2.18  2.30  2.51   347 1.00
-## a[2]        3.74    0.02 0.29  3.21  3.53  3.73  3.94  4.33   336 1.01
-## a[3]        4.35    0.02 0.34  3.69  4.11  4.34  4.58  5.05   251 1.01
-## a[4]        3.76    0.02 0.30  3.22  3.56  3.76  3.95  4.39   254 1.00
-## a[5]        2.53    0.01 0.19  2.18  2.39  2.52  2.65  2.91   457 1.00
-## a[6]        1.89    0.01 0.15  1.63  1.78  1.88  1.99  2.18   546 1.00
-## a[7]        1.52    0.01 0.13  1.29  1.43  1.52  1.62  1.78   382 1.00
-## theta[500]  0.48    0.01 0.26 -0.04  0.30  0.48  0.66  1.00  1162 1.00
+## d[1,1]     -5.07    0.01 0.36 -5.81 -5.30 -5.06 -4.83 -4.41  2523 1.00
+## d[1,2]     -3.03    0.00 0.22 -3.46 -3.17 -3.02 -2.88 -2.62  2160 1.00
+## d[1,3]     -0.71    0.00 0.15 -1.00 -0.80 -0.71 -0.60 -0.42  1307 1.00
+## d[1,4]      2.47    0.00 0.20  2.10  2.33  2.46  2.60  2.86  1771 1.00
+## d[2,1]     -5.51    0.01 0.41 -6.35 -5.77 -5.49 -5.22 -4.75  1577 1.00
+## d[2,2]     -1.31    0.01 0.23 -1.77 -1.46 -1.30 -1.16 -0.88   984 1.01
+## d[2,3]      1.76    0.01 0.24  1.30  1.60  1.75  1.91  2.24  1093 1.01
+## d[2,4]      5.27    0.01 0.40  4.53  5.00  5.26  5.53  6.11  1668 1.00
+## d[3,1]     -7.16    0.01 0.55 -8.29 -7.51 -7.15 -6.78 -6.13  1889 1.00
+## d[3,2]     -3.70    0.01 0.35 -4.41 -3.93 -3.69 -3.47 -3.05  1322 1.00
+## d[3,3]      1.30    0.01 0.26  0.81  1.12  1.30  1.48  1.81   873 1.01
+## d[3,4]      5.90    0.01 0.48  5.01  5.56  5.88  6.21  6.90  2062 1.00
+## d[4,1]     -6.74    0.01 0.50 -7.77 -7.07 -6.74 -6.40 -5.80  2066 1.00
+## d[4,2]     -2.89    0.01 0.28 -3.45 -3.07 -2.89 -2.69 -2.37  1409 1.00
+## d[4,3]      0.73    0.01 0.22  0.32  0.58  0.73  0.88  1.18   973 1.00
+## d[4,4]      4.92    0.01 0.36  4.24  4.66  4.91  5.15  5.68  1897 1.00
+## d[5,1]     -4.92    0.01 0.34 -5.61 -5.15 -4.92 -4.70 -4.30  2363 1.00
+## d[5,2]     -2.79    0.01 0.22 -3.22 -2.93 -2.79 -2.64 -2.36  1793 1.00
+## d[5,3]      0.29    0.00 0.16 -0.02  0.18  0.29  0.40  0.61  1186 1.00
+## d[5,4]      3.58    0.01 0.26  3.10  3.41  3.58  3.76  4.10  2018 1.00
+## d[6,1]     -3.89    0.01 0.26 -4.41 -4.06 -3.89 -3.71 -3.40  2385 1.00
+## d[6,2]     -2.00    0.00 0.17 -2.34 -2.11 -2.00 -1.89 -1.68  1708 1.00
+## d[6,3]      0.44    0.00 0.14  0.18  0.35  0.44  0.54  0.71  1306 1.00
+## d[6,4]      3.17    0.00 0.22  2.76  3.02  3.16  3.31  3.61  2394 1.00
+## d[7,1]     -4.35    0.00 0.30 -4.98 -4.55 -4.34 -4.14 -3.79  3967 1.00
+## d[7,2]     -2.50    0.00 0.17 -2.84 -2.61 -2.50 -2.38 -2.16  2789 1.00
+## d[7,3]     -0.31    0.00 0.12 -0.56 -0.39 -0.31 -0.23 -0.07  1818 1.00
+## d[7,4]      2.70    0.00 0.19  2.35  2.58  2.70  2.83  3.08  2852 1.00
+## a[1]        2.18    0.00 0.17  1.85  2.06  2.17  2.29  2.51  2316 1.00
+## a[2]        3.73    0.01 0.29  3.19  3.53  3.72  3.91  4.33  1817 1.00
+## a[3]        4.35    0.01 0.35  3.70  4.10  4.33  4.58  5.09  1924 1.00
+## a[4]        3.74    0.01 0.29  3.21  3.55  3.73  3.93  4.33  1964 1.00
+## a[5]        2.51    0.00 0.19  2.16  2.38  2.50  2.64  2.91  2262 1.00
+## a[6]        1.88    0.00 0.15  1.61  1.78  1.88  1.97  2.19  2752 1.00
+## a[7]        1.51    0.00 0.13  1.27  1.42  1.51  1.59  1.75  3207 1.00
+## theta[500]  0.50    0.00 0.25  0.01  0.33  0.49  0.66  1.00  8485 1.00
 ## 
-## Samples were drawn using NUTS(diag_e) at Sun Jul 17 16:34:41 2022.
+## Samples were drawn using NUTS(diag_e) at Mon Jul 25 08:34:57 2022.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb356"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb355"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot the posterior in a</span>
 <span class="co">#  95% probability interval</span>
 <span class="co">#  and 80% to contrast the dispersion</span>
@@ -1523,68 +1499,68 @@ model {
 <pre><code>## ci_level: 0.8 (80% intervals)</code></pre>
 <pre><code>## outer_level: 0.95 (95% intervals)</code></pre>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb358"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># traceplots</span>
 <span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span>, <span class="st">"a"</span>, <span class="st">"theta[500]"</span><span class="op">)</span>, inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb360"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb359"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
 <span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in ggs_grb(ggs(fit, family = c("d"))): At least two chains are required</code></pre>
-<div class="sourceCode" id="cb362"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-3.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb360"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"a"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## Error in ggs_grb(ggs(fit, family = "a")): At least two chains are required</code></pre>
-<div class="sourceCode" id="cb364"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-4.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb361"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"theta[500]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning in max(D$Iteration): no non-missing arguments to max; returning -Inf</code></pre>
 <pre><code>## Error in ggs_grb(ggs(fit, family = "theta[500]")): At least two chains are required</code></pre>
-<div class="sourceCode" id="cb367"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb364"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># autocorrelation</span>
 <span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"d"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-3.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb368"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-5.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb365"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"a"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-4.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-6.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb366"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"theta[500]"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning in max(D$Iteration): no non-missing arguments to max; returning -Inf</code></pre>
 <pre><code>## Error in sprintf("nLags=%d is larger than number of iterations, computing until max possible lag %d", : invalid format '%d'; use format %f, %e, %g or %a for numeric objects</code></pre>
-<div class="sourceCode" id="cb372"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb369"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot the posterior density</span>
 <span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
 <span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[1,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-5.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[2,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-6.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb374"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[3,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-7.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[4,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[2,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-8.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb376"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[5,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[3,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-9.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb377"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[6,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[4,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-10.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb378"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[7,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[5,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-11.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb379"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">7</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[6,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-12.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb380"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"theta[500]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"d[7,"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-13.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb376"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">7</span>,<span class="st">"]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-14.png" width="90%" height="90%"></div>
+<div class="sourceCode" id="cb377"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span><span class="va">plot.data</span>, pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"theta[500]"</span><span class="op">)</span>,prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-peer-int-stan-15.png" width="90%" height="90%"></div>
 </div>
 <div id="latent-response-formulation" class="section level2" number="11.9">
 <h2>
@@ -1626,7 +1602,7 @@ This approach is a straightforward addition to the latent response modeling and 
 <h3>
 <span class="header-section-number">11.9.2</span> LSAT Example Revisted - JAGS<a class="anchor" aria-label="anchor" href="#lsat-example-revisted---jags"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb381"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb378"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jags.model.lsat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
 
 <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span>
@@ -1713,7 +1689,7 @@ This approach is a straightforward addition to the latent response modeling and 
 ##    Total graph size: 53123
 ## 
 ## Initializing model</code></pre>
-<div class="sourceCode" id="cb383"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb380"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#print(fit)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span> <span class="op">%like%</span> <span class="st">"theta"</span> <span class="op">|</span>
                                    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">)</span> <span class="op">%like%</span> <span class="st">"xstar"</span> <span class="op">)</span>, <span class="op">]</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
@@ -1755,14 +1731,14 @@ This approach is a straightforward addition to the latent response modeling and 
 ## d[5]         -1.397  0.084   -1.562   -1.450   -1.398   -1.340   -1.231 1.001  2500
 ## deviance   1874.048 44.526 1787.777 1844.505 1873.781 1903.707 1963.353 1.038    59
 ## psi           0.006  0.008    0.000    0.001    0.003    0.007    0.030 1.005   440</code></pre>
-<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb382"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">fit</span><span class="op">$</span><span class="va">BUGSoutput</span><span class="op">$</span><span class="va">summary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"xstar[4,4]"</span>,<span class="st">"xstar[4,5]"</span>,<span class="st">"xstar[10,4]"</span>,<span class="st">"xstar[10,5]"</span><span class="op">)</span>,<span class="op">]</span> ,<span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>##               mean    sd   2.5%    25%    50%    75%  97.5%  Rhat n.eff
 ## xstar[4,4]  -1.502 0.948 -3.426 -2.145 -1.453 -0.829  0.179 1.031    71
 ## xstar[4,5]   0.863 1.117 -1.072  0.089  0.769  1.537  3.274 1.012   280
 ## xstar[10,4]  1.052 1.087 -0.838  0.320  0.987  1.675  3.501 1.005   470
 ## xstar[10,5] -1.880 1.002 -4.120 -2.459 -1.772 -1.185 -0.126 1.018   200</code></pre>
-<div class="sourceCode" id="cb387"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb384"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># extract posteriors for all chains</span>
 <span class="va">jags.mcmc</span> <span class="op">&lt;-</span> <span class="fu">as.mcmc</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 <span class="co"># the below two plots are too big to be useful given the 1000 observations.</span>
@@ -1785,18 +1761,18 @@ This approach is a straightforward addition to the latent response modeling and 
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb388"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb385"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"a["</span>, <span class="fl">2</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"]"</span><span class="op">)</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-jags-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb386"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">$</span><span class="va">x</span><span class="op">[</span><span class="fl">50</span>,<span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>## Item.1 Item.2 Item.3 Item.4 Item.5 
 ##      0      1      0      1      1</code></pre>
-<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb388"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"xstar[50,1]"</span>, <span class="st">"xstar[50,2]"</span><span class="op">)</span>,
@@ -1808,7 +1784,7 @@ This approach is a straightforward addition to the latent response modeling and 
 <h3>
 <span class="header-section-number">11.9.3</span> LSAT Example Revisted - Stan<a class="anchor" aria-label="anchor" href="#lsat-example-revisted---stan"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model_lrv</span> <span class="op">&lt;-</span> <span class="st">[2597 chars quoted with ''']</span>
 <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">model_lrv</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
@@ -1914,7 +1890,7 @@ This approach is a straightforward addition to the latent response modeling and 
 ##     }
 ##   }
 ## }</code></pre>
-<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># initial values</span>
 <span class="va">start_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"tau"</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span>, <span class="fl">1.00</span><span class="op">)</span>,
@@ -1961,7 +1937,7 @@ This approach is a straightforward addition to the latent response modeling and 
 <pre><code>## Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
 ## Running the chains for more iterations may help. See
 ## https://mc-stan.org/misc/warnings.html#tail-ess</code></pre>
-<div class="sourceCode" id="cb401"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># first get a basic breakdown of the posteriors</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda"</span>, <span class="st">"tau"</span>,<span class="st">"psi"</span>, <span class="st">"Omega_cor"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Inference for Stan model: anon_model.
@@ -2010,36 +1986,36 @@ This approach is a straightforward addition to the latent response modeling and 
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
-<div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rstan</span><span class="fu">::</span><span class="fu"><a href="https://mc-stan.org/rstan/reference/stanfit-method-traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span>,pars <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda_fr"</span>, <span class="st">"tau"</span>, <span class="st">"psi"</span><span class="op">)</span>, inc_warmup <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-1.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb401"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Gelman-Rubin-Brooks Convergence Criterion</span>
 <span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lambda_fr"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-2.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb405"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"tau"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-3.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_grb</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family <span class="op">=</span> <span class="st">"psi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-4.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb407"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># autocorrelation</span>
 <span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"lambda_fr"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-5.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb405"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"tau"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-6.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb409"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggs_autocorrelation</span><span class="op">(</span><span class="fu">ggs</span><span class="op">(</span><span class="va">fit</span>, family<span class="op">=</span><span class="st">"psi"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-7.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb407"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot the posterior density</span>
 <span class="va">plot.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 
@@ -2051,14 +2027,14 @@ This approach is a straightforward addition to the latent response modeling and 
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-8.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb411"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"tau["</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="st">"]"</span><span class="op">)</span>,
   prob <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">plot_title</span></code></pre></div>
 <div class="inline-figure"><img src="bookdown-BPM_files/figure-html/chp11-lrv-lsat-stan-9.png" width="90%" height="90%"></div>
-<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb409"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">mcmc_areas</span><span class="op">(</span>
   <span class="va">plot.data</span>,
   pars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"psi"</span><span class="op">)</span>,
@@ -2120,7 +2096,7 @@ This approach is a straightforward addition to the latent response modeling and 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-07-17.</p>
+    <p>"<strong>Bayesian Psychometric Modeling (2016) by Roy Levy and Robert J. Mislevy</strong>" was written by R. Noah Padgett. It was last built on 2022-07-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
